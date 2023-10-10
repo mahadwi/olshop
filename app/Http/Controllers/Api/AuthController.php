@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\API\RegisterCustomerAction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,52 +17,47 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|confirmed|min:8',
+            'password_confirmation' => 'required|string|min:8',
+            'no_hp'     => 'required|min:11'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return $this->apiError([$validator->errors()], [], 'something wrong');
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        $user = (new RegisterCustomerAction($request->all()))->handle();        
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'data' => $user,
-            'access_token' => $token,
-            'token_type' => 'Bearer'
+        return $this->apiSuccess([
+            'user' => $user,
+            'token' => $token,
         ]);
     }
 
     public function login(Request $request)
     {
         if (! Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+
+            return $this->apiError([], [], 'Unauthorized', 401);
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Login success',
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ]);
+        return $this->apiSuccess([
+            'user' => $user,
+            'token' => $token,
+        ],[], 'Login Sukses');
+        
     }
 
     public function logout()
     {
         Auth::user()->tokens()->delete();
-        return response()->json([
-            'message' => 'logout success'
-        ]);
+
+        return $this->apiSuccess([],[], 'logout Sukses');
     }
 }
