@@ -17,6 +17,7 @@
         "vue": "^3.2.36"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.0.18",
         "@inertiajs/vue3": "^1.0.12",
         "lodash": "^4.17.21"
     }
