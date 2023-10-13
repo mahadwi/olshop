@@ -1,6 +1,8 @@
 <script setup>
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { Link } from "@inertiajs/vue3";
+import SwitchLangNavbar from "@/Components/SwitchLangNavbar.vue";
+
 </script>
 
 <template>
@@ -55,8 +57,9 @@ import { Link } from "@inertiajs/vue3";
             >
           </a>
         </div>
-        <div class="flex items-center">
-
+        
+        <div class="flex items-center">          
+          <SwitchLangNavbar />
           <!-- Profile -->
           <div class="flex items-center ml-3">
             <div>
@@ -75,6 +78,7 @@ import { Link } from "@inertiajs/vue3";
                 />
               </button>
             </div>
+
             <!-- Dropdown menu -->
             <div
               class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -98,7 +102,7 @@ import { Link } from "@inertiajs/vue3";
                     method="post"
                     as="button"
                   >
-                    Logout
+                    {{ lang().label.logout }}
                   </DropdownLink>
                 </li>
               </ul>

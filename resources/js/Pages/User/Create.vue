@@ -57,41 +57,41 @@ const roles = props.roles?.map((role) => ({
                 <h2
                     class="text-lg font-medium text-slate-900 dark:text-slate-100"
                 >
-                    Create {{ props.title }}
+                    {{ lang().label.add }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
-                        <InputLabel for="name" value="Name" />
+                        <InputLabel for="name" :value="lang().placeholder.name" />
                         <TextInput
                             id="name"
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.name"
-                            placeholder="Name"
+                            :placeholder="lang().placeholder.name"
                             :error="form.errors.name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div>
-                        <InputLabel for="email" value="Email" />
+                        <InputLabel for="email" :value="lang().label.email" />
                         <TextInput
                             id="email"
                             type="email"
                             class="mt-1 block w-full"
                             v-model="form.email"
-                            placeholder="Email"
+                            :placeholder="lang().placeholder.email"
                             :error="form.errors.email"
                         />
                         <InputError class="mt-2" :message="form.errors.email" />
                     </div>
                     <div>
-                        <InputLabel for="no_hp" value="No HP" />
+                        <InputLabel for="no_hp" :value="lang().label.no_hp" />
                         <TextInput
                             id="no_hp"
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.no_hp"
-                            placeholder="No HP"
+                            :placeholder="lang().label.no_hp"
                             :error="form.errors.no_hp"
                         />
                         <InputError class="mt-2" :message="form.errors.no_hp" />
@@ -99,14 +99,14 @@ const roles = props.roles?.map((role) => ({
                     <div>
                         <InputLabel
                             for="password"
-                            value="Password"
+                            :value="lang().label.password"
                         />
                         <TextInput
                             id="password"
                             type="password"
                             class="mt-1 block w-full"
                             v-model="form.password"
-                            placeholder="Password"
+                            :placeholder="lang().label.password"
                             :error="form.errors.password"
                         />
                         <InputError
@@ -117,14 +117,16 @@ const roles = props.roles?.map((role) => ({
                     <div>
                         <InputLabel
                             for="password_confirmation"
-                            value="Konfirmasi Password"
+                            :value="lang().label.password_confirmation"
                         />
                         <TextInput
                             id="password_confirmation"
                             type="password"
                             class="mt-1 block w-full"
                             v-model="form.password_confirmation"
-                            placeholder="Konfirmasi Password"
+                            :placeholder="
+                                lang().placeholder.password_confirmation
+                            "
                             :error="form.errors.password_confirmation"
                         />
                         <InputError
@@ -133,7 +135,7 @@ const roles = props.roles?.map((role) => ({
                         />
                     </div>
                     <div>
-                        <InputLabel for="role" value="Role" />
+                        <InputLabel for="role" :value="lang().label.role" />
                         <SelectInput
                             id="role"
                             class="mt-1 block w-full"
@@ -150,7 +152,7 @@ const roles = props.roles?.map((role) => ({
                         :disabled="form.processing"
                         @click="emit('close')"
                     >
-                        Close
+                        {{ lang().button.close }}
                     </SecondaryButton>
                     <PrimaryButton
                         type="submit"
@@ -160,8 +162,8 @@ const roles = props.roles?.map((role) => ({
                     >
                         {{
                             form.processing
-                                ? "Save" + "..."
-                                : "Save"
+                                ? lang().button.add + "..."
+                                : lang().button.add
                         }}
                     </PrimaryButton>
                 </div>

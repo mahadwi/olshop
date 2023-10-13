@@ -3,6 +3,7 @@ import './bootstrap'
 import '../css/app.css';
 import { router } from '@inertiajs/vue3'
 import { initFlowbite } from 'flowbite';
+import { usePage } from '@inertiajs/vue3';
 
 router.on('success', (event) => {
   initFlowbite()
@@ -22,6 +23,21 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .mixin({
+                methods: {
+                    // can: function (permissions) {
+                    //     var allPermissions = this.$page.props.auth.can;
+                    //     var hasPermission = false;
+                    //     permissions.forEach(function (item) {
+                    //         if (allPermissions[item]) hasPermission = true;
+                    //     });
+                    //     return hasPermission;
+                    // },
+                    lang: function () {
+                        return usePage().props.language.original;
+                    }
+                },
+            })
             .mount(el)
     },
 });

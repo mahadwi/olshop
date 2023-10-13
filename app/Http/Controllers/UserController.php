@@ -51,10 +51,10 @@ class UserController extends Controller
             ]);
             $user->assignRole($request->role);
             DB::commit();
-            return back()->with('success', 'Berhasil');
+            return back()->with('success', __('app.label.created_successfully', ['name' => $user->name]));
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->with('error', 'Error' . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.user')]) . $th->getMessage());
         }
     }
 
@@ -72,10 +72,10 @@ class UserController extends Controller
 
             $user->syncRoles($request->role);
             DB::commit();
-            return back()->with('success', 'Berhasil');
+            return back()->with('success', __('app.label.updated_successfully', ['name' => $user->name]));
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->with('error', 'Gagal'. $th->getMessage());
+            return back()->with('error', __('app.label.updated_error', ['name' => $user->name]) . $th->getMessage());
         }
     }
 
@@ -83,9 +83,9 @@ class UserController extends Controller
     {
         try {
             $user->delete();
-            return back()->with('success', 'Berhasil');
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $user->name]));
         } catch (\Throwable $th) {
-            return back()->with('error', 'Gagal'. $th->getMessage());
+            return back()->with('error', __('app.label.deleted_error', ['name' => $user->name]) . $th->getMessage());
         }
     }
 }

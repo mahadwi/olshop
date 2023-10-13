@@ -34,10 +34,10 @@ const destory = () => {
                 <h2
                     class="text-lg font-medium text-slate-900 dark:text-slate-100"
                 >
-                    Delete {{ props.title }}
+                    {{ lang().label.delete }} {{ props.title }}
                 </h2>
                 <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                    Apakah anda yakin akan menghapus
+                    {{ lang().label.delete_confirm }}
                     <b>{{ props.user?.name }}</b
                     >?
                 </p>
@@ -46,7 +46,7 @@ const destory = () => {
                         :disabled="form.processing"
                         @click="emit('close')"
                     >
-                        Close
+                        {{ lang().button.close }}
                     </SecondaryButton>
                     <DangerButton
                         class="ml-3"
@@ -56,8 +56,8 @@ const destory = () => {
                     >
                         {{
                             form.processing
-                                ? "Delete" + "..."
-                                : "Delete"
+                                ? lang().button.delete + "..."
+                                : lang().button.delete
                         }}
                     </DangerButton>
                 </div>

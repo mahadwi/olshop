@@ -23,7 +23,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => 'required|unique:users,email,' . $this->user,
+            'email'                 => 'required|email|unique:users,email,' . $this->user,
             'password'              => ['nullable', 'confirmed', 'min:8'],
             'password_confirmation' => 'sometimes|required_with:password|same:password',
             'role'                  => ['required'],

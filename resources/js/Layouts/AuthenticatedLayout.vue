@@ -4,8 +4,6 @@ import Navbar from "@/Layouts/Navbar.vue";
 import Sidebar from "@/Layouts/Sidebar.vue";
 import Toast from "@/Components/Toast.vue";
 
-// import SideBarVue from "@/Components/SideBar.vue";
-
 </script>
 
 <template>

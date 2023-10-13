@@ -23,7 +23,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Login" />
+    <Head :title="lang().label.login"  />
     <div class="flex flex-col items-center mt-40 px-6 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
         <!-- Card -->
         <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800">
@@ -35,26 +35,26 @@ const submit = () => {
             </div>
             <form @submit.prevent="submit" method="POST" class="mt-8 space-y-6">
                 <div>
-                    <InputLabel for="email" value="Email" />
+                    <InputLabel for="email" :value="lang().label.email" />
                     <TextInput
                     id="email"
                     type="email"
                     v-model="form.email"
                     required
                     autocomplete="username"
-                    placeholder="Email"
+                    :placeholder="lang().placeholder.email"
                 />
                 <InputError class="mt-2" :message="form.errors.email" />
                 </div>
                 <div>
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" :value="lang().label.password" />
                     <TextInput
                     id="password"
                     type="password"
                     v-model="form.password"
                     required
                     autocomplete="username"
-                    placeholder="••••••••"
+                    :placeholder="lang().placeholder.password"
                 />
                 <InputError class="mt-2" :message="form.errors.password" />
                 </div>
@@ -64,8 +64,8 @@ const submit = () => {
                 >
                     {{
                         form.processing
-                            ? "Login" + "..."
-                            : "Login"
+                            ? lang().button.login + "..."
+                            : lang().button.login
                     }}
                 </PrimaryButton>
             </form>

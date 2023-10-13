@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -17,12 +18,12 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Home');
-// });
+Route::get('/setLang/{locale}', function ($locale) {
+    Session::put('locale', $locale); 
+    return back();
+})->name('setlang');
 
 Route::get('/', function () {
-    // return Inertia::render('Dashboard');
     return redirect('/dashboard');
 })->middleware('auth');
 
