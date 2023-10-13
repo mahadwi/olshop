@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,14 +10,16 @@ class LoginController extends Controller
 {
     public function show()
     {
-        return view('auth.login');
+        return Inertia::render('Auth/Login', [
+            'status' => session('status'),
+        ]);
     }
 
     public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'password' => ['required', 'min:8'],
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -26,8 +29,8 @@ class LoginController extends Controller
             return redirect('/');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+        return back()->with([
+            'status' => 'The provided credentials do not match our records.',
         ]);
     }
 

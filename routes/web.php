@@ -1,7 +1,9 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -15,7 +17,12 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+// Route::get('/', function () {
+//     return Inertia::render('Home');
+// });
+
 Route::get('/', function () {
+    // return Inertia::render('Dashboard');
     return redirect('/dashboard');
 })->middleware('auth');
 
@@ -26,4 +33,6 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::resource('/users', UserController::class)->except('create', 'show', 'edit');
 });
