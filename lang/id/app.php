@@ -57,6 +57,7 @@ return [
         'monitoring' => 'Monitor Data',
         'no_hp' => 'Nomor Handphone',
         'action' => 'Aksi',
+        'product_category' => 'Kategori Barang',
     ],
     'button' => [
         'login' => 'Masuk',

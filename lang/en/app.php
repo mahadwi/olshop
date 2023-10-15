@@ -57,6 +57,7 @@ return [
         'monitoring' => 'Monitoring',
         'no_hp' => 'Phone Number',
         'action' => 'Action',
+        'product_category' => 'Product Category',
     ],
     'button' => [
         'login' => 'Login',

@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
@@ -36,4 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::resource('/users', UserController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/roles', RoleController::class)->except('create', 'show', 'edit');
 });
