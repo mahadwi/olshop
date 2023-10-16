@@ -18,8 +18,8 @@ class UserController extends Controller
     {
         $users = User::query();
         if ($request->has('search')) {
-            $users->where('name', 'LIKE', "%" . $request->search . "%");
-            $users->orWhere('email', 'LIKE', "%" . $request->search . "%");
+            $users->where('name', 'ILIKE', "%" . $request->search . "%");
+            $users->orWhere('email', 'ILIKE', "%" . $request->search . "%");
             $users->orWhere('no_hp', 'LIKE', "%" . $request->search . "%");
         }
         if ($request->has(['field', 'order'])) {

@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Requests\RoleIndexRequest;
 use App\Http\Requests\RoleRequest;
 use App\Http\Requests\RoleStoreRequest;
+use App\Http\Requests\RoleUpdateRequest;
 
 class RoleController extends Controller
 {
@@ -16,7 +17,7 @@ class RoleController extends Controller
     {
         $roles = Role::query();
         if ($request->has('search')) {
-            $roles->where('name', 'LIKE', "%" . $request->search . "%");
+            $roles->where('name', 'ILIKE', "%" . $request->search . "%");
         }
         if ($request->has(['field', 'order'])) {
             $roles->orderBy($request->field, $request->order);
@@ -47,10 +48,11 @@ class RoleController extends Controller
         }
     }
 
-    public function update(RoleRequest $request, $id)
+    public function update(RoleUpdateRequest $request, $id)
     {
         DB::beginTransaction();
         try {
+
             $role = Role::findOrFail($id);
             $role->update([
                 'name'      => $request->name,

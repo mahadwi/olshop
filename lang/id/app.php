@@ -58,6 +58,8 @@ return [
         'no_hp' => 'Nomor Handphone',
         'action' => 'Aksi',
         'product_category' => 'Kategori Barang',
+        'active' => 'Aktif',
+        'not_active' => 'Tidak Aktif',
     ],
     'button' => [
         'login' => 'Masuk',

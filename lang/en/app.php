@@ -58,6 +58,8 @@ return [
         'no_hp' => 'Phone Number',
         'action' => 'Action',
         'product_category' => 'Product Category',
+        'active' => 'Active',
+        'not_active' => 'Not Active',
     ],
     'button' => [
         'login' => 'Login',
