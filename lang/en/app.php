@@ -60,6 +60,12 @@ return [
         'product_category' => 'Product Category',
         'active' => 'Active',
         'not_active' => 'Not Active',
+        'vendor' => 'Vendor',
+        'bank' => 'Bank Name',
+        'bank_account_holder' => 'Bank Account Holder',
+        'bank_account_number' => 'Bank Account Number',
+        'ktp' => 'Residential Identity Card',
+        'address' => 'Address',
     ],
     'button' => [
         'login' => 'Login',

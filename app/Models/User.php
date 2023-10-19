@@ -22,7 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'no_hp'
+        'no_hp',
+        'bank',
+        'bank_account_holder',
+        'bank_account_number',
+        'ktp',
+        'address',
+        'is_active'
     ];
 
     /**

@@ -12,8 +12,7 @@ import { watchEffect } from "vue";
 const props = defineProps({
     show: Boolean,
     title: String,
-    user: Object,
-    roles: Object,
+    vendor: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -22,13 +21,15 @@ const form = useForm({
     name: "",
     email: "",
     no_hp: "",
-    password: "",
-    password_confirmation: "",
-    role: "",
+    bank: "",
+    bank_account_holder: "",
+    bank_account_number: "",
+    ktp: "",
+    address: "",
 });
 
 const update = () => {
-    form.put(route("users.update", props.user?.id), {
+    form.put(route("vendor.update", props.vendor?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -42,18 +43,18 @@ const update = () => {
 watchEffect(() => {
     if (props.show) {
         form.errors = {};
-        form.name = props.user?.name;
-        form.email = props.user?.email;
-        form.no_hp = props.user?.no_hp;
-        form.role = props.user?.roles == 0 ? "" : props.user?.roles[0].name;
+        form.name = props.vendor?.name;
+        form.email = props.vendor?.email;
+        form.no_hp = props.vendor?.no_hp;
+        form.bank = props.vendor?.bank;
+        form.bank_account_holder = props.vendor?.bank_account_holder;
+        form.bank_account_number = props.vendor?.bank_account_number;
+        form.ktp = props.vendor?.ktp;
+        form.address = props.vendor?.address;
         form.errors = {};
     }
 });
 
-const roles = props.roles?.map((role) => ({
-    label: role.name,
-    value: role.name,
-}));
 </script>
 
 <template>
@@ -71,9 +72,9 @@ const roles = props.roles?.map((role) => ({
                         <TextInput
                             id="name"
                             type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.name"
-                            required
+                            class="mt-1 block w-full cursor-not-allowed"
+                            disabled
+                            v-model="form.name"                            
                             :placeholder="lang().placeholder.name"
                             :error="form.errors.name"
                         />
@@ -84,12 +85,24 @@ const roles = props.roles?.map((role) => ({
                         <TextInput
                             id="email"
                             type="email"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full cursor-not-allowed"
+                            disabled
                             v-model="form.email"
                             :placeholder="lang().placeholder.email"
                             :error="form.errors.email"
                         />
                         <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+                    <div>
+                        <InputLabel for="ktp" :value="lang().label.ktp" />
+                        <TextInput
+                            id="ktp"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.ktp"
+                            :error="form.errors.ktp"
+                        />
+                        <InputError class="mt-2" :message="form.errors.ktp" />
                     </div>
                     <div>
                         <InputLabel for="no_hp" :value="lang().label.no_hp" />
@@ -104,54 +117,78 @@ const roles = props.roles?.map((role) => ({
                     </div>
                     <div>
                         <InputLabel
-                            for="password"
-                            :value="lang().label.password"
+                            for="bank"
+                            :value="lang().label.bank"
                         />
                         <TextInput
-                            id="password"
-                            type="password"
+                            id="bank"
+                            type="text"
                             class="mt-1 block w-full"
-                            v-model="form.password"
-                            :placeholder="lang().placeholder.password"
-                            :error="form.errors.password"
+                            v-model="form.bank"
+                            :placeholder="lang().placeholder.bank"
+                            :error="form.errors.bank"
                         />
                         <InputError
                             class="mt-2"
-                            :message="form.errors.password"
+                            :message="form.errors.bank"
                         />
                     </div>
                     <div>
                         <InputLabel
-                            for="password_confirmation"
-                            :value="lang().label.password_confirmation"
+                            for="bank_account_number"
+                            :value="lang().label.bank_account_number"
                         />
                         <TextInput
-                            id="password_confirmation"
-                            type="password"
+                            id="bank_account_number"
+                            type="text"
                             class="mt-1 block w-full"
-                            v-model="form.password_confirmation"
-                            :placeholder="
-                                lang().placeholder.password_confirmation
-                            "
-                            :error="form.errors.password_confirmation"
+                            v-model="form.bank_account_number"
+                            :placeholder="lang().placeholder.bank_account_number"
+                            :error="form.errors.bank_account_number"
                         />
                         <InputError
                             class="mt-2"
-                            :message="form.errors.password_confirmation"
+                            :message="form.errors.bank_account_number"
                         />
                     </div>
                     <div>
-                        <InputLabel for="role" :value="lang().label.role" />
-                        <SelectInput
-                            id="role"
+                        <InputLabel
+                            for="bank_account_holder"
+                            :value="lang().label.bank_account_holder"
+                        />
+                        <TextInput
+                            id="bank_account_holder"
+                            type="text"
                             class="mt-1 block w-full"
-                            v-model="form.role"
-                            required
-                            :dataSet="roles"
-                        >
-                        </SelectInput>
-                        <InputError class="mt-2" :message="form.errors.role" />
+                            v-model="form.bank_account_holder"
+                            :placeholder="lang().placeholder.bank_account_holder"
+                            :error="form.errors.bank_account_holder"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.bank_account_holder"
+                        />
                     </div>
+
+                    <div>
+                        <InputLabel
+                            for="address"
+                            :value="lang().label.address"
+                        />
+                        <TextInput
+                            id="address"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.address"
+                            :placeholder="lang().placeholder.address"
+                            :error="form.errors.address"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.address"
+                        />
+                    </div>
+                    
                 </div>
                 <div class="flex justify-end">
                     <SecondaryButton

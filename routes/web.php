@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\VendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/roles', RoleController::class)->except('create', 'show', 'edit');
 
     Route::resource('/product-category', ProductCategoryController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/vendor', VendorController::class)->except('create', 'show', 'edit');
 });

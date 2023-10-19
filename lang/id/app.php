@@ -60,6 +60,12 @@ return [
         'product_category' => 'Kategori Barang',
         'active' => 'Aktif',
         'not_active' => 'Tidak Aktif',
+        'vendor' => 'Vendor',        
+        'bank' => 'Nama Bank',
+        'bank_account_holder' => 'Nama Penerima',
+        'bank_account_number' => 'Nomor Rekening',
+        'ktp' => 'KTP',
+        'address' => 'Alamat',
     ],
     'button' => [
         'login' => 'Masuk',
