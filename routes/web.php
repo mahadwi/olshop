@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -8,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 
 /*
@@ -36,6 +38,7 @@ Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->n
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::resource('/users', UserController::class)->except('create', 'show', 'edit');
@@ -45,4 +48,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/product-category', ProductCategoryController::class)->except('create', 'show', 'edit');
 
     Route::resource('/vendor', VendorController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/product', ProductController::class)->except('show', 'edit');
+
+    Route::resource('/brand', BrandController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');
+
 });

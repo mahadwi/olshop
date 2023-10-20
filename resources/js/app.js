@@ -4,6 +4,7 @@ import '../css/app.css';
 import { router } from '@inertiajs/vue3'
 import { initFlowbite } from 'flowbite';
 import { usePage } from '@inertiajs/vue3';
+import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
 router.on('success', (event) => {
   initFlowbite()
@@ -14,6 +15,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
+
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Olshop';
 
 createInertiaApp({
@@ -23,6 +25,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(VueTailwindDatepicker)
             .mixin({
                 methods: {
                     // can: function (permissions) {

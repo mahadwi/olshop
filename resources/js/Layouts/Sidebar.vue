@@ -1,5 +1,8 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
+  import { Link } from "@inertiajs/vue3";
+
+  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') ? '' : 'hidden'
+
 </script>
 <template>
   <aside
@@ -76,11 +79,7 @@ import { Link } from "@inertiajs/vue3";
                   ></path>
                 </svg>
               </button>
-              <ul id="dropdown-crud" :class="
-                    route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*')
-                        ? ''
-                        : 'hidden'
-                  " class="space-y-2 py-2">
+              <ul id="dropdown-crud" :class="activeMaster" class="space-y-2 py-2">
                 <li>
                   <Link :href="route('users.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
                   
@@ -108,6 +107,19 @@ import { Link } from "@inertiajs/vue3";
                   </Link>
                 </li>
                 <li>
+                  <Link :href="route('brand.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+                  
+                  :class="
+                    route().current('brand.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+                  
+                  >
+                    {{ lang().label.brand }}
+                  </Link>
+                </li>
+                <li>
                   <Link :href="route('product-category.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
                   
                   :class="
@@ -118,6 +130,19 @@ import { Link } from "@inertiajs/vue3";
                   
                   >
                     {{ lang().label.product_category }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('product.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+                  
+                  :class="
+                    route().current('product.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+                  
+                  >
+                    {{ lang().label.product }}
                   </Link>
                 </li>
                 <li>

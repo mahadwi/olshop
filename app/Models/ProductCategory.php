@@ -27,4 +27,9 @@ class ProductCategory extends Model
             get: fn (string $value) => ucfirst($value),
         );
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

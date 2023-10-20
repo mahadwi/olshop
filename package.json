@@ -19,6 +19,8 @@
     "dependencies": {
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/vue3": "^1.0.12",
-        "lodash": "^4.17.21"
+        "flowbite-vue": "^0.0.17",
+        "lodash": "^4.17.21",
+        "vue-tailwind-datepicker": "^1.6.1"
     }
 }
