@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/vue3";
 const props = defineProps({
     show: Boolean,
     title: String,
-    user: Object,
+    product: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -15,7 +15,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({});
 
 const destory = () => {
-    form.delete(route("users.destroy", props.user?.id), {
+    form.delete(route("product.destroy", props.product?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -38,7 +38,7 @@ const destory = () => {
                 </h2>
                 <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     {{ lang().label.delete_confirm }}
-                    <b>{{ props.user?.name }}</b
+                    <b>{{ props.product?.name }}</b
                     >?
                 </p>
                 <div class="mt-6 flex justify-end">

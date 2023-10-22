@@ -49,7 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/vendor', VendorController::class)->except('create', 'show', 'edit');
 
-    Route::resource('/product', ProductController::class)->except('show', 'edit');
+    Route::resource('/product', ProductController::class)->except('show', 'update');
+    Route::post('product/{product}/update', [ProductController::class, 'update'])->name('product.update');
 
     Route::resource('/brand', BrandController::class)->except('create', 'show', 'edit', 'update');
     Route::post('brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');

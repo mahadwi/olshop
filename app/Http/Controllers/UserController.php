@@ -33,9 +33,12 @@ class UserController extends Controller
             'title'         => 'Data User',
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
-            'users'         => $users->with('roles')->paginate($perPage),
+            'users'         => $users->with('roles')->orderBy('id')->paginate($perPage),
             'roles'         => $roles,
-            // 'breadcrumbs'   => [['label' => __('app.label.user'), 'href' => route('user.index')]],
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.user'), 'href' => route('users.index')]
+            ],
         ]);
     }
 

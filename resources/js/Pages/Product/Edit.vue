@@ -1,37 +1,71 @@
 <script setup>
+import { Head, Link } from "@inertiajs/vue3";
+import { reactive, watch, ref } from "vue";
+import { usePage, router } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
-import Modal from "@/Components/Modal.vue";
-import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { useForm } from "@inertiajs/vue3";
-import { watchEffect } from "vue";
+import Breadcrumb from "@/Components/Breadcrumb.vue";
+
+import { 
+    Textarea, FileInput, Input
+} from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
     title: String,
-    user: Object,
-    roles: Object,
+    product: Object,
+    categories: Object,
+    vendors: Object,
+    brands: Object,
+    breadcrumbs:Object,
 });
-
-const emit = defineEmits(["close"]);
 
 const form = useForm({
-    name: "",
-    email: "",
-    no_hp: "",
-    password: "",
-    password_confirmation: "",
-    role: "",
+    name: props.product.name,
+    brand_id: props.product.brand_id,
+    description: props.product.description,
+    product_category_id: props.product.product_category_id,
+    user_id: props.product.user_id,
+    stock: props.product.stock,
+    image: "",
+    price: props.product.price,
+    history: props.product.history,
+    entry_date: props.product.entry_date,
+    expired_date: props.product.expired_date,
+    description: props.product.description,
 });
 
+const categories = props.categories?.map((role) => ({
+    label: role.name,
+    value: role.id,
+}));
+
+const vendors = props.vendors?.map((role) => ({
+    label: role.name,
+    value: role.id,
+}));
+
+const brands = props.brands?.map((role) => ({
+    label: role.name,
+    value: role.id,
+}));
+
+const formatter = ref({
+  date: 'DD-MM-YYYY',
+  month: 'MMM',
+})
+
 const update = () => {
-    form.put(route("users.update", props.user?.id), {
+    form.post(route("product.update", props.product?.id), {
         preserveScroll: true,
         onSuccess: () => {
-            emit("close");
             form.reset();
         },
         onError: () => null,
@@ -39,141 +73,128 @@ const update = () => {
     });
 };
 
-watchEffect(() => {
-    if (props.show) {
-        form.errors = {};
-        form.name = props.user?.name;
-        form.email = props.user?.email;
-        form.no_hp = props.user?.no_hp;
-        form.role = props.user?.roles == 0 ? "" : props.user?.roles[0].name;
-        form.errors = {};
-    }
-});
-
-const roles = props.roles?.map((role) => ({
-    label: role.name,
-    value: role.name,
-}));
 </script>
 
 <template>
-    <section class="space-y-6">
-        <Modal :show="props.show" @close="emit('close')">
-            <form class="p-6" @submit.prevent="update">
-                <h2
-                    class="text-lg font-medium text-slate-900 dark:text-slate-100"
-                >
-                    {{ lang().label.edit }} {{ props.title }}
-                </h2>
-                <div class="my-6 space-y-4">
-                    <div>
-                        <InputLabel for="name" :value="lang().label.name" />
-                        <TextInput
-                            id="name"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.name"
-                            required
-                            :placeholder="lang().placeholder.name"
-                            :error="form.errors.name"
-                        />
-                        <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
-                    <div>
-                        <InputLabel for="email" :value="lang().label.email" />
-                        <TextInput
-                            id="email"
-                            type="email"
-                            class="mt-1 block w-full"
-                            v-model="form.email"
-                            :placeholder="lang().placeholder.email"
-                            :error="form.errors.email"
-                        />
-                        <InputError class="mt-2" :message="form.errors.email" />
-                    </div>
-                    <div>
-                        <InputLabel for="no_hp" :value="lang().label.no_hp" />
-                        <TextInput
-                            id="no_hp"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.no_hp"
-                            :error="form.errors.no_hp"
-                        />
-                        <InputError class="mt-2" :message="form.errors.no_hp" />
-                    </div>
-                    <div>
-                        <InputLabel
-                            for="password"
-                            :value="lang().label.password"
-                        />
-                        <TextInput
-                            id="password"
-                            type="password"
-                            class="mt-1 block w-full"
-                            v-model="form.password"
-                            :placeholder="lang().placeholder.password"
-                            :error="form.errors.password"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.password"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel
-                            for="password_confirmation"
-                            :value="lang().label.password_confirmation"
-                        />
-                        <TextInput
-                            id="password_confirmation"
-                            type="password"
-                            class="mt-1 block w-full"
-                            v-model="form.password_confirmation"
-                            :placeholder="
-                                lang().placeholder.password_confirmation
-                            "
-                            :error="form.errors.password_confirmation"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.password_confirmation"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel for="role" :value="lang().label.role" />
-                        <SelectInput
-                            id="role"
-                            class="mt-1 block w-full"
-                            v-model="form.role"
-                            required
-                            :dataSet="roles"
-                        >
-                        </SelectInput>
-                        <InputError class="mt-2" :message="form.errors.role" />
-                    </div>
-                </div>
-                <div class="flex justify-end">
-                    <SecondaryButton
-                        :disabled="form.processing"
-                        @click="emit('close')"
-                    >
-                        {{ lang().button.close }}
-                    </SecondaryButton>
-                    <PrimaryButton
-                        class="ml-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="update"
-                    >
-                        {{
-                            form.processing
-                                ? lang().button.save + "..."
-                                : lang().button.save
-                        }}
-                    </PrimaryButton>
-                </div>
-            </form>
-        </Modal>
-    </section>
+    <Head :title="props.title" />
+    <AuthenticatedLayout>
+    	<Breadcrumb :breadcrumbs="breadcrumbs" />
+  
+      <div class="grid grid-cols-1 mb-10 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
+          <div class="col-span-2">
+              <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+              >
+                  <h3 class="mb-4 text-xl font-semibold dark:text-white">
+                      {{ props.title }}
+                  </h3>
+                  <form @submit.prevent="update">
+                      <div class="grid grid-cols-6 gap-6">
+                          <div class="col-span-6 sm:col-span-3">                           
+                            	<Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                              <InputError class="mt-2" :message="form.errors.name" />
+                          </div>
+                          <div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="brand" :value="lang().label.brand" />
+                              <SelectInput
+                                  id="brand"
+                                  class="mt-1 block w-full"
+                                  v-model="form.brand_id"
+                                  :dataSet="brands"
+                              >
+                              </SelectInput>
+                              <InputError class="mt-2" :message="form.errors.brand_id" />
+                          </div>
+                          <div class="col-span-6">
+  
+                              <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                              <InputError class="mt-2" :message="form.errors.description" />
+  
+                          </div>
+                          <div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="entry_date" :value="lang().label.entry_date" />
+                              <vue-tailwind-datepicker v-model="form.entry_date" :formatter="formatter" :placeholder="lang().label.entry_date"  as-single />
+                              <InputError class="mt-2" :message="form.errors.entry_date" />
+                          </div>
+                          <div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="expired_date" :value="lang().label.expired_date" />
+                              <vue-tailwind-datepicker v-model="form.expired_date" :formatter="formatter" :placeholder="lang().label.expired_date"  as-single />
+                              <InputError class="mt-2" :message="form.errors.expired_date" />
+                          </div>
+                          <div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="product_category" :value="lang().label.product_category" />
+                              <SelectInput
+                                  id="product_category"
+                                  class="mt-1 block w-full"
+                                  v-model="form.product_category_id"
+                                  :dataSet="categories"
+                              >
+                              </SelectInput>
+                              <InputError class="mt-2" :message="form.errors.product_category_id" />
+                          </div>
+                         
+                          <div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="vendor" :value="lang().label.vendor" />
+                              <SelectInput
+                                  id="vendor"
+                                  class="mt-1 block w-full"
+                                  v-model="form.user_id"
+                                  :dataSet="vendors"
+                              >
+                              </SelectInput>
+                              <InputError class="mt-2" :message="form.errors.user_id" />
+                          </div>                                        
+  
+                          <div class="col-span-6 sm:col-span-3">
+
+															<Input v-model="form.stock" :placeholder="lang().label.stock" :label="lang().label.stock" />
+                              <InputError class="mt-2" :message="form.errors.stock" />
+                          </div>
+  
+                          <div class="col-span-6 sm:col-span-3">
+															<Input v-model="form.price" :placeholder="lang().label.price" :label="lang().label.price" />
+
+                              <InputError class="mt-2" :message="form.errors.price" />
+                          </div>
+  
+                          <div class="col-span-6">
+  
+                              <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
+                              <InputError class="mt-2" :message="form.errors.history" />
+                              
+                          </div>
+  
+                          <div class="col-span-6 sm:col-span-3">
+                              <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+  
+                              <InputError class="mt-2" :message="form.errors.image" />
+                          </div>
+  
+                          <div class="flex justify-start gap-2 col-span-6 sm:col-full">                            
+                              <PrimaryButton
+                                  type="submit"
+                                  :class="{ 'opacity-25': form.processing }"
+                                  :disabled="form.processing"
+                              >
+                                  {{
+                                      form.processing
+                                          ? lang().button.save + "..."
+                                          : lang().button.save
+                                  }}
+                              </PrimaryButton>
+                              <SecondaryButton
+                                  :disabled="form.processing"
+                                  @click="form.reset()"
+                              >
+                                  Reset
+                              </SecondaryButton>
+                          </div>
+                      </div>
+                  </form>
+              </div>                   
+          </div>
+      </div>
+        
+    </AuthenticatedLayout>
 </template>
+
+

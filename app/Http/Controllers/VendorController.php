@@ -33,7 +33,10 @@ class VendorController extends Controller
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'vendors'         => $vendors->paginate($perPage),
-            // 'breadcrumbs'   => [['label' => __('app.label.user'), 'href' => route('user.index')]],
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.vendor'), 'href' => route('vendor.index')]
+            ],
         ]);
     }
 

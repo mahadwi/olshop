@@ -21,6 +21,9 @@ class ProductCategoryController extends Controller
         if ($request->has(['field', 'order'])) {
             $productCategories->orderBy($request->field, $request->order);
         }
+
+        $productCategories->orderBy('id');
+
         $perPage = $request->has('perPage') ? $request->perPage : 10;
         
         return Inertia::render('ProductCategory/Index', [
@@ -28,7 +31,10 @@ class ProductCategoryController extends Controller
             'filters'           => $request->all(['search', 'field', 'order']),
             'perPage'           => (int) $perPage,
             'productCategories' => $productCategories->paginate($perPage),
-            // 'breadcrumbs'   => [['label' => __('app.label.user'), 'href' => route('user.index')]],
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.product_category'), 'href' => route('product-category.index')]
+            ],
         ]);
     }  
 

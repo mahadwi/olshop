@@ -29,7 +29,10 @@ class RoleController extends Controller
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'roles'         => $roles->paginate($perPage),
-            // 'breadcrumbs'   => [['label' => __('app.label.user'), 'href' => route('user.index')]],
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => ''],
+                ['label' => __('app.label.role'), 'href' => route('roles.index')]
+            ],
         ]);
     }    
 

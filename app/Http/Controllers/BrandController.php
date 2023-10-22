@@ -21,6 +21,9 @@ class BrandController extends Controller
         if ($request->has(['field', 'order'])) {
             $brands->orderBy($request->field, $request->order);
         }
+
+        $brands->orderBy('id');
+        
         $perPage = $request->has('perPage') ? $request->perPage : 10;
        
         return Inertia::render('Brand/Index', [
@@ -28,7 +31,10 @@ class BrandController extends Controller
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'brands'         => $brands->paginate($perPage),
-            // 'breadcrumbs'   => [['label' => __('app.label.user'), 'href' => route('user.index')]],
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.brand'), 'href' => route('brand.index')],
+            ],
         ]);
     }    
 
