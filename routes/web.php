@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\GroupCoaController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -46,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/roles', RoleController::class)->except('create', 'show', 'edit');
 
     Route::resource('/product-category', ProductCategoryController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/group-coa', GroupCoaController::class)->except('create', 'show', 'edit');
 
     Route::resource('/vendor', VendorController::class)->except('create', 'show', 'edit');
 

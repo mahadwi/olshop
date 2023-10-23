@@ -75,6 +75,7 @@ return [
         'brand'        => 'Brand',
         'stock'        => 'Stock',
         'history'      => 'History',
+        'group_coa'      => 'Group COA',
     ],
     'button' => [
         'login' => 'Login',
