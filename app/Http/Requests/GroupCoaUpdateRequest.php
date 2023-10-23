@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\GroupCoa;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GroupCoaStoreRequest extends FormRequest
+class GroupCoaUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,11 @@ class GroupCoaStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:255|unique:' . GroupCoa::class,
-            'name' => 'required|string|max:255|unique:' . GroupCoa::class,
+            // 'code' => 'required|string|max:255|unique:group_coas,code,'.$this->id,
+            'code' => 'required|string|max:5',
+            'name' => 'required|string|max:255',
             'normal_balance' => 'required',
+            'is_active' => 'required'
         ];
     }
 }

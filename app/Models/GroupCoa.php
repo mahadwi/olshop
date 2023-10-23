@@ -11,6 +11,8 @@ class GroupCoa extends Model
 
     protected $fillable = [
         'name',
+        'code',
+        'normal_balance',
         'is_active',
     ];
 

@@ -46,7 +46,7 @@ watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
         let params = pickBy(data.params);
-        router.get(route("product-category.index"), params, {
+        router.get(route("group-coa.index"), params, {
             replace: true,
             preserveState: true,
             preserveScroll: true,
@@ -62,16 +62,17 @@ watch(
 
         <Breadcrumb :breadcrumbs="breadcrumbs" />
         
-
         <Create
             :show="data.createOpen"
             @close="data.createOpen = false"
             :title="props.title"
+            :normalBalance="props.normalBalance"
         />
         <Edit
             :show="data.editOpen"
             @close="data.editOpen = false"
             :groupCoa="data.groupCoa"
+            :normalBalance="props.normalBalance"
             :title="props.title"
         />
         <Delete
@@ -124,7 +125,13 @@ watch(
                                                 No
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.code }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.name }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
+                                                    {{ lang().label.normal_balance }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                 Status
@@ -141,7 +148,9 @@ watch(
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700"
                                         >
                                                 <td class="tbl-column"> {{ ++index }}</td>
+                                                <td class="tbl-column"> {{ groupCoa.code }}</td>
                                                 <td class="tbl-column"> {{ groupCoa.name }}</td>
+                                                <td class="tbl-column"> {{ groupCoa.normal_balance }}</td>
                                                 <td class="tbl-column"> 
                                                     <span :class="groupCoa.is_active ? 'badge-success' : 'badge-danger' ">{{ groupCoa.status }}</span>
                                                 </td>

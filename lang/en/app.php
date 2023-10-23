@@ -76,6 +76,8 @@ return [
         'stock'        => 'Stock',
         'history'      => 'History',
         'group_coa'      => 'Group COA',
+        'normal_balance' => 'Normal Balance',
+        'code' => 'Code',
     ],
     'button' => [
         'login' => 'Login',

@@ -6,27 +6,30 @@ import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { usePage } from '@inertiajs/vue3';
+import { Input } from 'flowbite-vue'
 
 const bahasa = usePage().props.language.original;
 
 const props = defineProps({
     show: Boolean,
     title: String,
-    productCategory: Object,
+    groupCoa: Object,
+    normalBalance: Object,
 });
 
 const emit = defineEmits(["close"]);
 
 const form = useForm({
+    code: "",
     name: "",
+    normal_balance: "",
     is_active:""
 });
 
 const update = () => {
-    form.put(route("product-category.update", props.productCategory?.id), {
+    form.put(route("group-coa.update", props.groupCoa?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -40,8 +43,10 @@ const update = () => {
 watchEffect(() => {
     if (props.show) {
         form.errors = {};
-        form.name = props.productCategory?.name;
-        form.is_active = props.productCategory?.is_active;
+        form.code = props.groupCoa?.code;
+        form.name = props.groupCoa?.name;
+        form.normal_balance = props.groupCoa?.normal_balance;
+        form.is_active = props.groupCoa?.is_active;
         form.errors = {};
     }
 });
@@ -57,6 +62,11 @@ const dataStatus = [
     }    
 ];
 
+const normalBalance = Object.values(props.normalBalance).map((data) => ({
+    label: data,
+    value: data
+}))
+
 </script>
 
 <template>
@@ -70,6 +80,11 @@ const dataStatus = [
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
+                        <Input v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
+                        <InputError class="mt-2" :message="form.errors.code" />
+                    </div>
+                    
+                    <div>
                         <InputLabel for="name" :value="lang().label.name" />
                         <TextInput
                             id="name"
@@ -81,6 +96,18 @@ const dataStatus = [
                             :error="form.errors.name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div>
+                        <InputLabel :for="lang().label.normal_balance" :value="lang().label.normal_balance" />
+                        <SelectInput
+                            :id="lang().label.normal_balance"
+                            class="mt-1 block w-full"
+                            v-model="form.normal_balance"
+                            required
+                            :dataSet="normalBalance"
+                        >
+                        </SelectInput>
+                        <InputError class="mt-2" :message="form.errors.normal_balance" />
                     </div>
                     <div>
                         <InputLabel for="status" value="Status" />

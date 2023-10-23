@@ -7,16 +7,20 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
+import { Select, Input } from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
     title: String,
+    normalBalance: Object,
 });
 
 const emit = defineEmits(["close"]);
 
 const form = useForm({
+    code: "",
     name: "",
+    normal_balance: "",
 });
 
 const create = () => {
@@ -30,6 +34,11 @@ const create = () => {
         onFinish: () => null,
     });
 };
+
+const normalBalance = Object.values(props.normalBalance).map((data) => ({
+    name: data,
+    value: data
+}))
 
 watchEffect(() => {
     if (props.show) {
@@ -49,18 +58,26 @@ watchEffect(() => {
                     {{ lang().label.add }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    <div>
-                        <InputLabel for="name" :value="lang().placeholder.name" />
-                        <TextInput
-                            id="name"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.name"
-                            :placeholder="lang().placeholder.name"
-                            :error="form.errors.name"
-                        />
-                        <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
+                    
+                    <Input v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
+                    <InputError class="mt-2" :message="form.errors.code" />
+                    
+                </div>
+                <div class="my-6 space-y-4">
+                    
+                    <Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                    <InputError class="mt-2" :message="form.errors.name" />
+                    
+                </div>
+                <div class="my-6 space-y-4">
+                    <Select
+                        v-model="form.normal_balance"
+                        :options="normalBalance"
+                        :label="lang().label.normal_balance"
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.normal_balance" />
+
                 </div>
                 <div class="flex justify-end">
                     <SecondaryButton

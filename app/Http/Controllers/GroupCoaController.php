@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\NormalBalance;
 use App\Http\Requests\GroupCoaStoreRequest;
+use App\Http\Requests\GroupCoaUpdateRequest;
 use Inertia\Inertia;
 use App\Models\GroupCoa;
 use Illuminate\Http\Request;
@@ -14,7 +15,9 @@ class GroupCoaController extends Controller
     {
         $groupCoas = GroupCoa::query();
         if ($request->has('search')) {
-            $groupCoas->where('name', 'ILIKE', "%" . $request->search . "%");
+            $groupCoas->where('code', 'ILIKE', "%" . $request->search . "%")
+            ->Orwhere('name', 'ILIKE', "%" . $request->search . "%")
+            ->Orwhere('normal_balance', 'ILIKE', "%" . $request->search . "%");
         }
         if ($request->has(['field', 'order'])) {
             $groupCoas->orderBy($request->field, $request->order);
@@ -24,14 +27,14 @@ class GroupCoaController extends Controller
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
 
-        $normalBalance = NormalBalance::all();
+        $normalBalance = collect(NormalBalance::getValues());
 
         return Inertia::render('GroupCoa/Index', [
             'title'             => 'Data '.__('app.label.group_coa'),
             'filters'           => $request->all(['search', 'field', 'order']),
             'perPage'           => (int) $perPage,
             'groupCoas'         => $groupCoas->paginate($perPage),
-            'normalBalance' => $normalBalance,
+            'normalBalance'     => $normalBalance,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.group_coa'), 'href' => route('group-coa.index')]
@@ -43,7 +46,9 @@ class GroupCoaController extends Controller
     {
         try {
             $groupCoa = GroupCoa::create([
+                'code' => $request->code,
                 'name' => $request->name,
+                'normal_balance' => $request->normal_balance,
             ]);
             return back()->with('success', __('app.label.created_successfully', ['name' => $groupCoa->name]));
         } catch (\Throwable $th) {
@@ -51,32 +56,30 @@ class GroupCoaController extends Controller
         }
     }
 
-    public function update(ProductCategoryUpdateRequest $request, $id)
+    public function update(GroupCoaUpdateRequest $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            
-            $productCategory = ProductCategory::findOrFail($id);
+        try {            
+            $productCategory = GroupCoa::findOrFail($id);
             $productCategory->update([
+                'code'      => $request->code,
                 'name'      => $request->name,
+                'normal_balance'      => $request->normal_balance,
                 'is_active' => $request->is_active
             ]);
 
-            DB::commit();
             return back()->with('success', __('app.label.updated_successfully', ['name' => $productCategory->name]));
         } catch (\Throwable $th) {
-            DB::rollback();
             return back()->with('error', __('app.label.updated_error', ['name' => $productCategory->name]) . $th->getMessage());
         }
     }
 
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(GroupCoa $groupCoa)
     {
         try {
-            $productCategory->delete();
-            return back()->with('success', __('app.label.deleted_successfully', ['name' => $productCategory->name]));
+            $groupCoa->delete();
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $groupCoa->name]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.deleted_error', ['name' => $productCategory->name]) . $th->getMessage());
+            return back()->with('error', __('app.label.deleted_error', ['name' => $groupCoa->name]) . $th->getMessage());
         }
     }
 }
