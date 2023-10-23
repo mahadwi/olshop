@@ -169,8 +169,8 @@
                   
                   >
                     {{ lang().label.group_coa }}
-                  </Link> -->
-                </li>
+                  </Link>
+                </li> -->
               </ul>
             </li>
           </ul>
