@@ -78,6 +78,9 @@ return [
         'group_coa'      => 'Group COA',
         'normal_balance' => 'Normal Balance',
         'code' => 'Kode',
+        'coa' => 'COA',
+        'beginning_balance' => 'Saldo Awal',
+        'status' => 'Status',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -78,6 +78,9 @@ return [
         'group_coa'      => 'Group COA',
         'normal_balance' => 'Normal Balance',
         'code' => 'Code',
+        'coa' => 'COA',
+        'beginning_balance' => 'Beginning Balance',
+        'status' => 'Status',
     ],
     'button' => [
         'login' => 'Login',
