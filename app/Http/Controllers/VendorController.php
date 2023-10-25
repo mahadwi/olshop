@@ -6,6 +6,7 @@ use App\Actions\UpdateUserAction;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Constants\Role;
+use App\Constants\VendorType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\VendorIndexRequest;
@@ -26,6 +27,8 @@ class VendorController extends Controller
         }
 
         $vendors->role(Role::VENDOR);
+        $type = VendorType::getValues();
+
         $perPage = $request->has('perPage') ? $request->perPage : 10;
         
         return Inertia::render('Vendor/Index', [
@@ -33,6 +36,7 @@ class VendorController extends Controller
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'vendors'         => $vendors->paginate($perPage),
+            'type'          => $type,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.vendor'), 'href' => route('vendor.index')]

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Actions\StoreProductAction;
 use App\Actions\UpdateProductAction;
+use App\Constants\CommissionType;
+use App\Constants\VendorType;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
@@ -18,6 +20,16 @@ use App\Http\Requests\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->vendors = User::whereNotNull('vendor_type')
+        ->where('vendor_type', '!=', VendorType::ASET)
+        ->active()->get();
+
+        $this->commissionType = CommissionType::getValues();
+    }
+
     public function index(ProductIndexRequest $request)
     {
         $products = Product::query();
@@ -52,15 +64,16 @@ class ProductController extends Controller
 
     public function create()
     {   
+
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
-        $vendors = User::role(Role::VENDOR)->active()->get();
         
         return Inertia::render('Product/Create', [
             'title'         => 'Create '.__('app.label.product'),
             'categories'    => $categories,
-            'vendors'       => $vendors,
+            'vendors'       => $this->vendors,
             'brands'       => $brands,
+            'commissionType'    => $this->commissionType,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.product'), 'href' => route('product.index')],
@@ -70,16 +83,17 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {   
+
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
-        $vendors = User::role(Role::VENDOR)->active()->get();
         
         return Inertia::render('Product/Edit', [
-            'title'         => 'Edit '.__('app.label.product'),
-            'categories'    => $categories,
-            'vendors'       => $vendors,
-            'product'       => $product,
-            'brands'       => $brands,
+            'title'             => 'Edit '.__('app.label.product'),
+            'categories'        => $categories,
+            'vendors'           => $this->vendors,
+            'product'           => $product,
+            'brands'            => $brands,
+            'commissionType'    => $this->commissionType,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.product'), 'href' => route('product.index')],
@@ -104,7 +118,6 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         try {
-
             $product = dispatch_sync(new UpdateProductAction($product, $request->all()));
 
             return redirect()->route('product.index')->with('success', __('app.label.updated_successfully', ['name' => $product->name]));

@@ -81,6 +81,13 @@ return [
         'coa' => 'COA',
         'beginning_balance' => 'Beginning Balance',
         'status' => 'Status',
+        'type' => 'Type',
+        'commission_type' => 'Commission Type',
+        'sale_price' => 'Sale Price',
+        'display_on_homepage' => 'Display On Homepage',
+        'yes' => 'Yes',
+        'no' => 'No',
+        'commission' => 'Commission (%)',
     ],
     'button' => [
         'login' => 'Login',

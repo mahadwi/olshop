@@ -81,6 +81,13 @@ return [
         'coa' => 'COA',
         'beginning_balance' => 'Saldo Awal',
         'status' => 'Status',
+        'type' => 'Tipe',
+        'commission_type' => 'Tipe Komisi',
+        'sale_price' => 'Harga Jual',
+        'display_on_homepage' => 'Tampilkan di Homepage',
+        'yes' => 'Ya',
+        'no' => 'Tidak',
+        'commission' => 'Komisi (%)',
     ],
     'button' => [
         'login' => 'Masuk',

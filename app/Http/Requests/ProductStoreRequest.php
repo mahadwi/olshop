@@ -31,6 +31,10 @@ class ProductStoreRequest extends FormRequest
             'user_id' => 'required',
             'stock' => 'required|integer',
             'price' => 'required|integer',
+            'commission_type' => 'required',
+            'commission' => 'required|integer',
+            'sale_price' => 'required|integer',
+            'display_on_homepage' => 'required',
             'image' => 'required|image|mimes:jpg,png,jpeg|max:500',            
         ];
     }

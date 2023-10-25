@@ -23,7 +23,11 @@ class Product extends Model
         'entry_date',
         'expired_date',
         'image',
-        'is_active'
+        'is_active',
+        'commission_type',
+        'commission',
+        'display_on_homepage',
+        'sale_price'
     ];
 
     protected $appends = ['image_url', 'status'];

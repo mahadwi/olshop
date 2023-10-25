@@ -29,8 +29,12 @@ class ProductUpdateRequest extends FormRequest
             'expired_date' => 'required|string|max:255',
             'product_category_id' => 'required',
             'user_id' => 'required',
+            'commission_type' => 'required',
+            'commission' => 'required|integer',
             'stock' => 'required|integer',
             'price' => 'required|integer',
+            'sale_price' => 'required|integer',
+            'display_on_homepage' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',      
         ]; 
     }

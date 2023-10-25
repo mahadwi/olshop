@@ -23,6 +23,7 @@ class VendorUpdateRequest extends FormRequest
     {
         return [
             'no_hp'                 => ['required', 'string'],
+            'vendor_type'           => ['required', 'string'],
             'ktp'                   => ['required', 'integer'],
             'bank'                  => ['required', 'string'],
             'bank_account_holder'   => ['required', 'string'],

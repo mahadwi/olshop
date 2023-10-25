@@ -17,6 +17,7 @@ const props = defineProps({
     title: String,
     filters: Object,
     vendors: Object,
+    type: Object,
     perPage: Number,
     breadcrumbs:Object,
 });
@@ -64,6 +65,7 @@ watch(
             :show="data.editOpen"
             @close="data.editOpen = false"
             :vendor="data.vendor"
+            :type="props.type"
             :title="props.title"
         />
         
@@ -121,7 +123,7 @@ watch(
                                                     {{ lang().label.no_hp }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.address }}
+                                                    {{ lang().label.type }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.action }}
@@ -138,7 +140,7 @@ watch(
                                                 <td class="tbl-column"> {{ vendor.name }}</td>
                                                 <td class="tbl-column"> {{ vendor.email }}</td>
                                                 <td class="tbl-column"> {{ vendor.no_hp }}</td>
-                                                <td class="tbl-column"> {{ vendor.address }}</td>
+                                                <td class="tbl-column"> {{ vendor.vendor_type }}</td>
                                                 
                                                 <td class="p-4 space-x-2 whitespace-nowrap">
                                                     <button @click="

@@ -25,6 +25,7 @@ const props = defineProps({
     vendors: Object,
     brands: Object,
     breadcrumbs:Object,
+    commissionType:Object,
 });
 
 const form = useForm({
@@ -36,6 +37,10 @@ const form = useForm({
     stock: props.product.stock,
     image: "",
     price: props.product.price,
+    sale_price: props.product.sale_price,
+    commission: props.product.commission,
+    commission_type: props.product.commission_type,
+    display_on_homepage: props.product.display_on_homepage,
     history: props.product.history,
     entry_date: props.product.entry_date,
     expired_date: props.product.expired_date,
@@ -57,6 +62,22 @@ const brands = props.brands?.map((role) => ({
     value: role.id,
 }));
 
+const commissionType = Object.values(props.commissionType).map((data) => ({
+    label: data,
+    value: data
+}))
+
+const dataSwitch = [
+	{
+		label: 'Yes',
+		value: true
+	},
+	{
+		label: 'No',
+		value: false
+	}
+]
+
 const formatter = ref({
   date: 'DD-MM-YYYY',
   month: 'MMM',
@@ -72,6 +93,17 @@ const update = () => {
         onFinish: () => null,
     });
 };
+
+const changeCommission = () => {
+
+	form.sale_price = form.price;
+	
+	if(form.commission_type == 'Selling'){
+			form.commission = 0;
+
+			if(form.sale_price == 0) form.sale_price = form.price; 
+	}
+}
 
 </script>
 
@@ -146,23 +178,52 @@ const update = () => {
   
                           <div class="col-span-6 sm:col-span-3">
 
-															<Input v-model="form.stock" :placeholder="lang().label.stock" :label="lang().label.stock" />
+					           					<Input v-model="form.stock" :placeholder="lang().label.stock" :label="lang().label.stock" />
                               <InputError class="mt-2" :message="form.errors.stock" />
                           </div>
   
                           <div class="col-span-6 sm:col-span-3">
 															<Input v-model="form.price" :placeholder="lang().label.price" :label="lang().label.price" />
-
                               <InputError class="mt-2" :message="form.errors.price" />
                           </div>
-  
+													<div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="commission_type" :value="lang().label.commission_type" />
+                              <SelectInput
+                                  id="commission_type"
+                                  class="mt-1 block w-full"
+                                  v-model="form.commission_type"
+                                  :dataSet="commissionType"
+																	@change="changeCommission()"
+                              >
+                              </SelectInput>
+                              <InputError class="mt-2" :message="form.errors.commission_type" />
+                          </div>
+													<div class="col-span-6 sm:col-span-3">
+															<Input :disabled="form.commission_type == 'Percent'" v-model="form.sale_price" :placeholder="lang().label.sale_price" :label="lang().label.sale_price" />
+                              <InputError class="mt-2" :message="form.errors.sale_price" />
+                          </div>
+													<div class="col-span-6 sm:col-span-3">
+															<Input :disabled="form.commission_type == 'Selling'" v-model="form.commission" :placeholder="lang().label.commission" :label="lang().label.commission" />
+                              <InputError class="mt-2" :message="form.errors.commission" />
+                          </div>
+													<div class="col-span-6 sm:col-span-3">
+                              <InputLabel for="display_on_homepage" :value="lang().label.display_on_homepage" />
+                              <SelectInput
+                                  id="display_on_homepage"
+                                  class="mt-1 block w-full"
+                                  v-model="form.display_on_homepage"
+                                  :dataSet="dataSwitch"
+                              >
+                              </SelectInput>
+                              <InputError class="mt-2" :message="form.errors.display_on_homepage" />
+                          </div>
                           <div class="col-span-6">
   
                               <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
                               <InputError class="mt-2" :message="form.errors.history" />
                               
                           </div>
-  
+												
                           <div class="col-span-6 sm:col-span-3">
                               <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
   

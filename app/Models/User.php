@@ -28,7 +28,8 @@ class User extends Authenticatable
         'bank_account_number',
         'ktp',
         'address',
-        'is_active'
+        'is_active',
+        'vendor_type',
     ];
 
     /**

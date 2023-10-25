@@ -12,10 +12,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
-import { 
-    Textarea, FileInput
-} from 'flowbite-vue'
-
+import { Textarea, FileInput, Input } from "flowbite-vue";
 
 const props = defineProps({
   title: String,
@@ -23,55 +20,85 @@ const props = defineProps({
   vendors: Object,
   brands: Object,
   breadcrumbs: Object,
+  commissionType: Object,
 });
 
 const form = useForm({
-    name: "",
-    brand_id: "",
-    description: "",
-    product_category_id: "",
-    user_id: "",
-    stock: "",
-    image: "",
-    price: "",
-    history: "",
-    entry_date: "",
-    expired_date: "",
-    description: "",
+  name: "",
+  brand_id: "",
+  description: "",
+  product_category_id: "",
+  user_id: "",
+  stock: "",
+  image: "",
+  price: "",
+  history: "",
+  entry_date: "",
+  expired_date: "",
+  description: "",
+  sale_price: "",
+  commission: "",
+  commission_type: "",
+  display_on_homepage: "",
 });
 
 const categories = props.categories?.map((role) => ({
-    label: role.name,
-    value: role.id,
+  label: role.name,
+  value: role.id,
 }));
 
 const vendors = props.vendors?.map((role) => ({
-    label: role.name,
-    value: role.id,
+  label: role.name,
+  value: role.id,
 }));
 
 const brands = props.brands?.map((role) => ({
-    label: role.name,
-    value: role.id,
+  label: role.name,
+  value: role.id,
 }));
 
+const commissionType = Object.values(props.commissionType).map((data) => ({
+  label: data,
+  value: data,
+}));
+
+const dataSwitch = [
+  {
+    label: "Yes",
+    value: true,
+  },
+  {
+    label: "No",
+    value: false,
+  },
+];
+
 const formatter = ref({
-  date: 'DD-MM-YYYY',
-  month: 'MMM',
-})
+  date: "DD-MM-YYYY",
+  month: "MMM",
+});
 
 const create = () => {
-    form.post(route("product.store"), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-        },
-        onError: () => null,
-        onFinish: () => null,
-    });
+  form.post(route("product.store"), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+    },
+    onError: () => null,
+    onFinish: () => null,
+  });
 };
 
+const changeCommission = () => {
 
+    form.sale_price = form.price;
+
+    if(form.commission_type == 'Selling'){
+            form.commission = 0;
+
+            if(form.sale_price == 0) form.sale_price = form.price; 
+    }
+}
 </script>
 
 <template>
@@ -79,140 +106,226 @@ const create = () => {
   <AuthenticatedLayout>
     <Breadcrumb :breadcrumbs="breadcrumbs" />
 
-    <div class="grid grid-cols-1 mb-10 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        <div class="col-span-2">
-            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-            >
-                <h3 class="mb-4 text-xl font-semibold dark:text-white">
-                    {{ props.title }}
-                </h3>
-                <form @submit.prevent="create">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-3">                           
-                            <InputLabel for="name" :value="lang().placeholder.name" />
-                            <TextInput
-                                id="name"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="form.name"
-                                :placeholder="lang().placeholder.name"
-                                :error="form.errors.name"
-                            />
-                            <InputError class="mt-2" :message="form.errors.name" />
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="brand" :value="lang().label.brand" />
-                            <SelectInput
-                                id="brand"
-                                class="mt-1 block w-full"
-                                v-model="form.brand_id"
-                                :dataSet="brands"
-                            >
-                            </SelectInput>
-                            <InputError class="mt-2" :message="form.errors.brand_id" />
-                        </div>
-                        <div class="col-span-6">
+    <div
+      class="grid grid-cols-1 mb-10 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
+    >
+      <div class="col-span-2">
+        <div
+          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+        >
+          <h3 class="mb-4 text-xl font-semibold dark:text-white">
+            {{ props.title }}
+          </h3>
+          <form @submit.prevent="create">
+            <div class="grid grid-cols-6 gap-6">
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="name" :value="lang().placeholder.name" />
+                <TextInput
+                  id="name"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="form.name"
+                  :placeholder="lang().placeholder.name"
+                  :error="form.errors.name"
+                />
+                <InputError class="mt-2" :message="form.errors.name" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="brand" :value="lang().label.brand" />
+                <SelectInput
+                  id="brand"
+                  class="mt-1 block w-full"
+                  v-model="form.brand_id"
+                  :dataSet="brands"
+                >
+                </SelectInput>
+                <InputError class="mt-2" :message="form.errors.brand_id" />
+              </div>
+              <div class="col-span-6">
+                <Textarea
+                  rows="4"
+                  :placeholder="lang().label.description"
+                  v-model="form.description"
+                  :label="lang().label.description"
+                />
+                <InputError class="mt-2" :message="form.errors.description" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="entry_date" :value="lang().label.entry_date" />
+                <vue-tailwind-datepicker
+                  v-model="form.entry_date"
+                  :formatter="formatter"
+                  :placeholder="lang().label.entry_date"
+                  as-single
+                />
+                <InputError class="mt-2" :message="form.errors.entry_date" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel
+                  for="expired_date"
+                  :value="lang().label.expired_date"
+                />
+                <vue-tailwind-datepicker
+                  v-model="form.expired_date"
+                  :formatter="formatter"
+                  :placeholder="lang().label.expired_date"
+                  as-single
+                />
+                <InputError class="mt-2" :message="form.errors.expired_date" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel
+                  for="product_category"
+                  :value="lang().label.product_category"
+                />
+                <SelectInput
+                  id="product_category"
+                  class="mt-1 block w-full"
+                  v-model="form.product_category_id"
+                  :dataSet="categories"
+                >
+                </SelectInput>
+                <InputError
+                  class="mt-2"
+                  :message="form.errors.product_category_id"
+                />
+              </div>
 
-                            <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
-                            <InputError class="mt-2" :message="form.errors.description" />
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="vendor" :value="lang().label.vendor" />
+                <SelectInput
+                  id="vendor"
+                  class="mt-1 block w-full"
+                  v-model="form.user_id"
+                  :dataSet="vendors"
+                >
+                </SelectInput>
+                <InputError class="mt-2" :message="form.errors.user_id" />
+              </div>
 
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="entry_date" :value="lang().label.entry_date" />
-                            <vue-tailwind-datepicker v-model="form.entry_date" :formatter="formatter" :placeholder="lang().label.entry_date"  as-single />
-                            <InputError class="mt-2" :message="form.errors.entry_date" />
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="expired_date" :value="lang().label.expired_date" />
-                            <vue-tailwind-datepicker v-model="form.expired_date" :formatter="formatter" :placeholder="lang().label.expired_date"  as-single />
-                            <InputError class="mt-2" :message="form.errors.expired_date" />
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="product_category" :value="lang().label.product_category" />
-                            <SelectInput
-                                id="product_category"
-                                class="mt-1 block w-full"
-                                v-model="form.product_category_id"
-                                :dataSet="categories"
-                            >
-                            </SelectInput>
-                            <InputError class="mt-2" :message="form.errors.product_category_id" />
-                        </div>
-                       
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="vendor" :value="lang().label.vendor" />
-                            <SelectInput
-                                id="vendor"
-                                class="mt-1 block w-full"
-                                v-model="form.user_id"
-                                :dataSet="vendors"
-                            >
-                            </SelectInput>
-                            <InputError class="mt-2" :message="form.errors.user_id" />
-                        </div>                                        
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="stock" :value="lang().label.stock" />
+                <TextInput
+                  id="stock"
+                  type="number"
+                  class="mt-1 block w-full"
+                  v-model="form.stock"
+                  :placeholder="lang().label.stock"
+                  :error="form.errors.stock"
+                />
+                <InputError class="mt-2" :message="form.errors.stock" />
+              </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="stock" :value="lang().label.stock" />
-                            <TextInput
-                                id="stock"
-                                type="number"
-                                class="mt-1 block w-full"
-                                v-model="form.stock"
-                                :placeholder="lang().label.stock"
-                                :error="form.errors.stock"
-                            />
-                            <InputError class="mt-2" :message="form.errors.stock" />
-                        </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="price" :value="lang().label.price" />
+                <TextInput
+                  id="price"
+                  type="number"
+                  class="mt-1 block w-full"
+                  v-model="form.price"
+                  :placeholder="lang().label.price"
+                  :error="form.errors.price"
+                />
+                <InputError class="mt-2" :message="form.errors.price" />
+              </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                            <InputLabel for="price" :value="lang().label.price" />
-                            <TextInput
-                                id="price"
-                                type="number"
-                                class="mt-1 block w-full"
-                                v-model="form.price"
-                                :placeholder="lang().label.price"
-                                :error="form.errors.price"
-                            />
-                            <InputError class="mt-2" :message="form.errors.price" />
-                        </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel
+                  for="commission_type"
+                  :value="lang().label.commission_type"
+                />
+                <SelectInput
+                  id="commission_type"
+                  class="mt-1 block w-full"
+                  v-model="form.commission_type"
+                  :dataSet="commissionType"
+                  @change="changeCommission()"
+                >
+                </SelectInput>
+                <InputError
+                  class="mt-2"
+                  :message="form.errors.commission_type"
+                />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <Input
+                  :disabled="form.commission_type == 'Percent'"
+                  v-model="form.sale_price"
+                  :placeholder="lang().label.sale_price"
+                  :label="lang().label.sale_price"
+                />
+                <InputError class="mt-2" :message="form.errors.sale_price" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <Input
+                  :disabled="form.commission_type == 'Selling'"
+                  v-model="form.commission"
+                  :placeholder="lang().label.commission"
+                  :label="lang().label.commission"
+                />
+                <InputError class="mt-2" :message="form.errors.commission" />
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel
+                  for="display_on_homepage"
+                  :value="lang().label.display_on_homepage"
+                />
+                <SelectInput
+                  id="display_on_homepage"
+                  class="mt-1 block w-full"
+                  v-model="form.display_on_homepage"
+                  :dataSet="dataSwitch"
+                >
+                </SelectInput>
+                <InputError
+                  class="mt-2"
+                  :message="form.errors.display_on_homepage"
+                />
+              </div>
 
-                        <div class="col-span-6">
+              <div class="col-span-6">
+                <Textarea
+                  rows="4"
+                  :placeholder="lang().label.history"
+                  v-model="form.history"
+                  :label="lang().label.history"
+                />
+                <InputError class="mt-2" :message="form.errors.history" />
+              </div>
 
-                            <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
-                            <InputError class="mt-2" :message="form.errors.history" />
-                            
-                        </div>
+              <div class="col-span-6 sm:col-span-3">
+                <FileInput
+                  accept="image/*"
+                  v-model="form.image"
+                  :label="lang().label.image"
+                />
 
-                        <div class="col-span-6 sm:col-span-3">
-                            <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+                <InputError class="mt-2" :message="form.errors.image" />
+              </div>
 
-                            <InputError class="mt-2" :message="form.errors.image" />
-                        </div>
-
-                        <div class="flex justify-start gap-2 col-span-6 sm:col-full">                            
-                            <PrimaryButton
-                                type="submit"
-                                :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing"
-                            >
-                                {{
-                                    form.processing
-                                        ? lang().button.add + "..."
-                                        : lang().button.add
-                                }}
-                            </PrimaryButton>
-                            <SecondaryButton
-                                :disabled="form.processing"
-                                @click="form.reset()"
-                            >
-                                Reset
-                            </SecondaryButton>
-                        </div>
-                    </div>
-                </form>
-            </div>                   
+              <div class="flex justify-start gap-2 col-span-6 sm:col-full">
+                <PrimaryButton
+                  type="submit"
+                  :class="{ 'opacity-25': form.processing }"
+                  :disabled="form.processing"
+                >
+                  {{
+                    form.processing
+                      ? lang().button.add + "..."
+                      : lang().button.add
+                  }}
+                </PrimaryButton>
+                <SecondaryButton
+                  :disabled="form.processing"
+                  @click="form.reset()"
+                >
+                  Reset
+                </SecondaryButton>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <!-- <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">

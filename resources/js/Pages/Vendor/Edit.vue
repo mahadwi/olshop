@@ -8,10 +8,12 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
+import { Input, Textarea, FileInput } from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
     title: String,
+    type: Object,
     vendor: Object,
 });
 
@@ -21,6 +23,7 @@ const form = useForm({
     name: "",
     email: "",
     no_hp: "",
+    vendor_type:"",
     bank: "",
     bank_account_holder: "",
     bank_account_number: "",
@@ -47,6 +50,7 @@ watchEffect(() => {
         form.email = props.vendor?.email;
         form.no_hp = props.vendor?.no_hp;
         form.bank = props.vendor?.bank;
+        form.vendor_type = props.vendor?.vendor_type;
         form.bank_account_holder = props.vendor?.bank_account_holder;
         form.bank_account_number = props.vendor?.bank_account_number;
         form.ktp = props.vendor?.ktp;
@@ -54,6 +58,12 @@ watchEffect(() => {
         form.errors = {};
     }
 });
+
+
+const type = Object.values(props.type).map((data) => ({
+    label: data,
+    value: data
+}))
 
 </script>
 
@@ -116,6 +126,18 @@ watchEffect(() => {
                         <InputError class="mt-2" :message="form.errors.no_hp" />
                     </div>
                     <div>
+                        <InputLabel for="type" :value="lang().label.type" />
+                        <SelectInput
+                            id="type"
+                            class="mt-1 block w-full"
+                            v-model="form.vendor_type"
+                            required
+                            :dataSet="type"
+                        >
+                        </SelectInput>
+                        <InputError class="mt-2" :message="form.errors.vendor_type" />
+                    </div>
+                    <div>
                         <InputLabel
                             for="bank"
                             :value="lang().label.bank"
@@ -169,26 +191,10 @@ watchEffect(() => {
                             :message="form.errors.bank_account_holder"
                         />
                     </div>
-
                     <div>
-                        <InputLabel
-                            for="address"
-                            :value="lang().label.address"
-                        />
-                        <TextInput
-                            id="address"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.address"
-                            :placeholder="lang().placeholder.address"
-                            :error="form.errors.address"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.address"
-                        />
+                        <Textarea rows="4" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
+                        <InputError class="mt-2" :message="form.errors.address" />
                     </div>
-                    
                 </div>
                 <div class="flex justify-end">
                     <SecondaryButton
