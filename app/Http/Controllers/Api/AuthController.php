@@ -6,26 +6,16 @@ use App\Actions\API\RegisterCustomerAction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\AuthenticateRequest;
+use App\Http\Requests\API\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-            'password_confirmation' => 'required|string|min:8',
-            // 'no_hp'     => 'required|min:11'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->apiError([$validator->errors()], [], 'something wrong');
-        }
-
         $user = (new RegisterCustomerAction($request->all()))->handle();        
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -36,11 +26,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(AuthenticateRequest $request)
     {
+
         if (! Auth::attempt($request->only('email', 'password'))) {
 
-            return $this->apiError([], [], 'Unauthorized', 401);
+            return $this->apiError([], [], 'The provided credentials do not match our records.', 401);
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
