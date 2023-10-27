@@ -23,6 +23,8 @@ class AuthenticateRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
+
         throw new HttpResponseException($this->apiError($validator->errors(), [], 'Validation error'));
     }
+    
 }
