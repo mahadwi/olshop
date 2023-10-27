@@ -21,10 +21,12 @@ class AuthenticateRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
-
-        throw new HttpResponseException($this->apiError($validator->errors(), [], 'Validation error'));
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'status' => true
+        ], 422));
     }
     
 }
