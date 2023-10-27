@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleUpdateRequest extends FormRequest
+class ColorUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class RoleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:roles,name,' . $this->role,
+            'name' => 'required|unique:colors,name,' . $this->color->id,
         ];
     }
 }

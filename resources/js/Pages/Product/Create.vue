@@ -19,6 +19,7 @@ const props = defineProps({
   categories: Object,
   vendors: Object,
   brands: Object,
+  colors: Object,
   breadcrumbs: Object,
   commissionType: Object,
 });
@@ -40,6 +41,7 @@ const form = useForm({
   commission: "",
   commission_type: "",
   display_on_homepage: "",
+  color_id: ""
 });
 
 const categories = props.categories?.map((role) => ({
@@ -53,6 +55,11 @@ const vendors = props.vendors?.map((role) => ({
 }));
 
 const brands = props.brands?.map((role) => ({
+  label: role.name,
+  value: role.id,
+}));
+
+const colors = props.colors?.map((role) => ({
   label: role.name,
   value: role.id,
 }));
@@ -94,9 +101,9 @@ const changeCommission = () => {
     form.sale_price = form.price;
 
     if(form.commission_type == 'Selling'){
-            form.commission = 0;
+        form.commission = 0;
 
-            if(form.sale_price == 0) form.sale_price = form.price; 
+        if(form.sale_price == 0) form.sale_price = form.price; 
     }
 }
 </script>
@@ -281,6 +288,18 @@ const changeCommission = () => {
                   class="mt-2"
                   :message="form.errors.display_on_homepage"
                 />
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="color" :value="lang().label.color" />
+                <SelectInput
+                  id="color"
+                  class="mt-1 block w-full"
+                  v-model="form.color_id"
+                  :dataSet="colors"
+                >
+                </SelectInput>
+                <InputError class="mt-2" :message="form.errors.color_id" />
               </div>
 
               <div class="col-span-6">

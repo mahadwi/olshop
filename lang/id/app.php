@@ -88,6 +88,7 @@ return [
         'yes' => 'Ya',
         'no' => 'Tidak',
         'commission' => 'Komisi (%)',
+        'color' => 'Color',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CoaController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\GroupCoaController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/users', UserController::class)->except('create', 'show', 'edit');
 
     Route::resource('/roles', RoleController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/color', ColorController::class)->except('create', 'show', 'edit');
 
     Route::resource('/product-category', ProductCategoryController::class)->except('create', 'show', 'edit');
 

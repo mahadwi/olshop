@@ -24,6 +24,7 @@ const props = defineProps({
     categories: Object,
     vendors: Object,
     brands: Object,
+    colors: Object,
     breadcrumbs:Object,
     commissionType:Object,
 });
@@ -45,6 +46,7 @@ const form = useForm({
     entry_date: props.product.entry_date,
     expired_date: props.product.expired_date,
     description: props.product.description,
+    color_id: props.product.color_id,
 });
 
 const categories = props.categories?.map((role) => ({
@@ -60,6 +62,11 @@ const vendors = props.vendors?.map((role) => ({
 const brands = props.brands?.map((role) => ({
     label: role.name,
     value: role.id,
+}));
+
+const colors = props.colors?.map((role) => ({
+  label: role.name,
+  value: role.id,
 }));
 
 const commissionType = Object.values(props.commissionType).map((data) => ({
@@ -217,6 +224,17 @@ const changeCommission = () => {
                               </SelectInput>
                               <InputError class="mt-2" :message="form.errors.display_on_homepage" />
                           </div>
+													<div class="col-span-6 sm:col-span-3">
+														<InputLabel for="color" :value="lang().label.color" />
+														<SelectInput
+															id="color"
+															class="mt-1 block w-full"
+															v-model="form.color_id"
+															:dataSet="colors"
+														>
+														</SelectInput>
+														<InputError class="mt-2" :message="form.errors.color_id" />
+													</div>
                           <div class="col-span-6">
   
                               <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />

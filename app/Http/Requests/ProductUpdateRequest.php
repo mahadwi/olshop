@@ -36,6 +36,7 @@ class ProductUpdateRequest extends FormRequest
             'sale_price' => 'required|integer',
             'display_on_homepage' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',      
+            'color_id' => 'required',
         ]; 
     }
     
@@ -45,6 +46,7 @@ class ProductUpdateRequest extends FormRequest
             'product_category_id.required' => 'Product Category is required',
             'user_id.required' => 'Vendor is required',
             'brand_id.required' => 'Brand is required',
+            'color_id.required' => 'Color is required',
         ];
     }
 }

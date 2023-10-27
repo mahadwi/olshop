@@ -23,7 +23,7 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'brand_id' => 'required|string|max:255',
+            'brand_id' => 'required',
             'description' => 'required|string',
             'entry_date' => 'required|string|max:255',
             'expired_date' => 'required|string|max:255',
@@ -35,7 +35,8 @@ class ProductStoreRequest extends FormRequest
             'commission' => 'required|integer',
             'sale_price' => 'required|integer',
             'display_on_homepage' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',            
+            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',       
+            'color_id' => 'required',
         ];
     }
 
@@ -45,6 +46,7 @@ class ProductStoreRequest extends FormRequest
             'product_category_id.required' => 'Product Category is required',
             'user_id.required' => 'Vendor is required',
             'brand_id.required' => 'Brand is required',
+            'color_id.required' => 'Color is required',
         ];
     }
 }

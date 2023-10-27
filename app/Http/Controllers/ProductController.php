@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Constants\Role;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Constants\VendorType;
 use App\Models\ProductCategory;
+use App\Constants\CommissionType;
 use App\Actions\StoreProductAction;
 use App\Actions\UpdateProductAction;
-use App\Constants\CommissionType;
-use App\Constants\VendorType;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
@@ -28,6 +29,7 @@ class ProductController extends Controller
         ->active()->get();
 
         $this->commissionType = CommissionType::getValues();
+        $this->colors = Color::get();
     }
 
     public function index(ProductIndexRequest $request)
@@ -73,6 +75,7 @@ class ProductController extends Controller
             'categories'    => $categories,
             'vendors'       => $this->vendors,
             'brands'       => $brands,
+            'colors'       => $this->colors,
             'commissionType'    => $this->commissionType,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
@@ -93,6 +96,7 @@ class ProductController extends Controller
             'vendors'           => $this->vendors,
             'product'           => $product,
             'brands'            => $brands,
+            'colors'       => $this->colors,
             'commissionType'    => $this->commissionType,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],

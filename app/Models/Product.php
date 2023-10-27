@@ -27,7 +27,8 @@ class Product extends Model
         'commission_type',
         'commission',
         'display_on_homepage',
-        'sale_price'
+        'sale_price',
+        'color_id'
     ];
 
     protected $appends = ['image_url', 'status'];
