@@ -25,6 +25,7 @@ const props = defineProps({
     vendors: Object,
     brands: Object,
     colors: Object,
+    condition: Object,
     breadcrumbs:Object,
     commissionType:Object,
 });
@@ -35,8 +36,7 @@ const form = useForm({
     description: props.product.description,
     product_category_id: props.product.product_category_id,
     user_id: props.product.user_id,
-    stock: props.product.stock,
-    image: "",
+    stock: props.product.stock,   
     price: props.product.price,
     sale_price: props.product.sale_price,
     commission: props.product.commission,
@@ -47,6 +47,7 @@ const form = useForm({
     expired_date: props.product.expired_date,
     description: props.product.description,
     color_id: props.product.color_id,
+    condition: props.product.condition,
 });
 
 const categories = props.categories?.map((role) => ({
@@ -70,6 +71,11 @@ const colors = props.colors?.map((role) => ({
 }));
 
 const commissionType = Object.values(props.commissionType).map((data) => ({
+    label: data,
+    value: data
+}))
+
+const condition = Object.values(props.condition).map((data) => ({
     label: data,
     value: data
 }))
@@ -235,6 +241,17 @@ const changeCommission = () => {
 														</SelectInput>
 														<InputError class="mt-2" :message="form.errors.color_id" />
 													</div>
+													<div class="col-span-6 sm:col-span-3">
+														<InputLabel for="condition" :value="lang().label.condition" />
+														<SelectInput
+															id="condition"
+															class="mt-1 block w-full"
+															v-model="form.condition"
+															:dataSet="condition"
+														>
+														</SelectInput>
+														<InputError class="mt-2" :message="form.errors.condition" />
+													</div>
                           <div class="col-span-6">
   
                               <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
@@ -242,12 +259,6 @@ const changeCommission = () => {
                               
                           </div>
 												
-                          <div class="col-span-6 sm:col-span-3">
-                              <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-  
-                              <InputError class="mt-2" :message="form.errors.image" />
-                          </div>
-  
                           <div class="flex justify-start gap-2 col-span-6 sm:col-full">                            
                               <PrimaryButton
                                   type="submit"

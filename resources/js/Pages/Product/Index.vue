@@ -126,7 +126,7 @@ watch(
                                                     {{ lang().label.price }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.image }}
+                                                    {{ lang().label.condition }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     Status
@@ -148,9 +148,7 @@ watch(
                                                 <td class="tbl-column"> {{ product.user.name }}</td>
                                                 <td class="tbl-column"> {{ product.stock }}</td>
                                                 <td class="tbl-column"> {{ priceFormat(product.price) }}</td>
-                                                <td class="w-32 p-4">
-                                                    <img :src="product.image_url" :alt="product.name">
-                                                </td>
+                                                <td class="tbl-column"> {{ product.condition }}</td>
                                                 <td class="tbl-column"> 
                                                     <span :class="product.is_active ? 'badge-success' : 'badge-danger' ">{{ product.status }}</span>
                                                 </td>

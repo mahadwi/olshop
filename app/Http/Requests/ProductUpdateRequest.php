@@ -37,6 +37,7 @@ class ProductUpdateRequest extends FormRequest
             'display_on_homepage' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',      
             'color_id' => 'required',
+            'condition' => 'required',
         ]; 
     }
     

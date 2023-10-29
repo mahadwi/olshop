@@ -89,6 +89,7 @@ return [
         'no' => 'Tidak',
         'commission' => 'Komisi (%)',
         'color' => 'Color',
+        'condition' => 'Kondisi',
     ],
     'button' => [
         'login' => 'Masuk',

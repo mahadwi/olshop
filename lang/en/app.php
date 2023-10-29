@@ -89,6 +89,7 @@ return [
         'no' => 'No',
         'commission' => 'Commission (%)',
         'color' => 'Color',
+        'condition' => 'Condition',
     ],
     'button' => [
         'login' => 'Login',

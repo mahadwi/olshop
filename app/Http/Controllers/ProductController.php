@@ -14,6 +14,7 @@ use App\Models\ProductCategory;
 use App\Constants\CommissionType;
 use App\Actions\StoreProductAction;
 use App\Actions\UpdateProductAction;
+use App\Constants\Condition;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
@@ -30,6 +31,8 @@ class ProductController extends Controller
 
         $this->commissionType = CommissionType::getValues();
         $this->colors = Color::get();
+        $this->condition = Condition::getValues();
+
     }
 
     public function index(ProductIndexRequest $request)
@@ -77,6 +80,7 @@ class ProductController extends Controller
             'brands'       => $brands,
             'colors'       => $this->colors,
             'commissionType'    => $this->commissionType,
+            'condition'    => $this->condition,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.product'), 'href' => route('product.index')],
@@ -96,8 +100,9 @@ class ProductController extends Controller
             'vendors'           => $this->vendors,
             'product'           => $product,
             'brands'            => $brands,
-            'colors'       => $this->colors,
+            'colors'            => $this->colors,
             'commissionType'    => $this->commissionType,
+            'condition'         => $this->condition,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.product'), 'href' => route('product.index')],

@@ -35,8 +35,9 @@ class ProductStoreRequest extends FormRequest
             'commission' => 'required|integer',
             'sale_price' => 'required|integer',
             'display_on_homepage' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',       
+            // 'image' => 'required|image|mimes:jpg,png,jpeg|max:500',       
             'color_id' => 'required',
+            'condition' => 'required',
         ];
     }
 

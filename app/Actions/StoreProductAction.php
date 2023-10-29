@@ -15,18 +15,8 @@ class StoreProductAction
         $this->attributes = $attributes;
     }
 
-    private function isImage(object $file)
-    {
-        return $file instanceof File;
-    }
-
     public function handle()
     {
-        if($this->isImage($this->attributes['image'])){
-            $file = (new UploadService())->saveFile($this->attributes['image'], 'product');  
-
-            $this->attributes['image'] = $file['name'];
-        }
 
         $product = new Product($this->attributes);
         

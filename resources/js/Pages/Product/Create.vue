@@ -22,6 +22,7 @@ const props = defineProps({
   colors: Object,
   breadcrumbs: Object,
   commissionType: Object,
+  condition: Object,
 });
 
 const form = useForm({
@@ -31,7 +32,6 @@ const form = useForm({
   product_category_id: "",
   user_id: "",
   stock: "",
-  image: "",
   price: "",
   history: "",
   entry_date: "",
@@ -41,7 +41,8 @@ const form = useForm({
   commission: "",
   commission_type: "",
   display_on_homepage: "",
-  color_id: ""
+  color_id: "",
+  condition: "",
 });
 
 const categories = props.categories?.map((role) => ({
@@ -68,6 +69,11 @@ const commissionType = Object.values(props.commissionType).map((data) => ({
   label: data,
   value: data,
 }));
+
+const condition = Object.values(props.condition).map((data) => ({
+    label: data,
+    value: data
+}))
 
 const dataSwitch = [
   {
@@ -302,6 +308,18 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.color_id" />
               </div>
 
+              <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="condition" :value="lang().label.condition" />
+                <SelectInput
+                  id="condition"
+                  class="mt-1 block w-full"
+                  v-model="form.condition"
+                  :dataSet="condition"
+                >
+                </SelectInput>
+                <InputError class="mt-2" :message="form.errors.condition" />
+              </div>
+
               <div class="col-span-6">
                 <Textarea
                   rows="4"
@@ -310,16 +328,6 @@ const changeCommission = () => {
                   :label="lang().label.history"
                 />
                 <InputError class="mt-2" :message="form.errors.history" />
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
-                <FileInput
-                  accept="image/*"
-                  v-model="form.image"
-                  :label="lang().label.image"
-                />
-
-                <InputError class="mt-2" :message="form.errors.image" />
               </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
