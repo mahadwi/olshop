@@ -3,7 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BrandApiController;
+use App\Http\Controllers\API\ColorApiController;
 use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\API\ProductCategoryApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::resource('product', ProductApiController::class)->only('index', 'show');
+
+Route::get('brand', [BrandApiController::class, 'index']);
+Route::get('color', [ColorApiController::class, 'index']);
+Route::get('product-category', [ProductCategoryApiController::class, 'index']);
