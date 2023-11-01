@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('product/{product}/update', [ProductController::class, 'update'])->name('product.update');
     Route::post('product/{product}/upload-image', [ProductController::class, 'uploadImage'])->name('product.upload-image');
     Route::get('product/{productImage}/get-image', [ProductController::class, 'getImage'])->name('product.get-image');
-    Route::post('product/delete-image', [ProductController::class, 'deleteImage'])->name('product.delete-image');
+    Route::post('product/{product}/delete-image', [ProductController::class, 'deleteImage'])->name('product.delete-image');
 
     Route::resource('/brand', BrandController::class)->except('create', 'show', 'edit', 'update');
     Route::post('brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');

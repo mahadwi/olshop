@@ -16,7 +16,9 @@ use Illuminate\Http\Response;
 use App\Models\ProductCategory;
 use App\Constants\CommissionType;
 use App\Actions\StoreProductAction;
+use App\Actions\StoreProductImageAction;
 use App\Actions\UpdateProductAction;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
@@ -97,6 +99,15 @@ class ProductController extends Controller
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
         
+        $images = $product->images->pluck('name')->map(function ($image){
+            return [
+                'source' => $image,
+                'options' => [
+                    'type'  => 'local'
+                ]
+            ];
+        });
+
         return Inertia::render('Product/Edit', [
             'title'             => 'Edit '.__('app.label.product'),
             'categories'        => $categories,
@@ -104,6 +115,7 @@ class ProductController extends Controller
             'product'           => $product,
             'brands'            => $brands,
             'colors'            => $this->colors,
+            'images'            => $images,
             'commissionType'    => $this->commissionType,
             'condition'         => $this->condition,
             'breadcrumbs'   => [
@@ -140,52 +152,48 @@ class ProductController extends Controller
 
     public function uploadImage(Request $request, Product $product)
     {
-        dd($request->all(), $product);
         try {
-            $product = dispatch_sync(new UpdateProductAction($product, $request->all()));
-
-            return redirect()->route('product.index')->with('success', __('app.label.updated_successfully', ['name' => $product->name]));
+            $image = dispatch_sync(new StoreProductImageAction($product, $request->all()));
+            return response()->json($image->name);
 
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.updated_error', ['name' => $product->name]) . $th->getMessage());
+            return response()->json($th->getMessage());
         }
     }
 
-    public function getImage(productImage $productImage)
+    public function getImage($productImage)
     {
-        $filePath = public_path('image/product/'.$productImage->name);
-        // $filename = $productImage->name;
 
-        // // Buat response
-        // $response = file_get_contents($filePath);
-
-        // $mimeType = mime_content_type($filePath);
-
-        //  // Buat objek Blob dari string
-        // $blob = new Response($response);
-        // $blob->header('Content-Type', $mimeType);
-        // $blob->header('Content-Disposition', 'inline; filename="' . $filename . '"');
-
-        // File path to the file you want to display
-
-        // Custom headers
+        $filePath = public_path('image/product/'.$productImage);
+        
         $headers = [
             'Content-Type' => 'image/png', // Set the appropriate content type for your file type
             'Content-Disposition' => 'inline; filename="my-file.png"',
         ];
 
         return response()->file($filePath, $headers);
-        // return $blob;
     }
 
-    public function deleteImage(Request $request)
+    public function deleteImage(Request $request, Product $product)
     {
-        dd($request->all());
+        
         try {
-            $product->delete();
-            return back()->with('success', __('app.label.deleted_successfully', ['name' => $product->name]));
+
+            $filename = str_replace('"', '', $request->name);
+            //cek file
+            $cekFile = public_path('image/product/'.$filename);
+            if(File::exists($cekFile)){                
+                //delete file
+                File::delete($cekFile);
+            }   
+
+            $image = $product->images->where('name', $filename)->first();
+            $image->delete();
+
+            return response()->json('success');
+
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.deleted_error', ['name' => $product->name]) . $th->getMessage());
+            return response()->json('error');
         }
     }
 

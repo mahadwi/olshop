@@ -33,9 +33,11 @@ class StoreProductImageAction
 
         $insert = new ProductImage;
         $insert->product_id = $this->product->id;
-        $insert->name = $this->attributes['image'];
+        $insert->name = $file['name'];
         
         $insert->save();
+
+        return $insert;
 
     }
 }

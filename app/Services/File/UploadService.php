@@ -18,7 +18,7 @@ class UploadService
 
     public function saveFile($file, $path)
     {        
-        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
 
         $path = '/'.$path.'/';
         $originalPath = $this->rootPath.$path;

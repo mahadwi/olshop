@@ -36,6 +36,7 @@ const props = defineProps({
     condition: Object,
     breadcrumbs:Object,
     commissionType:Object,
+    images:Object,
 });
 
 const form = useForm({
@@ -56,7 +57,6 @@ const form = useForm({
     description: props.product.description,
     color_id: props.product.color_id,
     condition: props.product.condition,
-    images:[]
 });
 
 const filepondRef = ref();
@@ -72,11 +72,6 @@ const filepond = vueFilePond(
 const handleFilePondInit = () => {
 		setOptions({
 			server: {
-					// load: (source, load, error, progress, abort, headers) => {
-					// 	console.log('attempting to load', source);
-					// 	// implement logic to load file from server here
-					// 	// https://pqina.nl/filepond/docs/patterns/api/server/#load-1
-					// }
 					load: (source, load, error, progress, abort, headers) => {
 						// axios.get(route('product.get-image', source)).then(res).then(load);
 						let request = new XMLHttpRequest();
@@ -85,21 +80,46 @@ const handleFilePondInit = () => {
 						request.onreadystatechange = () => request.readyState === 4 && load(request.response);
 						request.send();
 					},
-					// process: route('product.store'),
-					// revert: route('product.delete-image'),
-					// remove: route('product.delete-image'),
+					process:(fieldName, file, metadata, load, error, progress, abort) => {
+							const formData = new FormData();
+							formData.append(fieldName, file, file.name);
+
+							const request = new XMLHttpRequest();
+							request.open('POST', route('product.upload-image', props.product?.id));
+							request.setRequestHeader('X-CSRF-TOKEN' , page.props.token);
+
+							request.upload.onprogress = (e) => {
+									progress(e.lengthComputable, e.loaded, e.total);
+							};
+
+							request.onload = function() {
+									if (request.status >= 200 && request.status < 300) {
+											load(request.responseText);
+									}
+									else {
+											error('Error');
+									}
+							};
+
+							request.send(formData);
+							return {
+									abort: () => {
+											request.abort();
+											abort();
+									}
+							};
+					},
+					revert:(src, load) => {
+							axios.post(route('product.delete-image', props.product?.id), {name: src});
+      				load();
+					},
+					remove:(src, load) => {
+							axios.post(route('product.delete-image', props.product?.id), {name: src});
+      				load();
+					},
 					headers: { 'X-CSRF-TOKEN': page.props.token }
 				},
-			files: [
-				{
-						source: "3",
-						options: {type: 'local'},
-				},
-				{
-						source: "4",
-						options: {type: 'local'},
-				}
-			],
+				files: props.images
 		});
 };
 
@@ -314,7 +334,7 @@ const changeCommission = () => {
                           </div>
 													
 													<div class="col-span-6">
-														<!-- <filepond
+														<filepond
 															name="image"
 															ref="filepondRef"
 															label-idle="Upload Images..."
@@ -322,7 +342,7 @@ const changeCommission = () => {
 															accepted-file-types="image/*"
 															:files="images"
 															@init="handleFilePondInit"
-														/> -->
+														/>
 													</div>
 
                           <div class="flex justify-start gap-2 col-span-6 sm:col-full">                            
