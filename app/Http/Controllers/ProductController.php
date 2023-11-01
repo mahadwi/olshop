@@ -8,17 +8,20 @@ use App\Models\Brand;
 use App\Models\Color;
 use App\Constants\Role;
 use App\Models\Product;
+use App\Constants\Condition;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Constants\VendorType;
+use Illuminate\Http\Response;
 use App\Models\ProductCategory;
 use App\Constants\CommissionType;
 use App\Actions\StoreProductAction;
 use App\Actions\UpdateProductAction;
-use App\Constants\Condition;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Transformers\ProductImageTransformer;
 
 class ProductController extends Controller
 {
@@ -115,7 +118,6 @@ class ProductController extends Controller
         try {
 
             $product = dispatch_sync(new StoreProductAction($request->all()));
-
             
             return redirect()->route('product.index')->with('success', __('app.label.created_successfully', ['name' => $product->name]));
 
@@ -133,6 +135,57 @@ class ProductController extends Controller
 
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.updated_error', ['name' => $product->name]) . $th->getMessage());
+        }
+    }
+
+    public function uploadImage(Request $request, Product $product)
+    {
+        dd($request->all(), $product);
+        try {
+            $product = dispatch_sync(new UpdateProductAction($product, $request->all()));
+
+            return redirect()->route('product.index')->with('success', __('app.label.updated_successfully', ['name' => $product->name]));
+
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.updated_error', ['name' => $product->name]) . $th->getMessage());
+        }
+    }
+
+    public function getImage(productImage $productImage)
+    {
+        $filePath = public_path('image/product/'.$productImage->name);
+        // $filename = $productImage->name;
+
+        // // Buat response
+        // $response = file_get_contents($filePath);
+
+        // $mimeType = mime_content_type($filePath);
+
+        //  // Buat objek Blob dari string
+        // $blob = new Response($response);
+        // $blob->header('Content-Type', $mimeType);
+        // $blob->header('Content-Disposition', 'inline; filename="' . $filename . '"');
+
+        // File path to the file you want to display
+
+        // Custom headers
+        $headers = [
+            'Content-Type' => 'image/png', // Set the appropriate content type for your file type
+            'Content-Disposition' => 'inline; filename="my-file.png"',
+        ];
+
+        return response()->file($filePath, $headers);
+        // return $blob;
+    }
+
+    public function deleteImage(Request $request)
+    {
+        dd($request->all());
+        try {
+            $product->delete();
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $product->name]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.deleted_error', ['name' => $product->name]) . $th->getMessage());
         }
     }
 

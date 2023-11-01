@@ -13,6 +13,8 @@ import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { Textarea, FileInput, Input } from "flowbite-vue";
+import FilePondInput from '@/Components/FilePondInput.vue'
+
 
 const props = defineProps({
   title: String,
@@ -43,6 +45,7 @@ const form = useForm({
   display_on_homepage: "",
   color_id: "",
   condition: "",
+  image:[]
 });
 
 const categories = props.categories?.map((role) => ({
@@ -328,6 +331,15 @@ const changeCommission = () => {
                   :label="lang().label.history"
                 />
                 <InputError class="mt-2" :message="form.errors.history" />
+              </div>
+
+              <div class="col-span-6">
+                <FilePondInput
+                  v-model="form.image"
+                  accept="image/*"
+                />
+
+                <InputError class="mt-2" :message="form.errors.image" />
               </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">

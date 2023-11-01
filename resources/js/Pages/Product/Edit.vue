@@ -12,6 +12,14 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
+// import FilePondInput from '@/Components/FilePondInput.vue'
+import vueFilePond, { setOptions } from "vue-filepond";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import axios from 'axios';
+
+import 'filepond/dist/filepond.min.css';
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
 
 import { 
     Textarea, FileInput, Input
@@ -48,7 +56,53 @@ const form = useForm({
     description: props.product.description,
     color_id: props.product.color_id,
     condition: props.product.condition,
+    images:[]
 });
+
+const filepondRef = ref();
+const images = ref([]);
+const page = usePage();
+
+const filepond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
+// Set global options on filepond init
+const handleFilePondInit = () => {
+		setOptions({
+			server: {
+					// load: (source, load, error, progress, abort, headers) => {
+					// 	console.log('attempting to load', source);
+					// 	// implement logic to load file from server here
+					// 	// https://pqina.nl/filepond/docs/patterns/api/server/#load-1
+					// }
+					load: (source, load, error, progress, abort, headers) => {
+						// axios.get(route('product.get-image', source)).then(res).then(load);
+						let request = new XMLHttpRequest();
+						request.open('GET', route('product.get-image', source));
+						request.responseType = "blob";
+						request.onreadystatechange = () => request.readyState === 4 && load(request.response);
+						request.send();
+					},
+					// process: route('product.store'),
+					// revert: route('product.delete-image'),
+					// remove: route('product.delete-image'),
+					headers: { 'X-CSRF-TOKEN': page.props.token }
+				},
+			files: [
+				{
+						source: "3",
+						options: {type: 'local'},
+				},
+				{
+						source: "4",
+						options: {type: 'local'},
+				}
+			],
+		});
+};
+
 
 const categories = props.categories?.map((role) => ({
     label: role.name,
@@ -258,7 +312,19 @@ const changeCommission = () => {
                               <InputError class="mt-2" :message="form.errors.history" />
                               
                           </div>
-												
+													
+													<div class="col-span-6">
+														<!-- <filepond
+															name="image"
+															ref="filepondRef"
+															label-idle="Upload Images..."
+															:allow-multiple="true"
+															accepted-file-types="image/*"
+															:files="images"
+															@init="handleFilePondInit"
+														/> -->
+													</div>
+
                           <div class="flex justify-start gap-2 col-span-6 sm:col-full">                            
                               <PrimaryButton
                                   type="submit"

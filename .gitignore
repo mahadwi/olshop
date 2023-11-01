@@ -1,3 +1,4 @@
+package-lock.json
 /.phpunit.cache
 /node_modules
 /public/build
@@ -18,4 +19,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-package-lock.json
