@@ -10,6 +10,7 @@ use App\Actions\StoreImageAction;
 use App\Actions\StoreBannerAction;
 use App\Services\File\UploadService;
 use App\Http\Requests\BannerStoreRequest;
+use App\Http\Requests\BannerUpdateRequest;
 
 class BannerController extends Controller
 {
@@ -57,6 +58,20 @@ class BannerController extends Controller
         ]);
     } 
 
+    public function update(BannerUpdateRequest $request, Banner $banner)
+    {
+        try {
+
+            $banner->fill($request->all());
+            $banner->save();
+
+            return back()->with('success', __('app.label.updated_successfully', ['name' => $banner->name]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.updated_error', ['name' => $banner->name]) . $th->getMessage());
+        }
+    }
+
+
     public function uploadImage(Request $request, Banner $banner)
     {
         
@@ -65,7 +80,7 @@ class BannerController extends Controller
             $file = (new UploadService())->saveFile($request->image); 
             
             $image = dispatch_sync(new StoreImageAction(['name' => $file['name']], $banner));
-            
+
             return response()->json($image->name);
 
         } catch (\Throwable $th) {

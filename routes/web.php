@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/brand', BrandController::class)->except('create', 'show', 'edit', 'update');
     Route::post('brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');
 
-    Route::resource('/banner', BannerController::class)->except('create', 'show', 'edit', 'update');
+    Route::resource('/banner', BannerController::class)->except('create', 'show', 'edit');
     Route::post('banner/{banner}/upload-image', [BannerController::class, 'uploadImage'])->name('banner.upload-image');
     
     Route::get('image/{image}/', [ImageController::class, 'getImage'])->name('image.get-image');

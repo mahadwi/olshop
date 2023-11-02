@@ -33,7 +33,7 @@ const form = useForm({
 });
 
 const update = () => {
-    form.post(route("banner.update", props.banner?.id), {
+    form.put(route("banner.update", props.banner?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -89,32 +89,36 @@ const handleFilePondInit = () => {
                 request.setRequestHeader('X-CSRF-TOKEN' , page.props.token);
 
                 request.upload.onprogress = (e) => {
-                        progress(e.lengthComputable, e.loaded, e.total);
+                    progress(e.lengthComputable, e.loaded, e.total);
                 };
 
                 request.onload = function() {
-                        if (request.status >= 200 && request.status < 300) {
-                                load(request.responseText);
-                        }
-                        else {
-                                error('Error');
-                        }
+                    if (request.status >= 200 && request.status < 300) {
+                        props.banner.image.push(request.responseText)
+                        load(request.responseText);
+                    }
+                    else {
+                        error('Error');
+                    }
                 };
 
                 request.send(formData);
                 return {
                         abort: () => {
-                                request.abort();
-                                abort();
+                            request.abort();
+                            abort();
                         }
                 };
             },
             revert:(src, load) => {
                 axios.post(route('image.delete-image'), {name: src});
+
+
                 load();
             },
             remove:(src, load) => {
                 axios.post(route('image.delete-image'), {name: src});
+
                 load();
             },
             headers: { 'X-CSRF-TOKEN': page.props.token }
