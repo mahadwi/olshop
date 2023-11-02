@@ -17,6 +17,7 @@ class ProductApiController extends Controller
         } else {
             $product = fractal($productSource, new ProductTransformer($request->all()))->toArray();
         }
+        
         $product = collect($product);
 
         if ($request->has('sort')) {

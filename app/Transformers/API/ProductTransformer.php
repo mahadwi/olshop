@@ -13,9 +13,6 @@ class ProductTransformer extends TransformerAbstract
     public function __construct(array $params = [])
     {
         $this->params = $params;
-        // $this->city = City::find($params['city_id']);
-
-        // $this->dateBooking = Carbon::parse($params['datetime_start'])->format('Y-m-d');
     }
 
     /**
@@ -47,12 +44,20 @@ class ProductTransformer extends TransformerAbstract
             'id'            => $product->id,
             'name'          => $product->name,
             'description'   => $product->description,
-            'color'         => $product->color,
+            'color'         => $product->color->name,
             'history'       => $product->history,
-            'category'      => $product->productCategory,
-            'brand'         => $product->brand,
+            'category'      => $product->productCategory->name,
+            'brand'         => $product->brand->name,
             'stock'         => $product->stock,
-            'sale_price'    => $product->sale_price        
+            'sale_price'    => $product->sale_price,
+            'images'        => $this->images($product)        
         ];
+    }
+
+    private function images($product)
+    {
+        return is_null($product->images) ? [] : $product->images->map(function ($item) {
+            return asset('image/product/'.$item->name);
+        });
     }
 }

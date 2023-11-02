@@ -62,16 +62,16 @@ class Product extends Model
     public function setExpiredDateAttribute($value)
     {
         $this->attributes['expired_date'] = Carbon::parse($value)->format('Y-m-d');
-    }
-
-    // public function getImageUrlAttribute()
-    // {
-    //     return asset('image/product/'.$this->image);
-    // }
+    }    
 
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
     }
 
     public function productCategory()

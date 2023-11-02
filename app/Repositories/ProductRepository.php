@@ -47,28 +47,16 @@ class ProductRepository extends AbstractRepository
             ->when(isset($params['search']), function ($query) use ($params) {
                 $query->where('name', 'ilike', "%{$params['search']}%");
             })
-            ->where('is_active', true);
-            ;
-            // ->whereHas('price', function ($query) use ($params) {
-            //     $query->where([
-            //         ['price', '!=', 0],
-            //         ['city_id', $params['city_id']],
-            //         ['service_type', $params['service_type']]
-            //     ])->when($params['service_type'] == ServiceType::DRIVER, function ($query) {
-            //         $query->where([
-            //             ['cut_off', CutOffType::ENDOFDAY],
-            //             ['is_all_in', true]
-            //         ]);
-            //     })->when($params['service_type'] == ServiceType::DRIVERLESS, function ($query) use ($params) {
-            //         $query->where([
-            //             ['cut_off', $params['city']->cut_off],
-            //             ['transmission_type', $params['transmission']]
-            //         ]);
-            //     });
-            // })
-            // ->when(isset($params['car_type_id']), function ($query) use ($params) {
-            //     $query->where('type_of_car_id', $params['car_type_id']);
-            // })
+            ->where('is_active', true)            
+            ->when(isset($params['brand_id']), function ($query) use ($params) {
+                $query->where('brand_id', $params['brand_id']);
+            })
+            ->when(isset($params['category_id']), function ($query) use ($params) {
+                $query->where('product_category_id', $params['category_id']);
+            })
+            ->when(isset($params['color_id']), function ($query) use ($params) {
+                $query->where('color_id', $params['color_id']);
+            });
             // ->when(isset($params['passenger']), function ($query) use ($params) {
             //     $query->where('passenger', $params['passenger']);
             // })
