@@ -16,12 +16,12 @@ class UploadService
         $this->rootPath = public_path('image');
     }
 
-    public function saveFile($file, $path)
+    public function saveFile($file, $path = '')
     {        
         $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-
         $path = '/'.$path.'/';
-        $originalPath = $this->rootPath.$path;
+
+        $originalPath = $path != '//' ? $this->rootPath.$path : $this->rootPath;
 
         if (!file_exists($originalPath)) {
             if (!mkdir($originalPath, 0777, true) && !is_dir($originalPath)) {

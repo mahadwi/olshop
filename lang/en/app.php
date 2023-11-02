@@ -90,6 +90,9 @@ return [
         'commission' => 'Commission (%)',
         'color' => 'Color',
         'condition' => 'Condition',
+        'banner' => 'Banner',
+        'section' => 'Section',
+        'title' => 'Title',
     ],
     'button' => [
         'login' => 'Login',

@@ -90,6 +90,9 @@ return [
         'commission' => 'Komisi (%)',
         'color' => 'Color',
         'condition' => 'Kondisi',
+        'banner' => 'Banner',
+        'section' => 'Section',
+        'title' => 'Judul',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\ColorController;
@@ -8,6 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -66,5 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/brand', BrandController::class)->except('create', 'show', 'edit', 'update');
     Route::post('brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');
+
+    Route::resource('/banner', BannerController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('banner/{banner}/upload-image', [BannerController::class, 'uploadImage'])->name('banner.upload-image');
+    
+    Route::get('image/{image}/', [ImageController::class, 'getImage'])->name('image.get-image');
+    Route::post('delete-image', [ImageController::class, 'deleteImage'])->name('image.delete-image');
 
 });
