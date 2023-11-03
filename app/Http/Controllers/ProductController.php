@@ -16,9 +16,10 @@ use Illuminate\Http\Response;
 use App\Models\ProductCategory;
 use App\Constants\CommissionType;
 use App\Actions\StoreProductAction;
-use App\Actions\StoreProductImageAction;
 use App\Actions\UpdateProductAction;
+use App\Services\File\UploadService;
 use Illuminate\Support\Facades\File;
+use App\Actions\StoreProductImageAction;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
@@ -200,7 +201,13 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
+            
+            if($product->images->isNotEmpty()){
+                (new UploadService())->deleteFile($product->images, 'product');
+                $product->images()->delete();
+            }
             $product->delete();
+
             return back()->with('success', __('app.label.deleted_successfully', ['name' => $product->name]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.deleted_error', ['name' => $product->name]) . $th->getMessage());

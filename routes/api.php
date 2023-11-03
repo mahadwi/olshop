@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BannerApiController;
 use App\Http\Controllers\API\BrandApiController;
 use App\Http\Controllers\API\ColorApiController;
+use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\ProductApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 
@@ -39,3 +40,4 @@ Route::get('brand', [BrandApiController::class, 'index']);
 Route::get('color', [ColorApiController::class, 'index']);
 Route::get('product-category', [ProductCategoryApiController::class, 'index']);
 Route::get('banner', [BannerApiController::class, 'index']);
+Route::get('gallery', [GalleryApiController::class, 'index']);

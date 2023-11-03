@@ -13,6 +13,6 @@ class BannerApiController extends Controller
     {
         $banner = fractal(Banner::all(), new BannerTransformer())->toArray();
 
-        return $this->apiSuccess($banner['data']);
+        return $this->apiSuccess($banner);
     }
 }

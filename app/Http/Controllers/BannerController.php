@@ -104,7 +104,14 @@ class BannerController extends Controller
     public function destroy(Banner $banner)
     {
         try {
+
+            if($banner->imageable->isNotEmpty()){
+                (new UploadService())->deleteFile($banner->imageable);
+                $banner->imageable()->delete();
+            }
+
             $banner->delete();
+            
             return back()->with('success', __('app.label.deleted_successfully', ['name' => $banner->name]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.deleted_error', ['name' => $banner->name]) . $th->getMessage());
