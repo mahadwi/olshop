@@ -93,6 +93,7 @@ return [
         'banner' => 'Banner',
         'section' => 'Section',
         'title' => 'Judul',
+        'gallery' => 'Galeri',
     ],
     'button' => [
         'login' => 'Masuk',

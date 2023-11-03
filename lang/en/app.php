@@ -93,6 +93,7 @@ return [
         'banner' => 'Banner',
         'section' => 'Section',
         'title' => 'Title',
+        'gallery' => 'Gallery',
     ],
     'button' => [
         'login' => 'Login',

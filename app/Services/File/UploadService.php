@@ -3,9 +3,9 @@
 namespace App\Services\File;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\File;
+use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Model;
 
 class UploadService
 {
@@ -37,6 +37,22 @@ class UploadService
             'base_path' => $this->rootPath,
             'full_path' => $originalPath.$filename,
         ];
+    }
+
+    public function deleteFile($images, $path = '')
+    {        
+        foreach($images as $image){
+            //cek path file
+            $path = '/'.$path.'/';
+
+            $originalPath = $path != '//' ? $this->rootPath.$path : $this->rootPath.'/';
+
+            $imageFile = $originalPath.$image->name;
+            if(File::exists($imageFile)){   
+                //delete file
+                File::delete($imageFile);
+            }      
+        }
     }
 
 }

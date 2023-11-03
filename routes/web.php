@@ -4,6 +4,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GroupCoaController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/banner', BannerController::class)->except('create', 'show', 'edit');
     Route::post('banner/{banner}/upload-image', [BannerController::class, 'uploadImage'])->name('banner.upload-image');
+
+    Route::resource('/gallery', GalleryController::class)->except('create', 'show', 'edit');
+    Route::post('gallery/{gallery}/upload-image', [GalleryController::class, 'uploadImage'])->name('gallery.upload-image');
     
     Route::get('image/{image}/', [ImageController::class, 'getImage'])->name('image.get-image');
     Route::post('delete-image', [ImageController::class, 'deleteImage'])->name('image.delete-image');

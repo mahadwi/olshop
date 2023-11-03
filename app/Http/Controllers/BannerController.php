@@ -58,6 +58,18 @@ class BannerController extends Controller
         ]);
     } 
 
+    public function store(BannerStoreRequest $request)
+    {
+        try {
+            $banner = dispatch_sync(new StoreBannerAction($request->all()));
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $banner->name]));
+
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.banner')]) . $th->getMessage());
+        }
+    }
+
     public function update(BannerUpdateRequest $request, Banner $banner)
     {
         try {
@@ -88,17 +100,6 @@ class BannerController extends Controller
         }
     }
     
-    public function store(BannerStoreRequest $request)
-    {
-        try {
-            $banner = dispatch_sync(new StoreBannerAction($request->all()));
-
-            return back()->with('success', __('app.label.created_successfully', ['name' => $banner->name]));
-
-        } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.banner')]) . $th->getMessage());
-        }
-    }
 
     public function destroy(Banner $banner)
     {

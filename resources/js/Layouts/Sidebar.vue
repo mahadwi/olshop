@@ -1,7 +1,7 @@
 <script setup>
   import { Link } from "@inertiajs/vue3";
 
-  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') ? '' : 'hidden'
+  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') ? '' : 'hidden'
 
 </script>
 <template>
@@ -208,6 +208,19 @@
                   
                   >
                     {{ lang().label.banner }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('gallery.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+                  
+                  :class="
+                    route().current('gallery.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+                  
+                  >
+                    {{ lang().label.gallery }}
                   </Link>
                 </li>
               </ul>
