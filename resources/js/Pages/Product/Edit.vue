@@ -15,6 +15,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 // import FilePondInput from '@/Components/FilePondInput.vue'
 import vueFilePond, { setOptions } from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import axios from 'axios';
 
@@ -65,6 +66,7 @@ const page = usePage();
 
 const filepond = vueFilePond(
   FilePondPluginFileValidateType,
+	FilePondPluginFileValidateSize,
   FilePondPluginImagePreview
 );
 
@@ -339,7 +341,8 @@ const changeCommission = () => {
 															ref="filepondRef"
 															label-idle="Upload Images..."
 															:allow-multiple="true"
-															accepted-file-types="image/*"
+															accepted-file-types="image/jpeg, image/png"
+															maxFileSize="1MB"
 															:files="images"
 															@init="handleFilePondInit"
 														/>

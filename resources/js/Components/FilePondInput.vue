@@ -37,7 +37,9 @@ onMounted(() => {
     allowMultiple: true,
     credits: null,
     labelIdle: props.labelIdle,
-    labelFileTypeNotAllowed: 'File Type Not Allowed'
+    labelFileTypeNotAllowed: 'File Type Not Allowed',
+    maxFileSize: "1MB",
+    labelMaxFileSize: "Maximum file size is 1MB"
   });
 
   pond.on('updatefiles', (files) => {

@@ -8,6 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Select, Input, Textarea, FileInput } from 'flowbite-vue'
 import vueFilePond, { setOptions } from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import axios from 'axios';
 
@@ -65,7 +66,8 @@ const page = usePage();
 
 const filepond = vueFilePond(
   FilePondPluginFileValidateType,
-  FilePondPluginImagePreview
+  FilePondPluginImagePreview,
+	FilePondPluginFileValidateSize
 );
 
 // Set global options on filepond init
@@ -164,7 +166,8 @@ const handleFilePondInit = () => {
                         ref="filepondRef"
                         label-idle="Upload Images..."
                         :allow-multiple="true"
-                        accepted-file-types="image/*"
+                        accepted-file-types="image/jpeg, image/png"
+												maxFileSize="1MB"
                         :files="images"
                         @init="handleFilePondInit"
                     />
