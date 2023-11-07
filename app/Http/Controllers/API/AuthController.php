@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\API\RegisterCustomerAction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\AuthenticateRequest;
-use App\Http\Requests\API\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\API\RegisterRequest;
+use App\Actions\API\RegisterCustomerAction;
+use App\Http\Requests\API\AuthenticateRequest;
 
 class AuthController extends Controller
 {
@@ -45,10 +47,60 @@ class AuthController extends Controller
         
     }
 
+    public function redirectToProvider($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+
+        return Socialite::driver($provider)->stateless()->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+
+        try {
+            $user = Socialite::driver($provider)->stateless()->user();
+        } catch (ClientException $exception) {
+            return $this->apiError([], [], 'Invalid credentials provided.', 422);
+        }
+
+        $userCreated = User::firstOrCreate(
+            [
+                'email' => $user->getEmail()
+            ],
+            [
+                'email_verified_at' => now(),
+                'name' => $user->getName(),
+                'google_id' => $user->getId(),
+            ]
+        );
+
+        $token = $userCreated->createToken('token-auth_token')->plainTextToken;
+
+        return $this->apiSuccess([
+            'user' => $user,
+            'token' => $token,
+        ],[]);
+    }
+
+
     public function logout()
     {
         Auth::user()->tokens()->delete();
 
         return $this->apiSuccess([],[], 'logout Sukses');
+    }
+
+    protected function validateProvider($provider)
+    {
+        if (!in_array($provider, ['facebook', 'google'])) {
+            return $this->apiError([], [], 'Please login using facebook or google.', 422);
+        }
     }
 }

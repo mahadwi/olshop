@@ -24,6 +24,9 @@ use App\Http\Controllers\API\ProductCategoryApiController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('login/{provider}', [AuthController::class, 'redirectToProvider']);
+Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

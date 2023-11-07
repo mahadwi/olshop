@@ -30,6 +30,8 @@ class User extends Authenticatable
         'address',
         'is_active',
         'vendor_type',
+        'facebook_id',
+        'google_id',
     ];
 
     /**
