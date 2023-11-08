@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
+use App\Constants\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -78,10 +79,13 @@ class AuthController extends Controller
                 'email_verified_at' => now(),
                 'name' => $user->getName(),
                 'google_id' => $user->getId(),
+                'password'  => bcrypt('password')
             ]
         );
 
-        $token = $userCreated->createToken('token-auth_token')->plainTextToken;
+        $userCreated->assignRole(Role::CUSTOMER);
+        
+        $token = $userCreated->createToken('auth_token')->plainTextToken;
 
         return $this->apiSuccess([
             'user' => $user,
