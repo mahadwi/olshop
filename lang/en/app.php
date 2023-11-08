@@ -94,6 +94,8 @@ return [
         'section' => 'Section',
         'title' => 'Title',
         'gallery' => 'Gallery',
+        'member' => 'Member',
+        'category' => 'Category',
     ],
     'button' => [
         'login' => 'Login',

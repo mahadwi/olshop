@@ -94,6 +94,8 @@ return [
         'section' => 'Section',
         'title' => 'Judul',
         'gallery' => 'Galeri',
+        'member' => 'Member',
+        'category' => 'Kategori',
     ],
     'button' => [
         'login' => 'Masuk',
