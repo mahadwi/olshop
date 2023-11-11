@@ -13,7 +13,7 @@ class Coa extends Model
         'code',
         'name',
         'normal_balance',
-        'saldo_awal',
+        'is_saldo_awal',
         'group_coa_id',
         'status',
     ];

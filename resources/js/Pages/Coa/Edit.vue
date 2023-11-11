@@ -8,7 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Input } from 'flowbite-vue'
+import { Input, Select } from 'flowbite-vue'
 
 const bahasa = usePage().props.language.original;
 
@@ -19,6 +19,7 @@ const props = defineProps({
     status: Object,
     coa: Object,
     normalBalance: Object,
+    saldoAwal: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -28,7 +29,7 @@ const form = useForm({
     name: "",
     normal_balance: "",
     group_coa_id: "",
-    saldo_awal: "",
+    is_saldo_awal: "",
     status: "",
 });
 
@@ -51,7 +52,7 @@ watchEffect(() => {
         form.name = props.coa?.name;
         form.normal_balance = props.coa?.normal_balance;
         form.status = props.coa?.status;
-        form.saldo_awal = props.coa?.saldo_awal;
+        form.is_saldo_awal = props.coa?.is_saldo_awal;
         form.group_coa_id = props.coa?.group_coa_id;
         form.errors = {};
     }
@@ -140,8 +141,13 @@ const groupCoa = props.groupCoa?.map((data) => ({
                         <InputError class="mt-2" :message="form.errors.status" />
                     </div>
                     <div>
-                        <Input type="number" v-model="form.saldo_awal" :placeholder="lang().label.beginning_balance" :label="lang().label.beginning_balance" />
-                        <InputError class="mt-2" :message="form.errors.saldo_awal" />
+                        <Select
+                            v-model="form.is_saldo_awal"
+                            :options="saldoAwal"
+                            :label="lang().label.beginning_balance"
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.is_saldo_awal" />
                     </div>
                 </div>
                 <div class="flex justify-end">

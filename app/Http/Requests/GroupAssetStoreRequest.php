@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Coa;
+use App\Models\GroupAsset;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CoaStoreRequest extends FormRequest
+class GroupAssetStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,19 +23,12 @@ class CoaStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:7',
-            'name' => 'required|string|max:255',
-            'normal_balance' => 'nullable',
-            'status' => 'required',
-            'group_coa_id' => 'required',
-            'is_saldo_awal' => 'required',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'is_saldo_awal.required' => 'Saldo Awal is required',
+            'name' => 'required|string|max:255|unique:' . GroupAsset::class,
+            'coa_id' => 'required',
+            'coa_akumulasi_id' => 'required',
+            'coa_depresiasi_id' => 'required',
+            'metode_penyusutan' => 'required',
+            'umur' => 'integer',
         ];
     }
 }

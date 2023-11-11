@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class NormalBalance extends AbstractAppConstant
 {
-    public const DEBIT = 'Debit';
+    public const DEBET = 'Debet';
     public const KREDIT = 'Kredit';
 }

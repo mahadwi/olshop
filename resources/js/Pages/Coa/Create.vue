@@ -15,6 +15,7 @@ const props = defineProps({
     normalBalance: Object,
     status: Object,
     groupCoa: Object,
+    saldoAwal: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -24,7 +25,7 @@ const form = useForm({
     name: "",
     normal_balance: "",
     group_coa_id: "",
-    saldo_awal: "",
+    is_saldo_awal: "",
     status: "",
 });
 
@@ -118,8 +119,14 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <Input type="number" v-model="form.saldo_awal" :placeholder="lang().label.beginning_balance" :label="lang().label.beginning_balance" />
-                        <InputError class="mt-2" :message="form.errors.saldo_awal" />
+                        <Select
+                            v-model="form.is_saldo_awal"
+                            :options="saldoAwal"
+                            :label="lang().label.beginning_balance"
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.is_saldo_awal" />
+
                     </div>
                 </div>
                 <div class="flex justify-end">

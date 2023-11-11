@@ -96,6 +96,12 @@ return [
         'gallery' => 'Galeri',
         'member' => 'Member',
         'category' => 'Kategori',
+        'no' => 'Tidak',
+        'group_asset' => 'Group Asset',
+        'metode_penyusutan' => 'Metode Penyusutan',
+        'coa_akumulasi' => 'COA Akumulasi',
+        'coa_depresiasi' => 'COA Depresiasi',
+        'umur' => 'Umur',
     ],
     'button' => [
         'login' => 'Masuk',

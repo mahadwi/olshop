@@ -96,6 +96,11 @@ return [
         'gallery' => 'Gallery',
         'member' => 'Member',
         'category' => 'Category',
+        'group_asset' => 'Group Asset',
+        'metode_penyusutan' => 'Metode Penyusutan',
+        'coa_akumulasi' => 'COA Akumulasi',
+        'coa_depresiasi' => 'COA Depresiasi',
+        'umur' => 'Umur',
     ],
     'button' => [
         'login' => 'Login',
@@ -114,7 +119,8 @@ return [
         'delete' => 'Delete',
         'prev' => 'Prev',
         'next' => 'Next',
-        'delete_account' => 'Delete Account'
+        'delete_account' => 'Delete Account',
+        'no' => 'No',        
     ],
     'placeholder' => [
         'search' => 'Search...',

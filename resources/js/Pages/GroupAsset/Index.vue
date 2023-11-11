@@ -3,13 +3,12 @@ import { Head, Link } from "@inertiajs/vue3";
 import { reactive, watch } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import pkg from "lodash";
-import priceFormat from '../../helper.js'
 
 import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Create from "@/Pages/Coa/Create.vue";
-import Edit from "@/Pages/Coa/Edit.vue";
-import Delete from "@/Pages/Coa/Delete.vue";
+import Create from "@/Pages/GroupAsset/Create.vue";
+import Edit from "@/Pages/GroupAsset/Edit.vue";
+import Delete from "@/Pages/GroupAsset/Delete.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
@@ -18,15 +17,14 @@ const { _, debounce, pickBy } = pkg;
 const props = defineProps({
     title: String,
     filters: Object,
-    coas: Object,
+    groupAssets: Object,
     breadcrumbs:Object,
-    normalBalance:Object,
-    status:Object,
-    groupCoa:Object,
+    metodePenyusutan:Object,
+    coa:Array,
+    coaAkumulasi:Object,
+    coaDepresiasi:Object,
     perPage: Number,
 });
-
-const bahasa = usePage().props.language.original;
 
 const data = reactive({
     params: {
@@ -38,7 +36,7 @@ const data = reactive({
     createOpen: false,
     editOpen: false,
     deleteOpen: false,
-    coa: null,
+    groupAsset: null,
     dataSet: usePage().props.app.perpage,
 });
 
@@ -47,23 +45,31 @@ const order = (field) => {
     data.params.order = data.params.order === "asc" ? "desc" : "asc";
 };
 
-const saldoAwal = [
-    {
-        name: bahasa.label.yes,
-        value: true
-    },
-    {
-        name: bahasa.label.no,
-        value: false
-    }    
-];
+const metodePenyusutan = Object.values(props.metodePenyusutan).map((data) => ({
+    label: data,
+    value: data
+}))
 
+const coa = props.coa.map((data) => ({
+    label: `${data.code} - ${data.name}`,
+    value: data.id
+}))
+
+const coaAkumulasi = props.coaAkumulasi.map((data) => ({
+    label: `${data.code} - ${data.name}`,
+    value: data.id
+}))
+
+const coaDepresiasi = props.coaDepresiasi.map((data) => ({
+    label: `${data.code} - ${data.name}`,
+    value: data.id
+}))
 
 watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
         let params = pickBy(data.params);
-        router.get(route("coa.index"), params, {
+        router.get(route("group-asset.index"), params, {
             replace: true,
             preserveState: true,
             preserveScroll: true,
@@ -83,26 +89,26 @@ watch(
             :show="data.createOpen"
             @close="data.createOpen = false"
             :title="props.title"
-            :normalBalance="props.normalBalance"
-            :groupCoa="props.groupCoa"
-            :status="props.status"
-            :saldoAwal="saldoAwal"
+            :metodePenyusutan="metodePenyusutan"
+            :coa="coa"
+            :coaAkumulasi="coaAkumulasi"
+            :coaDepresiasi="coaDepresiasi"
         />
 
         <Edit
             :show="data.editOpen"
             @close="data.editOpen = false"
-            :groupCoa="props.groupCoa"
-            :coa="data.coa"
-            :normalBalance="props.normalBalance"
-            :status="props.status"
+            :groupAsset="data.groupAsset"
             :title="props.title"
-            :saldoAwal="saldoAwal"
+            :metodePenyusutan="metodePenyusutan"
+            :coa="coa"
+            :coaAkumulasi="coaAkumulasi"
+            :coaDepresiasi="coaDepresiasi"
         />
         <Delete
             :show="data.deleteOpen"
             @close="data.deleteOpen = false"
-            :coa="data.coa"
+            :groupAsset="data.groupAsset"
             :title="props.title"
         /> 
 
@@ -147,24 +153,15 @@ watch(
                                             <tr>
                                                 <th scope="col" class="tbl-head">
                                                 No
-                                                </th>
-                                                <th scope="col" class="tbl-head">
-                                                    {{ lang().label.code }}
-                                                </th>
+                                                </th>                                                
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.name }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.group_coa }}
+                                                    {{ lang().label.umur }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.status }}
-                                                </th>
-                                                <th scope="col" class="tbl-head">
-                                                    {{ lang().label.normal_balance }}
-                                                </th>
-                                                <th scope="col" class="tbl-head">
-                                                    {{ lang().label.beginning_balance }}
+                                                    {{ lang().label.metode_penyusutan }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.action }}
@@ -173,28 +170,25 @@ watch(
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                             <tr
-                                            v-for="(coa, index) in coas.data"
+                                            v-for="(groupAsset, index) in groupAssets.data"
                                             :key="index"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700"
                                         >
                                                 <td class="tbl-column"> {{ ++index }}</td>
-                                                <td class="tbl-column"> {{ coa.code }}</td>
-                                                <td class="tbl-column"> {{ coa.name }}</td>
-                                                <td class="tbl-column"> {{ coa.group_coa.name }}</td>
-                                                <td class="tbl-column"> {{ coa.status }}</td>
-                                                <td class="tbl-column"> {{ coa.normal_balance }}</td>
-                                                <td class="tbl-column"> {{ coa.is_saldo_awal ? 'Ya' : 'Tidak' }}</td>
+                                                <td class="tbl-column"> {{ groupAsset.name }}</td>
+                                                <td class="tbl-column"> {{ groupAsset.umur }}</td>
+                                                <td class="tbl-column"> {{ groupAsset.metode_penyusutan }}</td>
                                                 <td class="p-4 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
-                                                                    (data.coa = coa)
+                                                                    (data.groupAsset = groupAsset)
                                                             " type="button" class="btn-primary">
                                                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
                                                         {{ lang().tooltip.edit }}
                                                     </button>
                                                     <button @click="
                                                                 (data.deleteOpen = true),
-                                                                    (data.coa = coa)
+                                                                    (data.groupAsset = groupAsset)
                                                             " type="button" class="btn-danger">
                                                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                                                         {{ lang().tooltip.delete }}
@@ -208,7 +202,7 @@ watch(
                         </div>
 
                         <div class="flex justify-between items-center p-2 border-t border-slate-200 dark:border-slate-700">
-                            <Pagination :links="props.coas" :filters="data.params" />
+                            <Pagination :links="props.groupAssets" :filters="data.params" />
                         </div>
                     </div>                   
                 </div>

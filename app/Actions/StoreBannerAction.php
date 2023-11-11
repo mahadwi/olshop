@@ -20,8 +20,6 @@ class StoreBannerAction
     {
         return DB::transaction(function () {
 
-           
-               
             $banner = new Banner(collect($this->attributes)->except('image')->all());            
             $banner->save();
 
