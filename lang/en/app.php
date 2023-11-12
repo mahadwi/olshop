@@ -101,6 +101,7 @@ return [
         'coa_akumulasi' => 'COA Akumulasi',
         'coa_depresiasi' => 'COA Depresiasi',
         'umur' => 'Umur',
+        'asset' => 'Asset',
     ],
     'button' => [
         'login' => 'Login',

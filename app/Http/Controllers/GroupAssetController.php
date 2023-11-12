@@ -50,7 +50,6 @@ class GroupAssetController extends Controller
 
     public function store(GroupAssetStoreRequest $request)
     {
-
         try {
 
             $groupAsset = new GroupAsset($request->all());

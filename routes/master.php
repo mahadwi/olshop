@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoaController;
@@ -68,5 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/member', MemberController::class)->except('create', 'show', 'edit');
 
     Route::resource('/group-asset', GroupAssetController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/asset', AssetController::class)->except('create', 'show', 'edit');
 
 });
