@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\ProductApiRequest;
 use App\Repositories\ProductRepository;
 use App\Transformers\API\ProductTransformer;
 use Illuminate\Http\Request;
 
 class ProductApiController extends Controller
 {
-    public function index(Request $request)
+    public function index(ProductApiRequest $request)
     {
         $productSource = (new ProductRepository)->getProductApi($request->all());
         if (isset($request->page)) {

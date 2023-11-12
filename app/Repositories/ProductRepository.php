@@ -43,16 +43,17 @@ class ProductRepository extends AbstractRepository
 
     public function getProductApi(array $params = [])
     {
+
         $query = $this->getModel()        
             ->when(isset($params['search']), function ($query) use ($params) {
                 $query->where('name', 'ilike', "%{$params['search']}%");
             })
             ->where('is_active', true)            
             ->when(isset($params['brand_id']), function ($query) use ($params) {
-                $query->where('brand_id', $params['brand_id']);
+                $query->whereIn('brand_id', $params['brand_id']);
             })
             ->when(isset($params['category_id']), function ($query) use ($params) {
-                $query->where('product_category_id', $params['category_id']);
+                $query->whereIn('product_category_id', $params['category_id']);
             })
             ->when(isset($params['color_id']), function ($query) use ($params) {
                 $query->where('color_id', $params['color_id']);
