@@ -10,7 +10,7 @@ class ColorApiController extends Controller
 {
     public function index()
     {
-        $data = Color::select('id', 'name')->OrderBy('name', 'asc')->get();
+        $data = Color::select('id', 'name', 'hex_code')->OrderBy('name', 'asc')->get();
 
         return $this->apiSuccess($data);
     }

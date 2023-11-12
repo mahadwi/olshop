@@ -8,6 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
+import LvColorpicker from 'lightvue/color-picker';
 
 const props = defineProps({
     show: Boolean,
@@ -19,6 +20,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
     name: "",
+	hex_code: ""
 });
 
 const update = () => {
@@ -37,6 +39,7 @@ watchEffect(() => {
     if (props.show) {
         form.errors = {};
         form.name = props.color?.name;
+        form.hex_code = props.color?.hex_code;
         form.errors = {};
     }
 });
@@ -66,6 +69,11 @@ watchEffect(() => {
                             :error="form.errors.name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div>
+                        <InputLabel for="hex_code" :value="lang().label.hex_code" />
+                        <LvColorpicker v-model="form.hex_code" hidePalette />
+                        <InputError class="mt-2" :message="form.errors.hex_code" />
                     </div>
                 </div>
                 <div class="flex justify-end">

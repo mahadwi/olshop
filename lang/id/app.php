@@ -103,6 +103,7 @@ return [
         'coa_depresiasi' => 'COA Depresiasi',
         'umur' => 'Umur',
         'asset' => 'Asset',
+        'hex_code' => 'Kode Hexa',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -20,6 +20,9 @@ class ColorController extends Controller
         if ($request->has(['field', 'order'])) {
             $colors->orderBy($request->field, $request->order);
         }
+
+        $colors->orderBy('id');
+
         $perPage = $request->has('perPage') ? $request->perPage : 10;
        
         return Inertia::render('Color/Index', [
@@ -37,9 +40,10 @@ class ColorController extends Controller
     public function store(ColorStoreRequest $request)
     {
         try {
-            $color = Color::create([
-                'name' => $request->name,
-            ]);
+
+            $color = new Color($request->all());
+            $color->save();
+            
             return back()->with('success', __('app.label.created_successfully', ['name' => $color->name]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.created_error', ['name' => __('app.label.color')]) . $th->getMessage());
@@ -49,10 +53,8 @@ class ColorController extends Controller
     public function update(ColorUpdateRequest $request, Color $color)
     {
         try {
-            $color->update([
-                'name'      => $request->name,
-            ]);
-
+            
+            $color->fill($request->all())->save();
             return back()->with('success', __('app.label.updated_successfully', ['name' => $color->name]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.updated_error', ['name' => $color->name]) . $th->getMessage());

@@ -23,6 +23,7 @@ class ColorUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:colors,name,' . $this->color->id,
+            'hex_code' => 'required|string',
         ];
     }
 }
