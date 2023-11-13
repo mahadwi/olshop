@@ -50,6 +50,7 @@ class ProductTransformer extends TransformerAbstract
             'brand'         => $product->brand->name,
             'stock'         => $product->stock,
             'sale_price'    => $product->sale_price,
+            'condition'     => $product->condition,
             'images'        => $this->images($product)        
         ];
     }
