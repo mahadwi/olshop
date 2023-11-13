@@ -51,7 +51,9 @@ class ProductTransformer extends TransformerAbstract
             'stock'         => $product->stock,
             'sale_price'    => $product->sale_price,
             'condition'     => $product->condition,
-            'images'        => $this->images($product)        
+            'is_wishlist'   => false,
+            'is_new_arrival'=> false,
+            'images'        => $this->images($product),        
         ];
     }
 
