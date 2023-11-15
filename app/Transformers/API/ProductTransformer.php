@@ -3,6 +3,7 @@
 namespace App\Transformers\API;
 
 use App\Models\Product;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class ProductTransformer extends TransformerAbstract
@@ -52,7 +53,8 @@ class ProductTransformer extends TransformerAbstract
             'sale_price'    => $product->sale_price,
             'condition'     => $product->condition,
             'is_wishlist'   => false,
-            'is_new_arrival'=> false,
+            'is_new_arrival'=> $product->entry_date->diffInMonths(Carbon::now()) > 0 ? false : true,
+            'entry_date'    => $product->entry_date,
             'images'        => $this->images($product),        
         ];
     }
