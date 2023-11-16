@@ -103,6 +103,7 @@ return [
         'umur' => 'Umur',
         'asset' => 'Asset',
         'hex_code' => 'Hex Code',
+        'about_us' => 'About Us',
     ],
     'button' => [
         'login' => 'Login',

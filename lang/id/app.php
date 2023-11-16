@@ -104,6 +104,7 @@ return [
         'umur' => 'Umur',
         'asset' => 'Asset',
         'hex_code' => 'Kode Hexa',
+        'about_us' => 'Tentang Kami',
     ],
     'button' => [
         'login' => 'Masuk',

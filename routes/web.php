@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CoaController;
@@ -47,5 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::resource('/about', AboutUsController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('about/{about}/update', [AboutUsController::class, 'update'])->name('about.update');
 
 });
