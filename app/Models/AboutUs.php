@@ -12,6 +12,8 @@ class AboutUs extends Model
 
     protected $table = 'about_us';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $fillable = [
         'title',
         'description',
