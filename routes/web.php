@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GroupCoaController;
 use Inertia\Inertia;
@@ -50,5 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/about', AboutUsController::class)->except('create', 'show', 'edit', 'update');
     Route::post('about/{about}/update', [AboutUsController::class, 'update'])->name('about.update');
+
+    Route::resource('/contact', ContactController::class)->except('create', 'show', 'edit');
 
 });

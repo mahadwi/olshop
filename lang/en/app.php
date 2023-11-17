@@ -104,6 +104,13 @@ return [
         'asset' => 'Asset',
         'hex_code' => 'Hex Code',
         'about_us' => 'About Us',
+        'contact' => 'Contact',
+        'telp' => 'Telephone',
+        'maps' => 'Maps',
+        'link' => 'Link',
+        'facebook' => 'Facebook',
+        'instagram' => 'Instagram',
+        'tiktok' => 'Tiktok',
     ],
     'button' => [
         'login' => 'Login',

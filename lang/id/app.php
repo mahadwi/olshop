@@ -105,6 +105,13 @@ return [
         'asset' => 'Asset',
         'hex_code' => 'Kode Hexa',
         'about_us' => 'Tentang Kami',
+        'contact' => 'Kontak',
+        'telp' => 'Telepon',
+        'maps' => 'Maps',
+        'link' => 'Link',
+        'facebook' => 'Facebook',
+        'instagram' => 'Instagram',
+        'tiktok' => 'Tiktok',
     ],
     'button' => [
         'login' => 'Masuk',
