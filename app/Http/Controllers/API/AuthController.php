@@ -2,50 +2,50 @@
 
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Constants\Role;
 use Illuminate\Http\Request;
+use App\Actions\API\StoreOtpAction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use App\Transformers\API\UserTransformer;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\API\RegisterRequest;
 use App\Actions\API\RegisterCustomerAction;
 use App\Http\Requests\API\AuthenticateRequest;
+use App\Notifications\CustomerOtpNotification;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
-    {
-        $user = (new RegisterCustomerAction($request->all()))->handle();        
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return $this->apiSuccess([
-            'user' => $user,
-            'token' => $token,
-        ]);
-    }
-
+    
     public function login(AuthenticateRequest $request)
     {
 
-        if (! Auth::attempt($request->only('email', 'password'))) {
+        $user = $this->validateUser($request->validated());
 
-            return $this->apiError([], [], 'The provided credentials do not match our records.', 401);
+        if (!($user instanceof User)) {
+            return $this->apiError([], $user);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        if (Auth::attempt($request->validated(), false)) {
+            return $this->apiSuccess([
+                'user' => fractal($user, new UserTransformer),
+                'token' => $user->createToken('auth_token')->plainTextToken,
+            ]);
+        }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        return $this->apiError([], 'Invalid login credentials.');
 
-        return $this->apiSuccess([
-            'user' => $user,
-            'token' => $token,
-        ],[], 'Login Sukses');
-        
+    }
+
+    public function user(Request $request)
+    {
+        $user = $request->user();
+        return $this->apiSuccess(fractal($user, new UserTransformer));
     }
 
     public function redirectToProvider($provider)
@@ -76,7 +76,7 @@ class AuthController extends Controller
                 'email' => $user->getEmail()
             ],
             [
-                'email_verified_at' => now(),
+                'email_verified_at' => Carbon::now(),
                 'name' => $user->getName(),
                 'google_id' => $user->getId(),
                 'password'  => bcrypt('password')
@@ -98,7 +98,7 @@ class AuthController extends Controller
     {
         Auth::user()->tokens()->delete();
 
-        return $this->apiSuccess([],[], 'logout Sukses');
+        return $this->apiSuccess();
     }
 
     protected function validateProvider($provider)
@@ -106,5 +106,24 @@ class AuthController extends Controller
         if (!in_array($provider, ['facebook', 'google'])) {
             return $this->apiError([], [], 'Please login using facebook or google.', 422);
         }
+    }
+
+    private function validateUser($request)
+    {
+        $user = User::where('email', $request['email'])->first();
+
+        if (is_null($user)) {
+            return 'email not registered';
+        }
+
+        if (!$user->hasRole([Role::CUSTOMER])) {
+            return 'something wrong';
+        }
+
+        if (is_null($user->email_verified_at)) {
+            return 'unverified account';
+        }
+
+        return $user;
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Constants\Role as RoleConstant;
 
 class UserController extends Controller
 {
@@ -26,9 +27,12 @@ class UserController extends Controller
             $users->orderBy($request->field, $request->order);
         }
         $perPage = $request->has('perPage') ? $request->perPage : 10;
-        $role = auth()->user()->roles->pluck('name')[0];
         $roles = Role::get();
-        
+
+        $users->whereHas('roles', function ($query) {
+            $query->whereNotIn('name', [RoleConstant::CUSTOMER, RoleConstant::VENDOR]);
+        });
+
         return Inertia::render('User/Index', [
             'title'         => 'Data User',
             'filters'       => $request->all(['search', 'field', 'order']),

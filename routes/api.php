@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\ProductApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
+use App\Http\Controllers\API\RegisterApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,18 +24,22 @@ use App\Http\Controllers\API\ProductCategoryApiController;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [RegisterApiController::class, 'register']);
+Route::post('verify-email', [RegisterApiController::class, 'verifyEmail'])->name('verify-email');
+Route::post('request-verify-email', [RegisterApiController::class, 'requestVerifyEmail'])->name('request-verify-email');
+
 Route::post('/login', [AuthController::class, 'login']);
+// Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
+// Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check-otp');
+// Route::post('request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
 
 Route::get('login/{provider}', [AuthController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('user', [AuthController::class, 'user'])->name('user');
     Route::post('/logout', [AuthController::class, 'logout']);    
 
 });
