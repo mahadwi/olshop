@@ -45,7 +45,7 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         $user = $request->user();
-        return $this->apiSuccess(fractal($user, new UserTransformer));
+        return $this->apiSuccess(fractal($user, new UserTransformer)->parseIncludes(['addresses']));
     }
 
     public function redirectToProvider($provider)

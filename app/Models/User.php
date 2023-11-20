@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         $this->attributes['email'] = strtolower($value);
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

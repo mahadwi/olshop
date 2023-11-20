@@ -2,10 +2,10 @@
 
 namespace App\Transformers\API;
 
-use App\Models\User;
+use App\Models\Subdistrict;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class SubdistrictTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -22,7 +22,7 @@ class UserTransformer extends TransformerAbstract
      * @var array
      */
     protected array $availableIncludes = [
-        'addresses'
+        //
     ];
     
     /**
@@ -30,19 +30,17 @@ class UserTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(User $user)
+    public function transform(Subdistrict $subdistrict)
     {
         return [
-            "id" => $user->id,
-            "name" => $user->name,
-            "phone" => $user->no_hp,
-            "email" => $user->email,
-            "role" => $user->roles[0]->name,
+            'id'        => $subdistrict->id,
+            'name'      => $subdistrict->name,                 
+            'fullname'  => $this->getFullname($subdistrict),                 
         ];
     }
 
-    public function includeAddresses($user)
+    public function getFullname($subdistrict)
     {
-        return $this->collection($user->addresses, new AddressTransformer);
+        return $subdistrict->city->province->name.', '.$subdistrict->city->name.', '.$subdistrict->name;
     }
 }

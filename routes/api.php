@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\API\AboutUsApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\BannerApiController;
 use App\Http\Controllers\API\BrandApiController;
 use App\Http\Controllers\API\ColorApiController;
+use App\Http\Controllers\API\BannerApiController;
+use App\Http\Controllers\API\AboutUsApiController;
+use App\Http\Controllers\API\AddressApiController;
 use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\ProductApiController;
-use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\RegisterApiController;
+use App\Http\Controllers\API\KecamatanApiController;
+use App\Http\Controllers\API\ProductCategoryApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user'])->name('user');
     Route::post('/logout', [AuthController::class, 'logout']);    
 
+    Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
+
+
 });
 
 Route::resource('product', ProductApiController::class)->only('index', 'show');
@@ -54,4 +59,6 @@ Route::get('gallery', [GalleryApiController::class, 'index']);
 
 Route::get('about-us', [AboutUsApiController::class, 'index']);
 Route::get('contact', [ContactApiController::class, 'index']);
+
+Route::get('kecamatan', [KecamatanApiController::class, 'index']);
 

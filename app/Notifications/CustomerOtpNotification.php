@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CustomerOtpNotification extends Notification
+class CustomerOtpNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -37,7 +37,7 @@ class CustomerOtpNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Translia OTP')
+            ->subject('Register OTP')
             ->line("Please keep this code secret: {$this->user->otp}")
             ->line('The OTP will expired at ' . $this->user->otp_expired_at);
     }
