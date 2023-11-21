@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,        
+        Dipantry\Rajaongkir\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +185,23 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+         'Rajaongkir' => Dipantry\Rajaongkir\Facade::class,
     ])->toArray(),
+
+    //custom configuration
+    'default' => [
+        'msg' => [
+            'error' => 'Something wrong. Please contact developers',
+            'error_title' => 'Sorry.',
+            'success_title' => 'yay!.',
+        ],
+        'datetime_human' => 'd-m-Y H:i',
+        'date_human' => 'd-m-Y',
+        // 'xendit_secret_key' => env('XENDIT_SECRET_KEY', ''),
+        // 'xendit_public_key' => env('XENDIT_PUBLIC_KEY', ''),
+        // 'xendit_callback_token' => env('XENDIT_CALLBACK_TOKEN', ''),
+        'otp_lifetime' => env('OTP_LIFETIME', 180), //in second
+        'otp_next_try' => env('OTP_NEXT_TRY', 60), //in second
+    ],
 
 ];

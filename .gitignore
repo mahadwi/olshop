@@ -1,9 +1,11 @@
+package-lock.json
 /.phpunit.cache
 /node_modules
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
+/public/image
 /vendor
 .env
 .env.backup
