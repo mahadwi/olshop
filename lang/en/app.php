@@ -114,6 +114,8 @@ return [
         'detail' => 'Detail',
         'event' => 'Event',
         'shop' => 'Shop',
+        'return_police' => 'Return Police',
+        'cp' => 'CP'
     ],
     'button' => [
         'login' => 'Login',
@@ -133,7 +135,7 @@ return [
         'prev' => 'Prev',
         'next' => 'Next',
         'delete_account' => 'Delete Account',
-        'no' => 'No',        
+        'no' => 'No',
     ],
     'placeholder' => [
         'search' => 'Search...',

@@ -19,6 +19,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ReturnPoliceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ use App\Http\Controllers\VendorController;
 */
 
 Route::get('/setLang/{locale}', function ($locale) {
-    Session::put('locale', $locale); 
+    Session::put('locale', $locale);
     return back();
 })->name('setlang');
 
@@ -53,5 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('about/{about}/update', [AboutUsController::class, 'update'])->name('about.update');
 
     Route::resource('/contact', ContactController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/returnPolice', ReturnPoliceController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('returnPolice/{returnPolice}/update', [ReturnPoliceController::class, 'update'])->name('returnPolice.update');
 
 });

@@ -60,7 +60,7 @@ return [
         'product_category' => 'Kategori Barang',
         'active' => 'Aktif',
         'not_active' => 'Tidak Aktif',
-        'vendor' => 'Vendor',        
+        'vendor' => 'Vendor',
         'bank' => 'Nama Bank',
         'bank_account_holder' => 'Nama Penerima',
         'bank_account_number' => 'Nomor Rekening',
@@ -115,6 +115,8 @@ return [
         'detail' => 'Detail',
         'event' => 'Event',
         'shop' => 'Shop',
+        'return_police' => 'Return Police',
+        'cp' => 'CP'
     ],
     'button' => [
         'login' => 'Masuk',
