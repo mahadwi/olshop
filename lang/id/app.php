@@ -119,6 +119,10 @@ return [
         'cp' => 'CP',
         'subdistrict' => 'Subdistrict',
         'primary' => 'Alamat Utama',
+        'weight' => 'Berat (Kg)',
+        'height' => 'Tinggi',
+        'length'  => 'Panjang',
+        'width' => 'Lebar',
     ],
     'button' => [
         'login' => 'Masuk',

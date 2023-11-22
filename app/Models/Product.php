@@ -28,7 +28,11 @@ class Product extends Model
         'commission',
         'display_on_homepage',
         'sale_price',
-        'color_id'
+        'color_id',
+        'weight',
+        'length',
+        'width',
+        'height'
     ];
 
     protected $appends = ['status'];

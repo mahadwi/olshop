@@ -38,6 +38,10 @@ class ProductUpdateRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',      
             'color_id' => 'required',
             'condition' => 'required',
+            'weight' => 'required|numeric',
+            'length' => 'required|numeric',
+            'width' => 'required|numeric',
+            'height' => 'required|numeric',
         ]; 
     }
     
