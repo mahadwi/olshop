@@ -5,7 +5,7 @@ import Modal from "@/Components/Modal.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Input, Textarea, FileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
@@ -58,16 +58,16 @@ watchEffect(() => {
                 </h2>
                 <div class="my-6 space-y-4">
                     
-                    <Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                    <fwb-input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
                     
                 </div>
                 <div class="my-6 space-y-4">
-                    <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                    <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
                 </div>
                 <div class="my-6 space-y-4">
-                    <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+                    <fwb-file-input accept="image/*" v-model="form.image" :label="lang().label.image" />
 
                     <InputError class="mt-2" :message="form.errors.image" />
                 </div>

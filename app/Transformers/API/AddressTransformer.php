@@ -39,12 +39,8 @@ class AddressTransformer extends TransformerAbstract
             'phone'         => $address->phone,
             'tag'           => $address->tag,
             'is_primary'    => $address->is_primary,
-            'full_address'  => $this->getFullAddress($address),
+            'full_address'  => $address->full_address,
         ];
     }
-
-    public function getFullAddress($address)
-    {
-        return $address->subdistrict->city->province->name.', '.$address->subdistrict->city->name.', '.$address->subdistrict->name;
-    }
+  
 }

@@ -4,7 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Select, Input, Textarea, FileInput } from 'flowbite-vue'
+import { FwbSelect, FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 import FilePondInput from '@/Components/FilePondInput.vue'
@@ -61,7 +61,7 @@ const bannerSection = Object.values(props.bannerSection).map((data) => ({
                     {{ lang().label.add }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    <Select
+                    <FwbSelect
                         v-model="form.section"
                         :options="bannerSection"
                         :label="lang().label.section"
@@ -71,12 +71,12 @@ const bannerSection = Object.values(props.bannerSection).map((data) => ({
                 </div>
                 <div class="my-6 space-y-4">
                     
-                    <Input v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
+                    <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                     <InputError class="mt-2" :message="form.errors.title" />
                     
                 </div>
                 <div class="my-6 space-y-4">
-                    <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                    <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
                 </div>
                 <div class="my-6 space-y-4">

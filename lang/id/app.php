@@ -112,6 +112,9 @@ return [
         'facebook' => 'Facebook',
         'instagram' => 'Instagram',
         'tiktok' => 'Tiktok',
+        'detail' => 'Detail',
+        'event' => 'Event',
+        'shop' => 'Shop',
     ],
     'button' => [
         'login' => 'Masuk',

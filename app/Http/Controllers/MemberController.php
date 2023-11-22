@@ -6,12 +6,13 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Constants\Role;
 use Illuminate\Http\Request;
+use App\Transformers\API\UserTransformer;
 
 class MemberController extends Controller
 {
     public function index(Request $request)
     {
-        $members = User::query();
+        $members = User::with('addresses.subdistrict.city.province');
         if ($request->has('search')) {
             $members->where('name', 'ILIKE', "%" . $request->search . "%");
             $members->orWhere('email', 'ILIKE', "%" . $request->search . "%");
@@ -24,12 +25,26 @@ class MemberController extends Controller
         $members->role(Role::CUSTOMER);
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
-        
+
         return Inertia::render('Member/Index', [
             'title'         => 'Data Member',
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'members'         => $members->paginate($perPage),
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.member'), 'href' => route('member.index')]
+            ],
+        ]);
+    }
+
+    public function show(User $member)
+    {
+        $dataMember = fractal($member, new UserTransformer)->parseIncludes(['addresses'])->toArray();
+
+        return Inertia::render('Member/Show', [
+            'title'         => 'Data Member',
+            'member'         => $dataMember,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.member'), 'href' => route('member.index')]

@@ -8,7 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Input, Textarea, FileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
@@ -192,7 +192,7 @@ const type = Object.values(props.type).map((data) => ({
                         />
                     </div>
                     <div>
-                        <Textarea rows="4" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
+                        <FwbTextarea rows="4" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
                         <InputError class="mt-2" :message="form.errors.address" />
                     </div>
                 </div>

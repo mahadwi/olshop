@@ -7,7 +7,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Select, Input } from 'flowbite-vue'
+import { FwbSelect, FwbInput } from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
@@ -59,18 +59,18 @@ watchEffect(() => {
                 </h2>
                 <div class="my-6 space-y-4">
                     
-                    <Input v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
+                    <FwbInput v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
                     <InputError class="mt-2" :message="form.errors.code" />
                     
                 </div>
                 <div class="my-6 space-y-4">
                     
-                    <Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                    <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
                     
                 </div>
                 <div class="my-6 space-y-4">
-                    <Select
+                    <FwbSelect
                         v-model="form.normal_balance"
                         :options="normalBalance"
                         :label="lang().label.normal_balance"

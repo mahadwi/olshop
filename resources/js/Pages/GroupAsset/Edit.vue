@@ -8,7 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Input } from "flowbite-vue";
+import { FwbInput } from "flowbite-vue";
 import Multiselect from "@vueform/multiselect";
 
 const bahasa = usePage().props.language.original;
@@ -127,7 +127,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.coa_depresiasi_id" />
           </div>
           <div>
-            <Input type="number"
+            <FwbInput type="number"
               v-model="form.umur"
               :placeholder="lang().label.umur"
               :label="lang().label.umur"

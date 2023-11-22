@@ -4,7 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Input, Textarea, FileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 
@@ -53,22 +53,22 @@ watchEffect(() => {
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>                        
-                        <Input v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
+                        <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                         <InputError class="mt-2" :message="form.errors.title" />
                     </div>
                                     
                     <div>
-                        <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                        <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
 
                     <div>
-                        <Textarea rows="2" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
+                        <FwbTextarea rows="2" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
                         <InputError class="mt-2" :message="form.errors.address" />
                     </div>
 
                     <div>
-                        <FileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+                        <fwb-file-input accept="image/*" v-model="form.image" :label="lang().label.image" />
 
                         <InputError class="mt-2" :message="form.errors.image" />
                     </div>

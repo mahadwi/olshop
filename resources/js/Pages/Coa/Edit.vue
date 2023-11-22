@@ -8,7 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Input, Select } from 'flowbite-vue'
+import { FwbInput, FwbSelect } from 'flowbite-vue'
 
 const bahasa = usePage().props.language.original;
 
@@ -86,7 +86,7 @@ const groupCoa = props.groupCoa?.map((data) => ({
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
-                        <Input v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
+                        <FwbInput v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
                         <InputError class="mt-2" :message="form.errors.code" />
                     </div>
                     
@@ -141,7 +141,7 @@ const groupCoa = props.groupCoa?.map((data) => ({
                         <InputError class="mt-2" :message="form.errors.status" />
                     </div>
                     <div>
-                        <Select
+                        <FwbSelect
                             v-model="form.is_saldo_awal"
                             :options="saldoAwal"
                             :label="lang().label.beginning_balance"

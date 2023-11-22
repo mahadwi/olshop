@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('image/{image}/', [ImageController::class, 'getImage'])->name('image.get-image');
     Route::post('delete-image', [ImageController::class, 'deleteImage'])->name('image.delete-image');
 
-    Route::resource('/member', MemberController::class)->except('create', 'show', 'edit');
+    Route::resource('/member', MemberController::class)->except('create', 'edit');
 
     Route::resource('/group-asset', GroupAssetController::class)->except('create', 'show', 'edit');
 

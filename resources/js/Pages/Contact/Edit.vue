@@ -6,7 +6,7 @@ import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Input } from "flowbite-vue";
+import { FwbInput, FwbFileInput } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 
@@ -77,7 +77,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.telp" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.maps"
               :placeholder="lang().label.maps"
               :label="lang().label.maps"
@@ -85,7 +85,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.maps" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.link"
               :placeholder="lang().label.link"
               :label="lang().label.link"
@@ -93,7 +93,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.link" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.email"
               :placeholder="lang().label.email"
               :label="lang().label.email"
@@ -101,7 +101,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.email" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.facebook"
               :placeholder="lang().label.facebook"
               :label="lang().label.facebook"
@@ -109,7 +109,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.facebook" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.instagram"
               :placeholder="lang().label.instagram"
               :label="lang().label.instagram"
@@ -117,7 +117,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.instagram" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.tiktok"
               :placeholder="lang().label.tiktok"
               :label="lang().label.tiktok"

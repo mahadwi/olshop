@@ -9,6 +9,8 @@ class Address extends Model
 {
     use HasFactory;
 
+    protected $appends = ['full_address'];
+    
     protected $fillable = [
         'name',
         'phone',
@@ -27,5 +29,10 @@ class Address extends Model
     public function subdistrict()
     {
         return $this->belongsTo(Subdistrict::class);
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return $this->subdistrict->city->province->name.', '.$this->subdistrict->city->name.', '.$this->subdistrict->name;
     }
 }

@@ -12,7 +12,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
-import { Textarea, FileInput, Input } from "flowbite-vue";
+import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
 import FilePondInput from '@/Components/FilePondInput.vue'
 
 
@@ -158,7 +158,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.brand_id" />
               </div>
               <div class="col-span-6">
-                <Textarea
+                <FwbTextarea
                   rows="4"
                   :placeholder="lang().label.description"
                   v-model="form.description"
@@ -264,7 +264,7 @@ const changeCommission = () => {
                 />
               </div>
               <div class="col-span-6 sm:col-span-3">
-                <Input
+                <FwbInput
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_price"
                   :placeholder="lang().label.sale_price"
@@ -273,7 +273,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.sale_price" />
               </div>
               <div class="col-span-6 sm:col-span-3">
-                <Input
+                <FwbInput
                   :disabled="form.commission_type == 'Selling'"
                   v-model="form.commission"
                   :placeholder="lang().label.commission"
@@ -324,7 +324,7 @@ const changeCommission = () => {
               </div>
 
               <div class="col-span-6">
-                <Textarea
+                <FwbTextarea
                   rows="4"
                   :placeholder="lang().label.history"
                   v-model="form.history"

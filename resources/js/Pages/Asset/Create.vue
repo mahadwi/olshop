@@ -7,7 +7,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect, onMounted, reactive } from "vue";
-import { Select, Input } from "flowbite-vue";
+import { FwbSelect, FwbInput } from "flowbite-vue";
 import Multiselect from "@vueform/multiselect";
 
 const props = defineProps({
@@ -69,7 +69,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.group_asset_id" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.code"
               :placeholder="lang().label.code"
               :label="lang().label.code"
@@ -77,7 +77,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.code" />
           </div>
           <div>
-            <Input
+            <FwbInput
               v-model="form.name"
               :placeholder="lang().placeholder.name"
               :label="lang().placeholder.name"

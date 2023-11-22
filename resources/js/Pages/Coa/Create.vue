@@ -7,7 +7,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { Select, Input } from 'flowbite-vue'
+import { FwbSelect, FwbInput } from 'flowbite-vue'
 
 const props = defineProps({
     show: Boolean,
@@ -76,18 +76,18 @@ watchEffect(() => {
                 <div class="my-6 space-y-4">
                     
                     <div>
-                        <Input v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
+                        <FwbInput v-model="form.code" :placeholder="lang().label.code" :label="lang().label.code" />
                         <InputError class="mt-2" :message="form.errors.code" />
                     </div>
                     
                     <div>
                         
-                        <Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                        <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                         
                     </div>
                     <div>
-                        <Select
+                        <FwbSelect
                             v-model="form.group_coa_id"
                             :options="groupCoa"
                             :label="lang().label.group_coa"
@@ -97,7 +97,7 @@ watchEffect(() => {
 
                     </div>
                     <div>
-                        <Select
+                        <FwbSelect
                             v-model="form.normal_balance"
                             :options="normalBalance"
                             :label="lang().label.normal_balance"
@@ -108,7 +108,7 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <Select
+                        <FwbSelect
                             v-model="form.status"
                             :options="status"
                             :label="lang().label.status"
@@ -119,7 +119,7 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <Select
+                        <FwbSelect
                             v-model="form.is_saldo_awal"
                             :options="saldoAwal"
                             :label="lang().label.beginning_balance"

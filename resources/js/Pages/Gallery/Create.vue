@@ -4,7 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Select, Input, Textarea, FileInput } from "flowbite-vue";
+import { FwbSelect, FwbInput, FwbTextarea, FwbFileInput } from "flowbite-vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
@@ -66,7 +66,7 @@ product = [{label : 'Select...', value: ''}, ...product];
           {{ lang().label.add }} {{ props.title }}
         </h2>
         <div class="my-6 space-y-4">
-          <Select
+          <FwbSelect
             v-model="form.section"
             :options="gallerySection"
             :label="lang().label.section"
@@ -75,7 +75,7 @@ product = [{label : 'Select...', value: ''}, ...product];
           <InputError class="mt-2" :message="form.errors.section" />
         </div>
         <div class="my-6 space-y-4">
-          <Input
+          <FwbInput
             v-model="form.title"
             :placeholder="lang().label.title"
             :label="lang().label.title"

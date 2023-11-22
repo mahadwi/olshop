@@ -23,7 +23,7 @@ import 'filepond/dist/filepond.min.css';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
 
 import { 
-    Textarea, FileInput, Input
+    FwbTextarea, FwbFileInput, FwbInput
 } from 'flowbite-vue'
 
 const props = defineProps({
@@ -211,7 +211,7 @@ const changeCommission = () => {
                   <form @submit.prevent="update">
                       <div class="grid grid-cols-6 gap-6">
                           <div class="col-span-6 sm:col-span-3">                           
-                            	<Input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                            	<FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                               <InputError class="mt-2" :message="form.errors.name" />
                           </div>
                           <div class="col-span-6 sm:col-span-3">
@@ -227,7 +227,7 @@ const changeCommission = () => {
                           </div>
                           <div class="col-span-6">
   
-                              <Textarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                              <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                               <InputError class="mt-2" :message="form.errors.description" />
   
                           </div>
@@ -267,12 +267,12 @@ const changeCommission = () => {
   
                           <div class="col-span-6 sm:col-span-3">
 
-					           					<Input v-model="form.stock" :placeholder="lang().label.stock" :label="lang().label.stock" />
+					           					<FwbInput v-model="form.stock" :placeholder="lang().label.stock" :label="lang().label.stock" />
                               <InputError class="mt-2" :message="form.errors.stock" />
                           </div>
   
                           <div class="col-span-6 sm:col-span-3">
-															<Input v-model="form.price" :placeholder="lang().label.price" :label="lang().label.price" />
+															<FwbInput v-model="form.price" :placeholder="lang().label.price" :label="lang().label.price" />
                               <InputError class="mt-2" :message="form.errors.price" />
                           </div>
 													<div class="col-span-6 sm:col-span-3">
@@ -288,11 +288,11 @@ const changeCommission = () => {
                               <InputError class="mt-2" :message="form.errors.commission_type" />
                           </div>
 													<div class="col-span-6 sm:col-span-3">
-															<Input :disabled="form.commission_type == 'Percent'" v-model="form.sale_price" :placeholder="lang().label.sale_price" :label="lang().label.sale_price" />
+															<FwbInput :disabled="form.commission_type == 'Percent'" v-model="form.sale_price" :placeholder="lang().label.sale_price" :label="lang().label.sale_price" />
                               <InputError class="mt-2" :message="form.errors.sale_price" />
                           </div>
 													<div class="col-span-6 sm:col-span-3">
-															<Input :disabled="form.commission_type == 'Selling'" v-model="form.commission" :placeholder="lang().label.commission" :label="lang().label.commission" />
+															<FwbInput :disabled="form.commission_type == 'Selling'" v-model="form.commission" :placeholder="lang().label.commission" :label="lang().label.commission" />
                               <InputError class="mt-2" :message="form.errors.commission" />
                           </div>
 													<div class="col-span-6 sm:col-span-3">
@@ -330,7 +330,7 @@ const changeCommission = () => {
 													</div>
                           <div class="col-span-6">
   
-                              <Textarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
+                              <FwbTextarea rows="4" :placeholder="lang().label.history" v-model="form.history" :label="lang().label.history" />
                               <InputError class="mt-2" :message="form.errors.history" />
                               
                           </div>
