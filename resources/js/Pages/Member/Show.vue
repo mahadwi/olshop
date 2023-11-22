@@ -14,7 +14,14 @@ import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 
 import { 
-	FwbInput,
+  FwbInput, FwbTab, FwbTabs,
+  FwbA,
+  FwbTable,
+  FwbTableBody,
+  FwbTableCell,
+  FwbTableHead,
+  FwbTableHeadCell,
+  FwbTableRow,
 } from "flowbite-vue";
 
 const props = defineProps({
@@ -71,30 +78,38 @@ const activeTab = ref("");
             </div>
           </div>
 
-          <!-- <tabs variant="underline" v-model="activeTab" class="p-5">
-            <tab name="address" :title="lang().label.address">
-							<div class="grid grid-cols-12">							
-								<table>
-									<table-head>
-										<table-head-cell>Product name</table-head-cell>
-										<table-head-cell>Color</table-head-cell>
-										<table-head-cell>Category</table-head-cell>
-										<table-head-cell>Price</table-head-cell>
-										<table-head-cell>
-											<span class="sr-only">Edit</span>
-										</table-head-cell>
-									</table-head>
-								</table>
-							</div>
-            </tab>
-            <tab name="shop" :title="lang().label.shop">
-              Donec eleifend dapibus turpis, vitae porta odio dictum sed.
-            </tab>
-            <tab name="event" :title="lang().label.event">
-              Class aptent taciti sociosqu ad litora torquent per conubia
-              nostra, per inceptos himenaeos.
-            </tab>
-          </tabs> -->
+          <fwb-tabs v-model="activeTab" variant="underline" class="p-5">
+            <fwb-tab name="address" :title="lang().label.address">
+              <fwb-table v-if="props.member.addresses.length > 0">
+                <fwb-table-head>
+                  <fwb-table-head-cell>No</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.name }}</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.no_hp }}</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.subdistrict }}</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.address }}</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.primary }}</fwb-table-head-cell>
+                </fwb-table-head>
+                <fwb-table-body>
+                  <fwb-table-row  v-for="(address, index) in member.addresses"
+                        :key="index">
+                    <fwb-table-cell>{{ ++index }}</fwb-table-cell>
+                    <fwb-table-cell>{{ address.name }}</fwb-table-cell>
+                    <fwb-table-cell>{{ address.phone }}</fwb-table-cell>
+                    <fwb-table-cell>{{ address.full_address }}</fwb-table-cell>
+                    <fwb-table-cell>{{ address.address }}</fwb-table-cell>
+                    <fwb-table-cell>{{ address.is_primary ? lang().label.yes : lang().label.no }}</fwb-table-cell>
+                  </fwb-table-row>
+                </fwb-table-body>
+              </fwb-table>
+              <span v-else>No data</span>
+            </fwb-tab>
+            <fwb-tab name="shop" :title="lang().label.shop">
+              <span>No data</span>
+            </fwb-tab>
+            <fwb-tab name="event" :title="lang().label.event">
+              <span>No data</span>
+            </fwb-tab>
+          </fwb-tabs>
         </div>
       </div>
     </div>

@@ -116,7 +116,9 @@ return [
         'event' => 'Event',
         'shop' => 'Shop',
         'return_police' => 'Return Police',
-        'cp' => 'CP'
+        'cp' => 'CP',
+        'subdistrict' => 'Subdistrict',
+        'primary' => 'Alamat Utama',
     ],
     'button' => [
         'login' => 'Masuk',
