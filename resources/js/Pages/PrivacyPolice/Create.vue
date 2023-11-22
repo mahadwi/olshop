@@ -23,7 +23,7 @@ const form = useForm({
 });
 
 const create = () => {
-    form.post(route("return-police.store"), {
+    form.post(route("privacy-police.store"), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");

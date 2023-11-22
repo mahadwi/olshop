@@ -118,6 +118,8 @@ return [
         'cp' => 'CP',
         'subdistrict' => 'Subdistrict',
         'primary' => 'Primary',
+        'privacy_police' => 'Privacy Police',
+        'data_not_found' => 'Data Not Found'
     ],
     'button' => [
         'login' => 'Login',

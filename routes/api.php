@@ -14,6 +14,8 @@ use App\Http\Controllers\API\ProductApiController;
 use App\Http\Controllers\API\RegisterApiController;
 use App\Http\Controllers\API\KecamatanApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
+use App\Http\Controllers\API\ReturnPoliceApiController;
+use App\Http\Controllers\API\PrivacyPoliceApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +44,7 @@ Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderC
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('user', [AuthController::class, 'user'])->name('user');
-    Route::post('/logout', [AuthController::class, 'logout']);    
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
 
@@ -62,3 +64,5 @@ Route::get('contact', [ContactApiController::class, 'index']);
 
 Route::get('kecamatan', [KecamatanApiController::class, 'index']);
 
+Route::get('return-police', [ReturnPoliceApiController::class, 'index']);
+Route::get('privacy-police', [PrivacyPoliceApiController::class, 'index']);

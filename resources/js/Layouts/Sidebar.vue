@@ -323,16 +323,29 @@
                   </Link>
                 </li>
                 <li>
-                  <Link :href="route('returnPolice.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+                  <Link :href="route('return-police.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
 
                   :class="
-                    route().current('returnPolice.*')
+                    route().current('return-police.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
 
                   >
                     {{ lang().label.return_police }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('privacy-police.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('privacy-police.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ lang().label.privacy_police }}
                   </Link>
                 </li>
               </ul>

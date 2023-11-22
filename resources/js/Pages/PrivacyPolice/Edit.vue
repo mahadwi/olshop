@@ -2,15 +2,18 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
+import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
+
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 
 const props = defineProps({
     show: Boolean,
     title: String,
+    privacyPolice: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -22,8 +25,8 @@ const form = useForm({
     image: "",
 });
 
-const create = () => {
-    form.post(route("return-police.store"), {
+const update = () => {
+    form.post(route("privacy-police.update", props.privacyPolice?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -36,20 +39,24 @@ const create = () => {
 
 watchEffect(() => {
     if (props.show) {
+        form.title = props.privacyPolice?.title;
+        form.description = props.privacyPolice?.description;
+        form.cp = props.privacyPolice?.cp;
         form.errors = {};
     }
 });
+
 
 </script>
 
 <template>
     <section class="space-y-6">
         <Modal :show="props.show" @close="emit('close')">
-            <form class="p-6" @submit.prevent="create">
+            <form class="p-6" @submit.prevent="update">
                 <h2
                     class="text-lg font-medium text-slate-900 dark:text-slate-100"
                 >
-                    {{ lang().label.add }} {{ props.title }}
+                    {{ lang().label.edit }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
@@ -59,7 +66,6 @@ watchEffect(() => {
 
                     <div>
                         <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-
                         <InputError class="mt-2" :message="form.errors.image" />
                     </div>
 
@@ -67,7 +73,7 @@ watchEffect(() => {
                         <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
-
+                    
                     <div>
                         <FwbInput v-model="form.cp" :placeholder="lang().label.cp" :label="lang().label.cp" />
                         <InputError class="mt-2" :message="form.errors.cp" />
@@ -81,15 +87,15 @@ watchEffect(() => {
                         {{ lang().button.close }}
                     </SecondaryButton>
                     <PrimaryButton
-                        type="submit"
                         class="ml-3"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
+                        @click="update"
                     >
                         {{
                             form.processing
-                                ? lang().button.add + "..."
-                                : lang().button.add
+                                ? lang().button.save + "..."
+                                : lang().button.save
                         }}
                     </PrimaryButton>
                 </div>

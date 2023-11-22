@@ -32,7 +32,7 @@ class ReturnPoliceController extends Controller
             'returnPolices'         => $returnPolice->paginate($perPage),
             'breadcrumbs'   => [
                 ['label' => 'Setting', 'href' => '#'],
-                ['label' => __('app.label.return_police'), 'href' => route('returnPolice.index')],
+                ['label' => __('app.label.return_police'), 'href' => route('return-police.index')],
             ],
         ]);
     }
@@ -52,7 +52,7 @@ class ReturnPoliceController extends Controller
     {
         try {
 
-            $about = dispatch_sync(new UpdateReturnPoliceAction($returnPolice, $request->all()));
+            $returnPolice = dispatch_sync(new UpdateReturnPoliceAction($returnPolice, $request->all()));
 
             return back()->with('success', __('app.label.updated_successfully', ['name' => $returnPolice->name]));
         } catch (\Throwable $th) {
@@ -64,7 +64,7 @@ class ReturnPoliceController extends Controller
     {
         $returnPolice = ReturnPolice::find($id);
         if(!$returnPolice){
-            return back()->with('error', __('app.label.deleted_error', ['name' => 'Data Tidak Ditemukan']));
+            return back()->with('error', __('app.label.deleted_error', ['name' => __('app.label.data_not_found')]));
         }
         try {
             $returnPolice->delete();

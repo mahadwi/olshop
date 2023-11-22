@@ -6,15 +6,15 @@ import { usePage, router } from "@inertiajs/vue3";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import pkg from "lodash";
 
-import Create from "@/Pages/ReturnPolice/Create.vue";
-import Delete from "@/Pages/ReturnPolice/Delete.vue";
-import Edit from "@/Pages/ReturnPolice/Edit.vue";
+import Create from "@/Pages/PrivacyPolice/Create.vue";
+import Delete from "@/Pages/PrivacyPolice/Delete.vue";
+import Edit from "@/Pages/PrivacyPolice/Edit.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
     title: String,
     filters: Object,
-    returnPolices: Object,
+    privacyPolices: Object,
     breadcrumbs:Object,
     perPage: Number,
 });
@@ -42,7 +42,7 @@ watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
         let params = pickBy(data.params);
-        router.get(route("return-police.index"), params, {
+        router.get(route("privacy-police.index"), params, {
             replace: true,
             preserveState: true,
             preserveScroll: true,
@@ -65,13 +65,13 @@ watch(
         <Delete
             :show="data.deleteOpen"
             @close="data.deleteOpen = false"
-            :returnPolice="data.police"
+            :privacyPolice="data.police"
             :title="props.title"
         />
         <Edit
             :show="data.editOpen"
             @close="data.editOpen = false"
-            :returnPolice="data.police"
+            :privacyPolice="data.police"
             :title="props.title"
         />
 
@@ -84,7 +84,7 @@ watch(
                             {{ props.title }}
                         </h3>
 
-                        <button v-if="props.returnPolices.data.length == 0" @click="data.createOpen = true"
+                        <button v-if="props.privacyPolices.data.length == 0" @click="data.createOpen = true"
                         class="btn-primary mb-2" type="button">
                             {{ lang().button.add }}
                         </button>
@@ -117,7 +117,7 @@ watch(
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                             <tr
-                                            v-for="(police, index) in returnPolices.data"
+                                            v-for="(police, index) in privacyPolices.data"
                                             :key="index"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700"
                                         >

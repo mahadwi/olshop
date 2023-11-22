@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ReturnPoliceController;
+use App\Http\Controllers\PrivacyPoliceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/contact', ContactController::class)->except('create', 'show', 'edit');
 
-    Route::resource('/returnPolice', ReturnPoliceController::class)->except('create', 'show', 'edit', 'update');
-    Route::post('returnPolice/{returnPolice}/update', [ReturnPoliceController::class, 'update'])->name('returnPolice.update');
+    Route::resource('/return-police', ReturnPoliceController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('return-police/{returnPolice}/update', [ReturnPoliceController::class, 'update'])->name('return-police.update');
 
+    Route::resource('/privacy-police', PrivacyPoliceController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('privacy-police/{privacyPolice}/update', [PrivacyPoliceController::class, 'update'])->name('privacy-police.update');
 });

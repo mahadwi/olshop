@@ -26,7 +26,7 @@ const form = useForm({
 });
 
 const update = () => {
-    form.post(route("returnPolice.update", props.returnPolice?.id), {
+    form.post(route("return-police.update", props.returnPolice?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -60,20 +60,20 @@ watchEffect(() => {
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
-
                         <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                         <InputError class="mt-2" :message="form.errors.title" />
-
                     </div>
+
+                    <div>
+                        <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+                        <InputError class="mt-2" :message="form.errors.image" />
+                    </div>
+
                     <div>
                         <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
-                    <div>
-                        <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-
-                        <InputError class="mt-2" :message="form.errors.image" />
-                    </div>
+                    
                     <div>
                         <FwbInput v-model="form.cp" :placeholder="lang().label.cp" :label="lang().label.cp" />
                         <InputError class="mt-2" :message="form.errors.cp" />
