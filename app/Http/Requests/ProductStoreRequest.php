@@ -38,7 +38,11 @@ class ProductStoreRequest extends FormRequest
             'color_id' => 'required',
             'condition' => 'required',
             // 'image' => 'required|image|mimes:jpg,png,jpeg|max:500',   
-            'image.*' => 'required|image|mimes:jpg,png,jpeg|max:500',       
+            'image.*' => 'required|image|mimes:jpg,png,jpeg|max:500',   
+            'weight' => 'required|numeric',
+            'length' => 'required|numeric',
+            'width' => 'required|numeric',
+            'height' => 'required|numeric',
         ];
     }
 

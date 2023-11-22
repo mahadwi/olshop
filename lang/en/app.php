@@ -120,6 +120,10 @@ return [
         'primary' => 'Primary',
         'privacy_police' => 'Privacy Police',
         'data_not_found' => 'Data Not Found'
+        'weight' => 'Weight (kg)',
+        'height' => 'Height (cm)',
+        'length'  => 'Length (cm)',
+        'width' => 'Width (cm)',
     ],
     'button' => [
         'login' => 'Login',
@@ -140,6 +144,7 @@ return [
         'next' => 'Next',
         'delete_account' => 'Delete Account',
         'no' => 'No',
+
     ],
     'placeholder' => [
         'search' => 'Search...',

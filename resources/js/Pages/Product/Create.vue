@@ -45,7 +45,11 @@ const form = useForm({
   display_on_homepage: "",
   color_id: "",
   condition: "",
-  image:[]
+  image:[],
+  weight: "",
+  length: "",
+  width:  "",
+  height: ""
 });
 
 const categories = props.categories?.map((role) => ({
@@ -125,7 +129,7 @@ const changeCommission = () => {
     <div
       class="grid grid-cols-1 mb-10 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
     >
-      <div class="col-span-2">
+      <div class="col-span-3">
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
@@ -133,8 +137,8 @@ const changeCommission = () => {
             {{ props.title }}
           </h3>
           <form @submit.prevent="create">
-            <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-3">
+            <div class="grid grid-cols-12 gap-6">
+              <div class="col-span-6">
                 <InputLabel for="name" :value="lang().placeholder.name" />
                 <TextInput
                   id="name"
@@ -146,7 +150,7 @@ const changeCommission = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel for="brand" :value="lang().label.brand" />
                 <SelectInput
                   id="brand"
@@ -156,17 +160,8 @@ const changeCommission = () => {
                 >
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.brand_id" />
-              </div>
+              </div>              
               <div class="col-span-6">
-                <FwbTextarea
-                  rows="4"
-                  :placeholder="lang().label.description"
-                  v-model="form.description"
-                  :label="lang().label.description"
-                />
-                <InputError class="mt-2" :message="form.errors.description" />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="entry_date" :value="lang().label.entry_date" />
                 <vue-tailwind-datepicker
                   v-model="form.entry_date"
@@ -176,7 +171,7 @@ const changeCommission = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.entry_date" />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel
                   for="expired_date"
                   :value="lang().label.expired_date"
@@ -189,7 +184,7 @@ const changeCommission = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.expired_date" />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel
                   for="product_category"
                   :value="lang().label.product_category"
@@ -207,7 +202,7 @@ const changeCommission = () => {
                 />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel for="vendor" :value="lang().label.vendor" />
                 <SelectInput
                   id="vendor"
@@ -219,7 +214,43 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.user_id" />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
+                <FwbInput
+                  v-model="form.weight"
+                  :placeholder="lang().label.weight"
+                  :label="lang().label.weight"
+                />
+                <InputError class="mt-2" :message="form.errors.weight" />
+              </div>
+
+							<div class="col-span-6">
+                <FwbInput
+                  v-model="form.length"
+                  :placeholder="lang().label.length"
+                  :label="lang().label.length"
+                />
+                <InputError class="mt-2" :message="form.errors.length" />
+              </div>
+
+							<div class="col-span-6">
+                <FwbInput
+                  v-model="form.width"
+                  :placeholder="lang().label.width"
+                  :label="lang().label.width"
+                />
+                <InputError class="mt-2" :message="form.errors.width" />
+              </div>
+
+							<div class="col-span-6">
+                <FwbInput
+                  v-model="form.height"
+                  :placeholder="lang().label.height"
+                  :label="lang().label.height"
+                />
+                <InputError class="mt-2" :message="form.errors.height" />
+              </div>
+
+              <div class="col-span-6">
                 <InputLabel for="stock" :value="lang().label.stock" />
                 <TextInput
                   id="stock"
@@ -232,7 +263,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.stock" />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel for="price" :value="lang().label.price" />
                 <TextInput
                   id="price"
@@ -245,7 +276,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.price" />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel
                   for="commission_type"
                   :value="lang().label.commission_type"
@@ -263,7 +294,7 @@ const changeCommission = () => {
                   :message="form.errors.commission_type"
                 />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <FwbInput
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_price"
@@ -272,7 +303,7 @@ const changeCommission = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <FwbInput
                   :disabled="form.commission_type == 'Selling'"
                   v-model="form.commission"
@@ -281,7 +312,7 @@ const changeCommission = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.commission" />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel
                   for="display_on_homepage"
                   :value="lang().label.display_on_homepage"
@@ -299,7 +330,7 @@ const changeCommission = () => {
                 />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel for="color" :value="lang().label.color" />
                 <SelectInput
                   id="color"
@@ -311,7 +342,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.color_id" />
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6">
                 <InputLabel for="condition" :value="lang().label.condition" />
                 <SelectInput
                   id="condition"
@@ -321,6 +352,15 @@ const changeCommission = () => {
                 >
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.condition" />
+              </div>
+              <div class="col-span-6">
+                <FwbTextarea
+                  rows="4"
+                  :placeholder="lang().label.description"
+                  v-model="form.description"
+                  :label="lang().label.description"
+                />
+                <InputError class="mt-2" :message="form.errors.description" />
               </div>
 
               <div class="col-span-6">
@@ -333,7 +373,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.history" />
               </div>
 
-              <div class="col-span-6">
+              <div class="col-span-12">
                 <FilePondInput
                   v-model="form.image"
                   accept="image/*"
