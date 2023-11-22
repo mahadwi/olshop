@@ -21,15 +21,15 @@
         >
           <ul class="pb-2 space-y-2">
             <li>
-              <Link 
-                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700" 
+              <Link
+                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                 :href="route('dashboard')"
-                
+
                 :class="
                     route().current('dasbhoard.index')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
-                ">                
+                ">
                 <svg
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor"
@@ -84,182 +84,182 @@
               <ul id="dropdown-crud" :class="activeMaster" class="space-y-2 py-2">
                 <li>
                   <Link :href="route('users.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('users.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.user }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('roles.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('roles.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.role }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('brand.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('brand.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.brand }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('color.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('color.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.color }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('product-category.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('product-category.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.category }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('product.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('product.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.product }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('vendor.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('vendor.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.vendor }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('group-coa.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('group-coa.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.group_coa }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('coa.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('coa.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.coa }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('banner.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('banner.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.banner }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('gallery.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('gallery.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.gallery }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('member.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('member.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.member }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('group-asset.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('group-asset.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.group_asset }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('asset.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('asset.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.asset }}
                   </Link>
@@ -294,35 +294,48 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-              </button>  
+              </button>
               <ul id="dropdown-asset" :class="activeSetting" class="space-y-2 py-2">
                 <li>
                   <Link :href="route('about.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('about.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.about_us }}
                   </Link>
                 </li>
                 <li>
                   <Link :href="route('contact.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
-                  
+
                   :class="
                     route().current('contact.*')
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-                  
+
                   >
                     {{ lang().label.contact }}
                   </Link>
                 </li>
-              </ul>           
+                <li>
+                  <Link :href="route('returnPolice.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('returnPolice.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ lang().label.return_police }}
+                  </Link>
+                </li>
+              </ul>
             </li>
           </ul>
           <div class="pt-2 space-y-2">
@@ -342,7 +355,7 @@
                 ></path>
               </svg>
               <span class="ml-3" sidebar-toggle-item>Components</span>
-            </a>           
+            </a>
           </div>
         </div>
       </div>
