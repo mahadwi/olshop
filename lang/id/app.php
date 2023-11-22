@@ -120,7 +120,7 @@ return [
         'subdistrict' => 'Subdistrict',
         'primary' => 'Alamat Utama',
         'privacy_police' => 'Privacy Police',
-        'data_not_found' => 'Data Tidak Ditemukan'
+        'data_not_found' => 'Data Tidak Ditemukan',
         'weight' => 'Berat (Kg)',
         'height' => 'Tinggi',
         'length'  => 'Panjang',

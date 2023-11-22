@@ -119,7 +119,7 @@ return [
         'subdistrict' => 'Subdistrict',
         'primary' => 'Primary',
         'privacy_police' => 'Privacy Police',
-        'data_not_found' => 'Data Not Found'
+        'data_not_found' => 'Data Not Found',
         'weight' => 'Weight (kg)',
         'height' => 'Height (cm)',
         'length'  => 'Length (cm)',
