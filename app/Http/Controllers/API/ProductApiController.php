@@ -54,6 +54,7 @@ class ProductApiController extends Controller
                 'totalItemCount' => $productSource->count(),
                 'totalPage' => $productSource->lastPage(),
                 'lastPage' => $productSource->lastPage(),
+                'totalItem' => $productSource->total()
             ];
         }
         return $this->apiSuccess($productF, $meta);
