@@ -3,7 +3,6 @@ import { Head, Link } from "@inertiajs/vue3";
 import { reactive, watch } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import pkg from "lodash";
-import priceFormat from '../../helper.js'
 
 import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";

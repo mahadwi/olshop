@@ -55,6 +55,7 @@ class ProductTransformer extends TransformerAbstract
             'is_wishlist'   => false,
             'is_new_arrival'=> $product->entry_date->diffInMonths(Carbon::now()) > 0 ? false : true,
             'entry_date'    => $product->entry_date,
+            'weight'        => 
             'images'        => $this->images($product),        
         ];
     }

@@ -1,4 +1,4 @@
-export default priceFormat;
+export { priceFormat, round };
 
 function priceFormat(amount = 0) {
     var rupiah = "";
@@ -12,4 +12,10 @@ function priceFormat(amount = 0) {
             .reverse()
             .join("")
     );
+}
+
+function round(num, decimalPlaces = 0) {
+    var p = Math.pow(10, decimalPlaces);
+    var n = (num * p) * (1 + Number.EPSILON);
+    return Math.round(n) / p;
 }

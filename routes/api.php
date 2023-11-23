@@ -9,6 +9,7 @@ use App\Http\Controllers\API\BannerApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
 use App\Http\Controllers\API\ContactApiController;
+use App\Http\Controllers\API\CourierApiController;
 use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\ProductApiController;
 use App\Http\Controllers\API\RegisterApiController;
@@ -66,3 +67,4 @@ Route::get('kecamatan', [KecamatanApiController::class, 'index']);
 
 Route::get('return-police', [ReturnPoliceApiController::class, 'index']);
 Route::get('privacy-police', [PrivacyPoliceApiController::class, 'index']);
+Route::get('courier', [CourierApiController::class, 'index']);

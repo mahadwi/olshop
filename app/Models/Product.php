@@ -35,7 +35,7 @@ class Product extends Model
         'height'
     ];
 
-    protected $appends = ['status'];
+    protected $appends = ['status', 'fixWeight'];
 
     protected $casts = [
         'entry_date' => 'date:d-m-Y',
@@ -44,6 +44,14 @@ class Product extends Model
 
     function getStatusAttribute() {
         return $this->is_active ? __('app.label.active') : __('app.label.not_active');
+    }
+
+    function getFixWeightAttribute() {
+        return ($this->weight * 1000) > $this->calculateVolume() ? $this->weight * 1000 : $this->calculateVolume();
+    }
+
+    function calculateVolume(){
+        return ($this->length * $this->width * $this->height) / 6;
     }
 
     protected static function booted(): void
