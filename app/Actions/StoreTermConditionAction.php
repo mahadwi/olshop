@@ -2,11 +2,11 @@
 
 namespace App\Actions;
 
-use App\Models\ReturnPolice;
+use App\Models\TermCondition;
 use App\Services\File\UploadService;
 use Symfony\Component\HttpFoundation\File\File;
 
-class StoreReturnPoliceAction
+class StoreTermConditionAction
 {
     private $attributes;
 
@@ -22,21 +22,17 @@ class StoreReturnPoliceAction
 
     public function handle()
     {
+
         if($this->isImage($this->attributes['image'])){
             $file = (new UploadService())->saveFile($this->attributes['image']);
 
             $this->attributes['image'] = $file['name'];
         }
 
-        $returnPolice = new ReturnPolice();
-        $returnPolice->title = $this->attributes['title'];
-        // $returnPolice->description = json_encode($this->attributes['description']);
-        $returnPolice->description = $this->attributes['description'];
-        $returnPolice->cp = $this->attributes['cp'];
-        $returnPolice->image = $this->attributes['image'];
+        $termCondition = new TermCondition($this->attributes);
 
-        $returnPolice->save();
+        $termCondition->save();
 
-        return $returnPolice;
+        return $termCondition;
     }
 }

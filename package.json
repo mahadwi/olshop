@@ -20,6 +20,7 @@
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/vue3": "^1.0.12",
         "@vueform/multiselect": "^2.6.6",
+        "@vueup/vue-quill": "^1.2.0",
         "filepond": "^4.30.4",
         "filepond-plugin-file-validate-size": "^2.2.8",
         "filepond-plugin-file-validate-type": "^1.2.8",

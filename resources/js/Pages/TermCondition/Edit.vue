@@ -2,17 +2,18 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
+import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
+
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
     show: Boolean,
     title: String,
+    termCondition: Object,
 });
 
 const emit = defineEmits(["close"]);
@@ -24,8 +25,8 @@ const form = useForm({
     image: "",
 });
 
-const create = () => {
-    form.post(route("return-police.store"), {
+const update = () => {
+    form.post(route("term-condition.update", props.termCondition?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
@@ -38,20 +39,24 @@ const create = () => {
 
 watchEffect(() => {
     if (props.show) {
+        form.title = props.termCondition?.title;
+        form.description = props.termCondition?.description;
+        form.cp = props.termCondition?.cp;
         form.errors = {};
     }
 });
+
 
 </script>
 
 <template>
     <section class="space-y-6">
         <Modal :show="props.show" @close="emit('close')">
-            <form class="p-6" @submit.prevent="create">
+            <form class="p-6" @submit.prevent="update">
                 <h2
                     class="text-lg font-medium text-slate-900 dark:text-slate-100"
                 >
-                    {{ lang().label.add }} {{ props.title }}
+                    {{ lang().label.edit }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
                     <div>
@@ -65,8 +70,7 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <label class="">{{lang().label.description}}</label>
-                        <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
+                        <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
 
@@ -83,15 +87,15 @@ watchEffect(() => {
                         {{ lang().button.close }}
                     </SecondaryButton>
                     <PrimaryButton
-                        type="submit"
                         class="ml-3"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
+                        @click="update"
                     >
                         {{
                             form.processing
-                                ? lang().button.add + "..."
-                                : lang().button.add
+                                ? lang().button.save + "..."
+                                : lang().button.save
                         }}
                     </PrimaryButton>
                 </div>

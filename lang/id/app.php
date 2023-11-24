@@ -125,6 +125,7 @@ return [
         'height' => 'Tinggi',
         'length'  => 'Panjang',
         'width' => 'Lebar',
+        'term_condition' => 'Term And Condition',
     ],
     'button' => [
         'login' => 'Masuk',

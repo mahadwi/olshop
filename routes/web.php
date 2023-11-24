@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ReturnPoliceController;
 use App\Http\Controllers\PrivacyPoliceController;
+use App\Http\Controllers\TermConditionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/privacy-police', PrivacyPoliceController::class)->except('create', 'show', 'edit', 'update');
     Route::post('privacy-police/{privacyPolice}/update', [PrivacyPoliceController::class, 'update'])->name('privacy-police.update');
+
+    Route::resource('/term-condition', TermConditionController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('term-condition/{termCondition}/update', [TermConditionController::class, 'update'])->name('term-condition.update');
 });

@@ -5,7 +5,9 @@ import Modal from "@/Components/Modal.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue';
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
@@ -15,7 +17,7 @@ const props = defineProps({
     title: String,
     returnPolice: Object,
 });
-
+console.log(props.returnPolice);
 const emit = defineEmits(["close"]);
 
 const form = useForm({
@@ -70,10 +72,11 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                        <label class="">{{lang().label.description}}</label>
+                        <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
-                    
+
                     <div>
                         <FwbInput v-model="form.cp" :placeholder="lang().label.cp" :label="lang().label.cp" />
                         <InputError class="mt-2" :message="form.errors.cp" />

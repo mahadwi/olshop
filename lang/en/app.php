@@ -124,6 +124,7 @@ return [
         'height' => 'Height (cm)',
         'length'  => 'Length (cm)',
         'width' => 'Width (cm)',
+        'term_condition' => 'Term And Condition',
     ],
     'button' => [
         'login' => 'Login',
