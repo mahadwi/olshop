@@ -127,7 +127,8 @@ const truncate = (value, length) => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ police.title }}</td>
-                                                <td class="tbl-column"> {{ truncate(police.description, 25) }}</td>
+                                                <td class="tbl-column" v-html="truncate(police.description, 25)">
+                                                </td>
                                                 <td class="tbl-column"> {{ police.cp }}</td>
                                                 <td class="w-32">
                                                     <img :src="police.image_url" :alt="police.name">

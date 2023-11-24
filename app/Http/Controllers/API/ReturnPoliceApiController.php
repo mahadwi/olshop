@@ -10,8 +10,8 @@ class ReturnPoliceApiController extends Controller
 {
     public function index()
     {
-        $abouts = ReturnPolice::get();
+        $returnPolice = ReturnPolice::get();
 
-        return $this->apiSuccess($abouts);
+        return $this->apiSuccess($returnPolice);
     }
 }

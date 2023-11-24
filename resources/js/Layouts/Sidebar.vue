@@ -3,7 +3,7 @@
 
   const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') || route().current('member.*') || route().current('group-asset.*') || route().current('asset.*') ? '' : 'hidden'
 
-  const activeSetting = route().current('about.*') || route().current('contact.*')  ? '' : 'hidden'
+  const activeSetting = route().current('about.*') || route().current('contact.*') || route().current('return-police.*') || route().current('privacy-police.*') || route().current('term-condition.*')  ? '' : 'hidden'
 
 </script>
 <template>

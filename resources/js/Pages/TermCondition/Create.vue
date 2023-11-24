@@ -7,6 +7,8 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
     show: Boolean,
@@ -59,12 +61,12 @@ watchEffect(() => {
 
                     <div>
                         <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-
                         <InputError class="mt-2" :message="form.errors.image" />
                     </div>
 
                     <div>
-                        <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                        <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
 

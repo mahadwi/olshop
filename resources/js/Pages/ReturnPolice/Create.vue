@@ -65,7 +65,7 @@ watchEffect(() => {
                     </div>
 
                     <div>
-                        <label class="">{{lang().label.description}}</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                         <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>

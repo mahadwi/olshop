@@ -27,14 +27,7 @@ class StoreReturnPoliceAction
 
             $this->attributes['image'] = $file['name'];
         }
-
-        $returnPolice = new ReturnPolice();
-        $returnPolice->title = $this->attributes['title'];
-        // $returnPolice->description = json_encode($this->attributes['description']);
-        $returnPolice->description = $this->attributes['description'];
-        $returnPolice->cp = $this->attributes['cp'];
-        $returnPolice->image = $this->attributes['image'];
-
+        $returnPolice = new ReturnPolice($this->attributes);
         $returnPolice->save();
 
         return $returnPolice;

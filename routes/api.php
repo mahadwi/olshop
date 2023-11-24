@@ -17,6 +17,7 @@ use App\Http\Controllers\API\KecamatanApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
+use App\Http\Controllers\API\TermConditionApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,4 +68,5 @@ Route::get('kecamatan', [KecamatanApiController::class, 'index']);
 
 Route::get('return-police', [ReturnPoliceApiController::class, 'index']);
 Route::get('privacy-police', [PrivacyPoliceApiController::class, 'index']);
+Route::get('term-condition', [TermConditionApiController::class, 'index']);
 Route::get('courier', [CourierApiController::class, 'index']);

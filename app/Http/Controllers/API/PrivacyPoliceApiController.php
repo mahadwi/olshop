@@ -10,8 +10,8 @@ class PrivacyPoliceApiController extends Controller
 {
     public function index()
     {
-        $abouts = PrivacyPolice::get();
+        $privacyPolice = PrivacyPolice::get();
 
-        return $this->apiSuccess($abouts);
+        return $this->apiSuccess($privacyPolice);
     }
 }
