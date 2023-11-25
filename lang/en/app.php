@@ -125,6 +125,7 @@ return [
         'length'  => 'Length (cm)',
         'width' => 'Width (cm)',
         'term_condition' => 'Term And Condition',
+        'delivery_shipping' => 'Delivery And Shipping'
     ],
     'button' => [
         'login' => 'Login',

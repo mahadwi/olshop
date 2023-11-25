@@ -18,6 +18,7 @@ use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
+use App\Http\Controllers\API\DeliveryShippingApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +71,4 @@ Route::get('return-police', [ReturnPoliceApiController::class, 'index']);
 Route::get('privacy-police', [PrivacyPoliceApiController::class, 'index']);
 Route::get('term-condition', [TermConditionApiController::class, 'index']);
 Route::get('courier', [CourierApiController::class, 'index']);
+Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index']);

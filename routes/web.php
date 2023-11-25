@@ -22,6 +22,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ReturnPoliceController;
 use App\Http\Controllers\PrivacyPoliceController;
 use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\DeliveryShippingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,4 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/term-condition', TermConditionController::class)->except('create', 'show', 'edit', 'update');
     Route::post('term-condition/{termCondition}/update', [TermConditionController::class, 'update'])->name('term-condition.update');
+
+    Route::resource('/delivery-shipping', DeliveryShippingController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('delivery-shipping/{deliveryShipping}/update', [DeliveryShippingController::class, 'update'])->name('delivery-shipping.update');
 });
