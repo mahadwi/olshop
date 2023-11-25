@@ -126,7 +126,8 @@ return [
         'length'  => 'Panjang',
         'width' => 'Lebar',
         'term_condition' => 'Term And Condition',
-        'delivery_shipping' => 'Pengantaran dan Pengiriman'
+        'delivery_shipping' => 'Pengantaran dan Pengiriman',
+        'customer_care' => 'Layanan Pelanggan',
     ],
     'button' => [
         'login' => 'Masuk',

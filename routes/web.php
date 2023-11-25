@@ -23,6 +23,7 @@ use App\Http\Controllers\ReturnPoliceController;
 use App\Http\Controllers\PrivacyPoliceController;
 use App\Http\Controllers\TermConditionController;
 use App\Http\Controllers\DeliveryShippingController;
+use App\Http\Controllers\CustomerCareController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/delivery-shipping', DeliveryShippingController::class)->except('create', 'show', 'edit', 'update');
     Route::post('delivery-shipping/{deliveryShipping}/update', [DeliveryShippingController::class, 'update'])->name('delivery-shipping.update');
+
+    Route::resource('/customer-care', CustomerCareController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('customer-care/{customerCare}/update', [CustomerCareController::class, 'update'])->name('customer-care.update');
 });
