@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AssetController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoaController;
@@ -8,8 +7,10 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BannerController;
@@ -71,5 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/group-asset', GroupAssetController::class)->except('create', 'show', 'edit');
 
     Route::resource('/asset', AssetController::class)->except('create', 'show', 'edit');
+
+    Route::resource('/event', EventController::class)->except('show', 'edit');
+    Route::post('event/{event}/upload-image', [EventController::class, 'uploadImage'])->name('event.upload-image');
 
 });

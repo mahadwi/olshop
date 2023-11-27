@@ -5,6 +5,8 @@ import { router } from '@inertiajs/vue3'
 import { initFlowbite } from 'flowbite';
 import { usePage } from '@inertiajs/vue3';
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 router.on('success', (event) => {
   initFlowbite()
@@ -26,6 +28,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(VueTailwindDatepicker)
+            .use(VueDatePicker)
             .mixin({
                 methods: {
                     // can: function (permissions) {
