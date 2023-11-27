@@ -45,7 +45,9 @@ class GalleryController extends Controller
         });
 
         $gallerySection = GallerySection::getValues();
-        $product = Product::where('display_on_homepage', true)->get();
+        $product = Product::where('display_on_homepage', true)
+        ->where('history', '!=', null)
+        ->get();
 
         return Inertia::render('Gallery/Index', [
             'title'         => 'Data '.__('app.label.gallery'),

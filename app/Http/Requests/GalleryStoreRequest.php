@@ -24,7 +24,7 @@ class GalleryStoreRequest extends FormRequest
         return [
             'section' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'product_id' => 'nullable|integer',
+            'product_id' => 'required|integer',
             'image.*' => 'nullable|image|mimes:jpg,png,jpeg|max:500', 
         ];
     }

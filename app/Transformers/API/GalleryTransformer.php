@@ -3,6 +3,7 @@
 namespace App\Transformers\API;
 
 use App\Models\Gallery;
+use App\Models\Product;
 use League\Fractal\TransformerAbstract;
 
 class GalleryTransformer extends TransformerAbstract
@@ -22,7 +23,7 @@ class GalleryTransformer extends TransformerAbstract
      * @var array
      */
     protected array $availableIncludes = [
-        //
+        'product'
     ];
     
     /**
@@ -35,14 +36,13 @@ class GalleryTransformer extends TransformerAbstract
         return [
             'section'       => $gallery->section,
             'title'         => $gallery->title,
-            'images'        => $this->images($gallery)        
+            'images'        => $this->images($gallery),                   
         ];
     }
 
     private function images($gallery)
     {
-
-        if($gallery->product_id){
+        if($gallery->imageable->isEmpty()){
             return is_null($gallery->product->images) ? [] : $gallery->product->images->map(function ($item) {
                 return asset('image/product/'.$item->name);
             }); 
@@ -53,6 +53,18 @@ class GalleryTransformer extends TransformerAbstract
         }
         
 
+    }
+
+    public function includeProduct($gallery)
+    {
+
+        $product = $gallery->product;
+        if ($product instanceof Product) {
+            return $this->item($product, new ProductTransformer());
+        } else {
+            return $this->null();
+        }
+        // return $this->collection($gallery->product, new ProductTransformer());
     }
 
 }

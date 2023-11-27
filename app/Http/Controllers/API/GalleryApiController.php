@@ -11,7 +11,7 @@ class GalleryApiController extends Controller
 {
     public function index()
     {
-        $data = fractal(Gallery::all(), new GalleryTransformer);
+        $data = fractal(Gallery::all(), new GalleryTransformer)->parseIncludes(['product']);
 
         return $this->apiSuccess($data);
     }

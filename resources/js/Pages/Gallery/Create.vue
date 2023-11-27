@@ -93,7 +93,7 @@ product = [{label : 'Select...', value: ''}, ...product];
             </SelectInput>
             <InputError class="mt-2" :message="form.errors.product_id" />
         </div>
-        <div class="my-6 space-y-4" v-if="!form.product_id">
+        <div class="my-6 space-y-4">
           <FilePondInput v-model="form.image" accept="image/*" />
 
           <InputError class="mt-2" :message="form.errors.image" />
