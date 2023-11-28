@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TermCondition extends Model
+class SubscribeSplash extends Model
 {
     use HasFactory;
 
-    protected $table = 'term_condition';
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $table = 'subscribe_splash';
 
     protected $fillable = [
         'title',
-        'description',
-        'cp',
         'image',
     ];
 
@@ -25,9 +21,9 @@ class TermCondition extends Model
 
     protected static function booted(): void
     {
-        static::deleted(function (TermCondition $termCondition) {
+        static::deleted(function (SubscribeSplash $subscribeSplash) {
             //also delete file if exist
-            $imageFile = public_path('image/'.$termCondition->image);
+            $imageFile = public_path('image/subscribe/'.$subscribeSplash->image);
             if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
@@ -37,6 +33,6 @@ class TermCondition extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('image/'.$this->image);
+        return asset('image/subscribe/'.$this->image);
     }
 }

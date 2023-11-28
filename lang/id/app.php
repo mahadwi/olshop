@@ -143,6 +143,7 @@ return [
         'cover' => 'Cover',
         'date' => 'Tanggal',
         'refundable' => 'Dapat dikembalikan',
+        'subscribe_splash' => 'Subscribe (Splash Screen)',
     ],
     'button' => [
         'login' => 'Masuk',

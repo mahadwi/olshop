@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\GroupAssetController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\SubscribeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/product-category', ProductCategoryController::class)->except('create', 'show', 'edit');
 
     Route::resource('/group-coa', GroupCoaController::class)->except('create', 'show', 'edit');
-    
+
     Route::resource('/coa', CoaController::class)->except('create', 'show', 'edit');
 
     Route::resource('/vendor', VendorController::class)->except('create', 'show', 'edit');
@@ -63,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/gallery', GalleryController::class)->except('create', 'show', 'edit');
     Route::post('gallery/{gallery}/upload-image', [GalleryController::class, 'uploadImage'])->name('gallery.upload-image');
-    
+
     Route::get('image/{image}/', [ImageController::class, 'getImage'])->name('image.get-image');
     Route::post('delete-image', [ImageController::class, 'deleteImage'])->name('image.delete-image');
 
@@ -76,4 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/event', EventController::class)->except('show');
     Route::post('event/{event}/update', [EventController::class, 'update'])->name('event.update');
 
+    Route::resource('/subscribe', SubscribeController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('subscribe/{subscribe}/update', [SubscribeController::class, 'update'])->name('subscribe.update');
 });

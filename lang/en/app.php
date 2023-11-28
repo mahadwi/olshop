@@ -142,6 +142,7 @@ return [
         'cover' => 'Cover',
         'date' => 'Date',
         'refundable' => 'Refundable',
+        'subscribe_splash' => 'Subscribe (Splash Screen)',
     ],
     'button' => [
         'login' => 'Login',

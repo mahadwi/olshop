@@ -20,6 +20,7 @@ use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
+use App\Http\Controllers\API\SubscribeApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,4 @@ Route::get('term-condition', [TermConditionApiController::class, 'index']);
 Route::get('courier', [CourierApiController::class, 'index']);
 Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index']);
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
+Route::get('subscribe', [SubscribeApiController::class, 'index']);
