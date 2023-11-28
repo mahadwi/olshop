@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Actions\StoreEventAction;
+use App\Actions\UpdateEventAction;
 use App\Http\Requests\EventStoreRequest;
+use App\Http\Requests\EventUpdateRequest;
 
 class EventController extends Controller
 {
@@ -29,8 +32,6 @@ class EventController extends Controller
         if ($request->has(['field', 'order'])) {
             $events->orderBy($request->field, $request->order);
         }
-
-        $events->with(['brand', 'productCategory', 'user'])->orderBy('id');
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
                 
@@ -57,124 +58,57 @@ class EventController extends Controller
             ],
         ]);
     }
+    
+    public function store(EventStoreRequest $request)
+    {
+        try {
+            $event = (new StoreEventAction($request->all()))->handle(); 
+            return redirect()->route('event.index')->with('success', __('app.label.created_successfully', ['name' => $event->name]));
 
-    public function edit(Product $product)
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.event')]) . $th->getMessage());
+        }
+    }
+
+    public function edit(Event $event)
     {   
+        $event = Event::find($event->id)->with('details')->first();
 
-        $brands = Brand::get();
-        $categories = ProductCategory::active()->get();
-        
-        $images = $product->images->pluck('name')->map(function ($image){
-            return [
-                'source' => $image,
-                'options' => [
-                    'type'  => 'local'
-                ]
-            ];
-        });
-
-        return Inertia::render('Product/Edit', [
-            'title'             => 'Edit '.__('app.label.product'),
-            'categories'        => $categories,
-            'vendors'           => $this->vendors,
-            'product'           => $product,
-            'brands'            => $brands,
-            'colors'            => $this->colors,
-            'images'            => $images,
-            'commissionType'    => $this->commissionType,
-            'condition'         => $this->condition,
+        return Inertia::render('Event/Edit', [
+            'title'             => 'Edit '.__('app.label.event'),
+            'event'         => $event,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
-                ['label' => __('app.label.product'), 'href' => route('product.index')],
+                ['label' => __('app.label.event'), 'href' => route('event.index')],
             ],
         ]);
     }
 
-    public function store(EventStoreRequest $request)
+
+    public function update(EventUpdateRequest $request, Event $event)
     {
         try {
-            dd($request->all());
-            $product = dispatch_sync(new StoreProductAction($request->all()));
-            
-            return redirect()->route('product.index')->with('success', __('app.label.created_successfully', ['name' => $product->name]));
+            $event = (new UpdateEventAction($event, $request->all()))->handle(); 
+
+            return redirect()->route('event.index')->with('success', __('app.label.updated_successfully', ['name' => $event->name]));
 
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.product')]) . $th->getMessage());
+            return back()->with('error', __('app.label.updated_error', ['name' => $event->name]) . $th->getMessage());
         }
     }
 
-    public function update(ProductUpdateRequest $request, Product $product)
-    {
-        try {
-            $product = dispatch_sync(new UpdateProductAction($product, $request->all()));
 
-            return redirect()->route('product.index')->with('success', __('app.label.updated_successfully', ['name' => $product->name]));
-
-        } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.updated_error', ['name' => $product->name]) . $th->getMessage());
-        }
-    }
-
-    public function uploadImage(Request $request, Product $product)
-    {
-        try {
-            $image = dispatch_sync(new StoreProductImageAction($product, $request->all()));
-            return response()->json($image->name);
-
-        } catch (\Throwable $th) {
-            return response()->json($th->getMessage());
-        }
-    }
-
-    public function getImage($productImage)
-    {
-
-        $filePath = public_path('image/product/'.$productImage);
-        
-        $headers = [
-            'Content-Type' => 'image/png', // Set the appropriate content type for your file type
-            'Content-Disposition' => 'inline; filename="my-file.png"',
-        ];
-
-        return response()->file($filePath, $headers);
-    }
-
-    public function deleteImage(Request $request, Product $product)
-    {
-        
-        try {
-
-            $filename = str_replace('"', '', $request->name);
-            //cek file
-            $cekFile = public_path('image/product/'.$filename);
-            if(File::exists($cekFile)){                
-                //delete file
-                File::delete($cekFile);
-            }   
-
-            $image = $product->images->where('name', $filename)->first();
-            $image->delete();
-
-            return response()->json('success');
-
-        } catch (\Throwable $th) {
-            return response()->json('error');
-        }
-    }
-
-    public function destroy(Product $product)
+    public function destroy(Event $event)
     {
         try {
             
-            if($product->images->isNotEmpty()){
-                (new UploadService())->deleteFile($product->images, 'product');
-                $product->images()->delete();
-            }
-            $product->delete();
+            $event->details()->delete();
+            
+            $event->delete();
 
-            return back()->with('success', __('app.label.deleted_successfully', ['name' => $product->name]));
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $event->name]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.deleted_error', ['name' => $product->name]) . $th->getMessage());
+            return back()->with('error', __('app.label.deleted_error', ['name' => $event->name]) . $th->getMessage());
         }
     }
 }

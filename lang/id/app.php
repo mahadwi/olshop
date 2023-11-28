@@ -134,10 +134,11 @@ return [
         'end_date' => 'Tanggal Selesai',
         'time' => 'Waktu',
         'maps_address' => 'Alamat Maps',
-        'detail_address' => 'Detail Alamat',
+        'detail_maps' => 'Detail Maps',
         'time_start' => 'Waktu Mulai',
         'time_end' => 'Waktu Selesai',
         'add_ticket' => 'Tambah Tiket',
+        'edit_ticket' => 'Edit Tiket',
         'list_ticket' => 'Data Tiket',
         'cover' => 'Cover',
         'date' => 'Tanggal',
@@ -160,7 +161,8 @@ return [
         'delete' => 'Hapus',
         'prev' => 'Sebelumnya',
         'next' => 'Selanjutnya',
-        'delete_account' => 'Hapus Akun'
+        'delete_account' => 'Hapus Akun',
+        'update' => 'Update',
     ],
     'placeholder' => [
         'search' => 'Cari...',

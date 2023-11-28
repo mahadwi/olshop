@@ -133,10 +133,11 @@ return [
         'end_date' => 'End Date',
         'time' => 'Time',
         'maps_address' => 'Maps Address',
-        'detail_address' => 'Detail Address',
+        'detail_maps' => 'Detail Maps',
         'time_start' => 'Time Start',
         'time_end' => 'Time End',
         'add_ticket' => 'Add Ticket',
+        'edit_ticket' => 'Edit Ticket',
         'list_ticket' => 'List Ticket',
         'cover' => 'Cover',
         'date' => 'Date',
@@ -161,6 +162,7 @@ return [
         'next' => 'Next',
         'delete_account' => 'Delete Account',
         'no' => 'No',
+        'update' => 'Update',
 
     ],
     'placeholder' => [

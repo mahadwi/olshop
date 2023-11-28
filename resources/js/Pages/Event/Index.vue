@@ -113,23 +113,17 @@ watch(
                                                     {{ lang().label.name }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.description }}
-                                                </th>
-                                                <!-- <th scope="col" class="tbl-head">
-                                                    {{ lang().label.vendor }}
+                                                    {{ lang().label.date }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.stock }}
+                                                    {{ lang().label.time }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.price }}
+                                                    {{ lang().label.place }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.condition }}
+                                                    {{ lang().label.cover }}
                                                 </th>
-                                                <th scope="col" class="tbl-head">
-                                                    Status
-                                                </th> -->
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.action }}
                                                 </th>
@@ -143,14 +137,12 @@ watch(
                                         >
                                                 <td class="tbl-column"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ event.name }}</td>
-                                                <!-- <td class="tbl-column"> {{ event.brand.name }}</td>
-                                                <td class="tbl-column"> {{ event.user.name }}</td>
-                                                <td class="tbl-column"> {{ event.stock }}</td>
-                                                <td class="tbl-column"> {{ priceFormat(event.price) }}</td>
-                                                <td class="tbl-column"> {{ event.condition }}</td>
-                                                <td class="tbl-column"> 
-                                                    <span :class="event.is_active ? 'badge-success' : 'badge-danger' ">{{ event.status }}</span>
-                                                </td> -->
+                                                <td class="tbl-column"> {{ event.start_date }} s.d {{ event.end_date }}</td>
+                                                <td class="tbl-column"> {{ event.time_start }} s.d {{ event.time_end }}</td>
+                                                <td class="tbl-column"> {{ event.place }}</td>
+                                                <td class="w-32">
+                                                    <img :src="event.cover_url" :alt="event.name">
+                                                </td>
                                                 
                                                 <td class="p-4 space-x-2 whitespace-nowrap">
                                                     <Link :href="route('event.edit', event.id)" class="btn-primary">

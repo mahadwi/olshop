@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/asset', AssetController::class)->except('create', 'show', 'edit');
 
-    Route::resource('/event', EventController::class)->except('show', 'edit');
-    Route::post('event/{event}/upload-image', [EventController::class, 'uploadImage'])->name('event.upload-image');
+    Route::resource('/event', EventController::class)->except('show');
+    Route::post('event/{event}/update', [EventController::class, 'update'])->name('event.update');
 
 });

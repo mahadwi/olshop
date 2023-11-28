@@ -1,9 +1,10 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch, ref } from "vue";
+import { reactive, watch, ref, computed } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { priceFormat } from '../../helper.js'
 
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -12,154 +13,53 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
-// import FilePondInput from '@/Components/FilePondInput.vue'
-import vueFilePond, { setOptions } from "vue-filepond";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import axios from "axios";
+import CreateTicket from "@/Pages/Event/CreateTicket.vue";
+import EditTicket from "@/Pages/Event/EditTicket.vue";
 
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import { 
+  FwbTextarea, FwbFileInput, FwbInput,
+  FwbA,
+  FwbTable,
+  FwbTableBody,
+  FwbTableCell,
+  FwbTableHead,
+  FwbTableHeadCell,
+  FwbTableRow,
+  FwbButton
+} from "flowbite-vue";
+import DatePicker from "vue-datepicker-next";
+import "vue-datepicker-next/index.css";
 
-import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const props = defineProps({
-  show: Boolean,
   title: String,
-  product: Object,
-  categories: Object,
-  vendors: Object,
-  brands: Object,
-  colors: Object,
-  condition: Object,
   breadcrumbs: Object,
-  commissionType: Object,
-  images: Object,
+  event: Object,
+});
+
+const data = reactive({
+    createOpen: false,
+    editOpen: false,
+    deleteOpen: false,    
+    ticket:null
 });
 
 const form = useForm({
-  name: props.product.name,
-  brand_id: props.product.brand_id,
-  description: props.product.description,
-  product_category_id: props.product.product_category_id,
-  user_id: props.product.user_id,
-  stock: props.product.stock,
-  price: props.product.price,
-  sale_price: props.product.sale_price,
-  commission: props.product.commission,
-  commission_type: props.product.commission_type,
-  display_on_homepage: props.product.display_on_homepage,
-  history: props.product.history,
-  entry_date: props.product.entry_date,
-  expired_date: props.product.expired_date,
-  description: props.product.description,
-  color_id: props.product.color_id,
-  condition: props.product.condition,
-  weight: props.product.weight,
-  length: props.product.length,
-  width: props.product.width,
-  height: props.product.height,
+  name: props.event.name,
+  place: props.event.place,
+  start_date: props.event.start_date,
+  end_date: props.event.end_date,
+  time_start: props.event.time_start,
+  time_end: props.event.time_end,
+  maps:props.event.maps,
+  detail_maps:props.event.detail_maps,
+  cover:"",
+  banner:"",  
+  description: props.event.description,
+  details: props.event.details
 });
-
-const filepondRef = ref();
-const images = ref([]);
-const page = usePage();
-
-const filepond = vueFilePond(
-  FilePondPluginFileValidateType,
-  FilePondPluginFileValidateSize,
-  FilePondPluginImagePreview
-);
-
-// Set global options on filepond init
-const handleFilePondInit = () => {
-  setOptions({
-    server: {
-      load: (source, load, error, progress, abort, headers) => {
-        // axios.get(route('product.get-image', source)).then(res).then(load);
-        let request = new XMLHttpRequest();
-        request.open("GET", route("product.get-image", source));
-        request.responseType = "blob";
-        request.onreadystatechange = () =>
-          request.readyState === 4 && load(request.response);
-        request.send();
-      },
-      process: (fieldName, file, metadata, load, error, progress, abort) => {
-        const formData = new FormData();
-        formData.append(fieldName, file, file.name);
-
-        const request = new XMLHttpRequest();
-        request.open("POST", route("product.upload-image", props.product?.id));
-        request.setRequestHeader("X-CSRF-TOKEN", page.props.token);
-
-        request.upload.onprogress = (e) => {
-          progress(e.lengthComputable, e.loaded, e.total);
-        };
-
-        request.onload = function () {
-          if (request.status >= 200 && request.status < 300) {
-            load(request.responseText);
-          } else {
-            error("Error");
-          }
-        };
-
-        request.send(formData);
-        return {
-          abort: () => {
-            request.abort();
-            abort();
-          },
-        };
-      },
-      revert: (src, load) => {
-        axios.post(route("product.delete-image", props.product?.id), {
-          name: src,
-        });
-        load();
-      },
-      remove: (src, load) => {
-        axios.post(route("product.delete-image", props.product?.id), {
-          name: src,
-        });
-        load();
-      },
-      headers: { "X-CSRF-TOKEN": page.props.token },
-    },
-    files: props.images,
-  });
-};
-
-const categories = props.categories?.map((role) => ({
-  label: role.name,
-  value: role.id,
-}));
-
-const vendors = props.vendors?.map((role) => ({
-  label: role.name,
-  value: role.id,
-}));
-
-const brands = props.brands?.map((role) => ({
-  label: role.name,
-  value: role.id,
-}));
-
-const colors = props.colors?.map((role) => ({
-  label: role.name,
-  value: role.id,
-}));
-
-const commissionType = Object.values(props.commissionType).map((data) => ({
-  label: data,
-  value: data,
-}));
-
-const condition = Object.values(props.condition).map((data) => ({
-  label: data,
-  value: data,
-}));
 
 const dataSwitch = [
   {
@@ -177,8 +77,8 @@ const formatter = ref({
   month: "MMM",
 });
 
-const update = () => {
-  form.post(route("product.update", props.product?.id), {
+const create = () => {
+  form.post(route("event.update", props.event?.id), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset();
@@ -188,21 +88,50 @@ const update = () => {
   });
 };
 
-const changeCommission = () => {
-  form.sale_price = form.price;
+const dataEvent = reactive({
+  time_start:"",
+  time_end:"",
+});
 
-  if (form.commission_type == "Selling") {
-    form.commission = 0;
+const removeTicket = (index) => {
+  // console.log(index);
+  form.details.splice(index, 1);
+}
 
-    if (form.sale_price == 0) form.sale_price = form.price;
-  }
-};
+const canAddTicket = computed(() => {
+  return form.name != '' && form.place != '' && form.start_date != ''
+  && form.end_date != '' && form.time_start != '' && form.time_end != '';
+});
+
+watch(
+  () => form,
+  (newValue) => {
+    dataEvent.time_start = newValue.time_start;
+    dataEvent.time_end = newValue.time_end;
+  },
+  { deep: true }
+)
 </script>
 
 <template>
   <Head :title="props.title" />
   <AuthenticatedLayout>
     <Breadcrumb :breadcrumbs="breadcrumbs" />
+
+    <create-ticket
+        :show="data.createOpen"
+        @close="data.createOpen = false"
+        title="Ticket"
+        :dataEvent="dataEvent"
+        :details="form.details"
+    />
+
+    <edit-ticket
+        :show="data.editOpen"
+        @close="data.editOpen = false"
+        :ticket="data.ticket"
+        :title="props.title"
+    />
 
     <div
       class="grid grid-cols-1 mb-10 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
@@ -214,245 +143,155 @@ const changeCommission = () => {
           <h3 class="mb-4 text-xl font-semibold dark:text-white">
             {{ props.title }}
           </h3>
-          <form @submit.prevent="update">
+          <form @submit.prevent="create">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-6">
                 <FwbInput
                   v-model="form.name"
-                  :placeholder="lang().placeholder.name"
-                  :label="lang().placeholder.name"
+                  :placeholder="lang().label.name"
+                  :label="lang().label.name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
               </div>
               <div class="col-span-6">
-                <InputLabel for="brand" :value="lang().label.brand" />
-                <SelectInput
-                  id="brand"
-                  class="mt-1 block w-full"
-                  v-model="form.brand_id"
-                  :dataSet="brands"
-                >
-                </SelectInput>
-                <InputError class="mt-2" :message="form.errors.brand_id" />
+                <FwbInput
+                  v-model="form.place"
+                  :placeholder="lang().label.place"
+                  :label="lang().label.place"
+                />
+                <InputError class="mt-2" :message="form.errors.place" />
               </div>
               <div class="col-span-6">
-                <InputLabel for="entry_date" :value="lang().label.entry_date" />
+                <InputLabel for="start_date" :value="lang().label.start_date" />
                 <vue-tailwind-datepicker
-                  v-model="form.entry_date"
+                  v-model="form.start_date"
                   :formatter="formatter"
-                  :placeholder="lang().label.entry_date"
+                  :placeholder="lang().label.start_date"
                   as-single
                 />
-                <InputError class="mt-2" :message="form.errors.entry_date" />
+                <InputError class="mt-2" :message="form.errors.start_date" />
               </div>
               <div class="col-span-6">
-                <InputLabel
-                  for="expired_date"
-                  :value="lang().label.expired_date"
-                />
+                <InputLabel for="end_date" :value="lang().label.end_date" />
                 <vue-tailwind-datepicker
-                  v-model="form.expired_date"
+                  v-model="form.end_date"
                   :formatter="formatter"
-                  :placeholder="lang().label.expired_date"
+                  :placeholder="lang().label.end_date"
                   as-single
                 />
-                <InputError class="mt-2" :message="form.errors.expired_date" />
+                <InputError class="mt-2" :message="form.errors.end_date" />
               </div>
               <div class="col-span-6">
-                <InputLabel
-                  for="product_category"
-                  :value="lang().label.product_category"
-                />
-                <SelectInput
-                  id="product_category"
-                  class="mt-1 block w-full"
-                  v-model="form.product_category_id"
-                  :dataSet="categories"
-                >
-                </SelectInput>
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.product_category_id"
-                />
-              </div>
-
-              <div class="col-span-6">
-                <InputLabel for="vendor" :value="lang().label.vendor" />
-                <SelectInput
-                  id="vendor"
-                  class="mt-1 block w-full"
-                  v-model="form.user_id"
-                  :dataSet="vendors"
-                >
-                </SelectInput>
-                <InputError class="mt-2" :message="form.errors.user_id" />
-              </div>
-
-              <div class="col-span-6">
-                <FwbInput
-                  v-model="form.weight"
-                  :placeholder="lang().label.weight"
-                  :label="lang().label.weight"
-                />
-                <InputError class="mt-2" :message="form.errors.weight" />
-              </div>
-
-							<div class="col-span-6">
-                <FwbInput
-                  v-model="form.length"
-                  :placeholder="lang().label.length"
-                  :label="lang().label.length"
-                />
-                <InputError class="mt-2" :message="form.errors.length" />
-              </div>
-
-							<div class="col-span-6">
-                <FwbInput
-                  v-model="form.width"
-                  :placeholder="lang().label.width"
-                  :label="lang().label.width"
-                />
-                <InputError class="mt-2" :message="form.errors.width" />
-              </div>
-
-							<div class="col-span-6">
-                <FwbInput
-                  v-model="form.height"
-                  :placeholder="lang().label.height"
-                  :label="lang().label.height"
-                />
-                <InputError class="mt-2" :message="form.errors.height" />
-              </div>
-
-              <div class="col-span-6">
-                <FwbInput
-                  v-model="form.stock"
-                  :placeholder="lang().label.stock"
-                  :label="lang().label.stock"
-                />
-                <InputError class="mt-2" :message="form.errors.stock" />
-              </div>
-
-              <div class="col-span-6">
-                <FwbInput
-                  v-model="form.price"
-                  :placeholder="lang().label.price"
-                  :label="lang().label.price"
-                />
-                <InputError class="mt-2" :message="form.errors.price" />
+                <InputLabel for="time_start" :value="lang().label.time_start" />
+                <date-picker
+                  v-model:value="form.time_start"
+                  format="hh:mm A"
+                  value-type="format"
+                  type="time"
+                  placeholder="Select time"
+                ></date-picker>
+                <InputError class="mt-2" :message="form.errors.time_start" />
               </div>
               <div class="col-span-6">
-                <InputLabel
-                  for="commission_type"
-                  :value="lang().label.commission_type"
-                />
-                <SelectInput
-                  id="commission_type"
-                  class="mt-1 block w-full"
-                  v-model="form.commission_type"
-                  :dataSet="commissionType"
-                  @change="changeCommission()"
-                >
-                </SelectInput>
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.commission_type"
-                />
-              </div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Percent'"
-                  v-model="form.sale_price"
-                  :placeholder="lang().label.sale_price"
-                  :label="lang().label.sale_price"
-                />
-                <InputError class="mt-2" :message="form.errors.sale_price" />
-              </div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Selling'"
-                  v-model="form.commission"
-                  :placeholder="lang().label.commission"
-                  :label="lang().label.commission"
-                />
-                <InputError class="mt-2" :message="form.errors.commission" />
-              </div>
-              <div class="col-span-6">
-                <InputLabel
-                  for="display_on_homepage"
-                  :value="lang().label.display_on_homepage"
-                />
-                <SelectInput
-                  id="display_on_homepage"
-                  class="mt-1 block w-full"
-                  v-model="form.display_on_homepage"
-                  :dataSet="dataSwitch"
-                >
-                </SelectInput>
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.display_on_homepage"
-                />
-              </div>
-              <div class="col-span-6">
-                <InputLabel for="color" :value="lang().label.color" />
-                <SelectInput
-                  id="color"
-                  class="mt-1 block w-full"
-                  v-model="form.color_id"
-                  :dataSet="colors"
-                >
-                </SelectInput>
-                <InputError class="mt-2" :message="form.errors.color_id" />
-              </div>
-              <div class="col-span-6">
-                <InputLabel for="condition" :value="lang().label.condition" />
-                <SelectInput
-                  id="condition"
-                  class="mt-1 block w-full"
-                  v-model="form.condition"
-                  :dataSet="condition"
-                >
-                </SelectInput>
-                <InputError class="mt-2" :message="form.errors.condition" />
-              </div>
+                <InputLabel for="time_end" :value="lang().label.time_end" />
+                <date-picker
+                  v-model:value="form.time_end"
+                  format="hh:mm A"
+                  value-type="format"
+                  type="time"
+                  placeholder="Select time"
+                ></date-picker>
+                <InputError class="mt-2" :message="form.errors.time_end" />
+              </div> 
               <div class="col-span-6">
                 <FwbTextarea
                   rows="4"
-                  :placeholder="lang().label.description"
-                  v-model="form.description"
-                  :label="lang().label.description"
+                  :placeholder="lang().label.maps"
+                  v-model="form.maps"
+                  :label="lang().label.maps"
                 />
-                <InputError class="mt-2" :message="form.errors.description" />
-              </div>
+                <InputError class="mt-2" :message="form.errors.maps" />
+              </div>             
+
               <div class="col-span-6">
-                <FwbTextarea
-                  rows="4"
-                  :placeholder="lang().label.history"
-                  v-model="form.history"
-                  :label="lang().label.history"
-                />
-                <InputError class="mt-2" :message="form.errors.history" />
+                <FwbFileInput accept="image/*" v-model="form.banner" :label="lang().label.banner" />
+                <InputError class="mt-2" :message="form.errors.banner" />
               </div>
+
+              <div class="col-span-6">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{ lang().label.detail_maps }} </label>
+                  <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.detail_maps" v-model:content="form.detail_maps" />
+                  <InputError class="mt-2" :message="form.errors.detail_maps" />
+              </div>
+
+              <div class="col-span-6">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{ lang().label.description }} </label>
+                  <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
+                  <InputError class="mt-2" :message="form.errors.description" />
+              </div>
+
+              <div class="col-span-6 mt-24">
+                <FwbFileInput accept="image/*" v-model="form.cover" :label="lang().label.cover" />
+                <InputError class="mt-2" :message="form.errors.cover" />
+              </div>
+              
+              <div class="col-span-6"></div>
+
+              <div class="col-span-6">
+                <button :disabled="!canAddTicket" @click="data.createOpen = true"
+                    class="btn-primary mb-2" :class="{
+                    'opacity-25': !canAddTicket,
+                  }" type="button">
+                    {{ lang().label.add_ticket }}
+                </button>                
+              </div>
+
+              <div class="col-span-6"></div>
 
               <div class="col-span-12">
-                <filepond
-                  name="image"
-                  ref="filepondRef"
-                  label-idle="Upload Images..."
-                  :allow-multiple="true"
-                  accepted-file-types="image/jpeg, image/png"
-                  maxFileSize="1MB"
-                  :files="images"
-                  @init="handleFilePondInit"
-                />
+                <h3 class="mb-4 text-xl font-semibold dark:text-white">
+                  {{ lang().label.list_ticket }}
+                </h3>
+                <fwb-table>
+                  <fwb-table-head>
+                    <fwb-table-head-cell>Name</fwb-table-head-cell>
+                    <fwb-table-head-cell>Date</fwb-table-head-cell>
+                    <fwb-table-head-cell>Time</fwb-table-head-cell>
+                    <fwb-table-head-cell>Contact Person</fwb-table-head-cell>
+                    <fwb-table-head-cell>HTM</fwb-table-head-cell>
+                    <fwb-table-head-cell>Refundable</fwb-table-head-cell>
+                    <fwb-table-head-cell>
+                      <span class="sr-only">Edit</span>
+                      <span class="sr-only">Delete</span>
+                    </fwb-table-head-cell>
+                  </fwb-table-head>
+                  <fwb-table-body>
+                    <fwb-table-row v-for="(detail, index) in form.details"
+                      :key="index">
+                      <fwb-table-cell>{{ detail.name }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.date }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.time_start }} - {{ detail.time_end }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.contact }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.price == 0 ? 'Free' : priceFormat(detail.price) }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.is_refundable == true ? 'Yes' : 'No' }}</fwb-table-cell>
+                      <fwb-table-cell>
+                        <fwb-button type="button" size="xs" class="mr-2" @click="
+                                                                (data.editOpen = true),
+                                                                    (data.ticket = detail)" color="default">Edit</fwb-button>
+                        <fwb-button type="button" size="xs" @click="removeTicket(index)" color="red">Delete</fwb-button>
+                      </fwb-table-cell>
+                    </fwb-table-row>
+                  </fwb-table-body>
+                </fwb-table>
               </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
                 <PrimaryButton
                   type="submit"
-                  :class="{ 'opacity-25': form.processing }"
-                  :disabled="form.processing"
+                  :class="{
+                    'opacity-25': form.processing || form.details.length == 0,
+                  }"
+                  :disabled="form.processing || form.details.length == 0"
                 >
                   {{
                     form.processing
@@ -460,13 +299,8 @@ const changeCommission = () => {
                       : lang().button.save
                   }}
                 </PrimaryButton>
-                <SecondaryButton
-                  :disabled="form.processing"
-                  @click="form.reset()"
-                >
-                  Reset
-                </SecondaryButton>
               </div>
+
             </div>
           </form>
         </div>
@@ -474,5 +308,4 @@ const changeCommission = () => {
     </div>
   </AuthenticatedLayout>
 </template>
-
 

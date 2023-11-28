@@ -1,8 +1,9 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch, ref } from "vue";
+import { reactive, watch, ref, computed } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
+import { priceFormat } from '../../helper.js'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 import InputError from "@/Components/InputError.vue";
@@ -13,6 +14,7 @@ import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import CreateTicket from "@/Pages/Event/CreateTicket.vue";
+import EditTicket from "@/Pages/Event/EditTicket.vue";
 
 import { 
   FwbTextarea, FwbFileInput, FwbInput,
@@ -40,6 +42,7 @@ const data = reactive({
     createOpen: false,
     editOpen: false,
     deleteOpen: false,    
+    ticket:null
 });
 
 const form = useForm({
@@ -50,12 +53,29 @@ const form = useForm({
   time_start: "",
   time_end: "",
   maps:"",
-  maps_address:"",
+  detail_maps:"",
   cover:"",
   banner:"",  
   description: "",
   details: [
-
+    // {
+    //   name: "tes",
+    //   date: "10-10-2020",
+    //   time_start: "10:10 AM",
+    //   time_end: "12:00 AM",
+    //   contact: "123",
+    //   price: 0,
+    //   is_refundable: true,
+    // },
+    // {
+    //   name: "tes123",
+    //   date: "12-10-2020",
+    //   time_start: "10:10 AM",
+    //   time_end: "12:00 AM",
+    //   contact: "1235677",
+    //   price: 10000,
+    //   is_refundable: false,
+    // }
   ],
 });
 
@@ -96,6 +116,10 @@ const removeTicket = (index) => {
   form.details.splice(index, 1);
 }
 
+const canAddTicket = computed(() => {
+  return form.name != '' && form.place != '' && form.start_date != ''
+  && form.end_date != '' && form.time_start != '' && form.time_end != '';
+});
 
 watch(
   () => form,
@@ -118,6 +142,13 @@ watch(
         title="Ticket"
         :dataEvent="dataEvent"
         :details="form.details"
+    />
+
+    <edit-ticket
+        :show="data.editOpen"
+        @close="data.editOpen = false"
+        :ticket="data.ticket"
+        :title="props.title"
     />
 
     <div
@@ -191,34 +222,14 @@ watch(
                 <InputError class="mt-2" :message="form.errors.time_end" />
               </div> 
               <div class="col-span-6">
-                <FwbInput
-                  v-model="form.maps"
+                <FwbTextarea
+                  rows="4"
                   :placeholder="lang().label.maps"
+                  v-model="form.maps"
                   :label="lang().label.maps"
                 />
                 <InputError class="mt-2" :message="form.errors.maps" />
-              </div>
-
-              <div class="col-span-6">
-                <FwbInput
-                  v-model="form.maps_address"
-                  :placeholder="lang().label.maps_address"
-                  :label="lang().label.maps_address"
-                />
-                <InputError class="mt-2" :message="form.errors.maps_address" />
-              </div>
-
-              <div class="col-span-6">
-                <FwbInput
-                  v-model="form.detail_address"
-                  :placeholder="lang().label.detail_address"
-                  :label="lang().label.detail_address"
-                />
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.detail_address"
-                />
-              </div>
+              </div>             
 
               <div class="col-span-6">
                 <FwbFileInput accept="image/*" v-model="form.banner" :label="lang().label.banner" />
@@ -226,15 +237,29 @@ watch(
               </div>
 
               <div class="col-span-6">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{ lang().label.detail_maps }} </label>
+                  <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.detail_maps" v-model:content="form.detail_maps" />
+                  <InputError class="mt-2" :message="form.errors.detail_maps" />
+              </div>
+
+              <div class="col-span-6">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{ lang().label.description }} </label>
+                  <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
+                  <InputError class="mt-2" :message="form.errors.description" />
+              </div>
+
+              <div class="col-span-6 mt-24">
                 <FwbFileInput accept="image/*" v-model="form.cover" :label="lang().label.cover" />
                 <InputError class="mt-2" :message="form.errors.cover" />
               </div>
-
+              
               <div class="col-span-6"></div>
 
               <div class="col-span-6">
-                <button @click="data.createOpen = true"
-                    class="btn-primary mb-2" type="button">
+                <button :disabled="!canAddTicket" @click="data.createOpen = true"
+                    class="btn-primary mb-2" :class="{
+                    'opacity-25': !canAddTicket,
+                  }" type="button">
                     {{ lang().label.add_ticket }}
                 </button>                
               </div>
@@ -252,7 +277,7 @@ watch(
                     <fwb-table-head-cell>Time</fwb-table-head-cell>
                     <fwb-table-head-cell>Contact Person</fwb-table-head-cell>
                     <fwb-table-head-cell>HTM</fwb-table-head-cell>
-                    <fwb-table-head-cell>Refunable</fwb-table-head-cell>
+                    <fwb-table-head-cell>Refundable</fwb-table-head-cell>
                     <fwb-table-head-cell>
                       <span class="sr-only">Edit</span>
                       <span class="sr-only">Delete</span>
@@ -265,10 +290,12 @@ watch(
                       <fwb-table-cell>{{ detail.date }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.time_start }} - {{ detail.time_end }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.contact }}</fwb-table-cell>
-                      <fwb-table-cell>{{ detail.price == 0 ? 'Free' : detail.price }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.price == 0 ? 'Free' : priceFormat(detail.price) }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.is_refundable == true ? 'Yes' : 'No' }}</fwb-table-cell>
                       <fwb-table-cell>
-                        <fwb-button type="button" size="xs" class="mr-2" color="default">Edit</fwb-button>
+                        <fwb-button type="button" size="xs" class="mr-2" @click="
+                                            (data.editOpen = true),
+                                                (data.ticket = detail)" color="default">Edit</fwb-button>
                         <fwb-button type="button" size="xs" @click="removeTicket(index)" color="red">Delete</fwb-button>
                       </fwb-table-cell>
                     </fwb-table-row>
