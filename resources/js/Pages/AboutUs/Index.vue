@@ -41,6 +41,10 @@ const order = (field) => {
     data.params.order = data.params.order === "asc" ? "desc" : "asc";
 };
 
+const truncate = (value, length) => {
+    return value.length > length ? value.slice(0, length) + "......" : value;
+}
+
 watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
@@ -77,7 +81,7 @@ watch(
             :about="data.about"
             :title="props.title"
         />
-                
+
         <div class="flex flex-col mx-auto  pb-10 ">
             <div class="grid mb-10 px-4 pt-6 grid-cols-1 dark:bg-gray-900">
                 <div class="col-span-2">
@@ -105,6 +109,9 @@ watch(
                                                     {{ lang().label.title }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.description }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.address }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
@@ -123,6 +130,8 @@ watch(
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ about.title }}</td>
+                                                <td class="tbl-column" v-html="truncate(about.description, 25)">
+                                                </td>
                                                 <td class="tbl-column"> {{ about.address }}</td>
                                                 <td class="w-32">
                                                     <img :src="about.image_url" :alt="about.name">
@@ -150,10 +159,10 @@ watch(
                             </div>
                         </div>
 
-                    </div>                   
+                    </div>
                 </div>
-            </div>            
-        </div>        
+            </div>
+        </div>
 
     </AuthenticatedLayout>
 </template>
