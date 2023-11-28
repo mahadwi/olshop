@@ -43,6 +43,6 @@ class UserTransformer extends TransformerAbstract
 
     public function includeAddresses($user)
     {
-        return $this->item($user->addresses, new AddressTransformer);
+        return $this->collection($user->addresses, new AddressTransformer);
     }
 }
