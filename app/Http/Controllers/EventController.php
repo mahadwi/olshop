@@ -72,11 +72,9 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {   
-        $event = Event::find($event->id)->with('details')->first();
-
         return Inertia::render('Event/Edit', [
             'title'             => 'Edit '.__('app.label.event'),
-            'event'         => $event,
+            'event'         => $event->load('details'),
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.event'), 'href' => route('event.index')],
