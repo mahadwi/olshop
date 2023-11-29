@@ -20,6 +20,7 @@ use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
+use App\Http\Controllers\API\EventApiController;
 use App\Http\Controllers\API\SubscribeApiController;
 
 /*
@@ -57,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::resource('product', ProductApiController::class)->only('index', 'show');
+Route::resource('event', EventApiController::class)->only('index', 'show');
 
 Route::get('brand', [BrandApiController::class, 'index']);
 Route::get('color', [ColorApiController::class, 'index']);

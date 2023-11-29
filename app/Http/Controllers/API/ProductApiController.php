@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\API\ProductApiRequest;
-use App\Repositories\ProductRepository;
-use App\Transformers\API\ProductTransformer;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\ProductRepository;
+use App\Http\Requests\API\ProductApiRequest;
+use App\Transformers\API\ProductTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductApiController extends Controller
 {
@@ -58,5 +60,21 @@ class ProductApiController extends Controller
             ];
         }
         return $this->apiSuccess($productF, $meta);
+    }
+
+    public function show($product)
+    {
+        $product = Product::find($product);
+        
+        if($product){
+            
+            $product = fractal($product, new ProductTransformer());
+
+            return $this->apiSuccess($product);
+        } else {
+            
+            return $this->apiError([], [], 'Product Not Found');
+        }
+
     }
 }
