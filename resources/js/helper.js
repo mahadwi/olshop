@@ -1,4 +1,4 @@
-export { priceFormat, round };
+export { priceFormat, round, truncate };
 
 function priceFormat(amount = 0) {
     var rupiah = "";
@@ -18,4 +18,8 @@ function round(num, decimalPlaces = 0) {
     var p = Math.pow(10, decimalPlaces);
     var n = (num * p) * (1 + Number.EPSILON);
     return Math.round(n) / p;
+}
+
+function truncate (value, length) {
+    return value.length > length ? value.slice(0, length) + "......" : value;
 }

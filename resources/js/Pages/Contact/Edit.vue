@@ -6,7 +6,7 @@ import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { FwbInput, FwbFileInput } from "flowbite-vue";
+import { FwbInput, FwbTextarea, FwbFileInput } from "flowbite-vue";
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 
@@ -83,11 +83,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.address" />
           </div>
           <div>
-            <FwbInput
-              v-model="form.maps"
-              :placeholder="lang().label.maps"
-              :label="lang().label.maps"
-            />
+            <FwbTextarea rows="2" :placeholder="lang().label.maps" v-model="form.maps" :label="lang().label.maps" />
             <InputError class="mt-2" :message="form.errors.maps" />
           </div>
           <div>

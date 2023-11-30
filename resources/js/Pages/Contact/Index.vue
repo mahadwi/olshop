@@ -3,6 +3,7 @@ import { Head, Link } from "@inertiajs/vue3";
 import { reactive, watch } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import pkg from "lodash";
+import { truncate } from '../../helper.js'
 
 import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -106,6 +107,9 @@ watch(
                                                     {{ lang().label.telp }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.address }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.maps }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
@@ -127,7 +131,8 @@ watch(
                                         >
                                                 <td class="tbl-column"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ contact.telp }}</td>
-                                                <td class="tbl-column"> {{ contact.maps }}</td>
+                                                <td class="tbl-column"> {{ contact.address }}</td>
+                                                <td class="tbl-column"> {{ truncate(contact.maps, 25) }}</td>
                                                 <td class="tbl-column"> {{ contact.link }}</td>
                                                 <td class="tbl-column"> {{ contact.email }}</td>
                                                 <td class="p-4 space-x-2 whitespace-nowrap">

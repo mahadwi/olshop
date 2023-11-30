@@ -78,7 +78,7 @@ watchEffect(() => {
             <InputError class="mt-2" :message="form.errors.address" />
           </div>
           <div>
-            <FwbInput v-model="form.maps" :placeholder="lang().label.maps" :label="lang().label.maps" />
+            <FwbTextarea rows="2" :placeholder="lang().label.maps" v-model="form.maps" :label="lang().label.maps" />
             <InputError class="mt-2" :message="form.errors.maps" />
           </div>
 					<div>
