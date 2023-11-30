@@ -14,6 +14,8 @@ import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
 import FilePondInput from '@/Components/FilePondInput.vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 
 const props = defineProps({
@@ -353,13 +355,10 @@ const changeCommission = () => {
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.condition" />
               </div>
+
               <div class="col-span-6">
-                <FwbTextarea
-                  rows="4"
-                  :placeholder="lang().label.description"
-                  v-model="form.description"
-                  :label="lang().label.description"
-                />
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                 <InputError class="mt-2" :message="form.errors.description" />
               </div>
 
@@ -373,7 +372,7 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.history" />
               </div>
 
-              <div class="col-span-12">
+               <div class="col-span-12 mt-20">
                 <FilePondInput
                   v-model="form.image"
                   accept="image/*"
