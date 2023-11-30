@@ -143,6 +143,7 @@ return [
         'date' => 'Date',
         'refundable' => 'Refundable',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
+        'detail_address' => 'Detail Address',
     ],
     'button' => [
         'login' => 'Login',

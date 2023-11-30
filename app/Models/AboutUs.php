@@ -18,6 +18,8 @@ class AboutUs extends Model
         'title',
         'description',
         'address',
+        'detail_address',
+        'maps',
         'image',
     ];
 

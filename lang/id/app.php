@@ -144,6 +144,8 @@ return [
         'date' => 'Tanggal',
         'refundable' => 'Dapat dikembalikan',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
+        'detail_address' => 'Alamat Detail',
+
     ],
     'button' => [
         'login' => 'Masuk',

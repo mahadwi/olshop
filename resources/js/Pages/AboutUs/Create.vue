@@ -21,6 +21,8 @@ const form = useForm({
     title: "",
     description: "",
     address: "",
+    detail_address: "",
+    maps: "",
     image: "",
 });
 
@@ -68,6 +70,16 @@ watchEffect(() => {
                     <div>
                         <FwbTextarea rows="2" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
                         <InputError class="mt-2" :message="form.errors.address" />
+                    </div>
+
+                    <div>
+                        <FwbTextarea rows="2" :placeholder="lang().label.detail_address" v-model="form.detail_address" :label="lang().label.detail_address" />
+                        <InputError class="mt-2" :message="form.errors.detail_address" />
+                    </div>
+
+                    <div>
+                        <FwbTextarea rows="2" :placeholder="lang().label.maps" v-model="form.maps" :label="lang().label.maps" />
+                        <InputError class="mt-2" :message="form.errors.maps" />
                     </div>
 
                     <div>

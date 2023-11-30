@@ -24,6 +24,8 @@ const form = useForm({
     title: "",
     description: "",
     address: "",
+    detail_address: "",
+    maps: "",
     image: "",
 });
 
@@ -44,6 +46,8 @@ watchEffect(() => {
         form.title = props.about?.title;
         form.description = props.about?.description;
         form.address = props.about?.address;
+        form.detail_address = props.about?.detail_address;
+        form.maps = props.about?.maps;
         form.errors = {};
     }
 });
@@ -75,6 +79,15 @@ watchEffect(() => {
                     <div>
                         <FwbTextarea rows="4" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />
                         <InputError class="mt-2" :message="form.errors.address" />
+                    </div>
+                    <div>
+                        <FwbTextarea rows="2" :placeholder="lang().label.detail_address" v-model="form.detail_address" :label="lang().label.detail_address" />
+                        <InputError class="mt-2" :message="form.errors.detail_address" />
+                    </div>
+
+                    <div>
+                        <FwbTextarea rows="2" :placeholder="lang().label.maps" v-model="form.maps" :label="lang().label.maps" />
+                        <InputError class="mt-2" :message="form.errors.maps" />
                     </div>
                     <div>
                         <fwb-file-input accept="image/*" v-model="form.image" :label="lang().label.image" />
