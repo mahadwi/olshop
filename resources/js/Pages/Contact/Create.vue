@@ -24,6 +24,7 @@ const form = useForm({
   facebook: "",
   instagram: "",
   tiktok: "",
+  address: ""
 });
 
 const create = () => {
@@ -71,6 +72,10 @@ watchEffect(() => {
               :error="form.errors.telp"
             />
             <InputError class="mt-2" :message="form.errors.telp" />
+          </div>
+          <div>
+            <FwbInput v-model="form.address" :placeholder="lang().label.address" :label="lang().label.address" />
+            <InputError class="mt-2" :message="form.errors.address" />
           </div>
           <div>
             <FwbInput v-model="form.maps" :placeholder="lang().label.maps" :label="lang().label.maps" />

@@ -19,5 +19,6 @@ class Contact extends Model
         'facebook',
         'instagram',
         'tiktok',
+        'address',
     ];
 }

@@ -21,6 +21,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
   telp: "",
   maps: "",
+  address: "",
   link: "",
   email: "",
   facebook: "",
@@ -45,6 +46,7 @@ watchEffect(() => {
     form.errors = {};
     form.telp = props.contact?.telp;
     form.maps = props.contact?.maps;
+    form.address = props.contact?.address;
     form.link = props.contact?.link;
     form.email = props.contact?.email;
     form.facebook = props.contact?.facebook;
@@ -75,6 +77,10 @@ watchEffect(() => {
               :error="form.errors.telp"
             />
             <InputError class="mt-2" :message="form.errors.telp" />
+          </div>
+          <div>
+            <FwbInput v-model="form.address" :placeholder="lang().label.address" :label="lang().label.address" />
+            <InputError class="mt-2" :message="form.errors.address" />
           </div>
           <div>
             <FwbInput
