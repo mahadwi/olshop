@@ -57,10 +57,11 @@ class ProductRepository extends AbstractRepository
             })
             ->when(isset($params['color_id']), function ($query) use ($params) {
                 $query->where('color_id', $params['color_id']);
+            })
+            ->when(isset($params['price_min']) && isset($params['price_max']), function ($query) use ($params) {               
+                $query->where('price', '>=', $params['price_min']);
+                $query->where('price', '<=', $params['price_max']);
             });
-            // ->when(isset($params['passenger']), function ($query) use ($params) {
-            //     $query->where('passenger', $params['passenger']);
-            // })
             // ->when(isset($params['search']), function ($query) use ($params) {
             //     $query->where('name', 'ilike', "%{$params['search']}%");
             // })

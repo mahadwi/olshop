@@ -31,15 +31,15 @@ class ProductApiController extends Controller
             }
         }
 
-        if (
-            isset($request->price_min)
-            && isset($request->price_max)
-        ) {
-            $product = $product->filter(function ($item) use ($request) {
-                return $item['sale_price'] >= $request->price_min
-                    && $item['sale_price'] <= $request->price_max;
-            });
-        }
+        // if (
+        //     isset($request->price_min)
+        //     && isset($request->price_max)
+        // ) {
+        //     $product = $product->filter(function ($item) use ($request) {
+        //         return $item['sale_price'] >= $request->price_min
+        //             && $item['sale_price'] <= $request->price_max;
+        //     });
+        // }
 
         $productF = [];
 
