@@ -23,14 +23,6 @@ class ProductApiController extends Controller
         
         $product = collect($product);
 
-        if ($request->has('sort')) {
-            if ($request->sort['ordering'] === 'desc') {
-                $product = collect($product)->sortByDesc($request->sort['name']);
-            } else {
-                $product = collect($product)->SortBy($request->sort['name']);
-            }
-        }
-
         $productF = [];
 
         foreach ($product as $dataProdct) {

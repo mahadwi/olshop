@@ -61,7 +61,15 @@ class ProductRepository extends AbstractRepository
             ->when(isset($params['price_min']) && isset($params['price_max']), function ($query) use ($params) {               
                 $query->where('price', '>=', $params['price_min']);
                 $query->where('price', '<=', $params['price_max']);
-            });
+            })
+            ->when(isset($params['sort']), function ($query) use ($params) {            
+                $query->orderBy($params['sort']['name'], $params['sort']['ordering']);   
+            })
+            ->when(isset($params['is_new_arrival']) && $params['is_new_arrival'] == true, function ($query) use ($params) {
+                $query->isNewArrival();
+            })
+            ;
+
             // ->when(isset($params['search']), function ($query) use ($params) {
             //     $query->where('name', 'ilike', "%{$params['search']}%");
             // })

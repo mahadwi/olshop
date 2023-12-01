@@ -35,12 +35,17 @@ class Product extends Model
         'height'
     ];
 
-    protected $appends = ['status', 'fixWeight'];
+    protected $appends = ['status', 'fixWeight', 'isNewArrival'];
 
     protected $casts = [
         'entry_date' => 'date:d-m-Y',
         'expired_date' => 'date:d-m-Y',
     ];
+
+    public function scopeIsNewArrival($query)
+    {
+        return $query->where('entry_date', '>', Carbon::now()->subMonth());
+    }
 
     function getStatusAttribute() {
         return $this->is_active ? __('app.label.active') : __('app.label.not_active');
@@ -50,9 +55,14 @@ class Product extends Model
         return ($this->weight * 1000) > $this->calculateVolume() ? $this->weight * 1000 : $this->calculateVolume();
     }
 
+    function getIsNewArrivalAttribute(){
+        return $this->entry_date->diffInMonths(Carbon::now()) <= 0;
+    }
+
     function calculateVolume(){
         return ($this->length * $this->width * $this->height) / 6;
     }
+    
 
     protected static function booted(): void
     {

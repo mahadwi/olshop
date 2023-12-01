@@ -28,6 +28,8 @@ class ProductApiRequest extends FormRequest
             'category_id' => ['nullable', 'array'],
             'price_min' => ['nullable', 'integer', 'min:0'],
             'price_max' => ['nullable', 'integer', 'min:0'],
+            'sort_by' => ['nullable', 'in:name_asc,name_desc,price_asc,price_desc,date_asc,date_desc'],
+            'is_new_arrival' => ['nullable', 'boolean'],
         ];
     }
 
@@ -37,5 +39,42 @@ class ProductApiRequest extends FormRequest
             'errors' => $validator->errors(),
             'status' => true
         ], 422));
+    }
+
+    protected function prepareForValidation()
+    {
+
+        $data = [
+            'sort' => null,
+        ];
+
+        $data['sort'] = $this->normalizeSortingParams();
+
+        $this->merge($data);
+    }
+
+    private function normalizeSortingParams(): array
+    {
+        $sortOrder = 'asc';
+        $sortName = 'name';
+
+        if (isset($this->sort_by)) {
+
+            $sort = explode('_', $this->sort_by);
+            if ($sort[1] === 'desc') {
+                $sortOrder = 'desc';
+            }
+            if ($sort[0] === 'price') {
+                $sortName = 'sale_price';
+            }
+            if ($sort[0] === 'date') {
+                $sortName = 'entry_date';
+            }
+        }
+
+        $sortBy['name'] = $sortName;
+        $sortBy['ordering'] = $sortOrder;
+
+        return $sortBy;
     }
 }
