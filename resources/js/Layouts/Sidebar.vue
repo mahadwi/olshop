@@ -1,7 +1,7 @@
 <script setup>
   import { Link } from "@inertiajs/vue3";
 
-  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') || route().current('member.*') || route().current('group-asset.*') || route().current('asset.*') || route().current('event.*') ? '' : 'hidden'
+  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') || route().current('member.*') || route().current('group-asset.*') || route().current('asset.*') || route().current('event.*') || route().current('review.*') ? '' : 'hidden'
 
   const activeSetting = route().current('about.*') || route().current('contact.*') || route().current('return-police.*') || route().current('privacy-police.*') || route().current('term-condition.*')  || route().current('delivery-shipping.*') || route().current('customer-care.*') ? '' : 'hidden'
 
@@ -288,6 +288,19 @@
 
                   >
                     {{ lang().label.subscribe_splash }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('review.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('review.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ lang().label.review }}
                   </Link>
                 </li>
               </ul>

@@ -145,7 +145,8 @@ return [
         'refundable' => 'Dapat dikembalikan',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
         'detail_address' => 'Alamat Detail',
-
+        'review' => 'Ulasan',
+        'rating' => 'Penilaian',
     ],
     'button' => [
         'login' => 'Masuk',

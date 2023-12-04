@@ -144,6 +144,8 @@ return [
         'refundable' => 'Refundable',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
         'detail_address' => 'Detail Address',
+        'review' => 'Review',
+        'rating' => 'Rating',
     ],
     'button' => [
         'login' => 'Login',

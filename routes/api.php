@@ -21,6 +21,7 @@ use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\EventApiController;
+use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\SubscribeApiController;
 
 /*
@@ -78,3 +79,4 @@ Route::get('courier', [CourierApiController::class, 'index']);
 Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index']);
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
+Route::get('review', [ReviewApiController::class, 'index']);

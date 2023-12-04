@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\GroupAssetController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SubscribeController;
 
 /*
@@ -79,4 +80,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/subscribe', SubscribeController::class)->except('create', 'show', 'edit', 'update');
     Route::post('subscribe/{subscribe}/update', [SubscribeController::class, 'update'])->name('subscribe.update');
+
+    Route::resource('/review', ReviewController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
+
+
 });
