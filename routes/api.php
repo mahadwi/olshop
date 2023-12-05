@@ -23,6 +23,7 @@ use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\EventApiController;
 use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\SubscribeApiController;
+use App\Http\Controllers\API\WishlistApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
+
+    Route::resource('wishlist', WishlistApiController::class)->except('create', 'show', 'edit');
 
 
 });
