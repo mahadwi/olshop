@@ -23,8 +23,8 @@ class WishlistApiController extends Controller
     public function store(StoreWishlistApiRequest $request)
     {
         $wishlist = Wishlist::firstOrCreate([
-            ['user_id', $request->user_id],
-            ['product_id', $request->product_id]
+            'product_id' => $request->product_id,
+            'user_id' => $request->user_id
         ]);
 
         $wishlist = fractal($wishlist, new WishListTransformer);
