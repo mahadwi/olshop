@@ -3,9 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CartApiController;
 use App\Http\Controllers\API\BrandApiController;
 use App\Http\Controllers\API\ColorApiController;
+use App\Http\Controllers\API\EventApiController;
 use App\Http\Controllers\API\BannerApiController;
+use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
 use App\Http\Controllers\API\ContactApiController;
@@ -13,17 +16,15 @@ use App\Http\Controllers\API\CourierApiController;
 use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\ProductApiController;
 use App\Http\Controllers\API\RegisterApiController;
+use App\Http\Controllers\API\WishlistApiController;
 use App\Http\Controllers\API\KecamatanApiController;
-use App\Http\Controllers\API\ProductCategoryApiController;
+use App\Http\Controllers\API\SubscribeApiController;
+use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
+use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
-use App\Http\Controllers\API\CustomerCareApiController;
-use App\Http\Controllers\API\EventApiController;
-use App\Http\Controllers\API\ReviewApiController;
-use App\Http\Controllers\API\SubscribeApiController;
-use App\Http\Controllers\API\WishlistApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
 
     Route::resource('wishlist', WishlistApiController::class)->except('create', 'show', 'edit');
+    Route::resource('cart', CartApiController::class)->except('create', 'show', 'edit');
 
 
 });
