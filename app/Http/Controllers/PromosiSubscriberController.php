@@ -25,16 +25,13 @@ class PromosiSubscriberController extends Controller
         $promoSub = Promo::query();
 
         if ($request->has('search')) {
-            $promoSub->whereHas('promo', function($query) use ($request) {
-                $query->where('title', 'ILIKE', "%" . $request->search . "%");
-            });
+            $promoSub->where('title', 'ILIKE', "%" . $request->search . "%");
         }
-
         if ($request->has(['field', 'order'])) {
             $promoSub->orderBy($request->field, $request->order);
         }
 
-
+        $promoSub->orderBy('id');
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
 
@@ -86,7 +83,6 @@ class PromosiSubscriberController extends Controller
 
     public function store(PromoSubscribeStoreRequest $request)
     {
-
         $promoSubscribe = new PromoSubscribe();
         $emails = new Email();
         // if($request->isCheckAll){
@@ -116,11 +112,13 @@ class PromosiSubscriberController extends Controller
                        'message' => $request->post('message')
                     ];
                     SendEmailPromotionSubscribesJobs::dispatch($dataParams);
+                }else {
+
                 }
             }
             return back()->with('success', __('app.label.created_successfully', ['name' => $promo ->title]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.return_police')]) . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.list_email')]) . $th->getMessage());
         }
     }
 

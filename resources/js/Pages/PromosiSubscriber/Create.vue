@@ -98,7 +98,7 @@ const handlePaneClick = () => {
                         <InputError class="mt-2" :message="form.errors.message" />
                     </div>
                 </div>
-
+                <InputError class="mt-2" :message="form.errors.isChecked" />
                 <FwbTabs v-model="activeTab" class="p-5" @click:pane="handlePaneClick()">
                     <FwbTab name="first" :title="lang().label.get_email">
                         <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
