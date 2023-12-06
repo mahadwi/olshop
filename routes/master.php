@@ -22,6 +22,7 @@ use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\GroupAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\PromosiSubscriberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +80,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/subscribe', SubscribeController::class)->except('create', 'show', 'edit', 'update');
     Route::post('subscribe/{subscribe}/update', [SubscribeController::class, 'update'])->name('subscribe.update');
+
+    Route::resource('/promo-subscribe', PromosiSubscriberController::class)->except('create', 'show', 'edit', 'update');
+    Route::get('promo-subscribe/loadEmail', [PromosiSubscriberController::class, 'loadEmail'])->name('promo-subscribe.loadEmail');
+    Route::post('promo-subscribe/{promo}/update', [PromosiSubscriberController::class, 'update'])->name('promo-subscribe.update');
+    Route::get('promo-subscribe/loadDetailEmail', [PromosiSubscriberController::class, 'loadDetailEmail'])->name('promo-subscribe.loadDetailEmail');
 });
