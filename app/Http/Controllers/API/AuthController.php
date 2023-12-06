@@ -28,7 +28,7 @@ class AuthController extends Controller
         $user = $this->validateUser($request->validated());
 
         if (!($user instanceof User)) {
-            return $this->apiError([], $user);
+            return $this->apiError([], [], $user);
         }
 
         if (Auth::attempt($request->validated(), false)) {

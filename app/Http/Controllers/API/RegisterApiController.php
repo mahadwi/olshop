@@ -22,7 +22,7 @@ class RegisterApiController extends Controller
         $user = User::where('email', $request['email'])->first();
 
         if ($user && is_null($user->email_verified_at)) {
-            return $this->apiError([], 'unverified account');
+            return $this->apiError([], [], 'unverified account');
         }
 
         $user = (new RegisterCustomerAction($request->all()))->handle();        
