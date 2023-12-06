@@ -285,33 +285,31 @@
                         ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
                   "
-
                   >
                     {{ lang().label.subscribe_splash }}
                   </Link>
                 </li>
                 <li>
-<<<<<<< HEAD
                   <Link :href="route('promo-subscribe.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
 
                   :class="
                     route().current('promo-subscribe.*')
-=======
+                    ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                    "
+                    >
+                      {{ lang().label.promo_subscribe }}
+                    </Link>
+                </li>
+                <li>
                   <Link :href="route('review.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
 
                   :class="
                     route().current('review.*')
->>>>>>> 8bf577af594576ca3e6ea4bd68c85b2bcdb31bc0
-                        ? 'bg-gray-100 dark:bg-gray-700'
+                    ? 'bg-gray-100 dark:bg-gray-700'
                         : ''
-                  "
-
-                  >
-<<<<<<< HEAD
-                    {{ lang().label.promo_subscribe }}
-=======
-                    {{ lang().label.review }}
->>>>>>> 8bf577af594576ca3e6ea4bd68c85b2bcdb31bc0
+                    "
+                    >{{ lang().label.review }}
                   </Link>
                 </li>
               </ul>
