@@ -145,6 +145,12 @@ return [
         'refundable' => 'Dapat dikembalikan',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
         'detail_address' => 'Alamat Detail',
+        'promo_subscribe' => 'Promosi Subscribe',
+        'email_message' => 'Pesan Email',
+        'list_email' => 'Daftar Email',
+        'get_email' => 'Daftar Email',
+        'email_status' => 'Terkirim',
+
         'review' => 'Ulasan',
         'rating' => 'Penilaian',
     ],
@@ -167,6 +173,7 @@ return [
         'next' => 'Selanjutnya',
         'delete_account' => 'Hapus Akun',
         'update' => 'Update',
+        'save_send' => 'Simpan Dan Kirim',
     ],
     'placeholder' => [
         'search' => 'Cari...',

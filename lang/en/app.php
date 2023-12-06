@@ -144,6 +144,11 @@ return [
         'refundable' => 'Refundable',
         'subscribe_splash' => 'Subscribe (Splash Screen)',
         'detail_address' => 'Detail Address',
+        'promo_subscribe' => 'Promosi Subscribe',
+        'email_message' => 'Email Message',
+        'list_email' => 'List Email',
+        'get_email' => 'Get Email',
+        'email_status' => 'Delivered',
         'review' => 'Review',
         'rating' => 'Rating',
     ],
@@ -167,7 +172,7 @@ return [
         'delete_account' => 'Delete Account',
         'no' => 'No',
         'update' => 'Update',
-
+        'save_send' => 'Save And Send',
     ],
     'placeholder' => [
         'search' => 'Search...',
