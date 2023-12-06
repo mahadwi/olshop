@@ -149,6 +149,8 @@ return [
         'list_email' => 'List Email',
         'get_email' => 'Get Email',
         'email_status' => 'Delivered',
+        'review' => 'Review',
+        'rating' => 'Rating',
     ],
     'button' => [
         'login' => 'Login',

@@ -21,7 +21,9 @@ use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\EventApiController;
+use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\SubscribeApiController;
+use App\Http\Controllers\API\WishlistApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
 
+    Route::resource('wishlist', WishlistApiController::class)->except('create', 'show', 'edit');
+
 
 });
 
@@ -78,3 +82,4 @@ Route::get('courier', [CourierApiController::class, 'index']);
 Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index']);
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
+Route::get('review', [ReviewApiController::class, 'index']);

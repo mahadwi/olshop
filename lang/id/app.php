@@ -151,6 +151,8 @@ return [
         'get_email' => 'Daftar Email',
         'email_status' => 'Terkirim',
 
+        'review' => 'Ulasan',
+        'rating' => 'Penilaian',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -1,4 +1,4 @@
-export { priceFormat, round, truncate };
+export { priceFormat, round, truncate, dataSwitch };
 
 function priceFormat(amount = 0) {
     var rupiah = "";
@@ -23,3 +23,14 @@ function round(num, decimalPlaces = 0) {
 function truncate (value, length) {
     return value.length > length ? value.slice(0, length) + "......" : value;
 }
+
+const dataSwitch = [
+    {
+        name: "Yes",
+        value: true
+    },
+    {
+        name: "No",
+        value: false
+    }    
+];

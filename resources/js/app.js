@@ -7,6 +7,7 @@ import { usePage } from '@inertiajs/vue3';
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import PrimeVue from 'primevue/config';
 
 router.on('success', (event) => {
   initFlowbite()
@@ -29,6 +30,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(VueTailwindDatepicker)
             .use(VueDatePicker)
+            .use(PrimeVue)
             .mixin({
                 methods: {
                     // can: function (permissions) {

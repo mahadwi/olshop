@@ -53,8 +53,8 @@ class ProductTransformer extends TransformerAbstract
             'sale_price'    => $product->sale_price,
             'condition'     => $product->condition,
             'is_wishlist'   => false,
-            'is_new_arrival'=> $product->entry_date->diffInMonths(Carbon::now()) > 0 ? false : true,
-            'entry_date'    => $product->entry_date,
+            'is_new_arrival'=> $product->isNewArrival,
+            'entry_date'    => $product->entry_date->format('d-m-Y'),
             'weight'        => $product->fixWeight,
             'images'        => $this->images($product),        
         ];

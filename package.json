@@ -30,6 +30,7 @@
         "flowbite-vue": "^0.1.0",
         "lightvue": "^1.5.1",
         "lodash": "^4.17.21",
+        "primevue": "^3.42.0",
         "vue-datepicker-next": "^1.0.3",
         "vue-filepond": "^7.0.4",
         "vue-tailwind-datepicker": "^1.6.1"
