@@ -25,13 +25,14 @@ class Controller extends BaseController
     
     protected function apiError($data = [], $meta = [], $message = 'Error', int $code = 422)
     {
-        return response(
+        return response()->json(
             [
                 'data' => $data,
                 'meta' => $meta,
                 'message' => $message,
                 'errorCode' => $code
-            ]
+            ],
+            $code
         );
     }
 }
