@@ -16,7 +16,9 @@ use App\Actions\UpdateSubscribeAction;
 use App\Http\Requests\PromoSubscribeStoreRequest;
 use App\Http\Requests\PromoSubscribeUpdateRequest;
 use App\Http\Requests\SubscribeUpdateRequest;
-use App\Jobs\SendEmailPromotionSubscribesJobs;
+// use App\Jobs\SendEmailPromotionSubscribesJobs;
+use App\Mail\SendEmailPromotionSubscribes;
+use Illuminate\Support\Facades\Mail;
 
 class PromosiSubscriberController extends Controller
 {
@@ -25,16 +27,13 @@ class PromosiSubscriberController extends Controller
         $promoSub = Promo::query();
 
         if ($request->has('search')) {
-            $promoSub->whereHas('promo', function($query) use ($request) {
-                $query->where('title', 'ILIKE', "%" . $request->search . "%");
-            });
+            $promoSub->where('title', 'ILIKE', "%" . $request->search . "%");
         }
-
         if ($request->has(['field', 'order'])) {
             $promoSub->orderBy($request->field, $request->order);
         }
 
-
+        $promoSub->orderBy('id');
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
 
@@ -51,11 +50,29 @@ class PromosiSubscriberController extends Controller
     }
 
     public function loadDetailEmail(Request $request) {
-        $result = PromoSubscribe::select('emails.name', 'emails.email', 'promo_subscribes.status')
-        ->join('emails', 'promo_subscribes.email_id', '=', 'emails.id')
-        ->where('promo_subscribes.promo_id', $request->promo_id)
-        ->get();
-        return $result;
+        // $result = Emails::select('emails.name', 'emails.email', 'promo_subscribes.status')
+        // ->join('promo_subscribes', 'promo_subscribes.email_id', '=', 'emails.id')
+        // ->where('promo_subscribes.promo_id', $request->promo_id)
+        // ->get();
+
+        $part1 = DB::table('emails as a')
+        ->join('promo_subscribes as ps', 'a.id', '=', 'ps.email_id')
+        ->where('ps.promo_id', '=', $request->promo_id)
+        ->select('a.id','a.email', 'a.name', 'ps.status as status');
+
+        // Second part of the union
+        $part2 = DB::table('emails as a')
+            ->whereNotIn('a.id', function ($query) use ($request) {
+                $query->select('emails.id')
+                    ->from('promo_subscribes as ps2')
+                    ->join('emails', 'emails.id', '=', 'ps2.email_id')
+                    ->where('ps2.promo_id', '=', $request->promo_id);
+            })
+            ->select('a.id','a.email','a.name', DB::raw("'' as status"));
+
+        // Combine both parts using union
+        $results = $part1->union($part2)->get();
+        return $results;
     }
 
     public function loadEmail(Request $request)
@@ -86,7 +103,6 @@ class PromosiSubscriberController extends Controller
 
     public function store(PromoSubscribeStoreRequest $request)
     {
-
         $promoSubscribe = new PromoSubscribe();
         $emails = new Email();
         // if($request->isCheckAll){
@@ -97,30 +113,33 @@ class PromosiSubscriberController extends Controller
         try {
             $promo = dispatch_sync(new StorePromoAction($request->all()));
             foreach ($request->isChecked as $key => $value) {
-                $params = [
-                    'promo_id' => $promo->id,
-                    'email_id' => $value,
-                    'status' => __('app.label.email_status') ,
-                ];
 
-                $promoSubscribe = dispatch_sync(new StorePromoSubscribeAction($params));
-                 // Dispatch job untuk mengirim email
-                 $getDataEmail = collect($emails->get())->where('id', $value)->first();
-                 $checkEmail = Validator::make((array)$getDataEmail, [
-                    'email' => 'email:rfc,dns',
+                 $getDataEmail = $emails->find($value)->toArray();
+                 $checkEmail = Validator::make(['email' => $getDataEmail['email']], [
+                    'email' => 'email',
+                    // 'email' => 'email:rfc,dns',
                 ]);
-                if ($checkEmail->fails() === false) {
+                if (!$checkEmail->fails()) {
                    $dataParams = [
-                        'to' => $getDataEmail->email,
+                        'to' => $getDataEmail['email'],
                        'subject' => $request->post('title'),
                        'message' => $request->post('message')
                     ];
-                    SendEmailPromotionSubscribesJobs::dispatch($dataParams);
+                    Mail::to($dataParams['to'])->queue(new SendEmailPromotionSubscribes($dataParams));
+                    $params = [
+                        'promo_id' => $promo->id,
+                        'email_id' => $value,
+                        'status' => __('app.label.email_status') ,
+                    ];
+
+                    dispatch_sync(new StorePromoSubscribeAction($params));
+                }else {
+                    return back()->with('error', __('app.label.created_error', ['name' => __('app.label.format_email_wrong')]). $getDataEmail['email']);
                 }
             }
             return back()->with('success', __('app.label.created_successfully', ['name' => $promo ->title]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.return_police')]) . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.list_email')]) . $th->getMessage());
         }
     }
 
@@ -135,27 +154,31 @@ class PromosiSubscriberController extends Controller
             $mergedData = array_merge($request->all(), $params);
             $promo = dispatch_sync(new UpdatePromoAction($promo, $mergedData));
             foreach ($request->isChecked as $key => $value) {
-                $checkDataEmailId = collect($promoSubscribe->get())->where('promo_id', $request->promo_id)->where('email_id', $value);
-                if(count($checkDataEmailId) <= 0) {
-                    $params = [
-                        'promo_id' => $promo->id,
-                        'email_id' => $value,
-                        'status' => __('app.label.email_status') ,
-                    ];
 
-                    $promoSubscribe = dispatch_sync(new StorePromoSubscribeAction($params));
-                }
-                $getDataEmail = collect($emails->get())->where('id', $value)->first();
-                $checkEmail = Validator::make((array)$getDataEmail, [
-                   'email' => 'email:rfc,dns',
+                $getDataEmail = $emails->find($value)->toArray();
+                $checkEmail = Validator::make(['email' => $getDataEmail['email']], [
+                   'email' => 'email',
+                //    'email' => 'email:rfc,dns',
                ]);
-               if ($checkEmail->fails() === false) {
+               if (!$checkEmail->fails()) {
                   $dataParams = [
-                      'to' => $getDataEmail->email,
+                      'to' => $getDataEmail['email'],
                       'subject' => $request->post('title'),
                       'message' => $request->post('message')
                    ];
-                   SendEmailPromotionSubscribesJobs::dispatch($dataParams);
+                   Mail::to($dataParams['to'])->queue(new SendEmailPromotionSubscribes($dataParams));
+                   $checkDataEmailId = $promoSubscribe->where('promo_id', $request->promo_id)->where('email_id', $value)->get();
+                    if(count($checkDataEmailId) <= 0) {
+                        $params = [
+                            'promo_id' => $promo->id,
+                            'email_id' => $value,
+                            'status' => __('app.label.email_status') ,
+                        ];
+
+                        dispatch_sync(new StorePromoSubscribeAction($params));
+                    }
+               } else {
+                return back()->with('error', __('app.label.created_error', ['name' => $getDataEmail['email']]) . __('app.label.format_email_wrong'));
                }
             }
             return back()->with('success', __('app.label.updated_successfully', ['name' => $promo->title]));

@@ -56,17 +56,39 @@ const loadEmail = async (promo_id=null) => {
     listEmail.value = response.data;
 }
 
+const checkedSelectAll = (sts) => {
+    form.isCheckAll = sts;
+}
+
 watchEffect(() => {
     if (props.show) {
         form.errors = {};
+        checkedSelectAll(false)
     }
 });
 
 const checkEmail = (e, emailId) => {
+    let tbody = document.getElementById('create-tbodySendEmail');
+    var checkboxesInTbody = tbody.querySelectorAll('input[type="checkbox"]:checked');
+
+   let sts = listEmail.value.data.length == checkboxesInTbody.length;
+    checkedSelectAll(sts);
+
     if (e.target.checked) {
         form.isChecked.push(emailId);
     } else {
         form.isChecked.splice(form.isChecked.indexOf(emailId), 1);
+    }
+}
+
+const checkAll = (e) => {
+    let tbody = document.getElementById('create-tbodySendEmail');
+    var checkboxesInTbody = tbody.querySelectorAll('input[type="checkbox"]');
+    if (checkboxesInTbody) {
+        checkboxesInTbody.forEach((elm, i) => {
+            elm.checked = e.target.checked;
+            checkEmail(e, listEmail.value.data[i].id)
+        });
     }
 }
 
@@ -98,7 +120,7 @@ const handlePaneClick = () => {
                         <InputError class="mt-2" :message="form.errors.message" />
                     </div>
                 </div>
-
+                <InputError class="mt-2" :message="form.errors.isChecked" />
                 <FwbTabs v-model="activeTab" class="p-5" @click:pane="handlePaneClick()">
                     <FwbTab name="first" :title="lang().label.get_email">
                         <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
@@ -108,7 +130,7 @@ const handlePaneClick = () => {
                             <div class="inline-block min-w-full align-middle">
                                 <div class="overflow-hidden shadow">
                                     <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
-                                        <thead class="bg-gray-100 dark:bg-gray-700">
+                                        <thead class="bg-gray-100 dark:bg-gray-700" id="create-theadSendEmail">
                                             <tr>
                                                 <th scope="col" class="tbl-head">
                                                 No
@@ -120,11 +142,11 @@ const handlePaneClick = () => {
                                                     {{ lang().label.email }}
                                                 </th>
                                                 <th scope="col" class="tbl-head text-center">
-                                                    {{ lang().label.action }}
+                                                    <fwb-checkbox @change="checkAll" v-model="form.isCheckAll" label="Select All" />
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700" id="create-tbodySendEmail">
                                             <tr
                                                 v-for="(email, index) in listEmail.data"
                                                 :key="index"

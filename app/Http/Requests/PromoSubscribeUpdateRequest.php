@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ProductCategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PromoSubscribeUpdateRequest extends FormRequest
@@ -25,6 +24,7 @@ class PromoSubscribeUpdateRequest extends FormRequest
         return [
             'title' => 'required|string',
             'message' => 'required|string',
+            'isChecked' => 'required',
         ];
     }
 }

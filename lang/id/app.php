@@ -153,6 +153,7 @@ return [
 
         'review' => 'Ulasan',
         'rating' => 'Penilaian',
+        'format_email_wrong' => 'Ada format email yang salah'
     ],
     'button' => [
         'login' => 'Masuk',
