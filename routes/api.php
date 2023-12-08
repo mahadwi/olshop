@@ -25,6 +25,7 @@ use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
+use App\Http\Controllers\API\EmailSubscribeApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,5 @@ Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index'])
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
 Route::get('review', [ReviewApiController::class, 'index']);
+Route::post('email-subscribe', [EmailSubscribeApiController::class, 'insert']);
+
