@@ -9,6 +9,7 @@ use App\Http\Controllers\API\ColorApiController;
 use App\Http\Controllers\API\EventApiController;
 use App\Http\Controllers\API\BannerApiController;
 use App\Http\Controllers\API\ReviewApiController;
+use App\Http\Controllers\API\VendorApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
 use App\Http\Controllers\API\ContactApiController;
@@ -23,9 +24,9 @@ use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
+use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
-use App\Http\Controllers\API\EmailSubscribeApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('wishlist', WishlistApiController::class)->except('create', 'show', 'edit');
     Route::resource('cart', CartApiController::class)->except('create', 'show', 'edit');
+
+    Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit', 'index');
 
 
 });
