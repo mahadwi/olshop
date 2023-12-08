@@ -2,31 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\UpdateUserAction;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Vendor;
 use App\Constants\Role;
-use App\Constants\VendorType;
 use Illuminate\Http\Request;
+use App\Constants\VendorType;
+use App\Actions\UpdateUserAction;
+use App\Actions\StoreVendorAction;
 use Illuminate\Support\Facades\DB;
+use App\Actions\UpdateVendorAction;
 use App\Http\Requests\VendorIndexRequest;
+use App\Http\Requests\VendorStoreRequest;
 use App\Http\Requests\VendorUpdateRequest;
 
 class VendorController extends Controller
 {
     public function index(VendorIndexRequest $request)
     {
-        $vendors = User::query();
+        $vendors = Vendor::query();
         if ($request->has('search')) {
             $vendors->where('name', 'ILIKE', "%" . $request->search . "%");
             $vendors->orWhere('email', 'ILIKE', "%" . $request->search . "%");
-            $vendors->orWhere('no_hp', 'LIKE', "%" . $request->search . "%");
+            $vendors->orWhere('phone', 'LIKE', "%" . $request->search . "%");
         }
         if ($request->has(['field', 'order'])) {
             $vendors->orderBy($request->field, $request->order);
         }
 
-        $vendors->role(Role::VENDOR);
         $type = VendorType::getValues();
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
@@ -44,17 +47,27 @@ class VendorController extends Controller
         ]);
     }
 
-    public function update(VendorUpdateRequest $request, $id)
+    public function store(VendorStoreRequest $request)
     {
         try {
+            $vendor = dispatch_sync(new StoreVendorAction($request->all()));
 
-            $user = User::findOrFail($id);
-            dispatch_sync(new UpdateUserAction($user, $request->all()));           
-            return back()->with('success', __('app.label.updated_successfully', ['name' => $user->name]));
+            return back()->with('success', __('app.label.created_successfully', ['name' => $vendor->name]));
+
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.vendor$vendor')]) . $th->getMessage());
+        }
+    }
+
+    public function update(VendorUpdateRequest $request, Vendor $vendor)
+    {
+        try {
+            dispatch_sync(new UpdateVendorAction($vendor, $request->all()));           
+            return back()->with('success', __('app.label.updated_successfully', ['name' => $vendor->name]));
 
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->with('error', __('app.label.updated_error', ['name' => $user->name]) . $th->getMessage());
+            return back()->with('error', __('app.label.updated_error', ['name' => $vendor->name]) . $th->getMessage());
         }
     }
 

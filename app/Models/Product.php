@@ -16,7 +16,7 @@ class Product extends Model
         'brand_id',
         'description',
         'product_category_id',
-        'user_id',
+        'vendor_id',
         'stock',
         'price',
         'history',
@@ -101,9 +101,9 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function user()
+    public function vendor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Vendor::class);
     }
 
     public function images()

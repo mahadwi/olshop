@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProductIndexRequest;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Vendor;
 use App\Transformers\ProductImageTransformer;
 
 class ProductController extends Controller
@@ -31,8 +32,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->vendors = User::whereNotNull('vendor_type')
-        ->where('vendor_type', '!=', VendorType::ASET)
+        $this->vendors = Vendor::where('type', '!=', VendorType::ASET)
         ->active()->get();
 
         $this->commissionType = CommissionType::getValues();
@@ -57,7 +57,7 @@ class ProductController extends Controller
             $products->orderBy($request->field, $request->order);
         }
 
-        $products->with(['brand', 'productCategory', 'user'])->orderBy('id');
+        $products->with(['brand', 'productCategory', 'vendor'])->orderBy('id');
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
                 
@@ -75,7 +75,6 @@ class ProductController extends Controller
 
     public function create()
     {   
-
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
         

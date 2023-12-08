@@ -22,8 +22,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     name: "",
     email: "",
-    no_hp: "",
-    vendor_type:"",
+    phone: "",
     bank: "",
     bank_account_holder: "",
     bank_account_number: "",
@@ -48,9 +47,8 @@ watchEffect(() => {
         form.errors = {};
         form.name = props.vendor?.name;
         form.email = props.vendor?.email;
-        form.no_hp = props.vendor?.no_hp;
+        form.phone = props.vendor?.phone;
         form.bank = props.vendor?.bank;
-        form.vendor_type = props.vendor?.vendor_type;
         form.bank_account_holder = props.vendor?.bank_account_holder;
         form.bank_account_number = props.vendor?.bank_account_number;
         form.ktp = props.vendor?.ktp;
@@ -82,8 +80,7 @@ const type = Object.values(props.type).map((data) => ({
                         <TextInput
                             id="name"
                             type="text"
-                            class="mt-1 block w-full cursor-not-allowed"
-                            disabled
+                            class="mt-1 block w-full"
                             v-model="form.name"                            
                             :placeholder="lang().placeholder.name"
                             :error="form.errors.name"
@@ -120,22 +117,10 @@ const type = Object.values(props.type).map((data) => ({
                             id="no_hp"
                             type="text"
                             class="mt-1 block w-full"
-                            v-model="form.no_hp"
-                            :error="form.errors.no_hp"
+                            v-model="form.phone"
+                            :error="form.errors.phone"
                         />
-                        <InputError class="mt-2" :message="form.errors.no_hp" />
-                    </div>
-                    <div>
-                        <InputLabel for="type" :value="lang().label.type" />
-                        <SelectInput
-                            id="type"
-                            class="mt-1 block w-full"
-                            v-model="form.vendor_type"
-                            required
-                            :dataSet="type"
-                        >
-                        </SelectInput>
-                        <InputError class="mt-2" :message="form.errors.vendor_type" />
+                        <InputError class="mt-2" :message="form.errors.phone" />
                     </div>
                     <div>
                         <InputLabel

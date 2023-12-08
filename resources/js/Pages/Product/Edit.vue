@@ -45,7 +45,7 @@ const form = useForm({
   brand_id: props.product.brand_id,
   description: props.product.description,
   product_category_id: props.product.product_category_id,
-  user_id: props.product.user_id,
+  vendor_id: props.product.vendor_id,
   stock: props.product.stock,
   price: props.product.price,
   sale_price: props.product.sale_price,
@@ -283,11 +283,11 @@ const changeCommission = () => {
                 <SelectInput
                   id="vendor"
                   class="mt-1 block w-full"
-                  v-model="form.user_id"
+                  v-model="form.vendor_id"
                   :dataSet="vendors"
                 >
                 </SelectInput>
-                <InputError class="mt-2" :message="form.errors.user_id" />
+                <InputError class="mt-2" :message="form.errors.vendor_id" />
               </div>
 
               <div class="col-span-6">

@@ -28,7 +28,7 @@ class ProductUpdateRequest extends FormRequest
             'entry_date' => 'required|string|max:255',
             'expired_date' => 'required|string|max:255',
             'product_category_id' => 'required',
-            'user_id' => 'required',
+            'vendor_id' => 'required',
             'stock' => 'required|integer',
             'price' => 'required|integer',
             'commission_type' => 'required',

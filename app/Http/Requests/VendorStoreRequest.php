@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\VendorType;
 use Illuminate\Foundation\Http\FormRequest;
 
-class VendorUpdateRequest extends FormRequest
+class VendorStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +23,19 @@ class VendorUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                  => ['required', 'string'],
+            'name'                 => ['required', 'string'],
+            'email'                 => ['required', 'email'],
             'phone'                 => ['required', 'string'],
+            'address'               => ['required', 'string'],
             'ktp'                   => ['required', 'integer'],
             'bank'                  => ['required', 'string'],
             'bank_account_holder'   => ['required', 'string'],
             'bank_account_number'   => ['required', 'integer'],     
-            'address'               => ['required', 'string'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge(['type' => VendorType::ASET]);
     }
 }

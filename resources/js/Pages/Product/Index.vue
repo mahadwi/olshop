@@ -145,7 +145,7 @@ watch(
                                                 <td class="tbl-column"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ product.name }}</td>
                                                 <td class="tbl-column"> {{ product.brand.name }}</td>
-                                                <td class="tbl-column"> {{ product.user.name }}</td>
+                                                <td class="tbl-column"> {{ product.vendor.name }}</td>
                                                 <td class="tbl-column"> {{ product.stock }}</td>
                                                 <td class="tbl-column"> {{ priceFormat(product.price) }}</td>
                                                 <td class="tbl-column"> {{ product.condition }}</td>
