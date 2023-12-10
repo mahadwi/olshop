@@ -151,7 +151,8 @@ return [
         'email_status' => 'Delivered',
         'review' => 'Review',
         'rating' => 'Rating',
-        'format_email_wrong' => 'Any wrong email format'
+        'format_email_wrong' => 'Any wrong email format',
+        'suggestion' => 'Suggestion',
     ],
     'button' => [
         'login' => 'Login',
