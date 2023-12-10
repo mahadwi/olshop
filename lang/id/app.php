@@ -154,6 +154,7 @@ return [
         'rating' => 'Penilaian',
         'format_email_wrong' => 'Ada format email yang salah',
         'suggestion' => 'Saran',
+        'faq' => 'FAQ',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -153,6 +153,7 @@ return [
         'rating' => 'Rating',
         'format_email_wrong' => 'Any wrong email format',
         'suggestion' => 'Suggestion',
+        'faq' => 'FAQ',
     ],
     'button' => [
         'login' => 'Login',
