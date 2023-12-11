@@ -155,6 +155,8 @@ return [
         'description_en' => 'Description In English',
         'title_en' => 'Title In English',
         'history_en' => 'History In English',
+        'suggestion' => 'Suggestion',
+        'faq' => 'FAQ',
     ],
     'button' => [
         'login' => 'Login',

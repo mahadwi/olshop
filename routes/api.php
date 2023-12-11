@@ -27,6 +27,8 @@ use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
+use App\Http\Controllers\API\FaqApiController;
+use App\Http\Controllers\API\SuggestionApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +92,7 @@ Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
 Route::get('review', [ReviewApiController::class, 'index']);
 Route::post('email-subscribe', [EmailSubscribeApiController::class, 'insert']);
+
+Route::resource('suggestion', SuggestionApiController::class)->only('store');
+Route::get('faq', [FaqApiController::class, 'index']);
 

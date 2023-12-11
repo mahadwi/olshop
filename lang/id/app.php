@@ -153,8 +153,11 @@ return [
         'review' => 'Ulasan',
         'rating' => 'Penilaian',
         'format_email_wrong' => 'Ada format email yang salah',
-        'description_en' => 'Description Dalam Bahasa Inggris',
+        'description_en' => 'Deskripsi Dalam Bahasa Inggris',
+        'title_en' => 'Judul Dalam Bahasa Inggris',
         'history_en' => 'History Dalam Bahasa Inggris',
+        'suggestion' => 'Saran',
+        'faq' => 'FAQ',
     ],
     'button' => [
         'login' => 'Masuk',
