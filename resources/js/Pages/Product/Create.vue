@@ -51,7 +51,9 @@ const form = useForm({
   weight: "",
   length: "",
   width:  "",
-  height: ""
+  height: "",
+  description_en: "",
+  history_en: ""
 });
 
 const categories = props.categories?.map((role) => ({
@@ -118,7 +120,7 @@ const changeCommission = () => {
     if(form.commission_type == 'Selling'){
         form.commission = 0;
 
-        if(form.sale_price == 0) form.sale_price = form.price; 
+        if(form.sale_price == 0) form.sale_price = form.price;
     }
 }
 </script>
@@ -162,7 +164,7 @@ const changeCommission = () => {
                 >
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.brand_id" />
-              </div>              
+              </div>
               <div class="col-span-6">
                 <InputLabel for="entry_date" :value="lang().label.entry_date" />
                 <vue-tailwind-datepicker
@@ -363,6 +365,12 @@ const changeCommission = () => {
               </div>
 
               <div class="col-span-6">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                <InputError class="mt-2" :message="form.errors.description_en" />
+              </div>
+
+              <div class="col-span-6 mt-20">
                 <FwbTextarea
                   rows="4"
                   :placeholder="lang().label.history"
@@ -372,12 +380,21 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.history" />
               </div>
 
+              <div class="col-span-6 mt-20">
+                <FwbTextarea
+                  rows="4"
+                  :placeholder="lang().label.history_en"
+                  v-model="form.history_en"
+                  :label="lang().label.history_en"
+                />
+                <InputError class="mt-2" :message="form.errors.history_en" />
+              </div>
+
                <div class="col-span-12 mt-20">
                 <FilePondInput
                   v-model="form.image"
                   accept="image/*"
                 />
-
                 <InputError class="mt-2" :message="form.errors.image" />
               </div>
 

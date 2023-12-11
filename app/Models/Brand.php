@@ -13,6 +13,7 @@ class Brand extends Model
     protected $fillable = [
         'name',
         'description',
+        'description_en',
         'image',
     ];
 
@@ -23,10 +24,10 @@ class Brand extends Model
         static::deleted(function (Brand $brand) {
             //also delete file if exist
             $imageFile = public_path('image/brand/'.$brand->image);
-            if(File::exists($imageFile)){                
+            if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
-            }                
+            }
         });
     }
 

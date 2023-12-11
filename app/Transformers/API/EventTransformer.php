@@ -15,7 +15,7 @@ class EventTransformer extends TransformerAbstract
     protected array $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -24,7 +24,7 @@ class EventTransformer extends TransformerAbstract
     protected array $availableIncludes = [
         'details'
     ];
-    
+
     /**
      * A Fractal transformer.
      *
@@ -36,6 +36,7 @@ class EventTransformer extends TransformerAbstract
             'id'            => $event->id,
             'name'          => $event->name,
             'description'   => $event->description,
+            'description_en'=> $event->description_en,
             'start_date'    => $event->start_date->format('d-m-Y'),
             'end_date'      => $event->end_date->format('d-m-Y'),
             'time_start'    => $event->time_start,

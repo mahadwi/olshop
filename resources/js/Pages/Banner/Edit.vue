@@ -11,10 +11,8 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import axios from 'axios';
-
 import 'filepond/dist/filepond.min.css';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
-
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import { watchEffect, ref } from "vue";
 
@@ -30,7 +28,9 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     section: "",
     title: "",
+    title_en: "",
     description: "",
+    description_en: "",
 });
 
 const update = () => {
@@ -49,7 +49,9 @@ watchEffect(() => {
     if (props.show) {
         form.section = props.banner?.section;
         form.title = props.banner?.title;
+        form.title_en = props.banner?.title_en;
         form.description = props.banner?.description;
+        form.description_en = props.banner?.description_en;
         form.errors = {};
     }
 });
@@ -140,7 +142,7 @@ const handleFilePondInit = () => {
                     {{ lang().label.edit }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    
+
                     <FwbSelect
                         v-model="form.section"
                         :options="bannerSection"
@@ -148,17 +150,23 @@ const handleFilePondInit = () => {
                     />
 
                     <InputError class="mt-2" :message="form.errors.section" />
-                    
+
                 </div>
                 <div class="my-6 space-y-4">
-                    
                     <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                     <InputError class="mt-2" :message="form.errors.title" />
-                    
                 </div>
                 <div class="my-6 space-y-4">
                     <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbInput v-model="form.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                    <InputError class="mt-2" :message="form.errors.title_en" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbTextarea rows="4" :placeholder="lang().label.description_en" v-model="form.description_en" :label="lang().label.description_en" />
+                    <InputError class="mt-2" :message="form.errors.description_en" />
                 </div>
                 <div class="my-6 space-y-4">
                     <filepond

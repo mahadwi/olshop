@@ -7,8 +7,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { FwbSelect, FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
-import FilePondInput from '@/Components/FilePondInput.vue'
-
+import FilePondInput from '@/Components/FilePondInput.vue';
 
 const props = defineProps({
     show: Boolean,
@@ -21,7 +20,9 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     section: "",
     title: "",
+    title_en: "",
     description: "",
+    description_en: "",
     image:[]
 });
 
@@ -70,21 +71,26 @@ const bannerSection = Object.values(props.bannerSection).map((data) => ({
                     <InputError class="mt-2" :message="form.errors.section" />
                 </div>
                 <div class="my-6 space-y-4">
-                    
                     <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                     <InputError class="mt-2" :message="form.errors.title" />
-                    
                 </div>
                 <div class="my-6 space-y-4">
                     <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
                 </div>
                 <div class="my-6 space-y-4">
+                    <FwbInput v-model="form.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                    <InputError class="mt-2" :message="form.errors.title_en" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbTextarea rows="4" :placeholder="lang().label.description_en" v-model="form.description_en" :label="lang().label.description_en" />
+                    <InputError class="mt-2" :message="form.errors.description_en" />
+                </div>
+                <div class="my-6 space-y-4">
                     <FilePondInput
                         v-model="form.image"
                         accept="image/*"
                         />
-
                     <InputError class="mt-2" :message="form.errors.image" />
                 </div>
                 <div class="flex justify-end">

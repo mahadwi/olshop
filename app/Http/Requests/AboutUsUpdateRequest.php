@@ -24,10 +24,11 @@ class AboutUsUpdateRequest extends FormRequest
         return [
             'title'  => 'required',
             'description'  => 'required',
-            'address'  => 'required',            
-            'detail_address'  => 'required',            
-            'maps'  => 'required',            
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',   
+            'description_en'  => 'required',
+            'address'  => 'required',
+            'detail_address'  => 'required',
+            'maps'  => 'required',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }

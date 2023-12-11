@@ -53,6 +53,11 @@ watch(
     }, 150)
 );
 
+const truncate = (value, length) => {
+    let isi = value ?? '';
+    return isi.length > length ? value.slice(0, length) + "......" : isi;
+}
+
 </script>
 
 <template>
@@ -77,7 +82,7 @@ watch(
             :brand="data.brand"
             :title="props.title"
         />
-                
+
         <div class="flex flex-col mx-auto  pb-10 ">
             <div class="grid mb-10 px-4 pt-6 grid-cols-1 dark:bg-gray-900">
                 <div class="col-span-2">
@@ -108,9 +113,9 @@ watch(
                                         />
                                     </div>
                                 </form>
-                            </div>                   
+                            </div>
                         </div>
-                        
+
                         <div class="overflow-x-auto">
                             <div class="inline-block min-w-full align-middle">
                                 <div class="overflow-hidden shadow">
@@ -125,6 +130,9 @@ watch(
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.description }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
+                                                    {{ lang().label.description_en }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.image }}
@@ -142,7 +150,10 @@ watch(
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ brand.name }}</td>
-                                                <td class="tbl-column"> {{ brand.description }}</td>
+                                                <td class="tbl-column" v-html="truncate(brand.description, 25)">
+                                                </td>
+                                                <td class="tbl-column" v-html="truncate(brand.description_en, 25)">
+                                                </td>
                                                 <td class="w-32">
                                                     <img :src="brand.image_url" :alt="brand.name">
                                                 </td>
@@ -172,10 +183,10 @@ watch(
                         <div class="flex justify-between items-center p-2 border-t border-slate-200 dark:border-slate-700">
                             <Pagination :links="props.brands" :filters="data.params" />
                         </div>
-                    </div>                   
+                    </div>
                 </div>
-            </div>            
-        </div>        
+            </div>
+        </div>
 
     </AuthenticatedLayout>
 </template>

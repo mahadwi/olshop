@@ -24,6 +24,7 @@ class ReturnPoliceUpdateRequest extends FormRequest
         return [
             'title'  => 'required',
             'description'  => 'required',
+            'description_en'  => 'required',
             'cp'  => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];

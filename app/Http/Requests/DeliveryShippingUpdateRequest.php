@@ -24,6 +24,7 @@ class DeliveryShippingUpdateRequest extends FormRequest
         return [
             'title'  => 'required',
             'description'  => 'required',
+            'description_en'  => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }

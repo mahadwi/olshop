@@ -24,6 +24,7 @@ class PrivacyPoliceStoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required',
+            'description_en' => 'required',
             'cp' => 'required',
             'image' => 'required|image|mimes:jpg,png,jpeg|max:500',
         ];

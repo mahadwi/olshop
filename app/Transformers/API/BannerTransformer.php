@@ -15,7 +15,7 @@ class BannerTransformer extends TransformerAbstract
     protected array $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -24,7 +24,7 @@ class BannerTransformer extends TransformerAbstract
     protected array $availableIncludes = [
         //
     ];
-    
+
     /**
      * A Fractal transformer.
      *
@@ -36,7 +36,9 @@ class BannerTransformer extends TransformerAbstract
             'section'       => $banner->section,
             'title'         => $banner->title,
             'description'   => $banner->description,
-            'images'        => $this->images($banner)        
+            'title_en'         => $banner->title_en,
+            'description_en'   => $banner->description_en,
+            'images'        => $this->images($banner)
         ];
     }
 

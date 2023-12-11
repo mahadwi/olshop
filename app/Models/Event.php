@@ -14,6 +14,7 @@ class Event extends Model
     protected $fillable = [
         'name',
         'description',
+        'description_en',
         'start_date',
         'end_date',
         'time_start',
@@ -22,7 +23,7 @@ class Event extends Model
         'maps',
         'detail_maps',
         'cover',
-        'banner',        
+        'banner',
     ];
 
     protected $casts = [
@@ -36,16 +37,16 @@ class Event extends Model
     protected static function booted(): void
     {
         static::deleted(function (Event $event) {
-            
+
             //also delete file if exist
             $banner = public_path('image/event/'.$event->banner);
             $cover = public_path('image/event/'.$event->cover);
 
-            if(File::exists($banner) || File::exists($cover)){                
+            if(File::exists($banner) || File::exists($cover)){
                 //delete file
                 File::delete($banner);
                 File::delete($cover);
-            }                
+            }
         });
     }
 
@@ -57,7 +58,7 @@ class Event extends Model
     public function setEndDateAttribute($value)
     {
         $this->attributes['end_date'] = Carbon::parse($value)->format('Y-m-d');
-    }    
+    }
 
     public function getBannerUrlAttribute()
     {

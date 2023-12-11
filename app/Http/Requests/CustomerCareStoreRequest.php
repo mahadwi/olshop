@@ -24,6 +24,7 @@ class CustomerCareStoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required',
+            'description_en' => 'required',
         ];
     }
 }

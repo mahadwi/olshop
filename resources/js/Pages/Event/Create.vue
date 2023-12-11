@@ -16,7 +16,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 import CreateTicket from "@/Pages/Event/CreateTicket.vue";
 import EditTicket from "@/Pages/Event/EditTicket.vue";
 
-import { 
+import {
   FwbTextarea, FwbFileInput, FwbInput,
   FwbA,
   FwbTable,
@@ -41,7 +41,7 @@ const props = defineProps({
 const data = reactive({
     createOpen: false,
     editOpen: false,
-    deleteOpen: false,    
+    deleteOpen: false,
     ticket:null
 });
 
@@ -55,8 +55,9 @@ const form = useForm({
   maps:"",
   detail_maps:"",
   cover:"",
-  banner:"",  
+  banner:"",
   description: "",
+  description_en: "",
   details: [
     // {
     //   name: "tes",
@@ -220,7 +221,7 @@ watch(
                   placeholder="Select time"
                 ></date-picker>
                 <InputError class="mt-2" :message="form.errors.time_end" />
-              </div> 
+              </div>
               <div class="col-span-6">
                 <FwbTextarea
                   rows="4"
@@ -229,7 +230,7 @@ watch(
                   :label="lang().label.maps"
                 />
                 <InputError class="mt-2" :message="form.errors.maps" />
-              </div>             
+              </div>
 
               <div class="col-span-6">
                 <FwbFileInput accept="image/*" v-model="form.banner" :label="lang().label.banner" />
@@ -252,8 +253,12 @@ watch(
                 <FwbFileInput accept="image/*" v-model="form.cover" :label="lang().label.cover" />
                 <InputError class="mt-2" :message="form.errors.cover" />
               </div>
-              
-              <div class="col-span-6"></div>
+
+              <div class="col-span-6 mt-24">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{ lang().label.description_en }} </label>
+                  <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                  <InputError class="mt-2" :message="form.errors.description_en" />
+              </div>
 
               <div class="col-span-6">
                 <button :disabled="!canAddTicket" @click="data.createOpen = true"
@@ -261,7 +266,7 @@ watch(
                     'opacity-25': !canAddTicket,
                   }" type="button">
                     {{ lang().label.add_ticket }}
-                </button>                
+                </button>
               </div>
 
               <div class="col-span-6"></div>

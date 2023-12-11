@@ -23,7 +23,7 @@ class CustomerCareUpdateRequest extends FormRequest
     {
         return [
             'title'  => 'required',
-            'description'  => 'required',
+            'description_en'  => 'required',
         ];
     }
 }

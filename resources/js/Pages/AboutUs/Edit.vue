@@ -23,6 +23,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     title: "",
     description: "",
+    description_en: "",
     address: "",
     detail_address: "",
     maps: "",
@@ -45,6 +46,7 @@ watchEffect(() => {
     if (props.show) {
         form.title = props.about?.title;
         form.description = props.about?.description;
+        form.description_en = props.about?.description_en;
         form.address = props.about?.address;
         form.detail_address = props.about?.detail_address;
         form.maps = props.about?.maps;
@@ -75,6 +77,11 @@ watchEffect(() => {
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                         <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                        <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                        <InputError class="mt-2" :message="form.errors.description_en" />
                     </div>
                     <div>
                         <FwbTextarea rows="4" :placeholder="lang().label.address" v-model="form.address" :label="lang().label.address" />

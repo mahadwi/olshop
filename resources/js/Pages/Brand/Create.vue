@@ -18,6 +18,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     name: "",
     description: "",
+    description_en: "",
     image: "",
 });
 
@@ -51,14 +52,16 @@ watchEffect(() => {
                     {{ lang().label.add }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    
                     <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
-                    
                 </div>
                 <div class="my-6 space-y-4">
                     <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbTextarea rows="4" :placeholder="lang().label.description_en" v-model="form.description_en" :label="lang().label.description_en" />
+                    <InputError class="mt-2" :message="form.errors.description_en" />
                 </div>
                 <div class="my-6 space-y-4">
                     <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />

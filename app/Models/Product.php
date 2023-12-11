@@ -32,7 +32,9 @@ class Product extends Model
         'weight',
         'length',
         'width',
-        'height'
+        'height',
+        'description_en',
+        'history_en'
     ];
 
     protected $appends = ['status', 'fixWeight', 'isNewArrival'];
@@ -62,17 +64,17 @@ class Product extends Model
     function calculateVolume(){
         return ($this->length * $this->width * $this->height) / 6;
     }
-    
+
 
     protected static function booted(): void
     {
         // static::deleted(function (Product $product) {
         //     //also delete file if exist
         //     $imageFile = public_path('image/product/'.$product->image);
-        //     if(File::exists($imageFile)){                
+        //     if(File::exists($imageFile)){
         //         //delete file
         //         File::delete($imageFile);
-        //     }                
+        //     }
         // });
     }
 
@@ -84,7 +86,7 @@ class Product extends Model
     public function setExpiredDateAttribute($value)
     {
         $this->attributes['expired_date'] = Carbon::parse($value)->format('Y-m-d');
-    }    
+    }
 
     public function brand()
     {

@@ -24,7 +24,7 @@ class ProductTransformer extends TransformerAbstract
     protected array $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -33,7 +33,7 @@ class ProductTransformer extends TransformerAbstract
     protected array $availableIncludes = [
         //
     ];
-    
+
     /**
      * A Fractal transformer.
      *
@@ -45,8 +45,10 @@ class ProductTransformer extends TransformerAbstract
             'id'            => $product->id,
             'name'          => $product->name,
             'description'   => $product->description,
+            'description_en'=> $product->description_en,
             'color'         => $product->color->name,
             'history'       => $product->history,
+            'history_en'    => $product->history_en,
             'category'      => $product->productCategory->name,
             'brand'         => $product->brand->name,
             'stock'         => $product->stock,
@@ -56,7 +58,7 @@ class ProductTransformer extends TransformerAbstract
             'is_new_arrival'=> $product->isNewArrival,
             'entry_date'    => $product->entry_date->format('d-m-Y'),
             'weight'        => $product->fixWeight,
-            'images'        => $this->images($product),        
+            'images'        => $this->images($product),
         ];
     }
 

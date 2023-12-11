@@ -112,6 +112,9 @@ watch(
                                                     {{ lang().label.description }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.description_en }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.address }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
@@ -131,6 +134,8 @@ watch(
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ about.title }}</td>
                                                 <td class="tbl-column" v-html="truncate(about.description, 25)">
+                                                </td>
+                                                <td class="tbl-column" v-html="truncate(about.description_en, 25)">
                                                 </td>
                                                 <td class="tbl-column"> {{ about.address }}</td>
                                                 <td class="w-32">

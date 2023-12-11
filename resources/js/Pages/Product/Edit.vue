@@ -53,9 +53,10 @@ const form = useForm({
   commission_type: props.product.commission_type,
   display_on_homepage: props.product.display_on_homepage,
   history: props.product.history,
+  history_en: props.product.history_en,
   entry_date: props.product.entry_date,
   expired_date: props.product.expired_date,
-  description: props.product.description,
+  description_en: props.product.description_en,
   color_id: props.product.color_id,
   condition: props.product.condition,
   weight: props.product.weight,
@@ -424,6 +425,11 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.description" />
               </div>
               <div class="col-span-6">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                <InputError class="mt-2" :message="form.errors.description_en" />
+              </div>
+              <div class="col-span-6 mt-20">
                 <FwbTextarea
                   rows="4"
                   :placeholder="lang().label.history"
@@ -431,6 +437,15 @@ const changeCommission = () => {
                   :label="lang().label.history"
                 />
                 <InputError class="mt-2" :message="form.errors.history" />
+              </div>
+              <div class="col-span-6 mt-20">
+                <FwbTextarea
+                  rows="4"
+                  :placeholder="lang().label.history_en"
+                  v-model="form.history_en"
+                  :label="lang().label.history_en"
+                />
+                <InputError class="mt-2" :message="form.errors.history_en" />
               </div>
 
               <div class="col-span-12 mt-20">

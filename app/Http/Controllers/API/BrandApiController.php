@@ -10,7 +10,7 @@ class BrandApiController extends Controller
 {
     public function index()
     {
-        $brand = Brand::select('id', 'name', 'image')->OrderBy('name', 'asc')->get();
+        $brand = Brand::select('id', 'name', 'image', 'description', 'description_en')->OrderBy('name', 'asc')->get();
 
         return $this->apiSuccess($brand);
     }

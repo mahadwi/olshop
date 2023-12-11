@@ -150,10 +150,11 @@ return [
         'list_email' => 'Daftar Email',
         'get_email' => 'Daftar Email',
         'email_status' => 'Terkirim',
-
         'review' => 'Ulasan',
         'rating' => 'Penilaian',
-        'format_email_wrong' => 'Ada format email yang salah'
+        'format_email_wrong' => 'Ada format email yang salah',
+        'description_en' => 'Description Dalam Bahasa Inggris',
+        'history_en' => 'History Dalam Bahasa Inggris',
     ],
     'button' => [
         'login' => 'Masuk',

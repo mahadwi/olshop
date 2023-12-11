@@ -24,8 +24,10 @@ class BannerUpdateRequest extends FormRequest
         return [
             'section' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',            
-            // 'image.*' => 'required|image|mimes:jpg,png,jpeg|max:500', 
+            'title_en' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'description_en' => 'required|string|max:255',
+            // 'image.*' => 'required|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }

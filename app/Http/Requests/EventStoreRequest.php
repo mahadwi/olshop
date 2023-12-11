@@ -24,6 +24,7 @@ class EventStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'description_en' => 'required|string',
             'place' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',

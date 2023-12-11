@@ -5,7 +5,7 @@ import Modal from "@/Components/Modal.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue';
 
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
@@ -21,6 +21,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     name: "",
     description: "",
+    description_en: "",
     image: "",
 });
 
@@ -40,6 +41,7 @@ watchEffect(() => {
     if (props.show) {
         form.name = props.brand?.name;
         form.description = props.brand?.description;
+        form.description_en = props.brand?.description_en;
         form.errors = {};
     }
 });
@@ -57,14 +59,18 @@ watchEffect(() => {
                     {{ lang().label.edit }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    
+
                     <fwb-input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
-                    
+
                 </div>
                 <div class="my-6 space-y-4">
                     <FwbTextarea rows="4" :placeholder="lang().label.description" v-model="form.description" :label="lang().label.description" />
                     <InputError class="mt-2" :message="form.errors.description" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbTextarea rows="4" :placeholder="lang().label.description_en" v-model="form.description_en" :label="lang().label.description_en" />
+                    <InputError class="mt-2" :message="form.errors.description_en" />
                 </div>
                 <div class="my-6 space-y-4">
                     <fwb-file-input accept="image/*" v-model="form.image" :label="lang().label.image" />

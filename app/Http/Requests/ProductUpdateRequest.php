@@ -25,6 +25,7 @@ class ProductUpdateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'brand_id' => 'required',
             'description' => 'required|string',
+            'description_en' => 'required|string',
             'entry_date' => 'required|string|max:255',
             'expired_date' => 'required|string|max:255',
             'product_category_id' => 'required',
@@ -35,16 +36,16 @@ class ProductUpdateRequest extends FormRequest
             'commission' => 'required|integer',
             'sale_price' => 'required|integer',
             'display_on_homepage' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',      
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
             'color_id' => 'required',
             'condition' => 'required',
             'weight' => 'required|numeric',
             'length' => 'required|numeric',
             'width' => 'required|numeric',
             'height' => 'required|numeric',
-        ]; 
+        ];
     }
-    
+
     public function messages(): array
     {
         return [

@@ -24,10 +24,11 @@ class AboutUsStoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required',
+            'description_en' => 'required',
             'address' => 'required',
             'detail_address' => 'required',
             'maps' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',   
+            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }

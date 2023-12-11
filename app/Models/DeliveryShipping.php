@@ -17,6 +17,7 @@ class DeliveryShipping extends Model
     protected $fillable = [
         'title',
         'description',
+        'description_en',
         'image',
     ];
 

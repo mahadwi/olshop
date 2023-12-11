@@ -17,6 +17,7 @@ class TermCondition extends Model
     protected $fillable = [
         'title',
         'description',
+        'description_en',
         'cp',
         'image',
     ];

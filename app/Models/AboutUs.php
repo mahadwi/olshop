@@ -17,6 +17,7 @@ class AboutUs extends Model
     protected $fillable = [
         'title',
         'description',
+        'description_en',
         'address',
         'detail_address',
         'maps',
@@ -30,10 +31,10 @@ class AboutUs extends Model
         static::deleted(function (AboutUs $aboutUs) {
             //also delete file if exist
             $imageFile = public_path('image/'.$aboutUs->image);
-            if(File::exists($imageFile)){                
+            if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
-            }                
+            }
         });
     }
 

@@ -12,7 +12,9 @@ class Banner extends Model
     protected $fillable = [
         'section',
         'title',
+        'title_en',
         'description',
+        'description_en',
     ];
 
     public function imageable()

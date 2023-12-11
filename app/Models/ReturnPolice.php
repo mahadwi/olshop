@@ -17,6 +17,7 @@ class ReturnPolice extends Model
     protected $fillable = [
         'title',
         'description',
+        'description_en',
         'cp',
         'image',
     ];

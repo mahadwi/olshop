@@ -22,6 +22,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     title: "",
     description: "",
+    description_en: "",
     cp: "",
     image: "",
 });
@@ -42,6 +43,7 @@ watchEffect(() => {
     if (props.show) {
         form.title = props.privacyPolice?.title;
         form.description = props.privacyPolice?.description;
+        form.description_en = props.privacyPolice?.description_en;
         form.cp = props.privacyPolice?.cp;
         form.errors = {};
     }
@@ -74,6 +76,12 @@ watchEffect(() => {
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                         <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                        <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                        <InputError class="mt-2" :message="form.errors.description_en" />
                     </div>
 
                     <div>
