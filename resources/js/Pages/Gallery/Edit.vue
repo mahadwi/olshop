@@ -31,6 +31,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     section: "",
     title: "",
+    title_en: "",
     product_id:''
 });
 
@@ -50,6 +51,7 @@ watchEffect(() => {
     if (props.show) {
         form.section = props.gallery?.section;
         form.title = props.gallery?.title;
+        form.title_en = props.gallery?.title_en;
         form.product_id = props.gallery?.product_id;
         form.errors = {};
     }
@@ -149,7 +151,7 @@ const handleFilePondInit = () => {
                     {{ lang().label.edit }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    
+
                     <FwbSelect
                         v-model="form.section"
                         :options="gallerySection"
@@ -157,13 +159,19 @@ const handleFilePondInit = () => {
                     />
 
                     <InputError class="mt-2" :message="form.errors.section" />
-                    
+
                 </div>
                 <div class="my-6 space-y-4">
-                    
+
                     <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                     <InputError class="mt-2" :message="form.errors.title" />
-                    
+
+                </div>
+                <div class="my-6 space-y-4">
+
+                    <FwbInput v-model="form.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                    <InputError class="mt-2" :message="form.errors.title_en" />
+
                 </div>
                 <div class="my-6 space-y-4">
                     <InputLabel for="product" :value="lang().label.product" />

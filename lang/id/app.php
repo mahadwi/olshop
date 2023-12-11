@@ -158,6 +158,7 @@ return [
         'history_en' => 'History Dalam Bahasa Inggris',
         'suggestion' => 'Saran',
         'faq' => 'FAQ',
+        'address_en' => 'Alamat Dalam Bahasa Inggris',
     ],
     'button' => [
         'login' => 'Masuk',

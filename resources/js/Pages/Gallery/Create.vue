@@ -22,6 +22,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
   section: "",
   title: "",
+  title_en: "",
   product_id:'',
   image: [],
 });
@@ -81,6 +82,14 @@ product = [{label : 'Select...', value: ''}, ...product];
             :label="lang().label.title"
           />
           <InputError class="mt-2" :message="form.errors.title" />
+        </div>
+        <div class="my-6 space-y-4">
+          <FwbInput
+            v-model="form.title_en"
+            :placeholder="lang().label.title_en"
+            :label="lang().label.title_en"
+          />
+          <InputError class="mt-2" :message="form.errors.title_en" />
         </div>
         <div class="my-6 space-y-4">
             <InputLabel for="product" :value="lang().label.product" />

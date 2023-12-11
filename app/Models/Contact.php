@@ -20,5 +20,6 @@ class Contact extends Model
         'instagram',
         'tiktok',
         'address',
+        'address_en',
     ];
 }

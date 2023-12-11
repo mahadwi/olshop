@@ -14,6 +14,7 @@ class Gallery extends Model
     protected $fillable = [
         'section',
         'title',
+        'title_en',
         'product_id',
     ];
 

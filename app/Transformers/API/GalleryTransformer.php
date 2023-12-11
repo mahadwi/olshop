@@ -16,7 +16,7 @@ class GalleryTransformer extends TransformerAbstract
     protected array $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -25,7 +25,7 @@ class GalleryTransformer extends TransformerAbstract
     protected array $availableIncludes = [
         'product'
     ];
-    
+
     /**
      * A Fractal transformer.
      *
@@ -36,7 +36,8 @@ class GalleryTransformer extends TransformerAbstract
         return [
             'section'       => $gallery->section,
             'title'         => $gallery->title,
-            'images'        => $this->images($gallery),                   
+            'title_en'         => $gallery->title_en,
+            'images'        => $this->images($gallery),
         ];
     }
 
@@ -45,13 +46,13 @@ class GalleryTransformer extends TransformerAbstract
         if($gallery->imageable->isEmpty()){
             return is_null($gallery->product->images) ? [] : $gallery->product->images->map(function ($item) {
                 return asset('image/product/'.$item->name);
-            }); 
+            });
         } else {
             return is_null($gallery->imageable) ? [] : $gallery->imageable->map(function ($item) {
                 return asset('image/'.$item->name);
             });
         }
-        
+
 
     }
 

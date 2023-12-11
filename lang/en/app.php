@@ -157,6 +157,7 @@ return [
         'history_en' => 'History In English',
         'suggestion' => 'Suggestion',
         'faq' => 'FAQ',
+        'address_en' => 'Address In English',
     ],
     'button' => [
         'login' => 'Login',
