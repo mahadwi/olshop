@@ -165,6 +165,7 @@ return [
         'disc_percent' => 'Disc Persen',
         'disc_price' => 'Disc Harga',
         'min_price' => 'Min Harga',  
+        'address_en' => 'Alamat Dalam Bahasa Inggris',
     ],
     'button' => [
         'login' => 'Masuk',

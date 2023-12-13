@@ -24,6 +24,7 @@ class GalleryUpdateRequest extends FormRequest
         return [
             'section' => 'required|string|max:255',
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'product_id' => 'required|integer',
         ];
     }

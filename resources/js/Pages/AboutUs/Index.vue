@@ -42,7 +42,8 @@ const order = (field) => {
 };
 
 const truncate = (value, length) => {
-    return value.length > length ? value.slice(0, length) + "......" : value;
+    let isi = value ?? '';
+    return isi.length > length ? value.slice(0, length) + "......" : isi;
 }
 
 watch(

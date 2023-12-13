@@ -25,6 +25,7 @@ class ContactRequest extends FormRequest
             'telp' => 'required|string|min:9|max:20',
             'maps' => 'required|string',
             'address' => 'required|string',
+            'address_en' => 'required|string',
             'link' => 'required|string',
             'email' => 'required|email|string',
         ];

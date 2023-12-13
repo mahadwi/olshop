@@ -164,6 +164,7 @@ return [
         'disc_percent' => 'Disc Percent',
         'disc_price' => 'Disc Price',
         'min_price' => 'Min Price',     
+        'address_en' => 'Address In English',
     ],
     'button' => [
         'login' => 'Login',

@@ -83,7 +83,7 @@ watch(
             :gallery="data.gallery"
             :title="props.title"
         />
-                
+
         <div class="flex flex-col mx-auto  pb-10 ">
             <div class="grid mb-10 px-4 pt-6 grid-cols-1 dark:bg-gray-900">
                 <div class="col-span-2">
@@ -114,9 +114,9 @@ watch(
                                         />
                                     </div>
                                 </form>
-                            </div>                   
+                            </div>
                         </div>
-                        
+
                         <div class="overflow-x-auto">
                             <div class="inline-block min-w-full align-middle">
                                 <div class="overflow-hidden shadow">
@@ -131,6 +131,9 @@ watch(
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.title }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
+                                                    {{ lang().label.title_en }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.product }}
@@ -149,6 +152,7 @@ watch(
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ gallery.section }}</td>
                                                 <td class="tbl-column"> {{ gallery.title }}</td>
+                                                <td class="tbl-column"> {{ gallery.title_en }}</td>
                                                 <td class="tbl-column"> {{ gallery.product && gallery.product.name }}</td>
                                                 <td class="tbl-column space-x-2 whitespace-nowrap text-center">
                                                     <button @click="
@@ -176,10 +180,10 @@ watch(
                         <div class="flex justify-between items-center p-2 border-t border-slate-200 dark:border-slate-700">
                             <Pagination :links="props.galleries" :filters="data.params" />
                         </div>
-                    </div>                   
+                    </div>
                 </div>
-            </div>            
-        </div>        
+            </div>
+        </div>
 
     </AuthenticatedLayout>
 </template>

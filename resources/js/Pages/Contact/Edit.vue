@@ -22,6 +22,7 @@ const form = useForm({
   telp: "",
   maps: "",
   address: "",
+  address_en: "",
   link: "",
   email: "",
   facebook: "",
@@ -47,6 +48,7 @@ watchEffect(() => {
     form.telp = props.contact?.telp;
     form.maps = props.contact?.maps;
     form.address = props.contact?.address;
+    form.address_en = props.contact?.address_en;
     form.link = props.contact?.link;
     form.email = props.contact?.email;
     form.facebook = props.contact?.facebook;
@@ -81,6 +83,10 @@ watchEffect(() => {
           <div>
             <FwbInput v-model="form.address" :placeholder="lang().label.address" :label="lang().label.address" />
             <InputError class="mt-2" :message="form.errors.address" />
+          </div>
+          <div>
+            <FwbInput v-model="form.address_en" :placeholder="lang().label.address_en" :label="lang().label.address_en" />
+            <InputError class="mt-2" :message="form.errors.address_en" />
           </div>
           <div>
             <FwbTextarea rows="2" :placeholder="lang().label.maps" v-model="form.maps" :label="lang().label.maps" />
