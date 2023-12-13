@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,6 +66,10 @@ class Product extends Model
         return ($this->length * $this->width * $this->height) / 6;
     }
 
+    public function isWishlist($user_id)
+    {
+        return $this->wishlists->where('user_id', $user_id)->isNotEmpty() ? true : false;
+    }
 
     protected static function booted(): void
     {
@@ -86,6 +91,11 @@ class Product extends Model
     public function setExpiredDateAttribute($value)
     {
         $this->attributes['expired_date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
     }
 
     public function brand()
