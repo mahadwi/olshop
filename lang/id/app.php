@@ -158,6 +158,13 @@ return [
         'history_en' => 'History Dalam Bahasa Inggris',
         'suggestion' => 'Saran',
         'faq' => 'FAQ',
+        'voucher' => 'Voucher',
+        'capacity' => 'Kapasitas',
+        'quota' => 'Kuota',
+        'use_for' => 'Penggunaan',
+        'disc_percent' => 'Disc Persen',
+        'disc_price' => 'Disc Harga',
+        'min_price' => 'Min Harga',  
     ],
     'button' => [
         'login' => 'Masuk',

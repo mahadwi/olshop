@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\VoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/faq', FaqController::class)->except('show');
+
+    Route::resource('/voucher', VoucherController::class)->except('show');
 
 });
