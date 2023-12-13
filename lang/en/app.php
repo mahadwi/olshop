@@ -163,8 +163,11 @@ return [
         'use_for' => 'Use For',
         'disc_percent' => 'Disc Percent',
         'disc_price' => 'Disc Price',
-        'min_price' => 'Min Price',     
+        'min_price' => 'Min Price',
         'address_en' => 'Address In English',
+        'user_name' => 'Username',
+        'birth_date' => 'Birth Date',
+        'gender' => 'Gender',
     ],
     'button' => [
         'login' => 'Login',
@@ -186,7 +189,7 @@ return [
         'delete_account' => 'Delete Account',
         'no' => 'No',
         'update' => 'Update',
-        'save_send' => 'Save And Send',         
+        'save_send' => 'Save And Send',
     ],
     'placeholder' => [
         'search' => 'Search...',

@@ -57,6 +57,7 @@ Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderC
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('user', [AuthController::class, 'user'])->name('user');
+    Route::post('user/update', [AuthController::class, 'updateUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');

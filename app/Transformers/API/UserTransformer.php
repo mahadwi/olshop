@@ -15,7 +15,7 @@ class UserTransformer extends TransformerAbstract
     protected array $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -24,7 +24,7 @@ class UserTransformer extends TransformerAbstract
     protected array $availableIncludes = [
         'addresses'
     ];
-    
+
     /**
      * A Fractal transformer.
      *
@@ -37,6 +37,9 @@ class UserTransformer extends TransformerAbstract
             "name" => $user->name,
             "phone" => $user->no_hp,
             "email" => $user->email,
+            "userName" => $user->user_name,
+            "gender" => $user->gender,
+            "birthDate" => $user->birth_date,
             "role" => $user->roles[0]->name,
         ];
     }

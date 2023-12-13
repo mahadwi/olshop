@@ -17,11 +17,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\API\RegisterRequest;
 use App\Actions\API\RegisterCustomerAction;
 use App\Http\Requests\API\AuthenticateRequest;
+use App\Http\Requests\API\UpdateUserApiRequest;
 use App\Notifications\CustomerOtpNotification;
 
 class AuthController extends Controller
 {
-    
+
     public function login(AuthenticateRequest $request)
     {
 
@@ -46,6 +47,15 @@ class AuthController extends Controller
     {
         $user = $request->user();
         return $this->apiSuccess(fractal($user, new UserTransformer)->parseIncludes(['addresses']));
+    }
+
+    public function updateUser(UpdateUserApiRequest $request)
+    {
+        $userId = $request->user()->id;
+        $user = User::findOrFail($userId);
+
+        $user->update($request->all());
+        return $this->apiSuccess();
     }
 
     public function redirectToProvider($provider)
@@ -84,7 +94,7 @@ class AuthController extends Controller
         );
 
         $userCreated->assignRole(Role::CUSTOMER);
-        
+
         $token = $userCreated->createToken('auth_token')->plainTextToken;
 
         return $this->apiSuccess([

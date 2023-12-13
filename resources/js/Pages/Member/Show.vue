@@ -13,7 +13,7 @@ import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 
-import { 
+import {
   FwbInput, FwbTab, FwbTabs,
   FwbA,
   FwbTable,
@@ -52,9 +52,36 @@ const activeTab = ref("");
           <div class="grid grid-cols-12 gap-6 mb-5">
             <div class="col-span-6">
               <fwb-input
+                v-model="member.userName"
+                :placeholder="lang().label.user_name"
+                :label="lang().label.user_name"
+                readonly
+              />
+            </div>
+
+            <div class="col-span-6">
+              <fwb-input
                 v-model="member.name"
                 :placeholder="lang().placeholder.name"
                 :label="lang().placeholder.name"
+                readonly
+              />
+            </div>
+
+            <div class="col-span-6">
+              <fwb-input
+                v-model="member.birthDate"
+                :placeholder="lang().label.birth_date"
+                :label="lang().label.birth_date"
+                readonly
+              />
+            </div>
+
+            <div class="col-span-6">
+              <fwb-input
+                v-model="member.gender"
+                :placeholder="lang().label.gender"
+                :label="lang().label.gender"
                 readonly
               />
             </div>
@@ -76,6 +103,7 @@ const activeTab = ref("");
                 readonly
               />
             </div>
+
           </div>
 
           <fwb-tabs v-model="activeTab" variant="underline" class="p-5">

@@ -164,8 +164,11 @@ return [
         'use_for' => 'Penggunaan',
         'disc_percent' => 'Disc Persen',
         'disc_price' => 'Disc Harga',
-        'min_price' => 'Min Harga',  
+        'min_price' => 'Min Harga',
         'address_en' => 'Alamat Dalam Bahasa Inggris',
+        'user_name' => 'Username',
+        'birth_date' => 'Tanggal Lahir',
+        'gender' => 'Jenis Kelamin',
     ],
     'button' => [
         'login' => 'Masuk',

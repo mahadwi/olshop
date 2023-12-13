@@ -33,6 +33,9 @@ class User extends Authenticatable
         'vendor_type',
         'facebook_id',
         'google_id',
+        'user_name',
+        'gender',
+        'birth_date'
     ];
 
     /**
