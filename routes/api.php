@@ -29,6 +29,7 @@ use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\FaqApiController;
 use App\Http\Controllers\API\SuggestionApiController;
+use App\Http\Controllers\API\MessageApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,7 @@ Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderC
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('user', [AuthController::class, 'user'])->name('user');
-    Route::post('user/update', [AuthController::class, 'updateUser']);
+    Route::post('/user/update', [AuthController::class, 'updateUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::resource('address', AddressApiController::class)->except('create', 'show', 'edit', 'index');
@@ -92,7 +93,8 @@ Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index'])
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
 Route::get('review', [ReviewApiController::class, 'index']);
-Route::post('email-subscribe', [EmailSubscribeApiController::class, 'insert']);
+Route::post('/email-subscribe', [EmailSubscribeApiController::class, 'insert']);
+Route::post('/message', [MessageApiController::class, 'insert']);
 
 Route::resource('suggestion', SuggestionApiController::class)->only('store');
 Route::get('faq', [FaqApiController::class, 'index']);

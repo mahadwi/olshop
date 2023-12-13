@@ -168,6 +168,11 @@ return [
         'user_name' => 'Username',
         'birth_date' => 'Birth Date',
         'gender' => 'Gender',
+        'message' => 'Message Customer',
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'subject' => 'Subject',
+        'reply_message' => 'Reply Message',
     ],
     'button' => [
         'login' => 'Login',

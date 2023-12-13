@@ -18,5 +18,6 @@ class Message extends Model
         'handphone',
         'subject',
         'message',
+        'reply_message',
     ];
 }

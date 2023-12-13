@@ -25,6 +25,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\PromosiSubscriberController;
 use App\Http\Controllers\SuggestionController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
 
     Route::resource('/suggestion', SuggestionController::class)->only('index');
-
+    Route::resource('/message', MessageController::class)->except('create', 'show', 'edit', 'store');
 
 });

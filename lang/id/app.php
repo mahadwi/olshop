@@ -169,6 +169,11 @@ return [
         'user_name' => 'Username',
         'birth_date' => 'Tanggal Lahir',
         'gender' => 'Jenis Kelamin',
+        'message' => 'Pesan Pelanggan',
+        'first_name' => 'Nama Depan',
+        'last_name' => 'Nama Belakang',
+        'subject' => 'Subject',
+        'reply_message' => 'Balas Pesan',
     ],
     'button' => [
         'login' => 'Masuk',
