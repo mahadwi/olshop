@@ -95,7 +95,7 @@ watchEffect(() => {
             <date-picker
               v-model:value="form.time"
               range="true"
-              format="hh:mm"
+              format="HH:mm"
               value-type="format"
               type="time"
               placeholder="Select time"
