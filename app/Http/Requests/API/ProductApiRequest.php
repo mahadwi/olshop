@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -30,6 +31,7 @@ class ProductApiRequest extends FormRequest
             'price_max' => ['nullable', 'integer', 'min:0'],
             'sort_by' => ['nullable', 'in:name_asc,name_desc,price_asc,price_desc,date_asc,date_desc'],
             'is_new_arrival' => ['nullable', 'boolean'],
+            'user_id' => ['nullable', Rule::exists('users', 'id')],
         ];
     }
 

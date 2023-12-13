@@ -33,13 +33,15 @@ class AddressTransformer extends TransformerAbstract
     public function transform(Address $address)
     {
         return [
-            'id'            => $address->id,
-            'name'          => $address->name,                 
-            'address'       => $address->address,                 
-            'phone'         => $address->phone,
-            'tag'           => $address->tag,
-            'is_primary'    => $address->is_primary,
-            'full_address'  => $address->full_address,
+            'id'                => $address->id,
+            'name'              => $address->name,                 
+            'address'           => $address->address,                 
+            'phone'             => $address->phone,
+            'tag'               => $address->tag,
+            'is_primary'        => $address->is_primary,
+            'full_address'      => $address->full_address,
+            'subdistrict_id'    => $address->subdistrict_id,
+            'subdistrict'       => $address->subdistrict->name,
         ];
     }
   
