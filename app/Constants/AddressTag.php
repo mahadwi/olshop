@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class AddressTag extends AbstractAppConstant
 {
-    public const HOME = 'home';
-    public const OFFICE = 'office';
+    public const HOME = 'Home';
+    public const OFFICE = 'Office';
 }

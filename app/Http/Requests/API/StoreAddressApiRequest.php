@@ -27,7 +27,7 @@ class StoreAddressApiRequest extends FormRequest
             'address' => 'required',
             'subdistrict_id' => 'required',
             'is_primary' => 'required',
-            'tag' => 'required|string|in:home,office',
+            'tag' => 'required|string|in:Home,Office',
         ];
     }
 
