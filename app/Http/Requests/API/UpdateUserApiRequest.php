@@ -26,6 +26,7 @@ class UpdateUserApiRequest extends FormRequest
             'name' => 'required|string|max:255',
             'phone' => 'string|min:9|max:16',
             'email' => 'required|email',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }
