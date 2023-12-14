@@ -59,7 +59,7 @@ class ProductTransformer extends TransformerAbstract
             'entry_date'    => $product->entry_date->format('d-m-Y'),
             'weight'        => $product->fixWeight,
             'images'        => $this->images($product),
-            'wishlist'      => isset($this->params['user_id']) ? $this->getWishlist($product, $this->params['user_id']) : [],
+            'wishlist'      => isset($this->params['user_id']) ? $this->getWishlist($product, $this->params['user_id']) : null,
         ];
     }
 
@@ -71,6 +71,6 @@ class ProductTransformer extends TransformerAbstract
     }
 
     private function getWishlist($product, $user_id){
-        return $product->wishlists->where('user_id', $user_id)->where('product_id', $product->id);
+        return $product->wishlists->where('user_id', $user_id)->where('product_id', $product->id)->first();
     }
 }
