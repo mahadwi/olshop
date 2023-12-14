@@ -23,6 +23,7 @@ class AboutUsStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'description' => 'required',
             'description_en' => 'required',
             'address' => 'required',
