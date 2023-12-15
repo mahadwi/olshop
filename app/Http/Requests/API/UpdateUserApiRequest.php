@@ -22,10 +22,12 @@ class UpdateUserApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'userName' => 'string|max:255',
+            'userName' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
-            'phone' => 'string|min:9|max:16',
+            'phone' => 'nullable|string|min:9|max:16',
+            'gender' => ['nullable', 'string', 'in:male,female'],
             'email' => 'required|email',
+            'birth_date' => 'nullable|date_format:Y-m-d',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }

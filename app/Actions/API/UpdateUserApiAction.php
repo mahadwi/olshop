@@ -24,7 +24,7 @@ class UpdateUserApiAction
     {
         $user = User::findOrFail($this->attributes['user_id']);
 
-        if($this->attributes['image']){
+        if(isset($this->attributes['image']) && $this->attributes['image']){
 
             $oldFile = public_path('image/'.$user->image);
 
@@ -35,7 +35,7 @@ class UpdateUserApiAction
 
             $file = (new UploadService())->saveFile($this->attributes['image']);
 
-            $this->attributes['image'] = $file['name'];
+            $this->attributes['image'] = url('image/' . $file['name']);
 
         } else {
             unset($this->attributes['image']);
