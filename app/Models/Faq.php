@@ -19,25 +19,5 @@ class Faq extends Model
         'section_en',
         'description',
         'description_en',
-        'image',
     ];
-
-    protected $appends = ['image_url'];
-
-    protected static function booted(): void
-    {
-        static::deleted(function (Faq $faq) {
-            //also delete file if exist
-            $imageFile = public_path('image/'.$faq->image);
-            if(File::exists($imageFile)){
-                //delete file
-                File::delete($imageFile);
-            }
-        });
-    }
-
-    public function getImageUrlAttribute()
-    {
-        return asset('image/'.$this->image);
-    }
 }

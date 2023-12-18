@@ -11,4 +11,5 @@ class BannerSection extends AbstractAppConstant
     public const DESIGNER   = 'Designer';
     public const CONTACT    = 'Contact';
     public const EVENT      = 'Event';
+    public const FAQ        = 'Faq';
 }

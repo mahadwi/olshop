@@ -27,7 +27,6 @@ const form = useForm({
     description: "",
     title_en: "",
     description_en: "",
-    image: "",
 });
 
 const create = () => {
@@ -126,10 +125,6 @@ const updateSection1 = () => {
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
                     <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
                     <InputError class="mt-2" :message="form.errors.description_en" />
-                </div>
-                <div class="my-6 space-y-4">
-                    <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-                    <InputError class="mt-2" :message="form.errors.image" />
                 </div>
                 <div class="flex justify-end mt-5">
                     <SecondaryButton

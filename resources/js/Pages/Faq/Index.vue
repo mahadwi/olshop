@@ -136,9 +136,6 @@ watch(
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.description }}
                                                 </th>
-                                                <th scope="col" class="tbl-head">
-                                                    {{ lang().label.image }}
-                                                </th>
                                                 <th scope="col" class="tbl-head text-center">
                                                     {{ lang().label.action }}
                                                 </th>
@@ -155,9 +152,6 @@ watch(
                                                 <td class="tbl-column"> {{ faq.title }}</td>
                                                 <td class="tbl-column">
                                                     <span v-html="truncate(faq.description, 50)"></span>
-                                                </td>
-                                                <td class="w-32">
-                                                    <img :src="faq.image_url" :alt="faq.name">
                                                 </td>
                                                 <td class="tbl-column space-x-2 whitespace-nowrap text-center">
                                                     <button @click="

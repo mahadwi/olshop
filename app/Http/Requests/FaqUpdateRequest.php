@@ -28,7 +28,6 @@ class FaqUpdateRequest extends FormRequest
             'section_en' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'description_en' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }

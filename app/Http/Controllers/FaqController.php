@@ -59,7 +59,7 @@ class FaqController extends Controller
         }
     }
 
-    public function update(Request $request, Faq $faq)
+    public function update(FaqUpdateRequest $request, Faq $faq)
     {
         try {
             $faq = dispatch_sync(new UpdateFaqAction($faq, $request->all()));

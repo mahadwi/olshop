@@ -28,7 +28,6 @@ class FaqStoreRequest extends FormRequest
             'section_en' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'description_en' => 'required|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }
