@@ -25,7 +25,8 @@ use App\Http\Controllers\CustomerCareController;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::resource('/faq', FaqController::class)->except('show');
+    Route::resource('/faq', FaqController::class)->except('show', 'update');
+    Route::post('faq/{faq}/update', [FaqController::class, 'update'])->name('faq.update');
 
     Route::resource('/voucher', VoucherController::class)->except('show');
 

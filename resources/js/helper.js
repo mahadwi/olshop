@@ -6,7 +6,7 @@ function priceFormat(amount = 0) {
     for (var i = 0; i < amountRev.length; i++) {
         if (i % 3 == 0) rupiah += amountRev.substr(i, 3) + ".";
     }
-    return (        
+    return (
         rupiah
             .split("", rupiah.length - 1)
             .reverse()
@@ -21,7 +21,8 @@ function round(num, decimalPlaces = 0) {
 }
 
 function truncate (value, length) {
-    return value.length > length ? value.slice(0, length) + "......" : value;
+    let isi = value ?? '';
+    return isi.length > length ? value.slice(0, length) + "......" : isi;
 }
 
 const dataSwitch = [
@@ -32,5 +33,5 @@ const dataSwitch = [
     {
         name: "No",
         value: false
-    }    
+    }
 ];

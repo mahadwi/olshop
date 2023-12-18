@@ -44,7 +44,7 @@ class ProductController extends Controller
     public function index(ProductIndexRequest $request)
     {
         $products = Product::query();
-        
+
         if ($request->has('search')) {
 
             $products->where('name', 'ILIKE', "%" . $request->search . "%")
@@ -60,7 +60,7 @@ class ProductController extends Controller
         $products->with(['brand', 'productCategory', 'vendor'])->orderBy('id');
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
-                
+
         return Inertia::render('Product/Index', [
             'title'         => 'Data '.__('app.label.product'),
             'filters'       => $request->all(['search', 'field', 'order']),
@@ -74,10 +74,10 @@ class ProductController extends Controller
     }
 
     public function create()
-    {   
+    {
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
-        
+
         return Inertia::render('Product/Create', [
             'title'         => 'Create '.__('app.label.product'),
             'categories'    => $categories,
@@ -94,11 +94,11 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product)
-    {   
+    {
 
         $brands = Brand::get();
         $categories = ProductCategory::active()->get();
-        
+
         $images = $product->images->pluck('name')->map(function ($image){
             return [
                 'source' => $image,
@@ -130,7 +130,7 @@ class ProductController extends Controller
         try {
 
             $product = dispatch_sync(new StoreProductAction($request->all()));
-            
+
             return redirect()->route('product.index')->with('success', __('app.label.created_successfully', ['name' => $product->name]));
 
         } catch (\Throwable $th) {
@@ -165,7 +165,7 @@ class ProductController extends Controller
     {
 
         $filePath = public_path('image/product/'.$productImage);
-        
+
         $headers = [
             'Content-Type' => 'image/png', // Set the appropriate content type for your file type
             'Content-Disposition' => 'inline; filename="my-file.png"',
@@ -176,16 +176,16 @@ class ProductController extends Controller
 
     public function deleteImage(Request $request, Product $product)
     {
-        
+
         try {
 
             $filename = str_replace('"', '', $request->name);
             //cek file
             $cekFile = public_path('image/product/'.$filename);
-            if(File::exists($cekFile)){                
+            if(File::exists($cekFile)){
                 //delete file
                 File::delete($cekFile);
-            }   
+            }
 
             $image = $product->images->where('name', $filename)->first();
             $image->delete();
@@ -200,7 +200,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            
+
             if($product->images->isNotEmpty()){
                 (new UploadService())->deleteFile($product->images, 'product');
                 $product->images()->delete();

@@ -16,6 +16,7 @@ import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
 import FilePondInput from '@/Components/FilePondInput.vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { priceFormat } from '../../helper.js'
 
 
 const props = defineProps({
@@ -37,11 +38,13 @@ const form = useForm({
   vendor_id: "",
   stock: "",
   price: "",
+  price_usd: "",
   history: "",
   entry_date: "",
   expired_date: "",
   description: "",
   sale_price: "",
+  sale_usd: "",
   commission: "",
   commission_type: "",
   display_on_homepage: "",
@@ -116,13 +119,16 @@ const create = () => {
 const changeCommission = () => {
 
     form.sale_price = form.price;
+    form.sale_usd = form.price_usd
 
     if(form.commission_type == 'Selling'){
         form.commission = 0;
 
         if(form.sale_price == 0) form.sale_price = form.price;
+        if(form.sale_usd == 0) form.sale_usd = form.price_usd;
     }
 }
+
 </script>
 
 <template>
@@ -236,23 +242,23 @@ const changeCommission = () => {
                 <InputError class="mt-2" :message="form.errors.length" />
               </div>
 
-							<div class="col-span-6">
-                <FwbInput
-                  v-model="form.width"
-                  :placeholder="lang().label.width"
-                  :label="lang().label.width"
-                />
-                <InputError class="mt-2" :message="form.errors.width" />
-              </div>
+			    <div class="col-span-6">
+                    <FwbInput
+                    v-model="form.width"
+                    :placeholder="lang().label.width"
+                    :label="lang().label.width"
+                    />
+                    <InputError class="mt-2" :message="form.errors.width" />
+                </div>
 
-							<div class="col-span-6">
-                <FwbInput
-                  v-model="form.height"
-                  :placeholder="lang().label.height"
-                  :label="lang().label.height"
-                />
-                <InputError class="mt-2" :message="form.errors.height" />
-              </div>
+				<div class="col-span-6">
+                    <FwbInput
+                    v-model="form.height"
+                    :placeholder="lang().label.height"
+                    :label="lang().label.height"
+                    />
+                    <InputError class="mt-2" :message="form.errors.height" />
+                </div>
 
               <div class="col-span-6">
                 <InputLabel for="stock" :value="lang().label.stock" />
@@ -269,7 +275,7 @@ const changeCommission = () => {
 
               <div class="col-span-6">
                 <InputLabel for="price" :value="lang().label.price" />
-                <TextInput
+                <FwbInput
                   id="price"
                   type="number"
                   class="mt-1 block w-full"
@@ -278,6 +284,23 @@ const changeCommission = () => {
                   :error="form.errors.price"
                 />
                 <InputError class="mt-2" :message="form.errors.price" />
+              </div>
+
+              <div class="col-span-6">
+
+              </div>
+
+              <div class="col-span-6">
+                <InputLabel for="price_usd" :value="lang().label.price_usd" />
+                <FwbInput
+                  id="price_usd"
+                  type="number"
+                  class="mt-1 block w-full"
+                  v-model="form.price_usd"
+                  :placeholder="lang().label.price_usd"
+                  :error="form.errors.price_usd"
+                />
+                <InputError class="mt-2" :message="form.errors.price_usd" />
               </div>
 
               <div class="col-span-6">
@@ -300,12 +323,25 @@ const changeCommission = () => {
               </div>
               <div class="col-span-6">
                 <FwbInput
+                  type="number"
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_price"
                   :placeholder="lang().label.sale_price"
                   :label="lang().label.sale_price"
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
+              </div>
+              <div class="col-span-6">
+              </div>
+              <div class="col-span-6">
+                <FwbInput
+                  type="number"
+                  :disabled="form.commission_type == 'Percent'"
+                  v-model="form.sale_usd"
+                  :placeholder="lang().label.sale_usd"
+                  :label="lang().label.sale_usd"
+                />
+                <InputError class="mt-2" :message="form.errors.sale_usd" />
               </div>
               <div class="col-span-6">
                 <FwbInput

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FaqStoreRequest extends FormRequest
+class FaqUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class FaqStoreRequest extends FormRequest
             'section_en' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'description_en' => 'required|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg|max:500',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }
