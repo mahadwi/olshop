@@ -4,8 +4,7 @@ namespace App\Constants;
 
 class FaqSection extends AbstractAppConstant
 {
-    public const ORDER   = 'Order';
-    public const ACCOUNT   = 'Account';
-    public const OTHER   = 'Other';
-
+    public const ORDER   = 'Pesanan';
+    public const ACCOUNT   = 'Akun';
+    public const OTHER   = 'Lainnya';
 }

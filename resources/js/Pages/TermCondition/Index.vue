@@ -107,6 +107,9 @@ const truncate = (value, length) => {
                                                     {{ lang().label.title }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.title_en }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.description }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
@@ -131,6 +134,7 @@ const truncate = (value, length) => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ term.title }}</td>
+                                                <td class="tbl-column"> {{ term.title_en }}</td>
                                                 <td class="tbl-column" v-html="truncate(term.description, 25)">
                                                 </td>
                                                 <td class="tbl-column" v-html="truncate(term.description_en, 25)">

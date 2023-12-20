@@ -48,7 +48,9 @@ const form = useForm({
   vendor_id: props.product.vendor_id,
   stock: props.product.stock,
   price: props.product.price,
+  price_usd: props.product.price_usd,
   sale_price: props.product.sale_price,
+  sale_usd: props.product.sale_usd,
   commission: props.product.commission,
   commission_type: props.product.commission_type,
   display_on_homepage: props.product.display_on_homepage,
@@ -337,13 +339,33 @@ const changeCommission = () => {
               </div>
 
               <div class="col-span-6">
+                <InputLabel for="price" :value="lang().label.price" />
                 <FwbInput
+                  id="price"
+                  type="number"
+                  class="mt-1 block w-full"
                   v-model="form.price"
                   :placeholder="lang().label.price"
-                  :label="lang().label.price"
+                  :error="form.errors.price"
                 />
                 <InputError class="mt-2" :message="form.errors.price" />
               </div>
+            <div class="col-span-6">
+
+            </div>
+
+            <div class="col-span-6">
+            <InputLabel for="price_usd" :value="lang().label.price_usd" />
+            <FwbInput
+                id="price_usd"
+                type="number"
+                class="mt-1 block w-full"
+                v-model="form.price_usd"
+                :placeholder="lang().label.price_usd"
+                :error="form.errors.price_usd"
+            />
+            <InputError class="mt-2" :message="form.errors.price_usd" />
+            </div>
               <div class="col-span-6">
                 <InputLabel
                   for="commission_type"
@@ -364,12 +386,25 @@ const changeCommission = () => {
               </div>
               <div class="col-span-6">
                 <FwbInput
+                  type="number"
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_price"
                   :placeholder="lang().label.sale_price"
                   :label="lang().label.sale_price"
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
+              </div>
+              <div class="col-span-6">
+              </div>
+              <div class="col-span-6">
+                <FwbInput
+                  type="number"
+                  :disabled="form.commission_type == 'Percent'"
+                  v-model="form.sale_usd"
+                  :placeholder="lang().label.sale_usd"
+                  :label="lang().label.sale_usd"
+                />
+                <InputError class="mt-2" :message="form.errors.sale_usd" />
               </div>
               <div class="col-span-6">
                 <FwbInput

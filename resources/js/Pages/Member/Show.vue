@@ -30,7 +30,7 @@ const props = defineProps({
   breadcrumbs: Object,
 });
 
-const activeTab = ref("");
+const activeTab = ref("address");
 </script>
 
 <template>

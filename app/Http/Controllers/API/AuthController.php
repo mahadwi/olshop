@@ -19,6 +19,7 @@ use App\Actions\API\RegisterCustomerAction;
 use App\Http\Requests\API\AuthenticateRequest;
 use App\Http\Requests\API\UpdateUserApiRequest;
 use App\Notifications\CustomerOtpNotification;
+use App\Actions\API\UpdateUserApiAction;
 
 class AuthController extends Controller
 {
@@ -51,11 +52,12 @@ class AuthController extends Controller
 
     public function updateUser(UpdateUserApiRequest $request)
     {
-        $userId = $request->user()->id;
-        $user = User::findOrFail($userId);
+        $userId = $request->user()->id; // Mengambil user id dari sesi
+        $requestData = array_merge($request->all(), ['user_id' => $userId]);
+        $users = dispatch_sync(new UpdateUserApiAction($requestData));
 
-        $user->update($request->all());
-        return $this->apiSuccess();
+        $user = fractal($users, new UserTransformer())->toArray();
+        return $this->apiSuccess($user);
     }
 
     public function redirectToProvider($provider)

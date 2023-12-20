@@ -21,6 +21,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
     title: "",
+    title_en: "",
     description: "",
     description_en: "",
     cp: "",
@@ -42,6 +43,7 @@ const update = () => {
 watchEffect(() => {
     if (props.show) {
         form.title = props.termCondition?.title;
+        form.title_en = props.termCondition?.title_en;
         form.description = props.termCondition?.description;
         form.description_en = props.termCondition?.description_en;
         form.cp = props.termCondition?.cp;
@@ -66,23 +68,24 @@ watchEffect(() => {
                         <FwbInput v-model="form.title" :placeholder="lang().label.title" :label="lang().label.title" />
                         <InputError class="mt-2" :message="form.errors.title" />
                     </div>
-
-                    <div>
-                        <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
-                        <InputError class="mt-2" :message="form.errors.image" />
-                    </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                         <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
                     <div>
+                        <FwbInput v-model="form.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                        <InputError class="mt-2" :message="form.errors.title_en" />
+                    </div>
+                    <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
                         <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
                         <InputError class="mt-2" :message="form.errors.description_en" />
                     </div>
-
+                    <div>
+                        <FwbFileInput accept="image/*" v-model="form.image" :label="lang().label.image" />
+                        <InputError class="mt-2" :message="form.errors.image" />
+                    </div>
                     <div>
                         <FwbInput v-model="form.cp" :placeholder="lang().label.cp" :label="lang().label.cp" />
                         <InputError class="mt-2" :message="form.errors.cp" />

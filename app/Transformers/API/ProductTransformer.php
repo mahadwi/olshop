@@ -53,6 +53,7 @@ class ProductTransformer extends TransformerAbstract
             'brand'         => $product->brand->name,
             'stock'         => $product->stock,
             'sale_price'    => $product->sale_price,
+            'sale_usd'      => $product->sale_usd,
             'condition'     => $product->condition,
             'is_wishlist'   => isset($this->params['user_id']) ? $product->isWishlist($this->params['user_id']) : false,
             'is_new_arrival'=> $product->isNewArrival,

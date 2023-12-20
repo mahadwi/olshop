@@ -41,6 +41,7 @@ class UserTransformer extends TransformerAbstract
             "gender" => $user->gender,
             "birthDate" => $user->birth_date,
             "role" => $user->roles[0]->name,
+            "image" => $user->image,
         ];
     }
 

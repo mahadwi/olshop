@@ -22,7 +22,8 @@ class AboutUsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'  => 'required',
+            'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'description'  => 'required',
             'description_en'  => 'required',
             'address'  => 'required',

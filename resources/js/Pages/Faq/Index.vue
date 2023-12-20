@@ -21,6 +21,7 @@ const props = defineProps({
     faqs: Object,
     breadcrumbs:Object,
     section:Object,
+    sectionEn:Object,
     perPage: Number,
 });
 
@@ -67,6 +68,7 @@ watch(
             @close="data.createOpen = false"
             :title="props.title"
             :section="props.section"
+            :sectionEn="props.sectionEn"
         />
         <Edit
             :show="data.editOpen"
@@ -74,6 +76,7 @@ watch(
             :faq="data.faq"
             :title="props.title"
             :section="props.section"
+            :sectionEn="props.sectionEn"
         />
         <Delete
             :show="data.deleteOpen"
@@ -81,7 +84,7 @@ watch(
             :faq="data.faq"
             :title="props.title"
         />
-                
+
         <div class="flex flex-col mx-auto  pb-10 ">
             <div class="grid mb-10 px-4 pt-6 grid-cols-1 dark:bg-gray-900">
                 <div class="col-span-2">
@@ -112,9 +115,9 @@ watch(
                                         />
                                     </div>
                                 </form>
-                            </div>                   
+                            </div>
                         </div>
-                        
+
                         <div class="overflow-x-auto">
                             <div class="inline-block min-w-full align-middle">
                                 <div class="overflow-hidden shadow">
@@ -176,10 +179,10 @@ watch(
                         <div class="flex justify-between items-center p-2 border-t border-slate-200 dark:border-slate-700">
                             <Pagination :links="props.faqs" :filters="data.params" />
                         </div>
-                    </div>                   
+                    </div>
                 </div>
-            </div>            
-        </div>        
+            </div>
+        </div>
 
     </AuthenticatedLayout>
 </template>
