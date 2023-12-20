@@ -13,6 +13,8 @@ class EventDetail extends Model
     protected $fillable = [
         'name',
         'date',
+        'capacity',
+        'quota',
         'time_start',
         'time_end',
         'contact',
@@ -27,6 +29,11 @@ class EventDetail extends Model
     public function setDateAttribute($value)
     {
         $this->attributes['date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
     }
  
 }

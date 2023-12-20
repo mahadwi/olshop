@@ -14,6 +14,7 @@ const props = defineProps({
   show: Boolean,
   title: String,
   details: Object,
+  capacity: Object,
 	dataEvent:Object
 });
 
@@ -21,7 +22,9 @@ const emit = defineEmits(["close"]);
 
 const data = reactive({
   name: "",
-  date: "",
+  capacity: "",
+  quota: 0,
+  date:"",
   time_start: "",
   time_end: "",
   contact: "",
@@ -44,6 +47,8 @@ const refundable = [
 const create = () => {
 	let dataAdd = {
 		name: data.name,
+		capacity: data.capacity,
+		quota: data.quota,
 		date: data.date,
 		time_start: data.time_start,
 		time_end: data.time_end,
@@ -60,8 +65,10 @@ watchEffect(() => {
 				data.name = "[Pre-Sale] Admission Ticket - Day Access";
         data.time_start = props.dataEvent.time_start;
         data.time_end = props.dataEvent.time_end;
-				data.date = "";
+				data.capacity = "";
+				data.quota = "";
         data.contact = "";
+        data.date = "";
         data.price = 0;
         data.is_refundable = "No";
     }
@@ -88,11 +95,26 @@ const formatter = ref({
               :label="lang().placeholder.name"
             />
           </div>
-					<div>
+          <div>
+            <FwbSelect
+              v-model="data.capacity"
+              :options="props.capacity"
+              :label="lang().label.capacity"
+            />
+
+          </div>
+          <div>
+            <FwbInput
+              :disabled="data.capacity != 'Limited'"
+              v-model="data.quota"
+              :placeholder="lang().label.quota"
+              :label="lang().label.quota"
+            />
+          </div>
+          <div>
             <InputLabel for="date" :value="lang().label.date" />
 						<date-picker  v-model:value="data.date" value-type="format" format="DD-MM-YYYY"></date-picker>
           </div>
-          
           <div>
             <InputLabel for="time" :value="lang().label.time_start" />
             <date-picker

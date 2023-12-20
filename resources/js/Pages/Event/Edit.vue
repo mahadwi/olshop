@@ -37,6 +37,7 @@ const props = defineProps({
   title: String,
   breadcrumbs: Object,
   event: Object,
+  capacity: Object,
 });
 
 const data = reactive({
@@ -104,6 +105,13 @@ const canAddTicket = computed(() => {
   && form.end_date != '' && form.time_start != '' && form.time_end != '';
 });
 
+const capacity = Object.values(props.capacity).map((data) => ({
+    name: data,
+    value: data,
+}));
+
+console.log(capacity);
+
 watch(
   () => form,
   (newValue) => {
@@ -132,6 +140,7 @@ watch(
         @close="data.editOpen = false"
         :ticket="data.ticket"
         :title="props.title"
+        :capacity="capacity"
     />
 
     <div
@@ -260,6 +269,8 @@ watch(
                 <fwb-table>
                   <fwb-table-head>
                     <fwb-table-head-cell>Name</fwb-table-head-cell>
+                    <fwb-table-head-cell>{{ lang().label.capacity }}</fwb-table-head-cell>
+                    <fwb-table-head-cell>{{ lang().label.quota }}</fwb-table-head-cell>
                     <fwb-table-head-cell>Date</fwb-table-head-cell>
                     <fwb-table-head-cell>Time</fwb-table-head-cell>
                     <fwb-table-head-cell>Contact Person</fwb-table-head-cell>
@@ -274,6 +285,8 @@ watch(
                     <fwb-table-row v-for="(detail, index) in form.details"
                       :key="index">
                       <fwb-table-cell>{{ detail.name }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.capacity }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.quota }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.date }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.time_start }} - {{ detail.time_end }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.contact }}</fwb-table-cell>

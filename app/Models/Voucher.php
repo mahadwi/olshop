@@ -33,6 +33,8 @@ class Voucher extends Model
 
     protected $appends = ['duration', 'date', 'time'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     function getDurationAttribute(){
         return $this->start_date->format('d-m-Y') . ' - ' . $this->end_date->format('d-m-Y') . ' | ' . $this->time_start . ' - ' . $this->time_end;
     }

@@ -6,15 +6,17 @@ use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Actions\StoreEventAction;
+use App\Constants\TicketCapacity;
 use App\Actions\UpdateEventAction;
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
 
 class EventController extends Controller
 {
+    
     public function __construct()
     {
-
+        $this->capacity = TicketCapacity::getValues();
     }
 
     public function index(Request $request)
@@ -51,7 +53,7 @@ class EventController extends Controller
     {   
         return Inertia::render('Event/Create', [
             'title'         => 'Create '.__('app.label.event'),
-            // 'condition'    => $this->condition,
+            'capacity'      => $this->capacity,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.event'), 'href' => route('event.index')],
@@ -75,6 +77,7 @@ class EventController extends Controller
         return Inertia::render('Event/Edit', [
             'title'             => 'Edit '.__('app.label.event'),
             'event'         => $event->load('details'),
+            'capacity'      => $this->capacity,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.event'), 'href' => route('event.index')],

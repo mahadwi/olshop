@@ -197,9 +197,9 @@ return [
         ],
         'datetime_human' => 'd-m-Y H:i',
         'date_human' => 'd-m-Y',
-        // 'xendit_secret_key' => env('XENDIT_SECRET_KEY', ''),
-        // 'xendit_public_key' => env('XENDIT_PUBLIC_KEY', ''),
-        // 'xendit_callback_token' => env('XENDIT_CALLBACK_TOKEN', ''),
+        'xendit_secret_key' => env('XENDIT_SECRET_KEY', ''),
+        'xendit_public_key' => env('XENDIT_PUBLIC_KEY', ''),
+        'xendit_callback_token' => env('XENDIT_CALLBACK_TOKEN', ''),
         'otp_lifetime' => env('OTP_LIFETIME', 180), //in second
         'otp_next_try' => env('OTP_NEXT_TRY', 60), //in second
     ],

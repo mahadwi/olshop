@@ -12,6 +12,7 @@ use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\VendorApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
+use App\Http\Controllers\API\BookingApiController;
 use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\CourierApiController;
 use App\Http\Controllers\API\GalleryApiController;
@@ -30,6 +31,8 @@ use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\FaqApiController;
 use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\MessageApiController;
+use App\Http\Controllers\API\VoucherApiController;
+use App\Http\Controllers\XenditCallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit', 'index');
 
+    Route::resource('booking', BookingApiController::class)->only('index', 'show', 'store', 'delete');
 
 });
 
@@ -98,4 +102,9 @@ Route::post('/message', [MessageApiController::class, 'insert']);
 
 Route::resource('suggestion', SuggestionApiController::class)->only('store');
 Route::get('faq', [FaqApiController::class, 'index']);
+
+Route::resource('voucher', VoucherApiController::class)->only('index', 'show');
+
+//callback invoice paid
+Route::post('/callback', [XenditCallbackController::class, 'callback']);
 
