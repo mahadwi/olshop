@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\API\UpdateAddressApiAction;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,9 +25,9 @@ class AddressApiController extends Controller
 
     public function update(UpdateAddressApiRequest $request, Address $address)
     {
-        $address->fill($request->all())->save();
+        $data = dispatch_sync(new UpdateAddressApiAction($address, $request->all()));
 
-        $address = fractal($address, new AddressTransformer())->toArray();
+        $address = fractal($data, new AddressTransformer())->toArray();
 
         return $this->apiSuccess($address);
         
