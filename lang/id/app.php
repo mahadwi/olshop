@@ -177,6 +177,8 @@ return [
         'section_en' => 'Section Dalam Bahasa Inggris',
         'price_usd' => 'Harga (USD)',
         'sale_usd' => 'Harga Jual (USD)',
+        'authentication' => 'Authentication',
+        'link_yt' => 'Link Youtube',
     ],
     'button' => [
         'login' => 'Masuk',

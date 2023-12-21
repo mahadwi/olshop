@@ -176,6 +176,8 @@ return [
         'section_en' => 'Section In English',
         'price_usd' => 'Price (USD)',
         'sale_usd' => 'Sale Price (USD)',
+        'authentication' => 'Authentication',
+        'link_yt' => 'Link Youtube',
     ],
     'button' => [
         'login' => 'Login',

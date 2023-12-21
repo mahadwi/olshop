@@ -32,6 +32,7 @@ use App\Http\Controllers\API\FaqApiController;
 use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\VoucherApiController;
+use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\XenditCallbackController;
 
 /*
@@ -102,6 +103,7 @@ Route::post('/message', [MessageApiController::class, 'insert']);
 
 Route::resource('suggestion', SuggestionApiController::class)->only('store');
 Route::get('faq', [FaqApiController::class, 'index']);
+Route::get('authentication', [AuthenticationApiController::class, 'index']);
 
 Route::resource('voucher', VoucherApiController::class)->only('index', 'show');
 
