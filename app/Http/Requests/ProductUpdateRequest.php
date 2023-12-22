@@ -31,10 +31,12 @@ class ProductUpdateRequest extends FormRequest
             'product_category_id' => 'required',
             'vendor_id' => 'required',
             'stock' => 'required|integer',
-            'price' => 'required|integer',
+            'price' => 'required',
+            'price_usd' => 'required',
             'commission_type' => 'required',
             'commission' => 'required|integer',
-            'sale_price' => 'required|integer',
+            'sale_price' => 'required',
+            'sale_usd' => 'required',
             'display_on_homepage' => 'required',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
             'color_id' => 'required',
@@ -54,5 +56,23 @@ class ProductUpdateRequest extends FormRequest
             'brand_id.required' => 'Brand is required',
             'color_id.required' => 'Color is required',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        // Logika sebelum validasi dilakukan
+        $this->merge([
+            'price' => $this->cleanCurrencyFormat($this->input('price')),
+        ]);
+        $this->merge([
+            'sale_price' => $this->cleanCurrencyFormat($this->input('sale_price')),
+        ]);
+    }
+
+    // Metode untuk membersihkan format mata uang
+    protected function cleanCurrencyFormat($value)
+    {
+        // Lakukan pembersihan format mata uang di sini
+        return str_replace('.', '', $value);
     }
 }
