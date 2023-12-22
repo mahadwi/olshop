@@ -185,6 +185,8 @@ return [
         'total' => 'Total',
         'payment_status' => 'Status Pembayaran',
         'note' => 'Catatan',
+        'authentication' => 'Authentication',
+        'link_yt' => 'Link Youtube',
     ],
     'button' => [
         'login' => 'Masuk',

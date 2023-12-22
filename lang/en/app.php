@@ -184,6 +184,8 @@ return [
         'total' => 'Total',
         'payment_status' => 'Payment Status',
         'note' => 'Note',
+        'authentication' => 'Authentication',
+        'link_yt' => 'Link Youtube',
     ],
     'button' => [
         'login' => 'Login',

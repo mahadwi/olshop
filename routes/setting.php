@@ -9,6 +9,8 @@ use App\Http\Controllers\PrivacyPoliceController;
 use App\Http\Controllers\TermConditionController;
 use App\Http\Controllers\DeliveryShippingController;
 use App\Http\Controllers\CustomerCareController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\AuthenticationDetailController;
 
 
 
@@ -48,4 +50,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/customer-care', CustomerCareController::class)->except('create', 'show', 'edit', 'update');
     Route::post('customer-care/{customerCare}/update', [CustomerCareController::class, 'update'])->name('customer-care.update');
 
+    Route::resource('/authentication', AuthenticationController::class)->except('create', 'show', 'edit');
+    Route::resource('/authentication-detail', AuthenticationDetailController::class)->except('index','create', 'show', 'edit');
 });
