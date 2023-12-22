@@ -35,5 +35,10 @@ class EventDetail extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
  
 }

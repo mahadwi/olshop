@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\VendorController;
 
 /*
@@ -49,5 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::resource('/contact', ContactController::class)->except('create', 'show', 'edit');
+
+    Route::post('send-email', [SendEmailController::class, 'send'])->name('send-email');
+
 
 });

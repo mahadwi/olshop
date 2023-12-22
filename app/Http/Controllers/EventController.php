@@ -72,6 +72,18 @@ class EventController extends Controller
         }
     }
 
+    public function show(Event $event)
+    {   
+        return Inertia::render('Event/Show', [
+            'title'             => 'Show '.__('app.label.event'),
+            'event'         => $event->load('details.bookings.paymentable'),
+            'breadcrumbs'   => [
+                ['label' => 'Data Master', 'href' => '#'],
+                ['label' => __('app.label.event'), 'href' => route('event.index')],
+            ],
+        ]);
+    }
+
     public function edit(Event $event)
     {   
         return Inertia::render('Event/Edit', [

@@ -110,8 +110,6 @@ const capacity = Object.values(props.capacity).map((data) => ({
     value: data,
 }));
 
-console.log(capacity);
-
 watch(
   () => form,
   (newValue) => {
@@ -133,6 +131,7 @@ watch(
         title="Ticket"
         :dataEvent="dataEvent"
         :details="form.details"
+        :capacity="capacity"
     />
 
     <edit-ticket

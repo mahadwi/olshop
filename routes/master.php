@@ -14,6 +14,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\EventDetailController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\GalleryController;
@@ -78,8 +79,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/asset', AssetController::class)->except('create', 'show', 'edit');
 
-    Route::resource('/event', EventController::class)->except('show');
+    Route::resource('/event', EventController::class);
     Route::post('event/{event}/update', [EventController::class, 'update'])->name('event.update');
+
+    Route::resource('/event-detail', EventDetailController::class)->only('show');
 
     Route::resource('/subscribe', SubscribeController::class)->except('create', 'show', 'edit', 'update');
     Route::post('subscribe/{subscribe}/update', [SubscribeController::class, 'update'])->name('subscribe.update');
