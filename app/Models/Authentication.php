@@ -23,4 +23,5 @@ class Authentication extends Model
     public function authenticationDetail() {
         return $this->hasMany(AuthenticationDetail::class);
     }
+    
 }

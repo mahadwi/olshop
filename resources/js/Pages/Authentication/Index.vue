@@ -88,7 +88,7 @@ const truncate = (value, length) => {
                             {{ props.title }}
                         </h3>
 
-                        <button v-if="props.authentications.data.length == 0" @click="data.createOpen = true"
+                        <button @click="data.createOpen = true"
                         class="btn-primary mb-2" type="button">
                             {{ lang().button.add }}
                         </button>
@@ -168,7 +168,7 @@ const truncate = (value, length) => {
             </div>
         </div>
 
-        <div v-if="props.authentications.data.length == 1">
+        <!-- <div v-if="props.authentications.data.length == 1">
             <Detail
                 :detailAuthentications="props.detailAuthentications.data"
                 :detailAuthenticationsPaginate="props.detailAuthentications"
@@ -176,6 +176,6 @@ const truncate = (value, length) => {
                 :filters="props.filters"
                 :perPage="props.perPage"
             />
-        </div>
+        </div> -->
     </AuthenticatedLayout>
 </template>
