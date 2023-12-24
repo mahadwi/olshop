@@ -37,6 +37,7 @@ class User extends Authenticatable
         'gender',
         'birth_date',
         'image',
+        'is_subscribe',
     ];
 
     /**

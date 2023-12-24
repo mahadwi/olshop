@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Email;
 use App\Constants\Role;
 use Illuminate\Http\Request;
 use App\Actions\API\StoreOtpAction;
@@ -47,6 +48,11 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         $user = $request->user();
+        $email = $user->email;
+
+        $emailExists = Email::where('email', $email)->exists();
+        $emailExists ? $user->update(['is_subscribe' => true]) : $user->update(['is_subscribe' => false]);
+        
         return $this->apiSuccess(fractal($user, new UserTransformer)->parseIncludes(['addresses']));
     }
 
