@@ -45,4 +45,16 @@ class AuthenticationStoreRequest extends FormRequest
             'descriptionEnSection3' => 'required'
         ];
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'descriptionSection1' => $this->descriptionSection1 == "<p><br></p>" ? "" : $this->descriptionSection1,
+            'descriptionSection2' => $this->descriptionSection2 == "<p><br></p>" ? "" : $this->descriptionSection2,
+            'descriptionSection3' => $this->descriptionSection3 == "<p><br></p>" ? "" : $this->descriptionSection3,
+            'descriptionEnSection1' => $this->descriptionEnSection1 == "<p><br></p>" ? "" : $this->descriptionSection1,
+            'descriptionEnSection1' => $this->descriptionSection2 == "<p><br></p>" ? "" : $this->descriptionSection2,
+            'descriptionEnSection3' => $this->descriptionEnSection3 == "<p><br></p>" ? "" : $this->descriptionEnSection3,
+        ]);
+    }
 }
