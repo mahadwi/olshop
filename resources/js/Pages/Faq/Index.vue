@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import pkg from "lodash";
 import { truncate } from '../../helper.js'
@@ -9,6 +9,7 @@ import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Edit from "@/Pages/Faq/Edit.vue";
 import Create from "@/Pages/Faq/Create.vue";
+import FaqImage from "@/Pages/Faq/FaqImage.vue";
 import Delete from "@/Pages/Faq/Delete.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import Pagination from "@/Components/Pagination.vue";
@@ -20,9 +21,9 @@ const props = defineProps({
     filters: Object,
     faqs: Object,
     breadcrumbs:Object,
-    section:Object,
-    sectionEn:Object,
     perPage: Number,
+    faqSection: Object,
+    faqImages: Object,
 });
 
 const data = reactive({
@@ -35,7 +36,9 @@ const data = reactive({
     createOpen: false,
     editOpen: false,
     deleteOpen: false,
+    faqImageOpen: false,
     faq: null,
+    section: 'null',
     dataSet: usePage().props.app.perpage,
 });
 
@@ -56,6 +59,20 @@ watch(
     }, 150)
 );
 
+onMounted(() => {
+    getFaqSection();
+});
+
+const getFaqSection = async () => {
+    try {
+        const response = await fetch("/get-faq-section");
+        const result = await response.json();
+        data.section = result;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
 </script>
 
 <template>
@@ -65,18 +82,24 @@ watch(
 
         <Create
             :show="data.createOpen"
+            v-if="data.createOpen && data.section"
             @close="data.createOpen = false"
             :title="props.title"
-            :section="props.section"
-            :sectionEn="props.sectionEn"
+            :section="data.section"
+        />
+        <FaqImage
+            :show="data.faqImageOpen"
+            @close="data.faqImageOpen = false"
+            :title="props.title"
+            :faqImage="props.faqImages"
         />
         <Edit
             :show="data.editOpen"
+            v-if="data.editOpen && data.section"
             @close="data.editOpen = false"
             :faq="data.faq"
             :title="props.title"
-            :section="props.section"
-            :sectionEn="props.sectionEn"
+            :section="data.section"
         />
         <Delete
             :show="data.deleteOpen"
@@ -95,8 +118,13 @@ watch(
                         </h3>
 
                         <button @click="data.createOpen = true"
-                        class="btn-primary mb-2" type="button">
+                        class="btn-primary mb-2 mr-3" type="button">
                             {{ lang().button.add }}
+                        </button>
+
+                        <button @click="data.faqImageOpen = true"
+                        class="btn-primary mb-2" type="button">
+                            {{ lang().button.faq_image }}
                         </button>
 
                         <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
@@ -143,7 +171,7 @@ watch(
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                             <tr
-                                            v-for="(faq, index) in faqs.data"
+                                            v-for="(faq, index) in faqSection"
                                             :key="index"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700"
                                         >

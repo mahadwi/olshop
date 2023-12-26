@@ -208,6 +208,7 @@ return [
         'no' => 'No',
         'update' => 'Update',
         'save_send' => 'Save And Send',
+        'faq_image' => 'FAQ Image',
     ],
     'placeholder' => [
         'search' => 'Search...',

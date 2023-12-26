@@ -208,6 +208,7 @@ return [
         'delete_account' => 'Hapus Akun',
         'update' => 'Update',
         'save_send' => 'Simpan Dan Kirim',
+        'faq_image' => 'Gambar FAQ',
     ],
     'placeholder' => [
         'search' => 'Cari...',

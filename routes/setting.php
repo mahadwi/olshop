@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/faq', FaqController::class)->except('show', 'update');
     Route::post('faq/{faq}/update', [FaqController::class, 'update'])->name('faq.update');
+    Route::get('/get-faq-section', [FaqController::class, 'getFaqSection']);
+    Route::post('faq-image', [FaqController::class, 'faqImage'])->name('faq.image');
 
     Route::resource('/voucher', VoucherController::class)->except('show');
 

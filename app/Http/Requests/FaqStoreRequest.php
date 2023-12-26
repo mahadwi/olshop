@@ -22,10 +22,9 @@ class FaqStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'section' => 'required|string|max:255',
+            'section' => 'required|integer',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'section_en' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'description_en' => 'required|string',
         ];
