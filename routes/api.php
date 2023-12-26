@@ -110,3 +110,7 @@ Route::resource('voucher', VoucherApiController::class)->only('index', 'show');
 //callback invoice paid
 Route::post('/callback', [XenditCallbackController::class, 'callback']);
 
+//socialite auth
+Route::get('auth', [AuthController::class, 'redirectToProvider']);
+Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
+

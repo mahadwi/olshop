@@ -66,25 +66,27 @@ class AuthController extends Controller
         return $this->apiSuccess($user);
     }
 
-    public function redirectToProvider($provider)
+    public function redirectToProvider(Request $request)
     {
-        $validated = $this->validateProvider($provider);
+        $validated = $this->validateProvider($request);
         if (!is_null($validated)) {
             return $validated;
         }
-
-        return Socialite::driver($provider)->stateless()->redirect();
+        
+        return response()->json([
+            'url' => Socialite::driver($request->provider)->stateless()->redirect()->getTargetUrl(),
+        ]);
     }
 
-    public function handleProviderCallback($provider)
+    public function handleAuthCallback(Request $request)
     {
-        $validated = $this->validateProvider($provider);
+        $validated = $this->validateProvider($request);
         if (!is_null($validated)) {
             return $validated;
         }
 
         try {
-            $user = Socialite::driver($provider)->stateless()->user();
+            $user = Socialite::driver($request->provider)->stateless()->user();
         } catch (ClientException $exception) {
             return $this->apiError([], [], 'Invalid credentials provided.', 422);
         }
@@ -119,9 +121,9 @@ class AuthController extends Controller
         return $this->apiSuccess();
     }
 
-    protected function validateProvider($provider)
+    protected function validateProvider($request)
     {
-        if (!in_array($provider, ['facebook', 'google'])) {
+        if (!in_array($request->provider, ['facebook', 'google'])) {
             return $this->apiError([], [], 'Please login using facebook or google.', 422);
         }
     }
