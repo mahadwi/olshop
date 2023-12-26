@@ -19,6 +19,7 @@ class AuthenticationDetail extends Model
         'description',
         'description_en',
         'image',
+        'section'
     ];
 
     protected $appends = ['image_url'];

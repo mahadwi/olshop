@@ -50,6 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/customer-care', CustomerCareController::class)->except('create', 'show', 'edit', 'update');
     Route::post('customer-care/{customerCare}/update', [CustomerCareController::class, 'update'])->name('customer-care.update');
 
-    Route::resource('/authentication', AuthenticationController::class)->except('create', 'show', 'edit');
+    Route::resource('/authentication', AuthenticationController::class)->except('create', 'show', 'edit', 'update');
+    Route::get('/authentication/get-detail', [AuthenticationController::class, 'getDetail']);
+    Route::post('authentication/{authentication}/update', [AuthenticationController::class, 'update'])->name('authentication.update');
     Route::resource('/authentication-detail', AuthenticationDetailController::class)->except('index','create', 'show', 'edit');
 });

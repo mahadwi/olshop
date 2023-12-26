@@ -24,7 +24,6 @@ class UpdateAuthenticationDetailAction
         if($this->attributes['image']){
 
             $oldFile = public_path('image/'.$this->authenticationDetail->image);
-
             if(File::exists($oldFile)){
                 //delete file
                 File::delete($oldFile);

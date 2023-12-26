@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch, ref } from "vue";
+import { reactive, watch, ref, computed, onMounted } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -25,6 +25,7 @@ import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
 import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
+import { priceFormat } from '../../helper.js'
 
 const props = defineProps({
   show: Boolean,
@@ -47,9 +48,9 @@ const form = useForm({
   product_category_id: props.product.product_category_id,
   vendor_id: props.product.vendor_id,
   stock: props.product.stock,
-  price: props.product.price,
+  price: priceFormat(props.product.price),
   price_usd: props.product.price_usd,
-  sale_price: props.product.sale_price,
+  sale_price: priceFormat(props.product.sale_price),
   sale_usd: props.product.sale_usd,
   commission: props.product.commission,
   commission_type: props.product.commission_type,
@@ -202,6 +203,55 @@ const changeCommission = () => {
     if (form.sale_price == 0) form.sale_price = form.price;
   }
 };
+
+const formatUang = (e) => {
+    let angka = parseFloat(form.price.replace(/[^\d]/g, '')) || 0;
+    let bilangan = String(angka);
+      let hasil = '';
+      let count = 0;
+
+      for (let i = bilangan.length - 1; i >= 0; i--) {
+        hasil = bilangan[i] + hasil;
+        count++;
+
+        if (count === 3 && i > 0) {
+          hasil = '.' + hasil;
+          count = 0;
+        }
+      }
+
+      form.price = hasil
+}
+
+const formatUangSale = (e) => {
+    let angka = parseFloat(e.target.value.replace(/[^\d]/g, '')) || 0;
+    let bilangan = String(angka);
+      let hasil = '';
+      let count = 0;
+
+      for (let i = bilangan.length - 1; i >= 0; i--) {
+        hasil = bilangan[i] + hasil;
+        count++;
+
+        if (count === 3 && i > 0) {
+          hasil = '.' + hasil;
+          count = 0;
+        }
+      }
+
+      form.sale_price = hasil
+}
+
+const formatUangDolar = (e) => {
+    let cleanedValue = e.target.value.replace(/[^\d.]/g, '');
+    form.price_usd = cleanedValue;
+}
+
+const formatUangDolarSale = (e) => {
+    let cleanedValue = e.target.value.replace(/[^\d.]/g, '');
+    form.sale_usd = cleanedValue;
+}
+
 </script>
 
 <template>
@@ -342,11 +392,11 @@ const changeCommission = () => {
                 <InputLabel for="price" :value="lang().label.price" />
                 <FwbInput
                   id="price"
-                  type="number"
                   class="mt-1 block w-full"
                   v-model="form.price"
                   :placeholder="lang().label.price"
                   :error="form.errors.price"
+                  @input="formatUang"
                 />
                 <InputError class="mt-2" :message="form.errors.price" />
               </div>
@@ -355,17 +405,18 @@ const changeCommission = () => {
             </div>
 
             <div class="col-span-6">
-            <InputLabel for="price_usd" :value="lang().label.price_usd" />
-            <FwbInput
-                id="price_usd"
-                type="number"
-                class="mt-1 block w-full"
-                v-model="form.price_usd"
-                :placeholder="lang().label.price_usd"
-                :error="form.errors.price_usd"
-            />
-            <InputError class="mt-2" :message="form.errors.price_usd" />
+                <InputLabel for="price_usd" :value="lang().label.price_usd" />
+                <FwbInput
+                    id="price_usd"
+                    class="mt-1 block w-full"
+                    v-model="form.price_usd"
+                    :placeholder="lang().label.price_usd"
+                    :error="form.errors.price_usd"
+                    @input="formatUangDolar"
+                />
+                <InputError class="mt-2" :message="form.errors.price_usd" />
             </div>
+            
               <div class="col-span-6">
                 <InputLabel
                   for="commission_type"
@@ -386,11 +437,11 @@ const changeCommission = () => {
               </div>
               <div class="col-span-6">
                 <FwbInput
-                  type="number"
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_price"
                   :placeholder="lang().label.sale_price"
                   :label="lang().label.sale_price"
+                  @input="formatUangSale"
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
               </div>
@@ -398,11 +449,11 @@ const changeCommission = () => {
               </div>
               <div class="col-span-6">
                 <FwbInput
-                  type="number"
                   :disabled="form.commission_type == 'Percent'"
                   v-model="form.sale_usd"
                   :placeholder="lang().label.sale_usd"
                   :label="lang().label.sale_usd"
+                  @input="formatUangDolarSale"
                 />
                 <InputError class="mt-2" :message="form.errors.sale_usd" />
               </div>

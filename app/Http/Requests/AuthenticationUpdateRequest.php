@@ -26,8 +26,23 @@ class AuthenticationUpdateRequest extends FormRequest
             'title_en'  => 'required',
             'description'  => 'required',
             'description_en'  => 'required',
-            'no_hp'  => 'required',
+            'no_hp'  => 'required|numeric',
             'link'  => 'required|url',
+            'titleSection1' => 'nullable|string|max:255',
+            'titleEnSection1' => 'nullable|string|max:255',
+            'imageSection1' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'descriptionSection1' => 'nullable',
+            'descriptionEnSection1' => 'nullable',
+            'titleSection2' => 'nullable|string|max:255',
+            'titleEnSection2' => 'nullable|string|max:255',
+            'imageSection2' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'descriptionSection2' => 'nullable',
+            'descriptionEnSection2' => 'nullable',
+            'titleSection3' => 'nullable|string|max:255',
+            'titleEnSection3' => 'nullable|string|max:255',
+            'imageSection3' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'descriptionSection3' => 'nullable',
+            'descriptionEnSection3' => 'nullable'
         ];
     }
 }

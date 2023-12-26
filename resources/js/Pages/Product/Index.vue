@@ -151,7 +151,7 @@ watch(
                                                 <td class="tbl-column"> {{ product.vendor.name }}</td>
                                                 <td class="tbl-column"> {{ product.stock }}</td>
                                                 <td class="tbl-column"> {{ priceFormat(product.price ?? 0) }}</td>
-                                                <td class="tbl-column"> {{ priceFormat(product.price_usd ?? 0) }}</td>
+                                                <td class="tbl-column"> {{ product.price_usd ?? 0 }}</td>
                                                 <td class="tbl-column"> {{ product.condition }}</td>
                                                 <td class="tbl-column">
                                                     <span :class="product.is_active ? 'badge-success' : 'badge-danger' ">{{ product.status }}</span>
