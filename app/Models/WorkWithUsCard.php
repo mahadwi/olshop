@@ -20,6 +20,24 @@ class WorkWithUsCard extends Model
         'icon',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleted(function (WorkWithUsCard $workWithUsCard) {
+            //also delete file if exist
+            $imageFile = public_path('image/workWithUs/'.$workWithUsCard->icon);
+            dd($imageFile);
+            if(File::exists($imageFile)){
+                //delete file
+                File::delete($imageFile);
+            }
+        });
+    }
+
+    public function getIconUrlAttribute()
+    {
+        return asset('image/workWithUs/'.$this->icon);
+    }
+
     public function workWithUsDetail() {
         return $this->belongsTo(WorkWithUsDetail::class);
     }

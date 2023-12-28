@@ -7,26 +7,26 @@ use App\Models\WorkWithUs;
 use App\Models\WorkWithUsDetail;
 use App\Models\WorkWithUsCard;
 use Illuminate\Http\Request;
-use App\Actions\StoreReturnPoliceAction;
-use App\Actions\UpdateReturnPoliceAction;
 use App\Http\Requests\WorkWithUsStoreRequest;
 use App\Http\Requests\WorkWithUsStoreSection1Request;
 use App\Http\Requests\WorkWithUsStoreSection2Request;
+use App\Http\Requests\WorkWithUsStoreSection3Request;
 use App\Services\File\UploadService;
 use Illuminate\Support\Facades\File;
-// use Symfony\Component\HttpFoundation\File\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class WorkWithUsController extends Controller
 {
     private function isImage(object $file)
     {
-        return $file instanceof File;
+        return $file instanceof UploadedFile;
     }
 
     public function index(Request $request)
     {
         $workWithUs = WorkWithUs::get();
-        $workWithUsDetail = WorkWithUsDetail::get();
+        $workWithUsDetail = WorkWithUsDetail::with('workWithUsCard')->get();
 
         return Inertia::render('WorkWithUs/Index', [
             'title' => 'Data '.__('app.label.work_with_us'),
@@ -111,10 +111,6 @@ class WorkWithUsController extends Controller
     }
 
     public function storeSection2(WorkWithUsStoreSection2Request $request) {
-        // $request->dd();
-        // dd($request->all());
-
-
         try {
             $workWithUsDetail = WorkWithUsDetail::updateOrCreate(
                 ['section' => 2],
@@ -126,31 +122,100 @@ class WorkWithUsController extends Controller
                 ]
             );
 
-            $cards = $request->forms;
+            $effectedCardIds = [];
+            $cards = $request->cardsSection2;
             foreach ($cards as $card) {
-                $cardModel = new WorkWithUsCard();
+                $cardModel = $card['id'] ? WorkWithUsCard::find($card['id']) : new WorkWithUsCard();
+
                 $cardModel->fill([
                     'work_with_us_detail_id' => $workWithUsDetail->id,
-                    'title' => $card['subTitleSection2'],
-                    'title_en' => $card['subTitleEnSection2'],
-                    'description' => $card['descriptionSection2'],
-                    'description_en' => $card['descriptionEnSection2'],
-                    'image' => 'default.jpg', // Gunakan nilai default atau sesuai kebutuhan
+                    'title' => $card['title'],
+                    'title_en' => $card['title_en'],
+                    'description' => $card['description'],
+                    'description_en' => $card['description_en'],
                 ]);
+
+                if (isset($card['image']) && $this->isImage($card['image'])) {
+                    $file = $card['image'];
+
+                    if ($cardModel->icon) {
+                        if(File::exists('image/workWithUs/'.$cardModel->icon)){
+                            File::delete(public_path('image/workWithUs/'.$cardModel->icon));
+                        }
+                    }
+
+                    $uploadedFile = (new UploadService())->saveFile($file, 'workWithUs');
+
+                    $cardModel->fill([
+                        'icon' => $uploadedFile['name'],
+                    ]);
+                }
+
                 $cardModel->save();
-
-                // if($card['imageSection2']
-                // && File::exists(public_path('image/workWithUs/'.$workWithUsDetail->image))) {
-
-                // }
+                $effectedCardIds[] = $cardModel->id;
             }
 
+            // Hapus card yang tidak terpakai
+            WorkWithUsCard::where('work_with_us_detail_id', $workWithUsDetail->id)
+                ->whereNotIn('id', $effectedCardIds)
+                ->delete();
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $request->titleSection2]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.created_error', ['name' => $request->titleSection2]) . $th->getMessage());
         }
 
+    }
+
+    public function storeSection3(WorkWithUsStoreSection3Request $request)
+    {
+        $workWithUsDetail = WorkWithUsDetail::where('section', 3)->first();
+
+        try {
+           // Memeriksa apakah file gambar diunggah
+        if ($request->hasFile('imageSection1')) {
+            $file = $request->file('imageSection1');
+
+           // Menghapus file lama jika ada
+        if ($workWithUsDetail && File::exists(public_path('image/workWithUs/'.$workWithUsDetail->image))) {
+            File::delete(public_path('image/workWithUs/'.$workWithUsDetail->image));
+        }
+
+            $uploadService = new UploadService();
+            $uploadedFile = $uploadService->saveFile($file, 'workWithUs');
+
+            // Menggunakan nama file yang diunggah untuk menyimpan ke database
+            $params = [
+                'work_with_us_id' => 1,
+                'section' => 1,
+                'title' => $request->titleSection1,
+                'title_en' => $request->titleEnSection1,
+                'description' => $request->descriptionSection1,
+                'description_en' => $request->descriptionEnSection1,
+                'image' => $uploadedFile['name'], // Menggunakan nama file yang diunggah
+                'link' => $request->linkSection1,
+            ];
+        } else {
+            // Jika tidak ada file gambar diunggah, gunakan nilai default atau kosong sesuai kebutuhan
+            $params = [
+                'work_with_us_id' => 1,
+                'section' => 1,
+                'title' => $request->titleSection1,
+                'title_en' => $request->titleEnSection1,
+                'description' => $request->descriptionSection1,
+                'description_en' => $request->descriptionEnSection1,
+                'image' => 'default.jpg', // Gunakan nilai default atau sesuai kebutuhan
+                'link' => $request->linkSection1,
+            ];
+        }
+
+            $condition = ['section' => 1];
+            $workWithUs = WorkWithUsDetail::updateOrInsert($condition, $params);
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => $params['title']]) . $th->getMessage());
+        }
     }
 
     public function destroy($id)

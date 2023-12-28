@@ -25,12 +25,24 @@ class WorkWithUsStoreSection2Request extends FormRequest
             'titleSection2' => 'required|string|max:255',
             'titleEnSection2' => 'required|string|max:255',
 
-            'forms' => 'required|array',
-            'forms.*.subTitleSection2' => 'required|string|max:255',
-            'forms.*.subTitleEnSection2' => 'required|string|max:255',
-            'forms.*.descriptionSection2' => 'required',
-            'forms.*.descriptionEnSection2' => 'required',
-            'forms.*.imageSection2' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
+            'cardsSection2' => 'required|array',
+            'cardsSection2.*.id' => 'nullable|integer',
+            'cardsSection2.*.title' => 'required|string|max:255',
+            'cardsSection2.*.title_en' => 'required|string|max:255',
+            'cardsSection2.*.description' => 'required',
+            'cardsSection2.*.description_en' => 'required',
+            'cardsSection2.*.image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'cardsSection2.*.title' => 'Title',
+            'cardsSection2.*.title_en' => 'Title In English',
+            'cardsSection2.*.description' => 'Description',
+            'cardsSection2.*.description_en' => 'Description In English',
+            'cardsSection2.*.image' => 'Image',
         ];
     }
 }
