@@ -169,52 +169,39 @@ class WorkWithUsController extends Controller
 
     public function storeSection3(WorkWithUsStoreSection3Request $request)
     {
-        $workWithUsDetail = WorkWithUsDetail::where('section', 3)->first();
-
+        // $request->dd();
         try {
-           // Memeriksa apakah file gambar diunggah
-        if ($request->hasFile('imageSection1')) {
-            $file = $request->file('imageSection1');
+            $workWithUsDetail = WorkWithUsDetail::updateOrCreate(
+                ['section' => 3],
+                [
+                    'work_with_us_id' => 1,
+                    'title' => $request->title,
+                    'title_en' => $request->title_en,
+                    'description' => $request->description,
+                    'description_en' => $request->description_en,
+                ]
+            );
 
-           // Menghapus file lama jika ada
-        if ($workWithUsDetail && File::exists(public_path('image/workWithUs/'.$workWithUsDetail->image))) {
-            File::delete(public_path('image/workWithUs/'.$workWithUsDetail->image));
-        }
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
 
-            $uploadService = new UploadService();
-            $uploadedFile = $uploadService->saveFile($file, 'workWithUs');
+                if ($workWithUsDetail->image) {
+                    if(File::exists('image/workWithUs/'.$workWithUsDetail->image)){
+                        File::delete(public_path('image/workWithUs/'.$workWithUsDetail->image));
+                    }
+                }
 
-            // Menggunakan nama file yang diunggah untuk menyimpan ke database
-            $params = [
-                'work_with_us_id' => 1,
-                'section' => 1,
-                'title' => $request->titleSection1,
-                'title_en' => $request->titleEnSection1,
-                'description' => $request->descriptionSection1,
-                'description_en' => $request->descriptionEnSection1,
-                'image' => $uploadedFile['name'], // Menggunakan nama file yang diunggah
-                'link' => $request->linkSection1,
-            ];
-        } else {
-            // Jika tidak ada file gambar diunggah, gunakan nilai default atau kosong sesuai kebutuhan
-            $params = [
-                'work_with_us_id' => 1,
-                'section' => 1,
-                'title' => $request->titleSection1,
-                'title_en' => $request->titleEnSection1,
-                'description' => $request->descriptionSection1,
-                'description_en' => $request->descriptionEnSection1,
-                'image' => 'default.jpg', // Gunakan nilai default atau sesuai kebutuhan
-                'link' => $request->linkSection1,
-            ];
-        }
+                $uploadService = new UploadService();
+                $uploadedFile = $uploadService->saveFile($file, 'workWithUs');
 
-            $condition = ['section' => 1];
-            $workWithUs = WorkWithUsDetail::updateOrInsert($condition, $params);
+                $workWithUsDetail->update([
+                    'image' => $uploadedFile['name'],
+                ]);
+            }
 
-            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
+            return back()->with('success', __('app.label.created_successfully', ['name' => $request->title]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => $params['title']]) . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => $request->title]) . $th->getMessage());
         }
     }
 
