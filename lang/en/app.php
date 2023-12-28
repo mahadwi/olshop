@@ -186,6 +186,7 @@ return [
         'note' => 'Note',
         'authentication' => 'Authentication',
         'link_yt' => 'Link Youtube',
+        'work_with_us' => 'Work With Us',
     ],
     'button' => [
         'login' => 'Login',
@@ -209,6 +210,7 @@ return [
         'update' => 'Update',
         'save_send' => 'Save And Send',
         'faq_image' => 'FAQ Image',
+        'add_card' => 'Add Card',
     ],
     'placeholder' => [
         'search' => 'Search...',

@@ -187,6 +187,7 @@ return [
         'note' => 'Catatan',
         'authentication' => 'Authentication',
         'link_yt' => 'Link Youtube',
+        'work_with_us' => 'Work With Us',
     ],
     'button' => [
         'login' => 'Masuk',
@@ -209,6 +210,7 @@ return [
         'update' => 'Update',
         'save_send' => 'Simpan Dan Kirim',
         'faq_image' => 'Gambar FAQ',
+        'add_card' => 'Tambah Card',
     ],
     'placeholder' => [
         'search' => 'Cari...',
