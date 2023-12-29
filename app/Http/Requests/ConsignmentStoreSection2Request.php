@@ -26,7 +26,6 @@ class ConsignmentStoreSection2Request extends FormRequest
             'titleEnSection2' => 'required|string|max:255',
             'descriptionSection2' => 'required',
             'descriptionEnSection2' => 'required',
-            'imageSection2' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
             'linkSection2' => 'required',
         ];
     }

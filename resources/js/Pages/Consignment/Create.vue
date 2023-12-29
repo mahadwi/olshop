@@ -20,9 +20,17 @@ const props = defineProps({
 const activeTab = ref('section1');
 const emit = defineEmits(["close"]);
 
-const addForm = () => {
-    form.forms.push({ ...form.value });
-};
+// const addForm = () => {
+//     form.cardsSection2.push({
+//         id: null,
+//         title: "",
+//         title_en: "",
+//         description: "",
+//         description_en: "",
+//         icon: "",
+//         image: "",
+//     });
+// };
 
 const deleteForm = (index) => {
     form.forms.splice(index, 1);
@@ -42,13 +50,13 @@ const form = useForm({
     titleEnSection1:"",
     descriptionSection1:"",
     descriptionEnSection1:"",
+    imageSection1:"",
 
     // SECTION 2
     titleSection2:"",
     titleEnSection2:"",
     descriptionSection2:"",
     descriptionEnSection2:"",
-    imageSection2:"",
     linkSection2:"",
 
     forms: [],
@@ -61,7 +69,7 @@ const form = useForm({
 });
 
 onMounted(() => {
-    addForm();
+    // addForm();
 });
 
 const create = () => {
@@ -84,6 +92,15 @@ const createSection1 = () => {
 
 const createSection2 = () => {
     form.post(route("consignment.storeSection2"), {
+        preserveScroll: true,
+        onSuccess: () => null,
+        onError: () => null,
+        onFinish: () => null,
+    });
+};
+
+const createSection4 = () => {
+    form.post(route("consignment.storeSection4"), {
         preserveScroll: true,
         onSuccess: () => null,
         onError: () => null,
@@ -197,6 +214,10 @@ watchEffect(() => {
                                                 </div>
                                             </div>
                                             <div>
+                                                <FwbFileInput accept="image/*" v-model="form.imageSection1" :label="lang().label.image" />
+                                                <InputError class="mt-2" :message="form.errors.imageSection1" />
+                                            </div>
+                                            <div>
                                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                                                 <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.descriptionSection1" />
                                                 <InputError class="mt-2" :message="form.errors.descriptionSection1" />
@@ -248,10 +269,7 @@ watchEffect(() => {
                                                     <InputError class="mt-2" :message="form.errors.titleEnSection2" />
                                                 </div>
                                             </div>
-                                            <div>
-                                                <FwbFileInput accept="image/*" v-model="form.imageSection2" :label="lang().label.image" />
-                                                <InputError class="mt-2" :message="form.errors.imageSection2" />
-                                            </div>
+                                           
 
                                             <div>
                                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
@@ -294,7 +312,12 @@ watchEffect(() => {
                                 </div>
                             </fwb-tab>
                             <fwb-tab name="section4" title="Section 4">
-                                
+                                <div class="dividenTitle">
+                                    <h3 class="headerTitleText">Section 4</h3>
+                                </div>
+                                <div class="p-6">
+                                  
+                                </div>
                             </fwb-tab>
                         </fwb-tabs>
                     </div>
