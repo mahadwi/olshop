@@ -188,6 +188,8 @@ return [
         'link_yt' => 'Link Youtube',
         'work_with_us' => 'Work With Us',
         'consignment' => 'Consignment',
+        'subtitle_en' => 'Subtitle In English',
+        'subtitle' => 'Subtitle',
     ],
     'button' => [
         'login' => 'Login',

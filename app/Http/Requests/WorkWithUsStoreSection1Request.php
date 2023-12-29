@@ -30,4 +30,12 @@ class WorkWithUsStoreSection1Request extends FormRequest
             'linkSection1' => 'required|url',
         ];
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'descriptionSection1' => $this->descriptionSection1 == "<p><br></p>" ? "" : $this->descriptionSection1,
+            'descriptionEnSection1' => $this->descriptionEnSection1 == "<p><br></p>" ? "" : $this->descriptionSection1
+        ]);
+    }
 }

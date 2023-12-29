@@ -189,6 +189,8 @@ return [
         'link_yt' => 'Link Youtube',
         'work_with_us' => 'Work With Us',
         'consignment' => 'Consignment',
+        'subtitle_en' => 'Subtitle Dalam Bahasa Inggris',
+        'subtitle' => 'Subtitle',
     ],
     'button' => [
         'login' => 'Masuk',

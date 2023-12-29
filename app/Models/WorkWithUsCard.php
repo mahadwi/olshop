@@ -25,7 +25,6 @@ class WorkWithUsCard extends Model
         static::deleted(function (WorkWithUsCard $workWithUsCard) {
             //also delete file if exist
             $imageFile = public_path('image/workWithUs/'.$workWithUsCard->icon);
-            dd($imageFile);
             if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
