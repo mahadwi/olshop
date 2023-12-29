@@ -10,7 +10,6 @@ class CourierApiController extends Controller
 {
     public function index()
     {
-
         $data = Courier::getValues();
 
         return $this->apiSuccess($data);

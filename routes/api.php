@@ -33,6 +33,7 @@ use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\VoucherApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
+use App\Http\Controllers\API\OngkirApiController;
 use App\Http\Controllers\XenditCallbackController;
 
 /*
@@ -93,7 +94,7 @@ Route::get('kecamatan', [KecamatanApiController::class, 'index']);
 Route::get('return-police', [ReturnPoliceApiController::class, 'index']);
 Route::get('privacy-police', [PrivacyPoliceApiController::class, 'index']);
 Route::get('term-condition', [TermConditionApiController::class, 'index']);
-Route::get('courier', [CourierApiController::class, 'index']);
+Route::get('courier', [OngkirApiController::class, 'courier']);
 Route::get('delivery-shipping', [DeliveryShippingApiController::class, 'index']);
 Route::get('customer-care', [CustomerCareApiController::class, 'index']);
 Route::get('subscribe', [SubscribeApiController::class, 'index']);
@@ -113,4 +114,8 @@ Route::post('/callback', [XenditCallbackController::class, 'callback']);
 //socialite auth
 Route::get('auth', [AuthController::class, 'redirectToProvider']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
+
+//cek ongkir
+Route::post('ongkir', [OngkirApiController::class, 'ongkir']);
+
 
