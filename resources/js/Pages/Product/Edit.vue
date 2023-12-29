@@ -196,11 +196,13 @@ const update = () => {
 
 const changeCommission = () => {
   form.sale_price = form.price;
+  form.sale_usd = form.price_usd
 
   if (form.commission_type == "Selling") {
     form.commission = 0;
 
     if (form.sale_price == 0) form.sale_price = form.price;
+    if (form.sale_usd == 0) form.sale_usd = form.price_usd;
   }
 };
 
@@ -416,7 +418,7 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.price_usd" />
             </div>
-            
+
               <div class="col-span-6">
                 <InputLabel
                   for="commission_type"

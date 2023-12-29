@@ -11,6 +11,7 @@ use App\Http\Controllers\DeliveryShippingController;
 use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthenticationDetailController;
+use App\Http\Controllers\WorkWithUsController;
 
 
 
@@ -29,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/faq', FaqController::class)->except('show', 'update');
     Route::post('faq/{faq}/update', [FaqController::class, 'update'])->name('faq.update');
+    Route::get('/get-faq-section', [FaqController::class, 'getFaqSection']);
+    Route::post('faq-image', [FaqController::class, 'faqImage'])->name('faq.image');
 
     Route::resource('/voucher', VoucherController::class)->except('show');
 
@@ -54,4 +57,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/authentication/get-detail', [AuthenticationController::class, 'getDetail']);
     Route::post('authentication/{authentication}/update', [AuthenticationController::class, 'update'])->name('authentication.update');
     Route::resource('/authentication-detail', AuthenticationDetailController::class)->except('index','create', 'show', 'edit');
+
+    Route::resource('/work-with-us', WorkWithUsController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('store-section1', [WorkWithUsController::class, 'storeSection1'])->name('work-with-us.storeSection1');
+    Route::post('store-section2', [WorkWithUsController::class, 'storeSection2'])->name('work-with-us.storeSection2');
+    Route::post('store-section3', [WorkWithUsController::class, 'storeSection3'])->name('work-with-us.storeSection3');
 });

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NonEmptyStringIgnoringTags;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FaqUpdateRequest extends FormRequest
+class WorkWithUsStoreSection3Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +23,12 @@ class FaqUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'section' => 'required|integer',
+            'work_with_us_id' => 'required|integer',
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
             'title_en' => 'required|string|max:255',
-            'description_en' => 'required|string',
+            'description' => ['required', new NonEmptyStringIgnoringTags()],
+            'description_en' => ['required', new NonEmptyStringIgnoringTags()],
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
         ];
     }
 }

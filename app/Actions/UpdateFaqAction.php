@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Faq;
+use App\Models\FaqQuestionAnswer;
 
 class UpdateFaqAction
 {
@@ -10,7 +10,7 @@ class UpdateFaqAction
     private $attributes;
 
 
-    public function __construct(Faq $faq, array $attributes = [])
+    public function __construct(FaqQuestionAnswer $faq, array $attributes = [])
     {
         $this->attributes = $attributes;
         $this->faq = $faq;

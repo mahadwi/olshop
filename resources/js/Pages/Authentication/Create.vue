@@ -45,17 +45,32 @@ const form = useForm({
     imageSection3:"",
 });
 
+
 const create = () => {
+
+
     form.post(route("authentication.store"), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");
             form.reset();
         },
-        onError: () => null,
+        onError: (res) => {
+            validationChangeTabCheck(res)
+        },
         onFinish: () => null,
     });
 };
+
+const validationChangeTabCheck = (res) => {
+    if (res.titleSection1 || res.titleEnSection1 || res.imageSection1 || res.descriptionSection1 || res.descriptionEnSection1) {
+        activeTab.value = 'section1'
+    } else if (res.titleSection2 || res.titleEnSection2 || res.imageSection2 || res.descriptionSection2 || res.descriptionEnSection2) {
+        activeTab.value = 'section2'
+    }  else if (res.titleSection3 || res.titleEnSection3 || res.imageSection3 || res.descriptionSection3 || res.descriptionEnSection3) {
+        activeTab.value = 'section3'
+    }
+}
 
 watchEffect(() => {
     if (props.show) {
@@ -128,7 +143,7 @@ watchEffect(() => {
                                 </div>
                                 <div class="p-6">
                                     <div class="my-6 space-y-4">
-                                        <input type="hidden" v-model="form.authentication_id" >
+                                        <input type="hidden" v-model="form.authentication_id">
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
                                                 <FwbInput v-model="form.titleSection1" :placeholder="lang().label.title" :label="lang().label.title" />
@@ -170,11 +185,11 @@ watchEffect(() => {
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
                                                 <FwbInput v-model="form.titleSection2" :placeholder="lang().label.title" :label="lang().label.title" />
-                                                <InputError class="mt-2" :message="form.errors.titleSection2" />
+                                                <InputError class="mt-2 section2" :message="form.errors.titleSection2" />
                                             </div>
                                             <div>
                                                 <FwbInput v-model="form.titleEnSection2" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
-                                                <InputError class="mt-2" :message="form.errors.titleEnSection2" />
+                                                <InputError class="mt-2 section2" :message="form.errors.titleEnSection2" />
                                             </div>
                                         </div>
                                         <div>

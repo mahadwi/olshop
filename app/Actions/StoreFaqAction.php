@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Faq;
+use App\Models\FaqQuestionAnswer;
 
 class StoreFaqAction
 {
@@ -15,7 +15,7 @@ class StoreFaqAction
 
     public function handle()
     {
-        $faq = new Faq($this->attributes);
+        $faq = new FaqQuestionAnswer($this->attributes);
         $faq->save();
 
         return $faq;

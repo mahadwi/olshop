@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FaqUpdateRequest extends FormRequest
+class WorkWithUsStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class FaqUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'section' => 'required|integer',
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
             'title_en' => 'required|string|max:255',
-            'description_en' => 'required|string',
+            'description' => 'required',
+            'description_en' => 'required',
         ];
     }
 }

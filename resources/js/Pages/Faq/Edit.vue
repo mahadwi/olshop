@@ -18,7 +18,6 @@ const props = defineProps({
     title: String,
     faq: Object,
     section:Object,
-    sectionEn:Object
 });
 
 const emit = defineEmits(["close"]);
@@ -46,8 +45,8 @@ const update = () => {
 
 watchEffect(() => {
     if (props.show) {
-        form.section = props.faq?.section;
-        form.section_en = props.faq?.section_en;
+        form.section = props.faq?.faq_section_id;
+        form.section_en = props.faq?.faq_section_id;
         form.title = props.faq?.title;
         form.title_en = props.faq?.title_en;
         form.description = props.faq?.description;
@@ -56,36 +55,19 @@ watchEffect(() => {
     }
 });
 
-const section = Object.values(props.section).map((data) => ({
-    name: data,
-    value: data
+const section_en = props.section.map((data) => ({
+    name: data.section_en,
+    value: data.id
 }));
 
-const section_en = Object.values(props.sectionEn).map((data) => ({
-    name: data,
-    value: data
+const section = props.section.map((data) => ({
+    name: data.section,
+    value: data.id
 }));
 
-const sectionMapping = {
-    "Pesanan": "Order",
-    "Akun": "Account",
-    "Lainnya": "Other"
-};
-
-const reverseSectionMapping = {
-    "Order": "Pesanan",
-    "Account": "Akun",
-    "Other": "Lainnya"
-};
-
-const updateSection2 = () => {
+const changeSection = () => {
     const selectedValue = form.section;
-    form.section_en = sectionMapping[selectedValue] || "";
-};
-
-const updateSection1 = () => {
-    const selectedValue = form.section_en;
-    form.section = reverseSectionMapping[selectedValue] || "";
+    form.section_en = selectedValue;
 };
 
 </script>
@@ -104,7 +86,7 @@ const updateSection1 = () => {
                         v-model="form.section"
                         :options="section"
                         :label="lang().label.section"
-                        v-on:change="updateSection2"
+                        @change="changeSection"
                     />
                     <InputError class="mt-2" :message="form.errors.section" />
                 </div>
@@ -113,7 +95,7 @@ const updateSection1 = () => {
                         v-model="form.section_en"
                         :options="section_en"
                         :label="lang().label.section_en"
-                        v-on:change="updateSection1"
+                        disabled
                     />
                     <InputError class="mt-2" :message="form.errors.section_en" />
                 </div>

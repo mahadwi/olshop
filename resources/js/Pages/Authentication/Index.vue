@@ -10,7 +10,6 @@ import { onMounted, ref } from "vue";
 import Create from "@/Pages/Authentication/Create.vue";
 import Delete from "@/Pages/Authentication/Delete.vue";
 import Edit from "@/Pages/Authentication/Edit.vue";
-import Detail from "@/Pages/AuthenticationDetail/Index.vue";
 
 const { _, debounce, pickBy } = pkg;
 const props = defineProps({
@@ -106,13 +105,7 @@ const truncate = (value, length) => {
                                                     {{ lang().label.title }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.title_en }}
-                                                </th>
-                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.description }}
-                                                </th>
-                                                <th scope="col" class="tbl-head">
-                                                    {{ lang().label.description_en }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.no_hp }}
@@ -133,10 +126,7 @@ const truncate = (value, length) => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ authentication.title }}</td>
-                                                <td class="tbl-column"> {{ authentication.title_en }}</td>
                                                 <td class="tbl-column" v-html="truncate(authentication.description, 25)">
-                                                </td>
-                                                <td class="tbl-column" v-html="truncate(authentication.description_en, 25)">
                                                 </td>
                                                 <td class="tbl-column"> {{ authentication.no_hp }}</td>
                                                 <td class="tbl-column"> {{ authentication.link }}</td>
@@ -167,15 +157,5 @@ const truncate = (value, length) => {
                 </div>
             </div>
         </div>
-
-        <!-- <div v-if="props.authentications.data.length == 1">
-            <Detail
-                :detailAuthentications="props.detailAuthentications.data"
-                :detailAuthenticationsPaginate="props.detailAuthentications"
-                :authentication="props.authentications.data"
-                :filters="props.filters"
-                :perPage="props.perPage"
-            />
-        </div> -->
     </AuthenticatedLayout>
 </template>

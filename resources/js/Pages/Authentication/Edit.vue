@@ -63,10 +63,22 @@ const update = () => {
             emit("close");
             form.reset();
         },
-        onError: () => null,
+        onError: (res) => {
+            validationChangeTabCheck(res);
+        },
         onFinish: () => null,
     });
 };
+
+const validationChangeTabCheck = (res) => {
+    if (res.titleSection1 || res.titleEnSection1 || res.imageSection1 || res.descriptionSection1 || res.descriptionEnSection1) {
+        activeTab.value = 'section1'
+    } else if (res.titleSection2 || res.titleEnSection2 || res.imageSection2 || res.descriptionSection2 || res.descriptionEnSection2) {
+        activeTab.value = 'section2'
+    }  else if (res.titleSection3 || res.titleEnSection3 || res.imageSection3 || res.descriptionSection3 || res.descriptionEnSection3) {
+        activeTab.value = 'section3'
+    }
+}
 
 const getSetAuthDetail = async(authentication_id) => {
     try {
