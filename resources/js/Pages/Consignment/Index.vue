@@ -6,8 +6,8 @@ import { usePage, router } from "@inertiajs/vue3";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import pkg from "lodash";
 
-import Create from "@/Pages/WorkWithUs/Create.vue";
-import Delete from "@/Pages/WorkWithUs/Delete.vue";
+import Create from "@/Pages/Consignment/Create.vue";
+import Delete from "@/Pages/Consignment/Delete.vue";
 // import Edit from "@/Pages/WorkWithUs/Edit.vue";
 
 const { _, debounce, pickBy } = pkg;

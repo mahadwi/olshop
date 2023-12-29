@@ -65,4 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('store-section3', [WorkWithUsController::class, 'storeSection3'])->name('work-with-us.storeSection3');
 
     Route::resource('/consignment', ConsignmentController::class)->except('create', 'show', 'edit', 'update');
+    Route::post('store-consignment-section1', [ConsignmentController::class, 'storeSection1'])->name('consignment.storeSection1');
+    Route::post('store-consignment-section2', [ConsignmentController::class, 'storeSection2'])->name('consignment.storeSection2');
+    Route::post('store-consignment-section3', [ConsignmentController::class, 'storeSection3'])->name('consignment.storeSection3');
 });
