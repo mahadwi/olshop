@@ -14,6 +14,7 @@ class WorkWithUsDetail extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
+        'id',
         'work_with_us_id',
         'section',
         'title',
