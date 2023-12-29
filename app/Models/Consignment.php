@@ -19,6 +19,6 @@ class Consignment extends Model
     ];
 
     public function consignmentDetail() {
-        return $this->hasMany(ConsignmentDetail::class);
+        return $this->hasMany(ConsignmentDetail::class)->orderBy('section');
     }
 }
