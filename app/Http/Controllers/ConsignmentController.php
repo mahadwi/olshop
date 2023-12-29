@@ -79,6 +79,23 @@ class ConsignmentController extends Controller
 
             $condition = ['section' => 1];
             $consignment = ConsignmentDetail::updateOrInsert($condition, $params);
+            
+            if ($request->hasFile('imageSection1')) {
+                $file = $request->file('imageSection1');
+
+                if ($consignmentDetail->image) {
+                    if(File::exists('image/consignment/'.$consignmentDetail->image)){
+                        File::delete(public_path('image/consignment/'.$consignmentDetail->image));
+                    }
+                }
+
+                $uploadService = new UploadService();
+                $uploadedFile = $uploadService->saveFile($file, 'consignment');
+
+                $consignmentDetail->update([
+                    'image' => $uploadedFile['name'],
+                ]);
+            }
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
         } catch (\Throwable $th) {
@@ -99,24 +116,7 @@ class ConsignmentController extends Controller
                     'description_en' => $request->description_en,
                     'link' => $request->linkSection2,
                 ]
-            );
-
-            if ($request->hasFile('imageSection2')) {
-                $file = $request->file('imageSection2');
-
-                if ($consignmentDetail->image) {
-                    if(File::exists('image/consignment/'.$consignmentDetail->image)){
-                        File::delete(public_path('image/consignment/'.$consignmentDetail->image));
-                    }
-                }
-
-                $uploadService = new UploadService();
-                $uploadedFile = $uploadService->saveFile($file, 'consignment');
-
-                $consignmentDetail->update([
-                    'image' => $uploadedFile['name'],
-                ]);
-            }
+            );            
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $request->title]));
         } catch (\Throwable $th) {
