@@ -17,6 +17,7 @@ use App\Http\Requests\WorkWithUsStoreSection1Request;
 use App\Http\Requests\WorkWithUsStoreSection2Request;
 use App\Http\Requests\ConsignmentStoreSection1Request;
 use App\Http\Requests\ConsignmentStoreSection2Request;
+use App\Http\Requests\ConsignmentStoreSection4Request;
 
 class ConsignmentController extends Controller
 {
@@ -28,7 +29,7 @@ class ConsignmentController extends Controller
     public function index(Request $request)
     {
         $consignment = Consignment::get();
-        $consignmentDetail = ConsignmentDetail::get();
+        $consignmentDetail = ConsignmentDetail::with('consignmentCard')->get();
 
         return Inertia::render('Consignment/Index', [
             'title' => 'Data '.__('app.label.consignment'),
@@ -122,5 +123,80 @@ class ConsignmentController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.created_error', ['name' => $request->title]) . $th->getMessage());
         }
+    }
+
+    public function storeSection4(ConsignmentStoreSection4Request $request) {
+        try {
+            $consignmentDetail = ConsignmentDetail::updateOrCreate(
+                ['section' => 4],
+                [
+                    'consignment_id' => 1,
+                    'section' => 4,
+                    'title' => $request->titleSection2,
+                    'title_en' => $request->titleEnSection2,
+                ]
+            );
+
+            if ($request->hasFile('imageSection4')) {
+                $file = $request->file('imageSection4');
+
+                if ($consignmentDetail->image) {
+                    if(File::exists('image/consignment/'.$consignmentDetail->image)){
+                        File::delete(public_path('image/consignment/'.$consignmentDetail->image));
+                    }
+                }
+
+                $uploadService = new UploadService();
+                $uploadedFile = $uploadService->saveFile($file, 'consignment');
+
+                $consignmentDetail->update([
+                    'image' => $uploadedFile['name'],
+                ]);
+            }
+
+
+            $effectedCardIds = [];
+            $cards = $request->cardsSection4;
+            foreach ($cards as $card) {
+                $cardModel = $card['id'] ? ConsignmentCard::find($card['id']) : new ConsignmentCard();
+
+                $cardModel->fill([
+                    'consignment_detail_id' => $consignmentDetail->id,
+                    'title' => $card['title'],
+                    'title_en' => $card['title_en'],
+                    'description' => $card['description'],
+                    'description_en' => $card['description_en'],
+                ]);
+                
+                if (isset($card['image']) ) {
+                    $file = $card['image'];
+
+                    if ($cardModel->icon) {
+                        if(File::exists('image/consignment/'.$cardModel->icon)){
+                            File::delete(public_path('image/consignment/'.$cardModel->icon));
+                        }
+                    }
+
+                    $uploadedFile = (new UploadService())->saveFile($file, 'consignment');
+
+                    $cardModel->fill([
+                        'icon' => $uploadedFile['name'],
+                    ]);
+                }
+
+                $cardModel->save();
+                $effectedCardIds[] = $cardModel->id;
+            }
+
+            // Hapus card yang tidak terpakai
+            ConsignmentCard::where('consignment_detail_id', $consignmentDetail->id)
+                ->whereNotIn('id', $effectedCardIds)
+                ->delete();
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $request->titleSection2]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => $request->titleSection2]) . $th->getMessage());
+        }
+
     }
 }

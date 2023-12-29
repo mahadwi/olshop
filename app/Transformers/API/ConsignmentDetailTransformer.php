@@ -13,7 +13,7 @@ class ConsignmentDetailTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        //
+        'cards'
     ];
     
     /**
@@ -34,7 +34,7 @@ class ConsignmentDetailTransformer extends TransformerAbstract
     {
         return [
             'id'                => $consignmentDetail->id,
-            'section'                => $consignmentDetail->section,
+            'section'           => $consignmentDetail->section,
             "title"             => $consignmentDetail->title,
             "title_en"          => $consignmentDetail->title_en,
             "description"       => $consignmentDetail->description,
@@ -42,5 +42,10 @@ class ConsignmentDetailTransformer extends TransformerAbstract
             "image"             => $consignmentDetail->image ? $consignmentDetail->image_url : '',                            
             "link"              => $consignmentDetail->link,                            
         ];
+    }
+
+    public function includeCards($consignmentDetail)
+    {        
+        return $this->collection($consignmentDetail->consignmentCard, new ConsignmentCardTransformer);
     }
 }

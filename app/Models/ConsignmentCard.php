@@ -28,7 +28,7 @@ class ConsignmentCard extends Model
     {
         static::deleted(function (ConsignmentDetail $consignmentDetail) {
             //also delete file if exist
-            $imageFile = public_path('image/consignment/'.$consignmentDetail->image);
+            $imageFile = public_path('image/consignment/'.$consignmentDetail->icon);
             if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
@@ -38,7 +38,7 @@ class ConsignmentCard extends Model
 
     public function getIconUrlAttribute()
     {
-        return asset('image/consignment/'.$this->image);
+        return asset('image/consignment/'.$this->icon);
     }
 
     public function consignmentDetail() {

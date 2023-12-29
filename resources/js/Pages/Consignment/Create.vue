@@ -20,20 +20,19 @@ const props = defineProps({
 const activeTab = ref('section1');
 const emit = defineEmits(["close"]);
 
-// const addForm = () => {
-//     form.cardsSection2.push({
-//         id: null,
-//         title: "",
-//         title_en: "",
-//         description: "",
-//         description_en: "",
-//         icon: "",
-//         image: "",
-//     });
-// };
+const addForm = () => {
+    form.cardsSection4.push({
+        id: null,
+        title: "",
+        title_en: "",
+        description: "",
+        description_en: "",
+        image: "",
+    });
+};
 
 const deleteForm = (index) => {
-    form.forms.splice(index, 1);
+    form.cardsSection4.splice(index, 1);
 };
 
 const form = useForm({
@@ -59,17 +58,19 @@ const form = useForm({
     descriptionEnSection2:"",
     linkSection2:"",
 
-    forms: [],
-
-    // titleSection3:"",
-    // titleEnSection3:"",
-    // descriptionSection3:"",
-    // descriptionEnSection3:"",
-    // imageSection3:"",
+    // SECTION 2
+    titleSection4:"",
+    titleEnSection4:"",
+    imageSection4:"",
+    cardsSection4: [],
 });
 
 onMounted(() => {
-    // addForm();
+    const section4 = props.consignmentDetail.find((item) => item.section == 4);
+
+    if(section4.consignment_card.length == 0){
+        addForm();
+    }
 });
 
 const create = () => {
@@ -128,6 +129,14 @@ watchEffect(() => {
         form.descriptionSection2 = props.consignmentDetail[1]?.description;
         form.descriptionEnSection2 = props.consignmentDetail[1]?.description_en;
         form.linkSection2 = props.consignmentDetail[1]?.link;
+
+        const section4 = props.consignmentDetail.find((item) => item.section == 4);
+        form.titleSection4 = section4?.title;
+        form.titleEnSection4 = section4?.title_en;
+
+        if(section4?.consignment_card.length > 0) {
+            form.cardsSection4 = section4?.consignment_card;
+        }
     }
 });
 
@@ -270,7 +279,6 @@ watchEffect(() => {
                                                 </div>
                                             </div>
                                            
-
                                             <div>
                                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                                                 <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.descriptionSection2" />
@@ -316,7 +324,88 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 4</h3>
                                 </div>
                                 <div class="p-6">
-                                  
+                                    <form @submit.prevent="createSection4">
+                                        <div class="my-6 space-y-4">
+                                            <!-- <input type="hidden" v-model="form.work_with_us_id"> -->
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <FwbInput v-model="form.titleSection4" :placeholder="lang().label.title" :label="lang().label.title" />
+                                                    <InputError class="mt-2" :message="form.errors.titleSection4" />
+                                                </div>
+                                                <div>
+                                                    <FwbInput v-model="form.titleEnSection4" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                                                    <InputError class="mt-2" :message="form.errors.titleEnSection4" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <FwbFileInput accept="image/*" v-model="form.imageSection4" :label="lang().label.image" />
+                                                <InputError class="mt-2" :message="form.errors.imageSection4" />
+                                            </div>
+                                            <hr>
+                                            <div v-for="(item, index) in form.cardsSection4" :key="index">
+                                                <input type="hidden" v-model="item.id" >
+                                                <div class="mb-5 card-space">
+                                                    Card {{ index+1 }}
+                                                    <button @click="deleteForm" type="button" class="btn-danger">
+                                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                        {{ lang().tooltip.delete }}
+                                                    </button>
+                                                </div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <FwbInput v-model="item.title" :placeholder="lang().label.title" :label="lang().label.title" />
+                                                        <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.title`]" />
+                                                    </div>
+                                                    <div>
+                                                        <FwbInput v-model="item.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                                                        <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.title_en`]" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <FwbFileInput accept="image/*" v-model="item.image" :label="lang().label.image" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.image`]" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                                                    <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="item.description" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.description`]" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                                                    <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="item.description_en" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.description_en`]" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center">
+                                            <SecondaryButton
+                                                :disabled="form.processing"
+                                                @click="emit('close')"
+                                            >
+                                                {{ lang().button.close }}
+                                            </SecondaryButton>
+                                            <SecondaryButton
+                                                :disabled="form.processing"
+                                                @click="addForm"
+                                            >
+                                                {{ lang().button.add_card }}
+                                            </SecondaryButton>
+                                            <PrimaryButton
+                                                type="submit"
+                                                class="ml-3"
+                                                :class="{ 'opacity-25': form.processing }"
+                                                :disabled="form.processing"
+                                            >
+                                                {{
+                                                    form.processing
+                                                        ? lang().button.save + "..."
+                                                        : lang().button.save
+                                                }}
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
                                 </div>
                             </fwb-tab>
                         </fwb-tabs>
