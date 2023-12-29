@@ -188,6 +188,7 @@ return [
         'authentication' => 'Authentication',
         'link_yt' => 'Link Youtube',
         'work_with_us' => 'Work With Us',
+        'consignment' => 'Consignment',
     ],
     'button' => [
         'login' => 'Masuk',
