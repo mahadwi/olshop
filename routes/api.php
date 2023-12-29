@@ -35,6 +35,7 @@ use App\Http\Controllers\API\VoucherApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\OngkirApiController;
 use App\Http\Controllers\ConsignmentApiController;
+use App\Http\Controllers\WorkWithUsApiController;
 use App\Http\Controllers\XenditCallbackController;
 
 /*
@@ -120,6 +121,7 @@ Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
 Route::post('ongkir', [OngkirApiController::class, 'ongkir']);
 
 Route::get('consignment', [ConsignmentApiController::class, 'index']);
+Route::get('work-with-us', [WorkWithUsApiController::class, 'index']);
 
 
 
