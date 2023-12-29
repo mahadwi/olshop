@@ -31,8 +31,23 @@ const addForm = () => {
     });
 };
 
+const addForm2 = () => {
+    form.cardsSection5.push({
+        id: null,
+        title: "",
+        title_en: "",
+        description: "",
+        description_en: "",
+        image: "",
+    });
+};
+
 const deleteForm = (index) => {
     form.cardsSection4.splice(index, 1);
+};
+
+const deleteForm2 = (index) => {
+    form.cardsSection5.splice(index, 1);
 };
 
 const form = useForm({
@@ -58,11 +73,17 @@ const form = useForm({
     descriptionEnSection2:"",
     linkSection2:"",
 
-    // SECTION 2
+    // SECTION 4
     titleSection4:"",
     titleEnSection4:"",
     imageSection4:"",
     cardsSection4: [],
+
+     // SECTION 5
+    titleSection5:"",
+    titleEnSection5:"",
+    imageSection5:"",
+    cardsSection5: [],
 });
 
 onMounted(() => {
@@ -70,6 +91,12 @@ onMounted(() => {
 
     if(section4.consignment_card.length == 0){
         addForm();
+    }
+
+    const section5 = props.consignmentDetail.find((item) => item.section == 5);
+
+    if(section5?.consignment_card.length == 0 || !section5){
+        addForm2();
     }
 });
 
@@ -109,6 +136,15 @@ const createSection4 = () => {
     });
 };
 
+const createSection5 = () => {
+    form.post(route("consignment.storeSection5"), {
+        preserveScroll: true,
+        onSuccess: () => null,
+        onError: () => null,
+        onFinish: () => null,
+    });
+};
+
 watchEffect(() => {
     if (props.show) {
         form.consignment_id = props.consignment[0]?.id;
@@ -136,6 +172,14 @@ watchEffect(() => {
 
         if(section4?.consignment_card.length > 0) {
             form.cardsSection4 = section4?.consignment_card;
+        }
+
+        const section5 = props.consignmentDetail.find((item) => item.section == 5);
+        form.titleSection5 = section5?.title;
+        form.titleEnSection5 = section5?.title_en;
+
+        if(section5?.consignment_card.length > 0) {
+            form.cardsSection5 = section5?.consignment_card;
         }
     }
 });
@@ -389,6 +433,95 @@ watchEffect(() => {
                                             <SecondaryButton
                                                 :disabled="form.processing"
                                                 @click="addForm"
+                                            >
+                                                {{ lang().button.add_card }}
+                                            </SecondaryButton>
+                                            <PrimaryButton
+                                                type="submit"
+                                                class="ml-3"
+                                                :class="{ 'opacity-25': form.processing }"
+                                                :disabled="form.processing"
+                                            >
+                                                {{
+                                                    form.processing
+                                                        ? lang().button.save + "..."
+                                                        : lang().button.save
+                                                }}
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                </div>
+                            </fwb-tab>
+                            <fwb-tab name="section5" title="Section 5">
+                                <div class="dividenTitle">
+                                    <h3 class="headerTitleText">Section 5</h3>
+                                </div>
+                                <div class="p-6">
+                                    <form @submit.prevent="createSection5">
+                                        <div class="my-6 space-y-4">
+                                            <!-- <input type="hidden" v-model="form.work_with_us_id"> -->
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <FwbInput v-model="form.titleSection5" :placeholder="lang().label.title" :label="lang().label.title" />
+                                                    <InputError class="mt-2" :message="form.errors.titleSection5" />
+                                                </div>
+                                                <div>
+                                                    <FwbInput v-model="form.titleEnSection5" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                                                    <InputError class="mt-2" :message="form.errors.titleEnSection5" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <FwbFileInput accept="image/*" v-model="form.imageSection5" :label="lang().label.image" />
+                                                <InputError class="mt-2" :message="form.errors.imageSection5" />
+                                            </div>
+                                            <hr>
+                                            <div v-for="(item, index) in form.cardsSection5" :key="index">
+                                                <input type="hidden" v-model="item.id" >
+                                                <div class="mb-5 card-space">
+                                                    Card {{ index+1 }}
+                                                    <button @click="deleteForm2" type="button" class="btn-danger">
+                                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                        {{ lang().tooltip.delete }}
+                                                    </button>
+                                                </div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <FwbInput v-model="item.title" :placeholder="lang().label.title" :label="lang().label.title" />
+                                                        <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.title`]" />
+                                                    </div>
+                                                    <div>
+                                                        <FwbInput v-model="item.title_en" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                                                        <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.title_en`]" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <FwbFileInput accept="image/*" v-model="item.image" :label="lang().label.image" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.image`]" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                                                    <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="item.description" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.description`]" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                                                    <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="item.description_en" />
+                                                    <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.description_en`]" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center">
+                                            <SecondaryButton
+                                                :disabled="form.processing"
+                                                @click="emit('close')"
+                                            >
+                                                {{ lang().button.close }}
+                                            </SecondaryButton>
+                                            <SecondaryButton
+                                                :disabled="form.processing"
+                                                @click="addForm2"
                                             >
                                                 {{ lang().button.add_card }}
                                             </SecondaryButton>
