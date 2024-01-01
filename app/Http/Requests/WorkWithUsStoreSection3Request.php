@@ -23,12 +23,27 @@ class WorkWithUsStoreSection3Request extends FormRequest
     public function rules(): array
     {
         return [
-            'work_with_us_id' => 'required|integer',
-            'title' => 'required|string|max:255',
-            'title_en' => 'required|string|max:255',
-            'description' => ['required', new NonEmptyStringIgnoringTags()],
-            'description_en' => ['required', new NonEmptyStringIgnoringTags()],
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
+            'titleSection3' => 'required|string|max:255',
+            'titleEnSection3' => 'required|string|max:255',
+
+            'cardsSection3' => 'required|array',
+            'cardsSection3.*.id' => 'nullable|integer',
+            'cardsSection3.*.title' => 'required|string|max:255',
+            'cardsSection3.*.title_en' => 'required|string|max:255',
+            'cardsSection3.*.description' => 'required',
+            'cardsSection3.*.description_en' => 'required',
+            'cardsSection3.*.image' => 'nullable|image|mimes:jpg,png,jpeg|max:500',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'cardsSection3.*.title' => 'Title',
+            'cardsSection3.*.title_en' => 'Title In English',
+            'cardsSection3.*.description' => 'Description',
+            'cardsSection3.*.description_en' => 'Description In English',
+            'cardsSection3.*.image' => 'Image',
         ];
     }
 }

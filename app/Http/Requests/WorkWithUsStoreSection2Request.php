@@ -45,4 +45,11 @@ class WorkWithUsStoreSection2Request extends FormRequest
             'cardsSection2.*.image' => 'Image',
         ];
     }
+
+    // public function prepareForValidation()
+    // {
+    //     $this->merge([
+    //         'cardsSection2.*.description' => $this->cardSection2?->description == "<p><br></p>" ? "" : $this->cardSection2?->description
+    //     ]);
+    // }
 }
