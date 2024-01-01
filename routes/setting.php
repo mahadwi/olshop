@@ -69,4 +69,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('store-consignment-section2', [ConsignmentController::class, 'storeSection2'])->name('consignment.storeSection2');
     Route::post('store-consignment-section4', [ConsignmentController::class, 'storeSection4'])->name('consignment.storeSection4');
     Route::post('store-consignment-section5', [ConsignmentController::class, 'storeSection5'])->name('consignment.storeSection5');
+    Route::post('store-consignment-section6', [ConsignmentController::class, 'storeSection6'])->name('consignment.storeSection6');
 });

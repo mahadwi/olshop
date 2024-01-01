@@ -84,6 +84,12 @@ const form = useForm({
     titleEnSection5:"",
     imageSection5:"",
     cardsSection5: [],
+
+    // SECTION 6
+    titleSection6:"",
+    titleEnSection6:"",
+    descriptionSection6:"",
+    descriptionEnSection6:"",
 });
 
 onMounted(() => {
@@ -145,6 +151,15 @@ const createSection5 = () => {
     });
 };
 
+const createSection6 = () => {
+    form.post(route("consignment.storeSection6"), {
+        preserveScroll: true,
+        onSuccess: () => null,
+        onError: () => null,
+        onFinish: () => null,
+    });
+};
+
 watchEffect(() => {
     if (props.show) {
         form.consignment_id = props.consignment[0]?.id;
@@ -153,18 +168,18 @@ watchEffect(() => {
         form.description = props.consignment[0]?.description;
         form.description_en = props.consignment[0]?.description_en;
 
-        form.titleSection1 = props.consignmentDetail[0]?.title;
-        form.titleEnSection1 = props.consignmentDetail[0]?.title_en;
-        form.descriptionSection1 = props.consignmentDetail[0]?.description;
-        form.descriptionEnSection1 = props.consignmentDetail[0]?.description_en;
-    
-        form.errors = {};
+        const section1 = props.consignmentDetail.find((item) => item.section == 1);
+        form.titleSection1 = section1?.title;
+        form.titleEnSection1 = section1?.title_en;
+        form.descriptionSection1 = section1?.description;
+        form.descriptionEnSection1 = section1?.description_en;    
 
-        form.titleSection2 = props.consignmentDetail[1]?.title;
-        form.titleEnSection2 = props.consignmentDetail[1]?.title_en;
-        form.descriptionSection2 = props.consignmentDetail[1]?.description;
-        form.descriptionEnSection2 = props.consignmentDetail[1]?.description_en;
-        form.linkSection2 = props.consignmentDetail[1]?.link;
+        const section2 = props.consignmentDetail.find((item) => item.section == 2);
+        form.titleSection2 = section2?.title;
+        form.titleEnSection2 = section2?.title_en;
+        form.descriptionSection2 = section2?.description;
+        form.descriptionEnSection2 = section2?.description_en;
+        form.linkSection2 = section2?.link;
 
         const section4 = props.consignmentDetail.find((item) => item.section == 4);
         form.titleSection4 = section4?.title;
@@ -181,6 +196,15 @@ watchEffect(() => {
         if(section5?.consignment_card.length > 0) {
             form.cardsSection5 = section5?.consignment_card;
         }
+
+        const section6 = props.consignmentDetail.find((item) => item.section == 6);
+        form.titleSection6 = section6?.title;
+        form.titleEnSection6 = section6?.title_en;
+        form.descriptionSection6 = section6?.description;
+        form.descriptionEnSection6 = section6?.description_en;
+
+        form.errors = {};
+
     }
 });
 
@@ -524,6 +548,59 @@ watchEffect(() => {
                                                 @click="addForm2"
                                             >
                                                 {{ lang().button.add_card }}
+                                            </SecondaryButton>
+                                            <PrimaryButton
+                                                type="submit"
+                                                class="ml-3"
+                                                :class="{ 'opacity-25': form.processing }"
+                                                :disabled="form.processing"
+                                            >
+                                                {{
+                                                    form.processing
+                                                        ? lang().button.save + "..."
+                                                        : lang().button.save
+                                                }}
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                </div>
+                            </fwb-tab>
+                            <fwb-tab name="section6" title="Section 6">
+                                <div class="dividenTitle">
+                                    <h3 class="headerTitleText">Section 6</h3>
+                                </div>
+                                <div class="p-6">
+                                    <form @submit.prevent="createSection6">
+                                        <div class="my-6 space-y-4">
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <FwbInput v-model="form.titleSection6" :placeholder="lang().label.title" :label="lang().label.title" />
+                                                    <InputError class="mt-2" :message="form.errors.titleSection6" />
+                                                </div>
+                                                <div>
+                                                    <FwbInput v-model="form.titleEnSection6" :placeholder="lang().label.title_en" :label="lang().label.title_en" />
+                                                    <InputError class="mt-2" :message="form.errors.titleEnSection6" />
+                                                </div>
+                                            </div>
+                                           
+                                            <div>
+                                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                                                <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="form.descriptionSection6" />
+                                                <InputError class="mt-2" :message="form.errors.descriptionSection6" />
+                                            </div>
+
+                                            <div>
+                                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                                                <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.descriptionEnSection6" />
+                                                <InputError class="mt-2" :message="form.errors.descriptionEnSection6" />
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center">
+                                            <SecondaryButton
+                                                :disabled="form.processing"
+                                                @click="emit('close')"
+                                            >
+                                                {{ lang().button.close }}
                                             </SecondaryButton>
                                             <PrimaryButton
                                                 type="submit"

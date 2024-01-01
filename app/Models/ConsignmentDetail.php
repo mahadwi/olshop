@@ -47,6 +47,6 @@ class ConsignmentDetail extends Model
     }
 
     public function consignmentCard() {
-        return $this->hasMany(ConsignmentCard::class);
+        return $this->hasMany(ConsignmentCard::class)->orderBy('id');
     }
 }

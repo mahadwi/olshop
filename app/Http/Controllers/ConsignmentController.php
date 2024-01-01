@@ -19,6 +19,7 @@ use App\Http\Requests\ConsignmentStoreSection1Request;
 use App\Http\Requests\ConsignmentStoreSection2Request;
 use App\Http\Requests\ConsignmentStoreSection4Request;
 use App\Http\Requests\ConsignmentStoreSection5Request;
+use App\Http\Requests\ConsignmentStoreSection6Request;
 
 class ConsignmentController extends Controller
 {
@@ -112,10 +113,10 @@ class ConsignmentController extends Controller
                 ['section' => 2],
                 [
                     'consignment_id' => 1,
-                    'title' => $request->title,
-                    'title_en' => $request->title_en,
-                    'description' => $request->description,
-                    'description_en' => $request->description_en,
+                    'title' => $request->titleSection2,
+                    'title_en' => $request->titleEnSection2,
+                    'description' => $request->descriptionSection2,
+                    'description_en' => $request->descriptionEnSection2,
                     'link' => $request->linkSection2,
                 ]
             );            
@@ -274,5 +275,26 @@ class ConsignmentController extends Controller
             return back()->with('error', __('app.label.created_error', ['name' => $request->titleSection2]) . $th->getMessage());
         }
 
+    }
+
+    public function storeSection6(ConsignmentStoreSection6Request $request)
+    {
+        try {
+            $consignmentDetail = ConsignmentDetail::updateOrCreate(
+                ['section' => 6],
+                [
+                    'consignment_id' => 1,
+                    'title' => $request->titleSection6,
+                    'title_en' => $request->titleEnSection6,
+                    'description' => $request->descriptionSection6,
+                    'description_en' => $request->descriptionEnSection6,
+                    'link' => $request->linkSection6,
+                ]
+            );            
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $request->title]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => $request->title]) . $th->getMessage());
+        }
     }
 }
