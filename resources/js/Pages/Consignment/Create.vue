@@ -4,7 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { FwbInput, FwbTextarea, FwbFileInput, FwbTab, FwbTabs} from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput, FwbTab, FwbTabs, FwbButton} from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect, ref, onMounted } from "vue";
 import { QuillEditor } from '@vueup/vue-quill'
@@ -20,35 +20,24 @@ const props = defineProps({
 const activeTab = ref('section1');
 const emit = defineEmits(["close"]);
 
-const addForm = () => {
-    form.cardsSection4.push({
+const addForm = (section) => {
+    const secCard = `cardsSection${section}`;
+    form[secCard].push({
         id: null,
         title: "",
         title_en: "",
         description: "",
         description_en: "",
+        icon: "",
         image: "",
     });
 };
 
-const addForm2 = () => {
-    form.cardsSection5.push({
-        id: null,
-        title: "",
-        title_en: "",
-        description: "",
-        description_en: "",
-        image: "",
-    });
+const deleteForm = (index, section) => {
+    const secCard = `cardsSection${section}`;
+    form[secCard].splice(index, 1);
 };
 
-const deleteForm = (index) => {
-    form.cardsSection4.splice(index, 1);
-};
-
-const deleteForm2 = (index) => {
-    form.cardsSection5.splice(index, 1);
-};
 
 const form = useForm({
     consignment_id:"",
@@ -93,17 +82,8 @@ const form = useForm({
 });
 
 onMounted(() => {
-    const section4 = props.consignmentDetail.find((item) => item.section == 4);
-
-    if(section4.consignment_card.length == 0){
-        addForm();
-    }
-
-    const section5 = props.consignmentDetail.find((item) => item.section == 5);
-
-    if(section5?.consignment_card.length == 0 || !section5){
-        addForm2();
-    }
+    addForm('4');
+    addForm('5');
 });
 
 const create = () => {
@@ -115,44 +95,8 @@ const create = () => {
     });
 };
 
-const createSection1 = () => {
-    form.post(route("consignment.storeSection1"), {
-        preserveScroll: true,
-        onSuccess: () => null,
-        onError: () => null,
-        onFinish: () => null,
-    });
-};
-
-const createSection2 = () => {
-    form.post(route("consignment.storeSection2"), {
-        preserveScroll: true,
-        onSuccess: () => null,
-        onError: () => null,
-        onFinish: () => null,
-    });
-};
-
-const createSection4 = () => {
-    form.post(route("consignment.storeSection4"), {
-        preserveScroll: true,
-        onSuccess: () => null,
-        onError: () => null,
-        onFinish: () => null,
-    });
-};
-
-const createSection5 = () => {
-    form.post(route("consignment.storeSection5"), {
-        preserveScroll: true,
-        onSuccess: () => null,
-        onError: () => null,
-        onFinish: () => null,
-    });
-};
-
-const createSection6 = () => {
-    form.post(route("consignment.storeSection6"), {
+const createSection = (section) => {
+    form.post(route(`consignment.storeSection${section}`), {
         preserveScroll: true,
         onSuccess: () => null,
         onError: () => null,
@@ -173,6 +117,7 @@ watchEffect(() => {
         form.titleEnSection1 = section1?.title_en;
         form.descriptionSection1 = section1?.description;
         form.descriptionEnSection1 = section1?.description_en;    
+        form.imageUrlSection1 = section1?.image_url;
 
         const section2 = props.consignmentDetail.find((item) => item.section == 2);
         form.titleSection2 = section2?.title;
@@ -192,6 +137,7 @@ watchEffect(() => {
         const section5 = props.consignmentDetail.find((item) => item.section == 5);
         form.titleSection5 = section5?.title;
         form.titleEnSection5 = section5?.title_en;
+        form.imageUrlSection5 = section5?.image_url;
 
         if(section5?.consignment_card.length > 0) {
             form.cardsSection5 = section5?.consignment_card;
@@ -210,6 +156,9 @@ watchEffect(() => {
 
 </script>
 <style scoped>
+.card-space {
+    margin-top: 50px;
+}
 .dividenTitle {
     width: 100%;height: 48px;flex-shrink: 0;background: #B9B9B9;
 }
@@ -277,7 +226,7 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 1</h3>
                                 </div>
                                 <div class="p-6">
-                                    <form @submit.prevent="createSection1">
+                                    <form @submit.prevent="createSection('1')">
                                         <div class="my-6 space-y-4">
                                             <input type="hidden" v-model="form.consignment_id">
                                             <div class="grid grid-cols-2 gap-4">
@@ -293,6 +242,9 @@ watchEffect(() => {
                                             <div>
                                                 <FwbFileInput accept="image/*" v-model="form.imageSection1" :label="lang().label.image" />
                                                 <InputError class="mt-2" :message="form.errors.imageSection1" />
+                                            </div>
+                                            <div>
+                                                <img :src="form.imageUrlSection1" style="width:30%">
                                             </div>
                                             <div>
                                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
@@ -334,7 +286,7 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 2</h3>
                                 </div>
                                 <div class="p-6">
-                                    <form @submit.prevent="createSection2">
+                                    <form @submit.prevent="createSection('2')">
                                         <div class="my-6 space-y-4">
                                             <div class="grid grid-cols-2 gap-4">
                                                 <div>
@@ -392,7 +344,7 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 4</h3>
                                 </div>
                                 <div class="p-6">
-                                    <form @submit.prevent="createSection4">
+                                    <form @submit.prevent="createSection('4')">
                                         <div class="my-6 space-y-4">
                                             <!-- <input type="hidden" v-model="form.work_with_us_id"> -->
                                             <div class="grid grid-cols-2 gap-4">
@@ -409,15 +361,15 @@ watchEffect(() => {
                                                 <FwbFileInput accept="image/*" v-model="form.imageSection4" :label="lang().label.image" />
                                                 <InputError class="mt-2" :message="form.errors.imageSection4" />
                                             </div>
+                                          
                                             <hr>
                                             <div v-for="(item, index) in form.cardsSection4" :key="index">
                                                 <input type="hidden" v-model="item.id" >
-                                                <div class="mb-5 card-space">
+                                                <div class="mb-5 font-bold card-space">
                                                     Card {{ index+1 }}
-                                                    <button @click="deleteForm" type="button" class="btn-danger">
-                                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                                        {{ lang().tooltip.delete }}
-                                                    </button>
+                                                    <fwb-button color="red" pill square @click="deleteForm(index, '4')" type="button">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                    </fwb-button>
                                                 </div>
                                                 <div class="grid grid-cols-2 gap-4">
                                                     <div>
@@ -429,12 +381,14 @@ watchEffect(() => {
                                                         <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.title_en`]" />
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="mt-5">
                                                     <FwbFileInput accept="image/*" v-model="item.image" :label="lang().label.image" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.image`]" />
                                                 </div>
-
-                                                <div>
+                                                <div class="mb-5" v-if="item.icon">
+                                                    <img :src="`/image/consignment/`+item.icon" style="width:30%">
+                                                </div>
+                                                <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                                                     <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="item.description" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.description`]" />
@@ -456,7 +410,7 @@ watchEffect(() => {
                                             </SecondaryButton>
                                             <SecondaryButton
                                                 :disabled="form.processing"
-                                                @click="addForm"
+                                                @click="addForm('4')"
                                             >
                                                 {{ lang().button.add_card }}
                                             </SecondaryButton>
@@ -481,7 +435,7 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 5</h3>
                                 </div>
                                 <div class="p-6">
-                                    <form @submit.prevent="createSection5">
+                                    <form @submit.prevent="createSection('5')">
                                         <div class="my-6 space-y-4">
                                             <!-- <input type="hidden" v-model="form.work_with_us_id"> -->
                                             <div class="grid grid-cols-2 gap-4">
@@ -498,15 +452,17 @@ watchEffect(() => {
                                                 <FwbFileInput accept="image/*" v-model="form.imageSection5" :label="lang().label.image" />
                                                 <InputError class="mt-2" :message="form.errors.imageSection5" />
                                             </div>
+                                            <div>
+                                                <img :src="form.imageUrlSection5" style="width:30%">
+                                            </div>
                                             <hr>
                                             <div v-for="(item, index) in form.cardsSection5" :key="index">
                                                 <input type="hidden" v-model="item.id" >
-                                                <div class="mb-5 card-space">
+                                                <div class="mb-5 font-bold card-space">
                                                     Card {{ index+1 }}
-                                                    <button @click="deleteForm2" type="button" class="btn-danger">
-                                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                                        {{ lang().tooltip.delete }}
-                                                    </button>
+                                                    <fwb-button color="red" pill square @click="deleteForm(index, '5')" type="button">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                    </fwb-button>
                                                 </div>
                                                 <div class="grid grid-cols-2 gap-4">
                                                     <div>
@@ -518,12 +474,14 @@ watchEffect(() => {
                                                         <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.title_en`]" />
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="mt-5">
                                                     <FwbFileInput accept="image/*" v-model="item.image" :label="lang().label.image" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.image`]" />
                                                 </div>
-
-                                                <div>
+                                                <div class="mb-5" v-if="item.icon">
+                                                    <img :src="`/image/consignment/`+item.icon" style="width:30%">
+                                                </div>
+                                                <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
                                                     <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description" v-model:content="item.description" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.description`]" />
@@ -545,7 +503,7 @@ watchEffect(() => {
                                             </SecondaryButton>
                                             <SecondaryButton
                                                 :disabled="form.processing"
-                                                @click="addForm2"
+                                                @click="addForm('5')"
                                             >
                                                 {{ lang().button.add_card }}
                                             </SecondaryButton>
@@ -570,7 +528,7 @@ watchEffect(() => {
                                     <h3 class="headerTitleText">Section 6</h3>
                                 </div>
                                 <div class="p-6">
-                                    <form @submit.prevent="createSection6">
+                                    <form @submit.prevent="createSection('6')">
                                         <div class="my-6 space-y-4">
                                             <div class="grid grid-cols-2 gap-4">
                                                 <div>
