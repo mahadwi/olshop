@@ -108,6 +108,20 @@ export default {
             },
         },
     },
+    mounted() {
+        if (this.flash.success || this.flash.info || this.flash.warning || this.flash.error) {
+            this.isVisible = true;
+            this.isErrorVisible = true;
+
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
+
+            this.timeout = setTimeout(() => {
+                this.isVisible = false;
+            }, 3000);
+        }
+    }
 }
 </script>
 
