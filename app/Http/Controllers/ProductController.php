@@ -142,9 +142,7 @@ class ProductController extends Controller
     {
         try {
             $product = dispatch_sync(new UpdateProductAction($product, $request->all()));
-
             return redirect()->route('product.index')->with('success', __('app.label.updated_successfully', ['name' => $product->name]));
-
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.updated_error', ['name' => $product->name]) . $th->getMessage());
         }
