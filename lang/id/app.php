@@ -191,6 +191,10 @@ return [
         'consignment' => 'Consignment',
         'subtitle_en' => 'Subtitle Dalam Bahasa Inggris',
         'subtitle' => 'Subtitle',
+        'pos' => 'POS',
+        'point_of_sales' => 'Point Of Sales',
+        'discount' => 'Diskon',
+        'ongkir' => 'Ongkir',
     ],
     'button' => [
         'login' => 'Masuk',

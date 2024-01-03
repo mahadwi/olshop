@@ -34,6 +34,7 @@ use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\VoucherApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\OngkirApiController;
+use App\Http\Controllers\API\OrderApiController;
 use App\Http\Controllers\ConsignmentApiController;
 use App\Http\Controllers\WorkWithUsApiController;
 use App\Http\Controllers\XenditCallbackController;
@@ -76,6 +77,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit', 'index');
 
     Route::resource('booking', BookingApiController::class)->only('index', 'show', 'store', 'delete');
+
+    Route::resource('order', OrderApiController::class)->only('index', 'show', 'store', 'delete');
 
 });
 

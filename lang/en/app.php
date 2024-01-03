@@ -190,6 +190,10 @@ return [
         'consignment' => 'Consignment',
         'subtitle_en' => 'Subtitle In English',
         'subtitle' => 'Subtitle',
+        'pos' => 'POS',
+        'point_of_sales' => 'Point Of Sales',
+        'discount' => 'Discount',
+        'ongkir' => 'Ongkir',
     ],
     'button' => [
         'login' => 'Login',

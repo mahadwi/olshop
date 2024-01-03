@@ -15,6 +15,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SendEmailController;
@@ -51,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/contact', ContactController::class)->except('create', 'show', 'edit');
 
+    Route::resource('/pos', PosController::class)->only('index', 'show');
+
     Route::post('send-email', [SendEmailController::class, 'send'])->name('send-email');
-
-
 });
