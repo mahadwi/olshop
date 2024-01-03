@@ -8,19 +8,23 @@ use App\Models\Email;
 use App\Constants\Role;
 use Illuminate\Http\Request;
 use App\Actions\API\StoreOtpAction;
+use App\Actions\API\DeleteOtpAction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Actions\API\UpdateUserApiAction;
 use Laravel\Socialite\Facades\Socialite;
 use App\Transformers\API\UserTransformer;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\API\CheckOtpRequest;
 use App\Http\Requests\API\RegisterRequest;
 use App\Actions\API\RegisterCustomerAction;
 use App\Http\Requests\API\AuthenticateRequest;
-use App\Http\Requests\API\UpdateUserApiRequest;
 use App\Notifications\CustomerOtpNotification;
-use App\Actions\API\UpdateUserApiAction;
+use App\Http\Requests\API\RequestOtpApiRequest;
+use App\Http\Requests\API\UpdateUserApiRequest;
+use App\Http\Requests\API\ChangePasswordRequest;
 
 class AuthController extends Controller
 {
@@ -56,6 +60,40 @@ class AuthController extends Controller
         return $this->apiSuccess(fractal($user, new UserTransformer)->parseIncludes(['addresses']));
     }
 
+    public function requestOtp(RequestOtpApiRequest $request, StoreOtpAction $storeOtpAction)
+    {
+        //check if user exist
+        $user = $this->validateUser($request->validated());
+
+        if (!($user instanceof User)) {
+            return $this->apiError([], [], $user);
+        }
+
+        $storeOtpAction->handle($user);
+        $user->notify(new CustomerOtpNotification($user));
+        
+        return $this->apiSuccess([], 'Success Request OTP');
+        
+    }
+
+    public function checkOtp(CheckOtpRequest $request, DeleteOtpAction $deleteOtpAction)
+    {
+        $user = $this->validateUser($request->validated());
+
+        if (!($user instanceof User)) {
+            return $this->apiError([], [], $user);
+        }
+
+        if ($user->otp !== $request->otp || Carbon::now()->greaterThan($user->otp_expired_at)) {
+            return $this->apiError([], [], 'invalid otp');
+        }
+
+        $deleteOtpAction->handle($user);
+
+        return $this->apiSuccess([], 'Success');
+
+    }
+
     public function updateUser(UpdateUserApiRequest $request)
     {
         $userId = $request->user()->id; // Mengambil user id dari sesi
@@ -64,6 +102,22 @@ class AuthController extends Controller
 
         $user = fractal($users, new UserTransformer())->toArray();
         return $this->apiSuccess($user);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $user = $this->validateUser($request->validated());
+
+        if (!($user instanceof User)) {
+            return $this->apiError([], [], $user);
+        }
+        
+        $user->password = bcrypt($request->password);
+
+        $user->save();
+
+        return $this->apiSuccess([], [], 'Success Update Password');
+
     }
 
     public function redirectToProvider(Request $request)

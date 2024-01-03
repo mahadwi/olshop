@@ -39,7 +39,7 @@ class RegisterApiController extends Controller
         $user = User::where([['email', $request->email], ['otp', $request->otp]])->first();
 
         if (is_null($user)) {
-            return $this->apiError([], 'email verify failed');
+            return $this->apiError([], [], 'email verify failed');
         }
 
         $user->email_verified_at = Carbon::now();

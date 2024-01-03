@@ -55,9 +55,9 @@ Route::post('verify-email', [RegisterApiController::class, 'verifyEmail'])->name
 Route::post('request-verify-email', [RegisterApiController::class, 'requestVerifyEmail'])->name('request-verify-email');
 
 Route::post('/login', [AuthController::class, 'login']);
-// Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
-// Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check-otp');
-// Route::post('request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
+Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
+Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check-otp');
+Route::post('request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
 
 Route::get('login/{provider}', [AuthController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
