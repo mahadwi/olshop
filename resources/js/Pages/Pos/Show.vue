@@ -104,6 +104,20 @@ const data = reactive({
                 :placeholder="lang().label.discount"
                 :label="lang().label.discount"
               />
+            </div>                 
+            <div class="col-span-6">
+              <FwbInput
+                v-model="data.total" readonly
+                :placeholder="lang().label.total"
+                :label="lang().label.total"
+              />
+            </div>    
+            <div class="col-span-6">
+              <FwbInput
+                v-model="props.order.paymentable.status" readonly
+                :placeholder="lang().label.payment_status"
+                :label="lang().label.payment_status"
+              />
             </div>     
             <div class="col-span-6">
               <FwbInput
@@ -112,13 +126,6 @@ const data = reactive({
                 :label="lang().label.note"
               />
             </div>    
-            <div class="col-span-6">
-              <FwbInput
-                v-model="data.total" readonly
-                :placeholder="lang().label.total"
-                :label="lang().label.total"
-              />
-            </div>      
             
             <div class="col-span-12">
               <h3 class="mb-4 text-xl font-semibold dark:text-white">

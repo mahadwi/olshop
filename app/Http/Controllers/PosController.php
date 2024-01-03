@@ -10,7 +10,7 @@ class PosController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::query();
+        $orders = Order::with(['paymentable']);
         
         if ($request->has('search')) {
 
@@ -42,7 +42,7 @@ class PosController extends Controller
     {       
         return Inertia::render('Pos/Show', [
             'title'         => 'Show '.__('app.label.point_of_sales'),
-            'order'         => $po->load('orderDetail.product'),
+            'order'         => $po->load(['orderDetail.product', 'paymentable']),
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.point_of_sales'), 'href' => route('pos.index')],

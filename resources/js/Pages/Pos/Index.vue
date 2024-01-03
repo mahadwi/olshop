@@ -110,6 +110,12 @@ watch(
                           {{ lang().label.total }}
                         </th>
                         <th scope="col" class="tbl-head">
+                          {{ lang().label.status }}
+                        </th>
+                        <th scope="col" class="tbl-head">
+                          {{ lang().label.payment_status }}
+                        </th>
+                        <th scope="col" class="tbl-head">
                           {{ lang().label.action }}
                         </th>
                       </tr>
@@ -126,6 +132,8 @@ watch(
                         <td class="tbl-column">{{ order.created_at }}</td>
                         <td class="tbl-column">{{ order.code }}</td>
                         <td class="tbl-column">{{ priceFormat(order.total) }}</td>
+                        <td class="tbl-column">{{ order.status }}</td>
+                        <td class="tbl-column">{{ order.paymentable.status }}</td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
                           <Link
                             :href="route('pos.show', order.id)"
