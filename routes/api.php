@@ -33,6 +33,7 @@ use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\VoucherApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
+use App\Http\Controllers\API\LocationApiController;
 use App\Http\Controllers\API\OngkirApiController;
 use App\Http\Controllers\API\OrderApiController;
 use App\Http\Controllers\ConsignmentApiController;
@@ -125,6 +126,8 @@ Route::post('ongkir', [OngkirApiController::class, 'ongkir']);
 
 Route::get('consignment', [ConsignmentApiController::class, 'index']);
 Route::get('work-with-us', [WorkWithUsApiController::class, 'index']);
+
+Route::get('location', LocationApiController::class);
 
 
 
