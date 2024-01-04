@@ -24,15 +24,12 @@ class LocationApiController extends Controller
         $ip = $this->getUserIpAddr();
 
         $location = Http::get($this->url.'?ip='.$ip)->json();
-        // $location = Http::get('https://api.ipify.org/?format=json')->json();
-
-        // dd($location);
 
         return $this->apiSuccess($location);
 
     }
 
-    function getUserIpAddr(){
+    private function getUserIpAddr(){
         if(!empty($_SERVER['HTTP_CLIENT_IP'])){
             //ip from share internet
             $ip = $_SERVER['HTTP_CLIENT_IP'];
