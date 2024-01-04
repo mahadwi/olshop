@@ -38,7 +38,7 @@ class XenditService
             'status'          => ucfirst(strtolower($data['status'])),      
             'payment_method'  => $data['payment_method'],     
             'payment_channel' => $data['payment_channel'],  
-            'paid_at'         => Carbon::parse($data['paid_at'])   
+            'paid_at'         => Carbon::parse($data['paid_at'])->setTimezone('Asia/Jakarta')
         ];        
 
         $webhook = dispatch_sync(new UpdatePaymentAction($payment, $params));

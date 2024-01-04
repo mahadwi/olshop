@@ -46,8 +46,8 @@ class StoreBookingApiAction
             $paramPayment = [
                 'external_id' => $external_id,
                 'invoice_url' => $invoice['invoice_url'], 
-                'expired' => Carbon::parse($invoice['expiry_date'])
-            ];
+                'expired' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta')
+            ];            
 
             // $paramPayment = [
             //     'external_id' => $external_id,
