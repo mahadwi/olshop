@@ -26,17 +26,19 @@ class XenditService
     public static function callbackPaid($data)
     {
         $payment = Payment::where('external_id', $data['external_id'])->first();
-
         if (!$payment) {
             throw new Exception('Payment not found', 422);
         }
     
-        if($payment->status == PaymentState::PAID){
+        if($payment->status == PaymentState::PAID && $payment->payment_method != null){
             throw new Exception('Already Paid', 422);
         }
 
         $params = [
-            'status' => ucfirst(strtolower($data['status'])),            
+            'status'          => ucfirst(strtolower($data['status'])),      
+            'payment_method'  => $data['payment_method'],     
+            'payment_channel' => $data['payment_channel'],  
+            'paid_at'         => Carbon::parse($data['paid_at'])   
         ];        
 
         $webhook = dispatch_sync(new UpdatePaymentAction($payment, $params));

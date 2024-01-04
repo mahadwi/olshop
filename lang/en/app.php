@@ -194,6 +194,9 @@ return [
         'point_of_sales' => 'Point Of Sales',
         'discount' => 'Discount',
         'ongkir' => 'Ongkir',
+        'payment_method' => 'Payment Method',
+        'payment_channel' => 'Payment Channel',
+        'paid_at' => 'Paid At',
     ],
     'button' => [
         'login' => 'Login',

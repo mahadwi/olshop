@@ -195,6 +195,9 @@ return [
         'point_of_sales' => 'Point Of Sales',
         'discount' => 'Diskon',
         'ongkir' => 'Ongkir',
+        'payment_method' => 'Metode Pembayaran',
+        'payment_channel' => 'Chanel Pembayaran',
+        'paid_at' => 'Terbayar Pada',
     ],
     'button' => [
         'login' => 'Masuk',

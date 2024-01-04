@@ -16,11 +16,14 @@ class Payment extends Model
         'external_id',
         'invoice_url',
         'expired',
+        'payment_method',
+        'payment_channel',
+        'paid_at',
     ];
 
-    // protected $casts = [
-    //     'expired' => 'date:d-m-Y',
-    // ];
+    protected $casts = [
+        'paid_at' => 'date:d-m-Y H:i:s',
+    ];
 
     public function paymentable()
     {

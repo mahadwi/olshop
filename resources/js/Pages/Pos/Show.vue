@@ -111,6 +111,13 @@ const data = reactive({
                 :placeholder="lang().label.total"
                 :label="lang().label.total"
               />
+            </div>               
+            <div class="col-span-6">
+              <FwbInput
+                v-model="props.order.note" readonly
+                :placeholder="lang().label.note"
+                :label="lang().label.note"
+              />
             </div>    
             <div class="col-span-6">
               <FwbInput
@@ -119,14 +126,29 @@ const data = reactive({
                 :label="lang().label.payment_status"
               />
             </div>     
-            <div class="col-span-6">
-              <FwbInput
-                v-model="props.order.note" readonly
-                :placeholder="lang().label.note"
-                :label="lang().label.note"
-              />
-            </div>    
-            
+            <template v-if="props.order.paymentable.status == 'Paid'">
+              <div class="col-span-6">
+                <FwbInput
+                  v-model="props.order.paymentable.payment_method" readonly
+                  :placeholder="lang().label.payment_method"
+                  :label="lang().label.payment_method"
+                />
+              </div>   
+              <div class="col-span-6">
+                <FwbInput
+                  v-model="props.order.paymentable.payment_channel" readonly
+                  :placeholder="lang().label.payment_channel"
+                  :label="lang().label.payment_channel"
+                />
+              </div>   
+              <div class="col-span-6">
+                <FwbInput
+                  v-model="props.order.paymentable.paid_at" readonly
+                  :placeholder="lang().label.paid_at"
+                  :label="lang().label.paid_at"
+                />
+              </div>   
+            </template>
             <div class="col-span-12">
               <h3 class="mb-4 text-xl font-semibold dark:text-white">
                 {{ lang().label.product }}
