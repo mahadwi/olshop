@@ -391,6 +391,24 @@ const formatUangDolarSale = (e) => {
               </div>
 
               <div class="col-span-6">
+                <InputLabel
+                  for="display_on_homepage"
+                  :value="lang().label.display_on_homepage"
+                />
+                <SelectInput
+                  id="display_on_homepage"
+                  class="mt-1 block w-full"
+                  v-model="form.display_on_homepage"
+                  :dataSet="dataSwitch"
+                >
+                </SelectInput>
+                <InputError
+                  class="mt-2"
+                  :message="form.errors.display_on_homepage"
+                />
+              </div>
+
+              <div class="col-span-6">
                 <InputLabel for="price" :value="lang().label.price" />
                 <FwbInput
                   id="price"
@@ -402,9 +420,6 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.price" />
               </div>
-            <div class="col-span-6">
-
-            </div>
 
             <div class="col-span-6">
                 <InputLabel for="price_usd" :value="lang().label.price_usd" />
@@ -437,6 +452,17 @@ const formatUangDolarSale = (e) => {
                   :message="form.errors.commission_type"
                 />
               </div>
+
+              <div class="col-span-6">
+                <FwbInput
+                  :disabled="form.commission_type == 'Selling'"
+                  v-model="form.commission"
+                  :placeholder="lang().label.commission"
+                  :label="lang().label.commission"
+                />
+                <InputError class="mt-2" :message="form.errors.commission" />
+              </div>
+
               <div class="col-span-6">
                 <FwbInput
                   :disabled="form.commission_type == 'Percent'"
@@ -447,8 +473,7 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
               </div>
-              <div class="col-span-6">
-              </div>
+
               <div class="col-span-6">
                 <FwbInput
                   :disabled="form.commission_type == 'Percent'"
@@ -459,32 +484,7 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.sale_usd" />
               </div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Selling'"
-                  v-model="form.commission"
-                  :placeholder="lang().label.commission"
-                  :label="lang().label.commission"
-                />
-                <InputError class="mt-2" :message="form.errors.commission" />
-              </div>
-              <div class="col-span-6">
-                <InputLabel
-                  for="display_on_homepage"
-                  :value="lang().label.display_on_homepage"
-                />
-                <SelectInput
-                  id="display_on_homepage"
-                  class="mt-1 block w-full"
-                  v-model="form.display_on_homepage"
-                  :dataSet="dataSwitch"
-                >
-                </SelectInput>
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.display_on_homepage"
-                />
-              </div>
+
               <div class="col-span-6">
                 <InputLabel for="color" :value="lang().label.color" />
                 <SelectInput
@@ -536,7 +536,7 @@ const formatUangDolarSale = (e) => {
                 <InputError class="mt-2" :message="form.errors.history_en" />
               </div>
 
-              <div class="col-span-12 mt-20">
+              <div class="col-span-12 mt-15">
                 <filepond
                   name="image"
                   ref="filepondRef"
