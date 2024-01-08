@@ -67,8 +67,6 @@ class ConsignmentController extends Controller
 
     public function storeSection1(ConsignmentStoreSection1Request $request)
     {
-        $consignmentDetail = ConsignmentDetail::where('section', 1)->first();
-
         try {
            // Memeriksa apakah file gambar diunggah
        
@@ -82,7 +80,9 @@ class ConsignmentController extends Controller
             ];
 
             $condition = ['section' => 1];
-            $consignment = ConsignmentDetail::updateOrInsert($condition, $params);
+            $update = ConsignmentDetail::updateOrInsert($condition, $params);
+
+            $consignmentDetail = ConsignmentDetail::where('section', 1)->first();
             
             if ($request->hasFile('imageSection1')) {
                 $file = $request->file('imageSection1');
