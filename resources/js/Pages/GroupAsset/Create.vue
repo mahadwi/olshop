@@ -23,6 +23,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
   name: "",
+  tarif_penyusutan:"",
   coa_id: "",
   coa_akumulasi_id: "",
   coa_depresiasi_id: "",
@@ -49,6 +50,7 @@ watchEffect(() => {
     form.errors = {};
   }
 });
+
 </script>
 
 <template>
@@ -66,6 +68,10 @@ watchEffect(() => {
               :label="lang().placeholder.name"
             />
             <InputError class="mt-2" :message="form.errors.name" />
+          </div>
+          <div>
+            <FwbInput v-model="form.tarif_penyusutan" :placeholder="lang().label.tarif_penyusutan" :label="lang().label.tarif_penyusutan" />
+            <InputError class="mt-2" :message="form.errors.tarif_penyusutan" />
           </div>
           <div>
             <InputLabel for="coa" :value="lang().label.coa" />

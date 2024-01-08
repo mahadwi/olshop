@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch, ref } from "vue";
+import { reactive, watch, ref, computed, onMounted } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -12,51 +12,130 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
+// import FilePondInput from '@/Components/FilePondInput.vue'
+import vueFilePond, { setOptions } from "vue-filepond";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import axios from "axios";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
 import { FwbTextarea, FwbFileInput, FwbInput } from "flowbite-vue";
-import FilePondInput from "@/Components/FilePondInput.vue";
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import { priceFormat } from "../../helper.js";
+import { priceFormat } from '../../helper.js'
 
 const props = defineProps({
+  show: Boolean,
   title: String,
+  product: Object,
   categories: Object,
   vendors: Object,
   brands: Object,
   colors: Object,
+  condition: Object,
   breadcrumbs: Object,
   commissionType: Object,
-  condition: Object,
+  images: Object,
 });
 
 const form = useForm({
-  name: "",
-  brand_id: "",
-  description: "",
-  product_category_id: "",
-  vendor_id: "",
-  stock: "",
-  price: "",
-  price_usd: "",
-  history: "",
-  entry_date: "",
-  expired_date: "",
-  description: "",
-  sale_price: "",
-  sale_usd: "",
-  commission: "",
-  commission_type: "",
-  display_on_homepage: "",
-  color_id: "",
-  condition: "",
-  image: [],
-  weight: "",
-  length: "",
-  width: "",
-  height: "",
-  description_en: "",
-  history_en: "",
+  name: props.product.name,
+  brand_id: props.product.brand_id,
+  description: props.product.description,
+  product_category_id: props.product.product_category_id,
+  vendor_id: props.product.vendor_id,
+  stock: props.product.stock,
+  price: priceFormat(props.product.price),
+  price_usd: props.product.price_usd,
+  sale_price: priceFormat(props.product.sale_price),
+  sale_usd: props.product.sale_usd,
+  commission: props.product.commission,
+  commission_type: props.product.commission_type,
+  display_on_homepage: props.product.display_on_homepage,
+  history: props.product.history,
+  history_en: props.product.history_en,
+  entry_date: props.product.entry_date,
+  expired_date: props.product.expired_date,
+  description_en: props.product.description_en,
+  color_id: props.product.color_id,
+  condition: props.product.condition,
+  weight: props.product.weight,
+  length: props.product.length,
+  width: props.product.width,
+  height: props.product.height,
 });
+
+const filepondRef = ref();
+const images = ref([]);
+const page = usePage();
+
+const filepond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginFileValidateSize,
+  FilePondPluginImagePreview
+);
+
+// Set global options on filepond init
+const handleFilePondInit = () => {
+  setOptions({
+    server: {
+      load: (source, load, error, progress, abort, headers) => {
+        // axios.get(route('product.get-image', source)).then(res).then(load);
+        let request = new XMLHttpRequest();
+        request.open("GET", route("product.get-image", source));
+        request.responseType = "blob";
+        request.onreadystatechange = () =>
+          request.readyState === 4 && load(request.response);
+        request.send();
+      },
+      process: (fieldName, file, metadata, load, error, progress, abort) => {
+        const formData = new FormData();
+        formData.append(fieldName, file, file.name);
+
+        const request = new XMLHttpRequest();
+        request.open("POST", route("product.upload-image", props.product?.id));
+        request.setRequestHeader("X-CSRF-TOKEN", page.props.token);
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+          } else {
+            error("Error");
+          }
+        };
+
+        request.send(formData);
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+      revert: (src, load) => {
+        axios.post(route("product.delete-image", props.product?.id), {
+          name: src,
+        });
+        load();
+      },
+      remove: (src, load) => {
+        axios.post(route("product.delete-image", props.product?.id), {
+          name: src,
+        });
+        load();
+      },
+      headers: { "X-CSRF-TOKEN": page.props.token },
+    },
+    files: props.images,
+  });
+};
 
 const categories = props.categories?.map((role) => ({
   label: role.name,
@@ -104,8 +183,8 @@ const formatter = ref({
   month: "MMM",
 });
 
-const create = () => {
-  form.post(route("product.store"), {
+const update = () => {
+  form.post(route("product.update", props.product?.id), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset();
@@ -117,7 +196,7 @@ const create = () => {
 
 const changeCommission = () => {
   form.sale_price = form.price;
-  form.sale_usd = form.price_usd;
+  form.sale_usd = form.price_usd
 
   if (form.commission_type == "Selling") {
     form.commission = 0;
@@ -128,52 +207,53 @@ const changeCommission = () => {
 };
 
 const formatUang = (e) => {
-  let angka = parseFloat(form.price.replace(/[^\d]/g, "")) || 0;
-  let bilangan = String(angka);
-  let hasil = "";
-  let count = 0;
+    let angka = parseFloat(form.price.replace(/[^\d]/g, '')) || 0;
+    let bilangan = String(angka);
+      let hasil = '';
+      let count = 0;
 
-  for (let i = bilangan.length - 1; i >= 0; i--) {
-    hasil = bilangan[i] + hasil;
-    count++;
+      for (let i = bilangan.length - 1; i >= 0; i--) {
+        hasil = bilangan[i] + hasil;
+        count++;
 
-    if (count === 3 && i > 0) {
-      hasil = "." + hasil;
-      count = 0;
-    }
-  }
+        if (count === 3 && i > 0) {
+          hasil = '.' + hasil;
+          count = 0;
+        }
+      }
 
-  form.price = hasil;
-};
+      form.price = hasil
+}
 
 const formatUangSale = (e) => {
-  let angka = parseFloat(e.target.value.replace(/[^\d]/g, "")) || 0;
-  let bilangan = String(angka);
-  let hasil = "";
-  let count = 0;
+    let angka = parseFloat(e.target.value.replace(/[^\d]/g, '')) || 0;
+    let bilangan = String(angka);
+      let hasil = '';
+      let count = 0;
 
-  for (let i = bilangan.length - 1; i >= 0; i--) {
-    hasil = bilangan[i] + hasil;
-    count++;
+      for (let i = bilangan.length - 1; i >= 0; i--) {
+        hasil = bilangan[i] + hasil;
+        count++;
 
-    if (count === 3 && i > 0) {
-      hasil = "." + hasil;
-      count = 0;
-    }
-  }
+        if (count === 3 && i > 0) {
+          hasil = '.' + hasil;
+          count = 0;
+        }
+      }
 
-  form.sale_price = hasil;
-};
+      form.sale_price = hasil
+}
 
 const formatUangDolar = (e) => {
-  let cleanedValue = e.target.value.replace(/[^\d.]/g, "");
-  form.price_usd = cleanedValue;
-};
+    let cleanedValue = e.target.value.replace(/[^\d.]/g, '');
+    form.price_usd = cleanedValue;
+}
 
 const formatUangDolarSale = (e) => {
-  let cleanedValue = e.target.value.replace(/[^\d.]/g, "");
-  form.sale_usd = cleanedValue;
-};
+    let cleanedValue = e.target.value.replace(/[^\d.]/g, '');
+    form.sale_usd = cleanedValue;
+}
+
 </script>
 
 <template>
@@ -191,17 +271,13 @@ const formatUangDolarSale = (e) => {
           <h3 class="mb-4 text-xl font-semibold dark:text-white">
             {{ props.title }}
           </h3>
-          <form @submit.prevent="create">
+          <form @submit.prevent="update">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-6">
-                <InputLabel for="name" :value="lang().placeholder.name" />
-                <TextInput
-                  id="name"
-                  type="text"
-                  class="mt-1 block w-full"
+                <FwbInput
                   v-model="form.name"
                   :placeholder="lang().placeholder.name"
-                  :error="form.errors.name"
+                  :label="lang().placeholder.name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
               </div>
@@ -278,7 +354,7 @@ const formatUangDolarSale = (e) => {
                 <InputError class="mt-2" :message="form.errors.weight" />
               </div>
 
-              <div class="col-span-6">
+							<div class="col-span-6">
                 <FwbInput
                   v-model="form.length"
                   :placeholder="lang().label.length"
@@ -287,7 +363,7 @@ const formatUangDolarSale = (e) => {
                 <InputError class="mt-2" :message="form.errors.length" />
               </div>
 
-              <div class="col-span-6">
+							<div class="col-span-6">
                 <FwbInput
                   v-model="form.width"
                   :placeholder="lang().label.width"
@@ -296,7 +372,7 @@ const formatUangDolarSale = (e) => {
                 <InputError class="mt-2" :message="form.errors.width" />
               </div>
 
-              <div class="col-span-6">
+							<div class="col-span-6">
                 <FwbInput
                   v-model="form.height"
                   :placeholder="lang().label.height"
@@ -306,14 +382,10 @@ const formatUangDolarSale = (e) => {
               </div>
 
               <div class="col-span-6">
-                <InputLabel for="stock" :value="lang().label.stock" />
-                <TextInput
-                  id="stock"
-                  type="number"
-                  class="mt-1 block w-full"
+                <FwbInput
                   v-model="form.stock"
                   :placeholder="lang().label.stock"
-                  :error="form.errors.stock"
+                  :label="lang().label.stock"
                 />
                 <InputError class="mt-2" :message="form.errors.stock" />
               </div>
@@ -330,21 +402,22 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.price" />
               </div>
+            <div class="col-span-6">
 
-              <div class="col-span-6"></div>
+            </div>
 
-              <div class="col-span-6">
+            <div class="col-span-6">
                 <InputLabel for="price_usd" :value="lang().label.price_usd" />
                 <FwbInput
-                  id="price_usd"
-                  class="mt-1 block w-full"
-                  v-model="form.price_usd"
-                  :placeholder="lang().label.price_usd"
-                  :error="form.errors.price_usd"
-                  @input="formatUangDolar"
+                    id="price_usd"
+                    class="mt-1 block w-full"
+                    v-model="form.price_usd"
+                    :placeholder="lang().label.price_usd"
+                    :error="form.errors.price_usd"
+                    @input="formatUangDolar"
                 />
                 <InputError class="mt-2" :message="form.errors.price_usd" />
-              </div>
+            </div>
 
               <div class="col-span-6">
                 <InputLabel
@@ -374,7 +447,8 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.sale_price" />
               </div>
-              <div class="col-span-6"></div>
+              <div class="col-span-6">
+              </div>
               <div class="col-span-6">
                 <FwbInput
                   :disabled="form.commission_type == 'Percent'"
@@ -411,7 +485,6 @@ const formatUangDolarSale = (e) => {
                   :message="form.errors.display_on_homepage"
                 />
               </div>
-
               <div class="col-span-6">
                 <InputLabel for="color" :value="lang().label.color" />
                 <SelectInput
@@ -423,7 +496,6 @@ const formatUangDolarSale = (e) => {
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.color_id" />
               </div>
-
               <div class="col-span-6">
                 <InputLabel for="condition" :value="lang().label.condition" />
                 <SelectInput
@@ -435,42 +507,16 @@ const formatUangDolarSale = (e) => {
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.condition" />
               </div>
-
               <div class="col-span-6">
-                <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
-                  {{ lang().label.description }}
-                </label>
-                <QuillEditor
-                  theme="snow"
-                  toolbar="essential"
-                  content-type="html"
-                  :placeholder="lang().label.description"
-                  v-model:content="form.description"
-                />
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
+                <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description" v-model:content="form.description" />
                 <InputError class="mt-2" :message="form.errors.description" />
               </div>
-
               <div class="col-span-6">
-                <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
-                  {{ lang().label.description_en }}
-                </label>
-                <QuillEditor
-                  theme="snow"
-                  toolbar="essential"
-                  content-type="html"
-                  :placeholder="lang().label.description_en"
-                  v-model:content="form.description_en"
-                />
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.description_en"
-                />
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
+                <QuillEditor theme="snow" toolbar="essential" content-type="html" :placeholder="lang().label.description_en" v-model:content="form.description_en" />
+                <InputError class="mt-2" :message="form.errors.description_en" />
               </div>
-
               <div class="col-span-6 mt-20">
                 <FwbTextarea
                   rows="4"
@@ -480,7 +526,6 @@ const formatUangDolarSale = (e) => {
                 />
                 <InputError class="mt-2" :message="form.errors.history" />
               </div>
-
               <div class="col-span-6 mt-20">
                 <FwbTextarea
                   rows="4"
@@ -492,8 +537,16 @@ const formatUangDolarSale = (e) => {
               </div>
 
               <div class="col-span-12 mt-20">
-                <FilePondInput v-model="form.image" accept="image/*" />
-                <InputError class="mt-2" :message="form.errors.image" />
+                <filepond
+                  name="image"
+                  ref="filepondRef"
+                  label-idle="Upload Images..."
+                  :allow-multiple="true"
+                  accepted-file-types="image/jpeg, image/png"
+                  maxFileSize="1MB"
+                  :files="images"
+                  @init="handleFilePondInit"
+                />
               </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
@@ -504,8 +557,8 @@ const formatUangDolarSale = (e) => {
                 >
                   {{
                     form.processing
-                      ? lang().button.add + "..."
-                      : lang().button.add
+                      ? lang().button.save + "..."
+                      : lang().button.save
                   }}
                 </PrimaryButton>
                 <SecondaryButton
@@ -520,22 +573,7 @@ const formatUangDolarSale = (e) => {
         </div>
       </div>
     </div>
-
-    <!-- <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center mb-4 sm:mb-0">
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold text-gray-900 dark:text-white">1-20</span> of <span class="font-semibold text-gray-900 dark:text-white">2290</span></span>
-            </div>
-            <div class="flex items-center space-x-3">
-                <a href="#" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    Previous
-                </a>
-                <a href="#" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Next
-                    <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                </a>
-            </div>
-        </div> -->
   </AuthenticatedLayout>
 </template>
+
 

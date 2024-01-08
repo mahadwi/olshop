@@ -1,4 +1,4 @@
-export { priceFormat, round, truncate, dataSwitch };
+export { priceFormat, round, truncate, dataSwitch, calculatePpn };
 
 function priceFormat(amount = 0) {
     var rupiah = "";
@@ -23,6 +23,16 @@ function round(num, decimalPlaces = 0) {
 function truncate (value, length) {
     let isi = value ?? '';
     return isi.length > length ? value.slice(0, length) + "......" : isi;
+}
+
+function calculatePpn (price, ppn) {
+    let tmpPrice = parseFloat(price);
+
+    let calc = (ppn / 100) * price;
+
+    tmpPrice += calc;
+    
+    return tmpPrice;
 }
 
 const dataSwitch = [

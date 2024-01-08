@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GroupAssetUpdateRequest extends FormRequest
+class PembelianAssetUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,15 @@ class GroupAssetUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'tarif_penyusutan' => 'required',
-            'coa_id' => 'required',
-            'coa_akumulasi_id' => 'required',
-            'coa_depresiasi_id' => 'required',
-            'metode_penyusutan' => 'required',
-            'umur' => 'integer',
+            'tanggal' => 'required|date_format:d-m-Y',
+            'vendor_id' => 'required',
+            'jatuh_tempo' => 'required|integer',
+            'tanggal_jatuh_tempo' => 'required|date_format:d-m-Y',
+            'asset_id' => 'required',
+            'qty' => 'required|integer',
+            'jenis_ppn' => 'required',
+            'price' => 'required',
+            'total' => 'required',
         ];
     }
 }

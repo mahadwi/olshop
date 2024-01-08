@@ -11,10 +11,16 @@ class GroupAsset extends Model
 
     protected $fillable = [
         'name',
+        'tarif_penyusutan',
         'coa_id',
         'coa_akumulasi_id',
         'coa_depresiasi_id',
         'umur',
         'metode_penyusutan',
     ];
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

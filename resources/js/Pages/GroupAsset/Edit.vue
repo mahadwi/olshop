@@ -27,6 +27,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
   name: "",
+  tarif_penyusutan:"",
   coa_id: "",
   coa_akumulasi_id: "",
   coa_depresiasi_id: "",
@@ -50,6 +51,7 @@ watchEffect(() => {
   if (props.show) {
     form.errors = {};
     form.name = props.groupAsset?.name;
+    form.tarif_penyusutan = props.groupAsset?.tarif_penyusutan;
     form.coa_id = props.groupAsset?.coa_id;
     form.coa_akumulasi_id = props.groupAsset?.coa_akumulasi_id;
     form.coa_depresiasi_id = props.groupAsset?.coa_depresiasi_id;
@@ -80,6 +82,10 @@ watchEffect(() => {
               :error="form.errors.name"
             />
             <InputError class="mt-2" :message="form.errors.name" />
+          </div>
+          <div>
+            <FwbInput v-model="form.tarif_penyusutan" :placeholder="lang().label.tarif_penyusutan" :label="lang().label.tarif_penyusutan" />
+            <InputError class="mt-2" :message="form.errors.tarif_penyusutan" />
           </div>
           <div>
             <InputLabel for="coa" :value="lang().label.coa" />

@@ -24,6 +24,7 @@ class GroupAssetStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:' . GroupAsset::class,
+            'tarif_penyusutan' => 'required',
             'coa_id' => 'required',
             'coa_akumulasi_id' => 'required',
             'coa_depresiasi_id' => 'required',
