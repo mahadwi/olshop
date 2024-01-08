@@ -9,6 +9,7 @@ use App\Models\ConsignmentCard;
 use App\Models\ConsignmentDetail;
 use App\Services\File\UploadService;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Actions\StoreReturnPoliceAction;
 use App\Actions\UpdateReturnPoliceAction;
 use App\Http\Requests\WorkWithUsStoreRequest;
@@ -66,8 +67,6 @@ class ConsignmentController extends Controller
 
     public function storeSection1(ConsignmentStoreSection1Request $request)
     {
-        $consignmentDetail = ConsignmentDetail::where('section', 1)->first();
-
         try {
            // Memeriksa apakah file gambar diunggah
        
@@ -81,7 +80,9 @@ class ConsignmentController extends Controller
             ];
 
             $condition = ['section' => 1];
-            $consignment = ConsignmentDetail::updateOrInsert($condition, $params);
+            $update = ConsignmentDetail::updateOrInsert($condition, $params);
+
+            $consignmentDetail = ConsignmentDetail::where('section', 1)->first();
             
             if ($request->hasFile('imageSection1')) {
                 $file = $request->file('imageSection1');
@@ -295,6 +296,27 @@ class ConsignmentController extends Controller
             return back()->with('success', __('app.label.created_successfully', ['name' => $request->title]));
         } catch (\Throwable $th) {
             return back()->with('error', __('app.label.created_error', ['name' => $request->title]) . $th->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        $model = Consignment::find($id);
+        if(!$model){
+            return back()->with('error', __('app.label.deleted_error', ['name' => __('app.label.data_not_found')]));
+        }
+        try {
+            $model->delete();
+
+            //delete image folder
+            $folder = public_path('image/consignment');
+            if(File::exists($folder)){
+                File::deleteDirectory($folder);
+            }
+
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $model->title]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.deleted_error', ['name' => $model->title]) . $th->getMessage());
         }
     }
 }

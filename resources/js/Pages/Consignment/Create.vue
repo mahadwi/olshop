@@ -218,8 +218,8 @@ watchEffect(() => {
                             </PrimaryButton>
                         </div>
                     </form>
-                     <hr>
-                     <div>
+                    <hr>
+                    <div v-if="props.consignment.length > 0">
                         <fwb-tabs v-model="activeTab" variant="pills" class="p-5">
                             <fwb-tab name="section1" title="Section 1">
                                 <div class="dividenTitle">
