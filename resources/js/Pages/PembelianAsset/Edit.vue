@@ -296,16 +296,10 @@ onMounted(() => {
                 >
                   {{
                     form.processing
-                      ? lang().button.add + "..."
-                      : lang().button.add
+                      ? lang().button.save + "..."
+                      : lang().button.save
                   }}
                 </PrimaryButton>
-                <SecondaryButton
-                  :disabled="form.processing"
-                  @click="form.reset()"
-                >
-                  Reset
-                </SecondaryButton>
               </div>
             </div>
           </form>
