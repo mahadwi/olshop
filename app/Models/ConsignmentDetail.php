@@ -30,6 +30,7 @@ class ConsignmentDetail extends Model
         static::deleted(function (ConsignmentDetail $consignmentDetail) {
             //also delete file if exist
             $imageFile = public_path('image/consignment/'.$consignmentDetail->image);
+
             if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
