@@ -35,7 +35,7 @@ class WorkWithUsStoreSection1Request extends FormRequest
     {
         $this->merge([
             'descriptionSection1' => $this->descriptionSection1 == "<p><br></p>" ? "" : $this->descriptionSection1,
-            'descriptionEnSection1' => $this->descriptionEnSection1 == "<p><br></p>" ? "" : $this->descriptionSection1
+            'descriptionEnSection1' => $this->descriptionEnSection1 == "<p><br></p>" ? "" : $this->descriptionEnSection1
         ]);
     }
 }
