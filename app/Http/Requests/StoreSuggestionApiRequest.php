@@ -25,6 +25,7 @@ class StoreSuggestionApiRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'suggestion' => 'required|string|max:255',
+            'recapcha' => 'required|string',
         ];
     }
 }

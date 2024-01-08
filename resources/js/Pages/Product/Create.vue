@@ -319,82 +319,6 @@ const formatUangDolarSale = (e) => {
               </div>
 
               <div class="col-span-6">
-                <InputLabel for="price" :value="lang().label.price" />
-                <FwbInput
-                  id="price"
-                  class="mt-1 block w-full"
-                  v-model="form.price"
-                  :placeholder="lang().label.price"
-                  :error="form.errors.price"
-                  @input="formatUang"
-                />
-                <InputError class="mt-2" :message="form.errors.price" />
-              </div>
-
-              <div class="col-span-6"></div>
-
-              <div class="col-span-6">
-                <InputLabel for="price_usd" :value="lang().label.price_usd" />
-                <FwbInput
-                  id="price_usd"
-                  class="mt-1 block w-full"
-                  v-model="form.price_usd"
-                  :placeholder="lang().label.price_usd"
-                  :error="form.errors.price_usd"
-                  @input="formatUangDolar"
-                />
-                <InputError class="mt-2" :message="form.errors.price_usd" />
-              </div>
-
-              <div class="col-span-6">
-                <InputLabel
-                  for="commission_type"
-                  :value="lang().label.commission_type"
-                />
-                <SelectInput
-                  id="commission_type"
-                  class="mt-1 block w-full"
-                  v-model="form.commission_type"
-                  :dataSet="commissionType"
-                  @change="changeCommission()"
-                >
-                </SelectInput>
-                <InputError
-                  class="mt-2"
-                  :message="form.errors.commission_type"
-                />
-              </div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Percent'"
-                  v-model="form.sale_price"
-                  :placeholder="lang().label.sale_price"
-                  :label="lang().label.sale_price"
-                  @input="formatUangSale"
-                />
-                <InputError class="mt-2" :message="form.errors.sale_price" />
-              </div>
-              <div class="col-span-6"></div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Percent'"
-                  v-model="form.sale_usd"
-                  :placeholder="lang().label.sale_usd"
-                  :label="lang().label.sale_usd"
-                  @input="formatUangDolarSale"
-                />
-                <InputError class="mt-2" :message="form.errors.sale_usd" />
-              </div>
-              <div class="col-span-6">
-                <FwbInput
-                  :disabled="form.commission_type == 'Selling'"
-                  v-model="form.commission"
-                  :placeholder="lang().label.commission"
-                  :label="lang().label.commission"
-                />
-                <InputError class="mt-2" :message="form.errors.commission" />
-              </div>
-              <div class="col-span-6">
                 <InputLabel
                   for="display_on_homepage"
                   :value="lang().label.display_on_homepage"
@@ -413,16 +337,93 @@ const formatUangDolarSale = (e) => {
               </div>
 
               <div class="col-span-6">
+                <InputLabel for="price" :value="lang().label.price" />
+                <FwbInput
+                  id="price"
+                  class="mt-1 block w-full"
+                  v-model="form.price"
+                  :placeholder="lang().label.price"
+                  :error="form.errors.price"
+                  @input="formatUang"
+                />
+                <InputError class="mt-2" :message="form.errors.price" />
+              </div>
+
+            <div class="col-span-6">
+                <InputLabel for="price_usd" :value="lang().label.price_usd" />
+                <FwbInput
+                  id="price_usd"
+                  class="mt-1 block w-full"
+                  v-model="form.price_usd"
+                  :placeholder="lang().label.price_usd"
+                  :error="form.errors.price_usd"
+                  @input="formatUangDolar"
+                />
+                <InputError class="mt-2" :message="form.errors.price_usd" />
+              </div>
+
+            <div class="col-span-6">
+                <InputLabel
+                    for="commission_type"
+                    :value="lang().label.commission_type"
+                />
+                <SelectInput
+                    id="commission_type"
+                    class="mt-1 block w-full"
+                    v-model="form.commission_type"
+                    :dataSet="commissionType"
+                    @change="changeCommission()"
+                >
+                </SelectInput>
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.commission_type"
+                />
+            </div>
+
+            <div class="col-span-6">
+                <FwbInput
+                    :disabled="form.commission_type == 'Selling'"
+                    v-model="form.commission"
+                    :placeholder="lang().label.commission"
+                    :label="lang().label.commission"
+                />
+                <InputError class="mt-2" :message="form.errors.commission" />
+            </div>
+
+            <div class="col-span-6">
+                <FwbInput
+                    :disabled="form.commission_type == 'Percent'"
+                    v-model="form.sale_price"
+                    :placeholder="lang().label.sale_price"
+                    :label="lang().label.sale_price"
+                    @input="formatUangSale"
+                />
+                <InputError class="mt-2" :message="form.errors.sale_price" />
+            </div>
+
+            <div class="col-span-6">
+                <FwbInput
+                    :disabled="form.commission_type == 'Percent'"
+                    v-model="form.sale_usd"
+                    :placeholder="lang().label.sale_usd"
+                    :label="lang().label.sale_usd"
+                    @input="formatUangDolarSale"
+                />
+                <InputError class="mt-2" :message="form.errors.sale_usd" />
+            </div>
+
+            <div class="col-span-6">
                 <InputLabel for="color" :value="lang().label.color" />
                 <SelectInput
-                  id="color"
-                  class="mt-1 block w-full"
-                  v-model="form.color_id"
-                  :dataSet="colors"
+                    id="color"
+                    class="mt-1 block w-full"
+                    v-model="form.color_id"
+                    :dataSet="colors"
                 >
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.color_id" />
-              </div>
+            </div>
 
               <div class="col-span-6">
                 <InputLabel for="condition" :value="lang().label.condition" />
@@ -481,20 +482,23 @@ const formatUangDolarSale = (e) => {
                 <InputError class="mt-2" :message="form.errors.history" />
               </div>
 
-              <div class="col-span-6 mt-20">
-                <FwbTextarea
-                  rows="4"
-                  :placeholder="lang().label.history_en"
-                  v-model="form.history_en"
-                  :label="lang().label.history_en"
-                />
-                <InputError class="mt-2" :message="form.errors.history_en" />
-              </div>
+            <div class="col-span-6 mt-20">
+            <FwbTextarea
+                rows="4"
+                :placeholder="lang().label.history_en"
+                v-model="form.history_en"
+                :label="lang().label.history_en"
+            />
+            <InputError class="mt-2" :message="form.errors.history_en" />
+            </div>
 
-              <div class="col-span-12 mt-20">
-                <FilePondInput v-model="form.image" accept="image/*" />
+            <div class="col-span-12 mt-15">
+                <FilePondInput
+                    v-model="form.image"
+                    accept="image/*"
+                />
                 <InputError class="mt-2" :message="form.errors.image" />
-              </div>
+            </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
                 <PrimaryButton

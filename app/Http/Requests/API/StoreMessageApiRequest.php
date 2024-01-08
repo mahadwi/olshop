@@ -28,6 +28,7 @@ class StoreMessageApiRequest extends FormRequest
             'handphone' => 'string|min:9|max:16',
             'subject' => 'required|string',
             'message' => 'required|string',
+            'recapcha' => 'required|string',
         ];
     }
 
