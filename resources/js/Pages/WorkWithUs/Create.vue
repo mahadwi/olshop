@@ -287,8 +287,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
@@ -373,8 +373,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
@@ -459,8 +459,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
@@ -524,8 +524,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
@@ -610,8 +610,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
@@ -696,8 +696,8 @@ watchEffect(() => {
                                             <PrimaryButton
                                                 type="submit"
                                                 class="ml-3"
-                                                :class="{ 'opacity-25': form.processing }"
-                                                :disabled="form.processing"
+                                                :class="{ 'opacity-25': form.processing || !props.workWithUs.length }"
+                                                :disabled="!props.workWithUs.length || form.processing"
                                             >
                                                 {{
                                                     form.processing
