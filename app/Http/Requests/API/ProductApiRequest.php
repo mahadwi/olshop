@@ -27,6 +27,7 @@ class ProductApiRequest extends FormRequest
         return [
             'brand_id' => ['nullable', 'array'],
             'category_id' => ['nullable', 'array'],
+            'color_id' => ['nullable', 'array'],
             'price_min' => ['nullable', 'integer', 'min:0'],
             'price_max' => ['nullable', 'integer', 'min:0'],
             'sort_by' => ['nullable', 'in:name_asc,name_desc,price_asc,price_desc,date_asc,date_desc'],

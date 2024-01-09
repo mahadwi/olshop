@@ -56,7 +56,7 @@ class ProductRepository extends AbstractRepository
                 $query->whereIn('product_category_id', $params['category_id']);
             })
             ->when(isset($params['color_id']), function ($query) use ($params) {
-                $query->where('color_id', $params['color_id']);
+                $query->whereIn('color_id', $params['color_id']);
             })
             ->when(isset($params['price_min']) && isset($params['price_max']), function ($query) use ($params) {               
                 $query->where('price', '>=', $params['price_min']);
