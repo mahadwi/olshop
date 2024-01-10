@@ -6,36 +6,27 @@ use Inertia\Inertia;
 use App\Models\Authentication;
 use App\Models\AuthenticationDetail;
 use Illuminate\Http\Request;
-use App\Actions\StoreAuthenticationAction;
-use App\Actions\UpdateAuthenticationAction;
 use App\Http\Requests\AuthenticationStoreRequest;
+use App\Http\Requests\AuthenticationStoreSection1Request;
+use App\Http\Requests\AuthenticationStoreSection2Request;
+use App\Http\Requests\AuthenticationStoreSection3Request;
 use App\Http\Requests\AuthenticationUpdateRequest;
-use App\Actions\StoreAuthenticationDetailAction;
-use App\Actions\UpdateAuthenticationDetailAction;
+use App\Services\File\UploadService;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class AuthenticationController extends Controller
 {
     public function index(Request $request)
     {
-        $authentication = Authentication::query();
-        $authenticationDetail = AuthenticationDetail::query();
+        $authentication = Authentication::get();
+        $authenticationDetail = AuthenticationDetail::get();
 
-        if ($request->has('search')) {
-            $authenticationDetail->where('title', 'ILIKE', "%" . $request->search . "%");
-        }
-        if ($request->has(['field', 'order'])) {
-            $authenticationDetail->orderBy($request->field, $request->order);
-        }
-
-        $authenticationDetail->orderBy('id');
-
-        $perPage = $request->has('perPage') ? $request->perPage : 10;
         return Inertia::render('Authentication/Index', [
             'title' => 'Data '.__('app.label.authentication'),
-            'filters'       => $request->all(['search', 'field', 'order']),
-            'perPage'       => (int) $perPage,
-            'authentications'     => $authentication->paginate($perPage),
-            'detailAuthentications' => $authenticationDetail->paginate($perPage),
+            'authentications'     => $authentication,
+            'detailAuthentications' => $authenticationDetail,
             'breadcrumbs'   => [
                 ['label' => 'Setting', 'href' => '#'],
                 ['label' => __('app.label.authentication'), 'href' => route('authentication.index')],
@@ -46,78 +37,170 @@ class AuthenticationController extends Controller
     public function store(AuthenticationStoreRequest $request)
     {
         try {
-            $authentication = dispatch_sync(new StoreAuthenticationAction($request->all()));
+            $params = [
+                'id' => 1,
+                'title' => $request->title,
+                'title_en' => $request->title_en,
+                'description' => $request->description,
+                'description_en' => $request->description_en,
+                'no_hp' => $request->no_hp,
+                'link' => $request->link,
+            ];
 
-            for ($i = 1; $i <= 3; $i++) {
+            $condition = ['id' => 1];
+            $authentication = Authentication::updateOrInsert($condition, $params);
 
-                $titleSection = "titleSection" . $i;
-                $titleEnSection = "titleEnSection" . $i;
-                $descriptionSection = "descriptionSection" . $i;
-                $descriptionEnSection = "descriptionEnSection" . $i;
-                $image = "imageSection" . $i;
-                if ($request->$titleSection) {
-
-                    $paramsDetail = [
-                        'authentication_id' => $authentication->id,
-                        'title' => $request->$titleSection,
-                        'title_en' => $request->$titleEnSection,
-                        'description' => $request->$descriptionSection,
-                        'description_en' => $request->$descriptionEnSection,
-                        'image' => $request->$image,
-                        'section' => $i
-                    ];
-                    $authenticationDetail = dispatch_sync(new StoreAuthenticationDetailAction($paramsDetail));
-                }
-            }
-
-            return back()->with('success', __('app.label.created_successfully', ['name' => $authentication ->name]));
+            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.return_police')]) . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => $params['title']]) . $th->getMessage());
         }
     }
 
-    public function update(AuthenticationUpdateRequest $request, Authentication $authentication)
+    public function storeSection1(AuthenticationStoreSection1Request $request)
     {
+        $authenticationDetail = AuthenticationDetail::where('section', 1)->first();
+
         try {
-            $authentication = dispatch_sync(new UpdateAuthenticationAction($authentication, $request->all()));
-            for ($i = 1; $i <= 3; $i++) {
+           // Memeriksa apakah file gambar diunggah
+        if ($request->hasFile('imageSection1')) {
+            $file = $request->file('imageSection1');
 
-                $authenticationDetailId_section = "authenticationDetailId_section" . $i;
-                $titleSection = "titleSection" . $i;
-                $titleEnSection = "titleEnSection" . $i;
-                $descriptionSection = "descriptionSection" . $i;
-                $descriptionEnSection = "descriptionEnSection" . $i;
-                $image = "imageSection" . $i;
-                if ($request->$titleSection) {
-                    $paramsDetail = [
-                        'authentication_id' => $authentication->id,
-                        'title' => $request->$titleSection,
-                        'title_en' => $request->$titleEnSection,
-                        'description' => $request->$descriptionSection,
-                        'description_en' => $request->$descriptionEnSection,
-                        'image' => $request->$image,
-                        'section' => $i
-                    ];
+           // Menghapus file lama jika ada
+        if ($authenticationDetail && File::exists(public_path('image/authentication/'.$authenticationDetail->image))) {
+            File::delete(public_path('image/authentication/'.$authenticationDetail->image));
+        }
 
-                    if ($request->$authenticationDetailId_section) {
-                        $authenticationDetail = AuthenticationDetail::find($request->$authenticationDetailId_section);
+            $uploadService = new UploadService();
+            $uploadedFile = $uploadService->saveFile($file, 'authentication');
 
-                        $dataDetail = dispatch_sync(new UpdateAuthenticationDetailAction($authenticationDetail, $paramsDetail));
-                    } else {
-                        $authenticationDetail = dispatch_sync(new StoreAuthenticationDetailAction($paramsDetail));
-                    }
-                }
-            }
-            return back()->with('success', __('app.label.updated_successfully', ['name' => $authentication->title]));
+            // Menggunakan nama file yang diunggah untuk menyimpan ke database
+            $params = [
+                'authentication_id' => 1,
+                'section' => 1,
+                'title' => $request->titleSection1,
+                'title_en' => $request->titleEnSection1,
+                'description' => $request->descriptionSection1,
+                'description_en' => $request->descriptionEnSection1,
+                'image' => $uploadedFile['name'], // Menggunakan nama file yang diunggah
+            ];
+        } else {
+            // Jika tidak ada file gambar diunggah, gunakan nilai default atau kosong sesuai kebutuhan
+            $params = [
+                'authentication_id' => 1,
+                'section' => 1,
+                'title' => $request->titleSection1,
+                'title_en' => $request->titleEnSection1,
+                'description' => $request->descriptionSection1,
+                'description_en' => $request->descriptionEnSection1,
+                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+            ];
+        }
+
+            $condition = ['section' => 1];
+            $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.updated_error', ['name' => $authentication->title]) . $th->getMessage());
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.authentication')]) . $th->getMessage());
         }
     }
 
-    public function getDetail(Request $request)
+    public function storeSection2(AuthenticationStoreSection2Request $request)
     {
-        $data = AuthenticationDetail::where('authentication_id', $request->authentication_id)->get();
-        return response()->json($data);
+        $authenticationDetail = AuthenticationDetail::where('section', 2)->first();
+
+        try {
+           // Memeriksa apakah file gambar diunggah
+        if ($request->hasFile('imageSection2')) {
+            $file = $request->file('imageSection2');
+
+           // Menghapus file lama jika ada
+        if ($authenticationDetail && File::exists(public_path('image/authentication/'.$authenticationDetail->image))) {
+            File::delete(public_path('image/authentication/'.$authenticationDetail->image));
+        }
+
+            $uploadService = new UploadService();
+            $uploadedFile = $uploadService->saveFile($file, 'authentication');
+
+            // Menggunakan nama file yang diunggah untuk menyimpan ke database
+            $params = [
+                'authentication_id' => 1,
+                'section' => 2,
+                'title' => $request->titleSection2,
+                'title_en' => $request->titleEnSection2,
+                'description' => $request->descriptionSection2,
+                'description_en' => $request->descriptionEnSection2,
+                'image' => $uploadedFile['name'], // Menggunakan nama file yang diunggah
+            ];
+        } else {
+            // Jika tidak ada file gambar diunggah, gunakan nilai default atau kosong sesuai kebutuhan
+            $params = [
+                'authentication_id' => 1,
+                'section' => 2,
+                'title' => $request->titleSection2,
+                'title_en' => $request->titleEnSection2,
+                'description' => $request->descriptionSection2,
+                'description_en' => $request->descriptionEnSection2,
+                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+            ];
+        }
+
+            $condition = ['section' => 2];
+            $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.authentication')]) . $th->getMessage());
+        }
+    }
+
+    public function storeSection3(AuthenticationStoreSection3Request $request)
+    {
+        $authenticationDetail = AuthenticationDetail::where('section', 3)->first();
+
+        try {
+           // Memeriksa apakah file gambar diunggah
+        if ($request->hasFile('imageSection3')) {
+            $file = $request->file('imageSection3');
+
+           // Menghapus file lama jika ada
+        if ($authenticationDetail && File::exists(public_path('image/authentication/'.$authenticationDetail->image))) {
+            File::delete(public_path('image/authentication/'.$authenticationDetail->image));
+        }
+
+            $uploadService = new UploadService();
+            $uploadedFile = $uploadService->saveFile($file, 'authentication');
+
+            // Menggunakan nama file yang diunggah untuk menyimpan ke database
+            $params = [
+                'authentication_id' => 1,
+                'section' => 3,
+                'title' => $request->titleSection3,
+                'title_en' => $request->titleEnSection3,
+                'description' => $request->descriptionSection3,
+                'description_en' => $request->descriptionEnSection3,
+                'image' => $uploadedFile['name'], // Menggunakan nama file yang diunggah
+            ];
+        } else {
+            // Jika tidak ada file gambar diunggah, gunakan nilai default atau kosong sesuai kebutuhan
+            $params = [
+                'authentication_id' => 1,
+                'section' => 3,
+                'title' => $request->titleSection3,
+                'title_en' => $request->titleEnSection3,
+                'description' => $request->descriptionSection3,
+                'description_en' => $request->descriptionEnSection3,
+                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+            ];
+        }
+
+            $condition = ['section' => 3];
+            $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
+
+            return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
+        } catch (\Throwable $th) {
+            return back()->with('error', __('app.label.created_error', ['name' => __('app.label.authentication')]) . $th->getMessage());
+        }
     }
 
     public function destroy($id)

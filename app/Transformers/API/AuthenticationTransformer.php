@@ -45,6 +45,9 @@ class AuthenticationTransformer extends TransformerAbstract
 
     public function includeAuthenticationSections($authentication)
     {
-        return $this->collection($authentication->authenticationDetail, new AuthenticationDetailTransformer);
+        $authenticationDetails = $authentication->authenticationDetail->sortBy('section');
+
+        return $this->collection($authenticationDetails, new AuthenticationDetailTransformer);
     }
+
 }

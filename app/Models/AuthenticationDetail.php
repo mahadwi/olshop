@@ -28,7 +28,7 @@ class AuthenticationDetail extends Model
     {
         static::deleted(function (AuthenticationDetail $authenticationDetail) {
             //also delete file if exist
-            $imageFile = public_path('image/'.$authenticationDetail->image);
+            $imageFile = public_path('image/authentication/'.$authenticationDetail->image);
             if(File::exists($imageFile)){
                 //delete file
                 File::delete($imageFile);
@@ -38,7 +38,7 @@ class AuthenticationDetail extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('image/'.$this->image);
+        return asset('image/authentication/'.$this->image);
     }
 
     public function authentication() {

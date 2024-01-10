@@ -35,6 +35,7 @@ class AuthenticationDetailTransformer extends TransformerAbstract
         return [
             'id'                => $authenticationDetail->id,
             'authentication_id' => $authenticationDetail->authentication_id,
+            'section'           => $authenticationDetail->section,
             'title'             => $authenticationDetail->title,
             'title_en'          => $authenticationDetail->title_en,
             'description'       => $authenticationDetail->description,

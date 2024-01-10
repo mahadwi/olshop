@@ -10,7 +10,6 @@ use App\Http\Controllers\TermConditionController;
 use App\Http\Controllers\DeliveryShippingController;
 use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\AuthenticationDetailController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
 
@@ -55,9 +54,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('customer-care/{customerCare}/update', [CustomerCareController::class, 'update'])->name('customer-care.update');
 
     Route::resource('/authentication', AuthenticationController::class)->except('create', 'show', 'edit', 'update');
-    Route::get('/authentication/get-detail', [AuthenticationController::class, 'getDetail']);
-    Route::post('authentication/{authentication}/update', [AuthenticationController::class, 'update'])->name('authentication.update');
-    Route::resource('/authentication-detail', AuthenticationDetailController::class)->except('index','create', 'show', 'edit');
+    Route::post('store-authentication-section1', [AuthenticationController::class, 'storeSection1'])->name('authentication.storeSection1');
+    Route::post('store-authentication-section2', [AuthenticationController::class, 'storeSection2'])->name('authentication.storeSection2');
+    Route::post('store-authentication-section3', [AuthenticationController::class, 'storeSection3'])->name('authentication.storeSection3');
 
     Route::resource('/work-with-us', WorkWithUsController::class)->except('create', 'show', 'edit', 'update');
     Route::post('store-section1', [WorkWithUsController::class, 'storeSection1'])->name('work-with-us.storeSection1');

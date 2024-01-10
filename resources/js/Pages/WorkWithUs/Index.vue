@@ -11,12 +11,14 @@ import Delete from "@/Pages/WorkWithUs/Delete.vue";
 // import Edit from "@/Pages/WorkWithUs/Edit.vue";
 
 const { _, debounce, pickBy } = pkg;
+
 const props = defineProps({
     title: String,
     workWithUs: Object,
     workWithUsDetail: Object,
     breadcrumbs:Object,
 });
+
 const data = reactive({
     createOpen: false,
     editOpen: false,
