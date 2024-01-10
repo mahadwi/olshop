@@ -1,26 +1,27 @@
 <?php
 
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CoaController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\GroupCoaController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CoaController;
+use App\Http\Controllers\PosController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PembelianAssetController;
-use App\Http\Controllers\PosController;
-use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\GroupCoaController;
+use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\PembelianAssetController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\PendaftaranAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,5 +59,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('send-email', [SendEmailController::class, 'send'])->name('send-email');
 
     Route::resource('/pembelian-asset', PembelianAssetController::class);
+    Route::resource('/pendaftaran-asset', PendaftaranAssetController::class);
 
 });
