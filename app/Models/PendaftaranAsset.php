@@ -6,27 +6,24 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PembelianAsset extends Model
+class PendaftaranAsset extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'nomor', 
         'tanggal', 
-        'vendor_id',
-        'jatuh_tempo', 
-        'tanggal_jatuh_tempo', 
-        'asset_id',
-        'qty',
-        'jenis_ppn',
-        'price',
-        'total',
-        'keterangan'
+        "pembelian_asset_id",
+        "group_asset_id",
+        "asset_id",
+        "metode_penyusutan",
+        "tarif_penyusutan",
+        "umur",
+        "nilai_perolehan",
     ];
 
     protected $casts = [
         'tanggal' => 'date:d-m-Y',
-        'tanggal_jatuh_tempo' => 'date:d-m-Y',
     ];
 
     public function setTanggalAttribute($value)
@@ -34,9 +31,14 @@ class PembelianAsset extends Model
         $this->attributes['tanggal'] = Carbon::parse($value)->format('Y-m-d');
     }
 
-    public function setTanggalJatuhTempoAttribute($value)
+    public function pembelianAsset()
     {
-        $this->attributes['tanggal_jatuh_tempo'] = Carbon::parse($value)->format('Y-m-d');
+        return $this->belongsTo(PembelianAsset::class);
+    }
+
+    public function groupAsset()
+    {
+        return $this->belongsTo(GroupAsset::class);
     }
 
     public function asset()
@@ -44,9 +46,8 @@ class PembelianAsset extends Model
         return $this->belongsTo(Asset::class);
     }
 
-    public function pendaftaranAsset()
+    public function penyusutanAsset()
     {
-        return $this->hasOne(PendaftaranAsset::class);
+        return $this->hasMany(PenyusutanAsset::class);
     }
-    
 }

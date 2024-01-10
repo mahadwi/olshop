@@ -206,6 +206,10 @@ return [
         'jenis_ppn' => 'Jenis PPN',
         'keterangan' => 'Keterangan',
         'pembelian_asset' => 'Pembelian Asset',
+        'pendaftaran_asset' => 'Pendaftaran Asset',
+        'nilai_perolehan' => 'Nilai Perolehan',
+        'hitung_penyusutan' => 'Hitung Penyusutan',
+        'year' => 'Tahun',
     ],
     'button' => [
         'login' => 'Masuk',
