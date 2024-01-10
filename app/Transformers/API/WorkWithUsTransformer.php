@@ -43,6 +43,7 @@ class WorkWithUsTransformer extends TransformerAbstract
 
     public function includeSections($workWithUs)
     {
-        return $this->collection($workWithUs->workWithUsDetail, new WorkWithUsDetailTransformer);
+        $workWithUsDetails = $workWithUs->workWithUsDetail->sortBy('section');
+        return $this->collection($workWithUsDetails, new WorkWithUsDetailTransformer);
     }
 }

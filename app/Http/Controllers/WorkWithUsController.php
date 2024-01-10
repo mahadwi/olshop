@@ -28,9 +28,12 @@ class WorkWithUsController extends Controller
 
     public function index(Request $request)
     {
-        // dd('masuk');
         $workWithUs = WorkWithUs::get();
-        $workWithUsDetail = WorkWithUsDetail::with('workWithUsCard')->get();
+        $workWithUsDetail = WorkWithUsDetail::with([
+            'workWithUsCard' => function($query){
+                $query->orderBy('card');
+            }
+        ])->get();
         return Inertia::render('WorkWithUs/Index', [
             'title' => 'Data '.__('app.label.work_with_us'),
             'workWithUs' => $workWithUs,
@@ -127,7 +130,8 @@ class WorkWithUsController extends Controller
 
             $effectedCardIds = [];
             $cards = $request->cardsSection2;
-            foreach ($cards as $card) {
+
+            foreach ($cards as $key => $card) {
                 $cardModel = $card['id'] ? WorkWithUsCard::find($card['id']) : new WorkWithUsCard();
 
                 $cardModel->fill([
@@ -136,6 +140,8 @@ class WorkWithUsController extends Controller
                     'title_en' => $card['title_en'],
                     'description' => $card['description'],
                     'description_en' => $card['description_en'],
+                    'card' => $key+1,
+
                 ]);
 
                 if (isset($card['image']) && $this->isImage($card['image'])) {
@@ -184,7 +190,7 @@ class WorkWithUsController extends Controller
 
             $effectedCardIds = [];
             $cards = $request->cardsSection3;
-            foreach ($cards as $card) {
+            foreach ($cards as $key => $card) {
                 $cardModel = $card['id'] ? WorkWithUsCard::find($card['id']) : new WorkWithUsCard();
 
                 $cardModel->fill([
@@ -193,6 +199,7 @@ class WorkWithUsController extends Controller
                     'title_en' => $card['title_en'],
                     'description' => $card['description'],
                     'description_en' => $card['description_en'],
+                    'card' => $key+1,
                 ]);
                 if (isset($card['image']) && $this->isImage($card['image'])) {
                     $file = $card['image'];
@@ -289,7 +296,7 @@ class WorkWithUsController extends Controller
 
             $effectedCardIds = [];
             $cards = $request->cardsSection5;
-            foreach ($cards as $card) {
+            foreach ($cards as $key => $card) {
                 $cardModel = $card['id'] ? WorkWithUsCard::find($card['id']) : new WorkWithUsCard();
 
                 $cardModel->fill([
@@ -298,6 +305,7 @@ class WorkWithUsController extends Controller
                     'title_en' => $card['title_en'],
                     'description' => $card['description'],
                     'description_en' => $card['description_en'],
+                    'card' => $key+1,
                 ]);
 
                 if (isset($card['image']) && $this->isImage($card['image'])) {
@@ -346,7 +354,7 @@ class WorkWithUsController extends Controller
 
             $effectedCardIds = [];
             $cards = $request->cardsSection6;
-            foreach ($cards as $card) {
+            foreach ($cards as $key => $card) {
                 $cardModel = $card['id'] ? WorkWithUsCard::find($card['id']) : new WorkWithUsCard();
 
                 $cardModel->fill([
@@ -355,6 +363,7 @@ class WorkWithUsController extends Controller
                     'title_en' => $card['title_en'],
                     'description' => $card['description'],
                     'description_en' => $card['description_en'],
+                    'card' => $key+1,
                 ]);
 
                 if (isset($card['image']) && $this->isImage($card['image'])) {

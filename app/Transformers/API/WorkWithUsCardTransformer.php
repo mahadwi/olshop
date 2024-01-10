@@ -40,6 +40,7 @@ class WorkWithUsCardTransformer extends TransformerAbstract
             "description"       => $workWithUsCard->description,
             "description_en"    => $workWithUsCard->description_en,
             "image"             => $workWithUsCard->icon ? $workWithUsCard->icon_url : '',
+            "card"              => $workWithUsCard->card
         ];
     }
 }

@@ -18,6 +18,7 @@ class WorkWithUsCard extends Model
         'description',
         'description_en',
         'icon',
+        'card',
     ];
 
     protected static function booted(): void
