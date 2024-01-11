@@ -27,7 +27,6 @@ class OngkirApiRequest extends FormRequest
         $courier = implode(',', $courier);
 
         return [
-            'subdistrict_id' => 'required|integer',
             'destination' => 'required|integer',
             'weight' => 'required',
             'courier' => 'required|string|in:'.$courier,
