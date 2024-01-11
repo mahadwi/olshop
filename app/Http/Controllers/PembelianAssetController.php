@@ -23,7 +23,13 @@ class PembelianAssetController extends Controller
     public function __construct()
     {
         $this->ppn = Ppn::PPN;
-        $this->groupAsset = GroupAsset::with('assets')->get();
+        $this->groupAsset = GroupAsset::with('assets')
+        ->has('assets')
+        ->whereHas('assets', function ($query) {
+            $query->doesntHave('pembelianAsset');
+        })
+        ->get();
+        
         $this->vendor = Vendor::where('type', VendorType::ASET)->get();
         $this->root = 'PembelianAsset';
         $this->jenisPpn = JenisPpn::getValues();
@@ -32,7 +38,7 @@ class PembelianAssetController extends Controller
     public function index(Request $request)
     {
 
-        $pembelianAssets = PembelianAsset::with('asset');
+        $pembelianAssets = PembelianAsset::with(['asset', 'pendaftaranAsset']);
 
         if ($request->has('search')) {
 

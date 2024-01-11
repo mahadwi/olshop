@@ -209,6 +209,10 @@ return [
         'nilai_perolehan' => 'Nilai Perolehan',
         'hitung_penyusutan' => 'Hitung Penyusutan',
         'year' => 'Year',
+        'customer' => 'Customer',
+        'nilai_jual' => 'Nilai Jual',
+        'penjualan_asset' => 'Penjualan Asset',
+        'tanggal_penjualan' => 'Tanggal Penjualan',
     ],
     'button' => [
         'login' => 'Login',
