@@ -33,26 +33,11 @@ const { _, debounce, pickBy } = pkg;
 
 const props = defineProps({
   title: String,
-  nomor: String,
-  pembelianAsset: Object,
+  pendaftaranAsset: Object,
   breadcrumbs: Object,
  
 });
 
-const form = useForm({
-  nomor: props.nomor,
-  tanggal: '',
-  pembelian_asset_id: '',
-  group_asset_id: '',
-  asset_id: '',
-  metode_penyusutan:'',
-  tarif_penyusutan:'',
-  umur:'',
-  nilai_perolehan: 0,
-  dataPenyusutan:[]
-});
-
-let data_penyusutan = ref([]);
 let dataPenyusutan = ref([]);
 
 const hitungPenyusutan = () => {
@@ -130,45 +115,7 @@ const hitungPenyusutan = () => {
                           temp_penyusutan,
                       "nilai": (nilai - penyusutan) < 0 ? 0 : (nilai - penyusutan)
                   });
-
-              } else if (metode == "Straight Line") {
-
-                penyusutan += temp_penyusutan;
-                if (iteration_month == umur * 12 - 1) {
-                    data_penyusutan.value.push({
-                        "tanggal": moment(tanggal_beli).add(iteration_month, 'month').endOf('month').format(
-                            "YYYY-MM-DD"),
-                        "penyusutan": (nilai - penyusutan) < 0 ? nilai - (penyusutan - temp_penyusutan) :
-                            temp_penyusutan,
-                        "nilai": (nilai - penyusutan) < 0 ? 0 : (nilai - penyusutan)
-                    });
-
-                    dataPush.data.push({
-                        "tanggal": moment(tanggal_beli).add(iteration_month, 'month').endOf('month').format(
-                            "YYYY-MM-DD"),
-                        "penyusutan": (nilai - penyusutan) < 0 ? nilai - (penyusutan - temp_penyusutan) :
-                            temp_penyusutan,
-                        "nilai": (nilai - penyusutan) < 0 ? 0 : (nilai - penyusutan)
-                    });
-
-                } else if (iteration_month < umur * 12 - 1) {
-                    data_penyusutan.value.push({
-                        "tanggal": moment(tanggal_beli).add(iteration_month, 'month').endOf('month').format(
-                            "YYYY-MM-DD"),
-                        "penyusutan": temp_penyusutan,
-                        "nilai": (nilai - penyusutan)
-                    });
-                    
-                    dataPush.data.push({
-                        "tanggal": moment(tanggal_beli).add(iteration_month, 'month').endOf('month').format(
-                            "YYYY-MM-DD"),
-                        "penyusutan": temp_penyusutan,
-                        "nilai": (nilai - penyusutan)
-                    });
-                } else {
-                    penyusutan -= temp_penyusutan;
-                }
-            }
+              } 
 
               iteration_month++;
           }
@@ -198,10 +145,6 @@ const hitungPenyusutan = () => {
 
 }
 
-const pembelianAsset = props.pembelianAsset.map((data) => ({
-    label: data.nomor,
-    value: data.id
-}))
 
 const formatter = ref({
   date: "DD-MM-YYYY",
@@ -268,35 +211,59 @@ const formatUangDolar = (e) => {
   form.price_usd = cleanedValue;
 };
 
-watch(
-    () => _.cloneDeep(form.pembelian_asset_id),
-    debounce(() => {
-      
-      // form.asset_id = '';
-      // asset.value = [];
+const getDataPenyusutan = (penyusutan) => {
 
-      if(form.pembelian_asset_id){
-        let selected = props.pembelianAsset.find(item => item.id == form.pembelian_asset_id);
-        data.asset = selected.asset.name;
-        data.group_asset = selected.asset.group_asset.name;
-        form.metode_penyusutan = selected.asset.group_asset.metode_penyusutan;
-        form.umur = selected.asset.group_asset.umur;
-        form.tarif_penyusutan = selected.asset.group_asset.tarif_penyusutan;
-        form.nilai_perolehan = selected.total;        
-        form.asset_id = selected.asset.id;
-        form.group_asset_id = selected.asset.group_asset_id;
+  let dataPush = {};
+  let tmpData = [];
+  let nilaiBuku = props.pendaftaranAsset.nilai_perolehan;  
+  let tmpPenyusutan = 0;
 
-        dataPenyusutan.value = [];
-        data_penyusutan.value = [];
+  penyusutan.forEach(element => {
+
+    let tahun =  element.tanggal.substring(0, 4);
+
+    if(tmpData.length == 0){
+      dataPush.tahun = tahun;
+      tmpData.push(dataPush)            
+
+    } else {
+      let filter = tmpData.find(el => el.tahun == tahun);
+      if(!filter) tmpData.push({tahun})
+    }
+
+  });
+
+
+  tmpData.map((el) => {
+    el.data = [];
+    el.penyusutan = 0;
+
+    penyusutan.forEach(element => {
+      let tahun = element.tanggal.substring(0, 4);
+      if(el.tahun == tahun){
+        el.penyusutan += parseFloat(element.penyusutan);                
+        el.data.push({
+          tanggal:element.tanggal,
+          penyusutan:element.penyusutan
+        });
       }
-      
-    }, 150)
-);
+    });
 
-const tanggal = moment(new Date());
+    tmpPenyusutan += el.penyusutan;
+
+    el.nilai = nilaiBuku - round(tmpPenyusutan, 2);
+
+    if(el.nilai < 0) el.nilai = 0;
+
+    return el;
+
+  });
+
+  return tmpData;
+}
 
 onMounted(() => {
-  form.tanggal = tanggal.format("DD-MM-YYYY");
+  dataPenyusutan.value = getDataPenyusutan(props.pendaftaranAsset.penyusutan_asset);
 })
 
 </script>
@@ -316,77 +283,41 @@ onMounted(() => {
           <h3 class="mb-4 text-xl font-semibold dark:text-white">
             {{ props.title }}
           </h3>
-          <form @submit.prevent="create">
+          <form>
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-6">                
-                  <FwbInput readonly v-model="form.nomor" :placeholder="lang().label.nomor" :label="lang().label.nomor" />
-                  <InputError class="mt-2" :message="form.errors.nomor" />                                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.nomor" :placeholder="lang().label.nomor" :label="lang().label.nomor" />
               </div>
               <div class="col-span-6">
-                <InputLabel
-                  for="date"
-                  :value="lang().label.date"
-                />
-                <vue-tailwind-datepicker
-                  readonly
-                  v-model="form.tanggal"
-                  :formatter="formatter"
-                  :placeholder="lang().label.date"
-                  as-single
-                />
-                <InputError class="mt-2" :message="form.errors.tanggal" />
+                <FwbInput readonly v-model="props.pendaftaranAsset.tanggal" :placeholder="lang().label.date" :label="lang().label.date" />                
               </div>              
               <div class="col-span-6">
-                <InputLabel for="pembelian_asset" :value="lang().label.pembelian_asset" />
+                <FwbInput readonly v-model="props.pendaftaranAsset.pembelian_asset.nomor" :placeholder="lang().label.pembelian_asset" :label="lang().label.pembelian_asset" />                
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.group_asset.name" :placeholder="lang().label.group_asset" :label="lang().label.group_asset" />
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.asset.name" :placeholder="lang().label.asset" :label="lang().label.asset" />
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.metode_penyusutan" :placeholder="lang().label.metode_penyusutan" :label="lang().label.metode_penyusutan" />
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.umur" :placeholder="lang().label.umur" :label="lang().label.umur" />
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.tarif_penyusutan" :placeholder="lang().label.tarif_penyusutan" :label="lang().label.tarif_penyusutan" />
+              </div>
+              <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.nilai_perolehan" :placeholder="lang().label.nilai_perolehan" :label="lang().label.nilai_perolehan" />
+              </div>
+              <div class="col-span-6">                
+              </div>
 
-                <Multiselect
-                  id="pembelian_asset"
-                  v-model="form.pembelian_asset_id"
-                  :options="pembelianAsset"
-                  track-by="label"
-                  label="label"
-                  :searchable="true"
-                  placeholder="Select"
-                />
-
-                <InputError class="mt-2" :message="form.errors.pembelian_asset_id" />
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="data.group_asset" :placeholder="lang().label.group_asset" :label="lang().label.group_asset" />
-                  <InputError class="mt-2" :message="form.errors.group_asset_id" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="data.asset" :placeholder="lang().label.asset" :label="lang().label.asset" />
-                  <InputError class="mt-2" :message="form.errors.asset_id" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="form.metode_penyusutan" :placeholder="lang().label.metode_penyusutan" :label="lang().label.metode_penyusutan" />
-                  <InputError class="mt-2" :message="form.errors.metode_penyusutan" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="form.umur" :placeholder="lang().label.umur" :label="lang().label.umur" />
-                  <InputError class="mt-2" :message="form.errors.umur" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="form.tarif_penyusutan" :placeholder="lang().label.tarif_penyusutan" :label="lang().label.tarif_penyusutan" />
-                  <InputError class="mt-2" :message="form.errors.tarif_penyusutan" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput readonly v-model="form.nilai_perolehan" :placeholder="lang().label.nilai_perolehan" :label="lang().label.nilai_perolehan" />
-                  <InputError class="mt-2" :message="form.errors.nilai_perolehan" />                                
-              </div>
-              <div class="col-span-6">                
-              </div>
-              <div class="flex justify-start gap-2 col-span-12 sm:col-full">
-                <PrimaryButton v-if="form.pembelian_asset_id"
-                  type="button" @click="hitungPenyusutan()"
-                >
-                  {{
-                    lang().label.hitung_penyusutan
-                  }}
-                </PrimaryButton>
-              </div>
-             
+              <h3 class="text-sm font-semibold dark:text-white">
+                Penyusutan
+              </h3>
               <div class="col-span-12">
                 <fwb-table>
                   <fwb-table-head>
@@ -410,10 +341,10 @@ onMounted(() => {
                     <template v-if="dataPenyusutan.length > 0">                      
                       <fwb-table-row v-for="(data, index) in dataPenyusutan"
                         :key="index">
-                        <fwb-table-cell>{{ data.year }}</fwb-table-cell>
+                        <fwb-table-cell>{{ data.tahun }}</fwb-table-cell>
                         <template v-for="(detail, index) in data.data"
                         :key="index">
-                          <fwb-table-cell >{{ rupiah(detail.penyusutan.toFixed(2).replace(/\./g, ',')) }}</fwb-table-cell>                      
+                          <fwb-table-cell >{{ rupiah(round(detail.penyusutan, 2), ',') }}</fwb-table-cell>                      
                         </template>
                         <fwb-table-cell >{{ priceFormat(round(data.penyusutan)) }}</fwb-table-cell>                      
                         <fwb-table-cell >{{ priceFormat(round(data.nilai)) }}</fwb-table-cell>                      
@@ -421,20 +352,6 @@ onMounted(() => {
                     </template>
                   </fwb-table-body>
                 </fwb-table>
-              </div>
-
-              <div class="flex justify-start gap-2 col-span-6 sm:col-full">
-                <PrimaryButton
-                  type="submit"
-                  :class="{ 'opacity-25': form.processing || dataPenyusutan.length == 0 }"
-                  :disabled="form.processing || dataPenyusutan.length == 0"
-                >
-                  {{
-                    form.processing
-                      ? lang().button.add + "..."
-                      : lang().button.add
-                  }}
-                </PrimaryButton>
               </div>
             </div>
           </form>

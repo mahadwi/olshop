@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\PembelianAssetController;
+use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\PendaftaranAssetController;
 
@@ -60,5 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/pembelian-asset', PembelianAssetController::class);
     Route::resource('/pendaftaran-asset', PendaftaranAssetController::class);
+    Route::resource('/penjualan-asset', PenjualanAssetController::class);
 
 });
