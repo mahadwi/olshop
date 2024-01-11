@@ -68,6 +68,8 @@ const group_asset = props.groupAsset.map((data) => ({
     value: data.id
 }))
 
+console.log(group_asset);
+
 let asset = ref([]);
 
 const formatter = ref({

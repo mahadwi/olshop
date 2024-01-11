@@ -102,11 +102,21 @@ class PembelianAssetController extends Controller
 
     public function edit(PembelianAsset $pembelian_asset)
     {
-        
+        // dd($this->groupAsset);
+        $groupAsset = GroupAsset::with('assets')
+        ->has('assets')
+        ->whereHas('assets', function ($query) use ($pembelian_asset){
+            $query->doesntHave('pembelianAsset')
+            ->orWhere('id', $pembelian_asset->asset_id);
+        })
+        ->get();
+
+        // dd($groupAsset);
+
         return Inertia::render($this->root.'/Edit', [
             'title'             => 'Edit '.__('app.label.pembelian_asset'),
             'pembelianAsset'    => $pembelian_asset->load('asset.groupAsset'),
-            'groupAsset'    => $this->groupAsset,
+            'groupAsset'    => $groupAsset,
             'ppn'           => $this->ppn,
             'vendor'        => $this->vendor,
             'jenisPpn'      => $this->jenisPpn,
