@@ -96,7 +96,7 @@ class AuthenticationController extends Controller
             ];
         }
 
-            $condition = ['section' => 1];
+            $condition = ['section' => 1, 'authentication_id' => 1];
             $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
@@ -145,7 +145,7 @@ class AuthenticationController extends Controller
             ];
         }
 
-            $condition = ['section' => 2];
+            $condition = ['section' => 2, 'authentication_id' => 1];
             $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
@@ -194,7 +194,7 @@ class AuthenticationController extends Controller
             ];
         }
 
-            $condition = ['section' => 3];
+            $condition = ['section' => 3, 'authentication_id' => 1];
             $authenticationDetail = AuthenticationDetail::updateOrInsert($condition, $params);
 
             return back()->with('success', __('app.label.created_successfully', ['name' => $params['title']]));
