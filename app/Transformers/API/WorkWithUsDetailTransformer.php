@@ -48,6 +48,8 @@ class WorkWithUsDetailTransformer extends TransformerAbstract
 
     public function includeCard($workWithUsDetail)
     {
-        return $this->collection($workWithUsDetail->workWithUsCard, new WorkWithUsCardTransformer);
+        $workWithUsDetails = $workWithUsDetail->workWithUsCard->sortBy('card');
+
+        return $this->collection($workWithUsDetails, new WorkWithUsCardTransformer);
     }
 }
