@@ -92,7 +92,7 @@ class AuthenticationController extends Controller
                 'title_en' => $request->titleEnSection1,
                 'description' => $request->descriptionSection1,
                 'description_en' => $request->descriptionEnSection1,
-                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+                'image' => $authenticationDetail ? $authenticationDetail->image : '', // Gunakan nilai default atau sesuai kebutuhan
             ];
         }
 
@@ -141,7 +141,7 @@ class AuthenticationController extends Controller
                 'title_en' => $request->titleEnSection2,
                 'description' => $request->descriptionSection2,
                 'description_en' => $request->descriptionEnSection2,
-                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+                'image' => $authenticationDetail ? $authenticationDetail->image : '',
             ];
         }
 
@@ -190,7 +190,7 @@ class AuthenticationController extends Controller
                 'title_en' => $request->titleEnSection3,
                 'description' => $request->descriptionSection3,
                 'description_en' => $request->descriptionEnSection3,
-                'image' => '', // Gunakan nilai default atau sesuai kebutuhan
+                'image' => $authenticationDetail ? $authenticationDetail->image : '',
             ];
         }
 
