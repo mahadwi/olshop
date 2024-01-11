@@ -7,8 +7,8 @@ import { priceFormat } from '../../helper.js'
 
 import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Create from "@/Pages/PendaftaranAsset/Create.vue";
-import Delete from "@/Pages/PendaftaranAsset/Delete.vue";
+import Create from "@/Pages/PenjualanAsset/Create.vue";
+import Delete from "@/Pages/PenjualanAsset/Delete.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
@@ -17,7 +17,7 @@ const { _, debounce, pickBy } = pkg;
 const props = defineProps({
     title: String,
     filters: Object,
-    pendaftaranAssets: Object,
+    penjualanAssets: Object,
     breadcrumbs:Object,
     perPage: Number,
 });
@@ -32,7 +32,7 @@ const data = reactive({
     createOpen: false,
     editOpen: false,
     deleteOpen: false,
-    pendaftaranAsset: null,
+    penjualanAsset: null,
     dataSet: usePage().props.app.perpage,
 });
 
@@ -45,7 +45,7 @@ watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
         let params = pickBy(data.params);
-        router.get(route("pendaftaran-asset.index"), params, {
+        router.get(route("penjualan-asset.index"), params, {
             replace: true,
             preserveState: true,
             preserveScroll: true,
@@ -64,7 +64,7 @@ watch(
         <Delete
             :show="data.deleteOpen"
             @close="data.deleteOpen = false"
-            :pendaftaranAsset="data.pendaftaranAsset"
+            :penjualanAsset="data.penjualanAsset"
             :title="props.title"
         />
 
@@ -77,7 +77,7 @@ watch(
                             {{ props.title }}
                         </h3>
 
-                        <Link :href="route('pendaftaran-asset.create')" class="btn-primary mb-2">
+                        <Link :href="route('penjualan-asset.create')" class="btn-primary mb-2">
                             {{ lang().button.add }}
                         </Link>
 
@@ -88,7 +88,7 @@ watch(
                             />
                             <div class="flex items-center mb-4 sm:mb-0">
                                 <form class="sm:pr-3" action="#" method="GET">
-                                    <label for="pendaftaranAssets-search" class="sr-only">{{ lang().placeholder.search }}</label>
+                                    <label for="penjualanAssets-search" class="sr-only">{{ lang().placeholder.search }}</label>
                                     <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
                                         <TextInput
                                             type="text"
@@ -116,10 +116,10 @@ watch(
                                                     {{ lang().label.date }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.nomor }} {{ lang().label.pembelian_asset }}
+                                                    {{ lang().label.nomor }} {{ lang().label.pendaftaran_asset }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.total }}
+                                                    {{ lang().label.nilai_jual }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.action }}
@@ -128,27 +128,27 @@ watch(
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                             <tr
-                                            v-for="(pendaftaranAsset, index) in pendaftaranAssets.data"
+                                            v-for="(penjualanAsset, index) in penjualanAssets.data"
                                             :key="index"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                                 <td class="tbl-column"> {{ ++index }}</td>
-                                                <td class="tbl-column"> {{ pendaftaranAsset.nomor }}</td>                                               
-                                                <td class="tbl-column"> {{ pendaftaranAsset.tanggal }}</td>                                               
-                                                <td class="tbl-column"> {{ pendaftaranAsset.pembelian_asset.nomor }}</td>                                               
-                                                <td class="tbl-column"> {{ priceFormat(pendaftaranAsset.nilai_perolehan ?? 0) }}</td>
+                                                <td class="tbl-column"> {{ penjualanAsset.nomor }}</td>                                               
+                                                <td class="tbl-column"> {{ penjualanAsset.tanggal }}</td>                                               
+                                                <td class="tbl-column"> {{ penjualanAsset.pendaftaran_asset.nomor }}</td>                                               
+                                                <td class="tbl-column"> {{ priceFormat(penjualanAsset.nilai_jual ?? 0) }}</td>
 
                                                 <td class="p-4 space-x-2 whitespace-nowrap">
-                                                    <Link :href="route('pendaftaran-asset.show', pendaftaranAsset.id)" class="btn-primary">
+                                                    <Link :href="route('pendaftaran-asset.show', penjualanAsset.pendaftaran_asset.id)" class="btn-primary">
                                                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
                                                         {{ lang().label.detail }}
                                                     </Link>
-                                                    <button v-if="!pendaftaranAsset.penjualan_asset" @click="
+                                                    <!-- <button @click="
                                                                 (data.deleteOpen = true),
-                                                                    (data.pendaftaranAsset = pendaftaranAsset)
+                                                                    (data.penjualanAsset = penjualanAsset)
                                                             " type="button" class="btn-danger">
                                                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                                                         {{ lang().tooltip.delete }}
-                                                    </button>
+                                                    </button> -->
                                                 </td> 
                                             </tr>
                                         </tbody>
@@ -158,7 +158,7 @@ watch(
                         </div>
 
                         <div class="flex justify-between items-center p-2 border-t border-slate-200 dark:border-slate-700">
-                            <Pagination :links="props.pendaftaranAssets" :filters="data.params" />
+                            <Pagination :links="props.penjualanAssets" :filters="data.params" />
                         </div>
                     </div>
                 </div>

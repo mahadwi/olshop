@@ -23,7 +23,13 @@ class PembelianAssetController extends Controller
     public function __construct()
     {
         $this->ppn = Ppn::PPN;
-        $this->groupAsset = GroupAsset::with('assets')->get();
+        $this->groupAsset = GroupAsset::with('assets')
+        ->has('assets')
+        ->whereHas('assets', function ($query) {
+            $query->doesntHave('pembelianAsset');
+        })
+        ->get();
+        
         $this->vendor = Vendor::where('type', VendorType::ASET)->get();
         $this->root = 'PembelianAsset';
         $this->jenisPpn = JenisPpn::getValues();
@@ -32,7 +38,7 @@ class PembelianAssetController extends Controller
     public function index(Request $request)
     {
 
-        $pembelianAssets = PembelianAsset::with('asset');
+        $pembelianAssets = PembelianAsset::with(['asset', 'pendaftaranAsset']);
 
         if ($request->has('search')) {
 
@@ -96,11 +102,21 @@ class PembelianAssetController extends Controller
 
     public function edit(PembelianAsset $pembelian_asset)
     {
-        
+        // dd($this->groupAsset);
+        $groupAsset = GroupAsset::with('assets')
+        ->has('assets')
+        ->whereHas('assets', function ($query) use ($pembelian_asset){
+            $query->doesntHave('pembelianAsset')
+            ->orWhere('id', $pembelian_asset->asset_id);
+        })
+        ->get();
+
+        // dd($groupAsset);
+
         return Inertia::render($this->root.'/Edit', [
             'title'             => 'Edit '.__('app.label.pembelian_asset'),
             'pembelianAsset'    => $pembelian_asset->load('asset.groupAsset'),
-            'groupAsset'    => $this->groupAsset,
+            'groupAsset'    => $groupAsset,
             'ppn'           => $this->ppn,
             'vendor'        => $this->vendor,
             'jenisPpn'      => $this->jenisPpn,

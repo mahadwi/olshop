@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\PenjualanAsset;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -34,6 +35,11 @@ class PendaftaranAsset extends Model
     public function pembelianAsset()
     {
         return $this->belongsTo(PembelianAsset::class);
+    }
+
+    public function penjualanAsset()
+    {
+        return $this->hasOne(PenjualanAsset::class);
     }
 
     public function groupAsset()

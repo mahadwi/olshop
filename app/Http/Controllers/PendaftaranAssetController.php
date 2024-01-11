@@ -24,7 +24,7 @@ class PendaftaranAssetController extends Controller
     public function index(Request $request)
     {
 
-        $pendaftaranAssets = PendaftaranAsset::with('pembelianAsset');
+        $pendaftaranAssets = PendaftaranAsset::with(['pembelianAsset', 'penjualanAsset']);
 
         if ($request->has('search')) {
 
@@ -86,7 +86,7 @@ class PendaftaranAssetController extends Controller
     {
         return Inertia::render($this->root.'/Show', [
             'title'             => 'Show '.__('app.label.pendaftaran_asset'),
-            'pendaftaranAsset'    => $pendaftaran_asset->load(['asset', 'groupAsset', 'pembelianAsset', 'penyusutanAsset']),
+            'pendaftaranAsset'    => $pendaftaran_asset->load(['asset', 'groupAsset', 'pembelianAsset', 'penyusutanAsset', 'penjualanAsset']),
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.pendaftaran_asset'), 'href' => route('pendaftaran-asset.index')],

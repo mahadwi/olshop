@@ -220,7 +220,9 @@ const getDataPenyusutan = (penyusutan) => {
 
   penyusutan.forEach(element => {
 
-    let tahun =  element.tanggal.substring(0, 4);
+    let tahun =  element.tanggal.substring(0, 4);   
+    
+    console.log(getMonth(element.tanggal));
 
     if(tmpData.length == 0){
       dataPush.tahun = tahun;
@@ -262,9 +264,30 @@ const getDataPenyusutan = (penyusutan) => {
   return tmpData;
 }
 
+const getMonth = (date) => {
+  let dateObj = new Date(date);
+  return dateObj.getMonth() + 1;
+}
+
+const getMonths = computed(() => {
+  let month = [];
+
+  for(let i = 1; i <= 12; i++){
+    month.push(i);
+  }
+  
+  return month;
+});
+
 onMounted(() => {
   dataPenyusutan.value = getDataPenyusutan(props.pendaftaranAsset.penyusutan_asset);
+  props.pendaftaranAsset.nilai_perolehan = priceFormat(props.pendaftaranAsset.nilai_perolehan);
+
+  if(props.pendaftaranAsset.penjualan_asset) {
+    props.pendaftaranAsset.penjualan_asset.nilai_jual = priceFormat(props.pendaftaranAsset.penjualan_asset.nilai_jual);
+  }
 })
+
 
 </script>
 
@@ -312,8 +335,17 @@ onMounted(() => {
               <div class="col-span-6">                
                   <FwbInput readonly v-model="props.pendaftaranAsset.nilai_perolehan" :placeholder="lang().label.nilai_perolehan" :label="lang().label.nilai_perolehan" />
               </div>
+              <template v-if="props.pendaftaranAsset.penjualan_asset">
+                <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.penjualan_asset.tanggal" :placeholder="lang().label.tanggal_penjualan" :label="lang().label.tanggal_penjualan" />
+                </div>
+
+                <div class="col-span-6">                
+                  <FwbInput readonly v-model="props.pendaftaranAsset.penjualan_asset.nilai_jual" :placeholder="lang().label.nilai_jual" :label="lang().label.nilai_jual" />
+                </div>
+              </template>
               <div class="col-span-6">                
-              </div>
+              </div>              
 
               <h3 class="text-sm font-semibold dark:text-white">
                 Penyusutan
@@ -342,9 +374,12 @@ onMounted(() => {
                       <fwb-table-row v-for="(data, index) in dataPenyusutan"
                         :key="index">
                         <fwb-table-cell>{{ data.tahun }}</fwb-table-cell>
-                        <template v-for="(detail, index) in data.data"
+                        <template v-for="(month, index) in getMonths"
                         :key="index">
-                          <fwb-table-cell >{{ rupiah(round(detail.penyusutan, 2), ',') }}</fwb-table-cell>                      
+
+                            <fwb-table-cell v-if="data.data.find(el => getMonth(el.tanggal) == month)">{{ round(data.data.find(el => getMonth(el.tanggal) == month).penyusutan, 2) }}</fwb-table-cell>                      
+                            <fwb-table-cell v-else></fwb-table-cell>                      
+                            
                         </template>
                         <fwb-table-cell >{{ priceFormat(round(data.penyusutan)) }}</fwb-table-cell>                      
                         <fwb-table-cell >{{ priceFormat(round(data.nilai)) }}</fwb-table-cell>                      

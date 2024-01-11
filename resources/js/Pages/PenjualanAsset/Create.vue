@@ -14,71 +14,63 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
-import { FwbTextarea, FwbFileInput, FwbInput, FwbSelect } from "flowbite-vue";
-import { priceFormat, calculatePpn } from "../../helper.js";
+import { 
+  FwbTextarea, FwbFileInput, FwbInput, FwbSelect, 
+  FwbA,
+  FwbTable,
+  FwbTableBody,
+  FwbTableCell,
+  FwbTableHead,
+  FwbTableHeadCell,
+  FwbTableRow,
+  FwbButton
+
+} from "flowbite-vue";
+import { priceFormat, calculatePpn, round, rupiah } from "../../helper.js";
 import Multiselect from "@vueform/multiselect";
 
 const { _, debounce, pickBy } = pkg;
 
 const props = defineProps({
   title: String,
-  groupAsset: Object,
-  vendor: Object,
+  nomor: String,
+  pendaftaranAsset: Object,
+  customer: Object,
   breadcrumbs: Object,
-  jenisPpn: Object,
-  ppn: Number,
-  pembelianAsset: Object,
+ 
 });
 
 const form = useForm({
-  nomor: props.pembelianAsset.nomor,
-  tanggal: props.pembelianAsset.tanggal,
-  vendor_id: props.pembelianAsset.vendor_id,
-  asset_id: props.pembelianAsset.asset_id,
-  jatuh_tempo: props.pembelianAsset.jatuh_tempo,
-  tanggal_jatuh_tempo: props.pembelianAsset.tanggal_jatuh_tempo,
-  group_asset_id: props.pembelianAsset.asset.group_asset_id,
-  qty: props.pembelianAsset.qty,
-  price: props.pembelianAsset.price,
-  jenis_ppn: props.pembelianAsset.jenis_ppn,
-  total: props.pembelianAsset.total,
-  keterangan:props.pembelianAsset.keterangan
+  nomor: props.nomor,
+  tanggal: '',
+  pendaftaran_asset_id: '',
+  customer_id: '',
+  nilai_jual:'',
+  keterangan:'',
 });
 
-let total = computed(() => {
-  
-  if(form.jenis_ppn == '') return 0;
-
-  if(form.jenis_ppn == 'Include') return form.price
-
-  return calculatePpn(form.price, props.ppn)
-})
-
-let tglJatuhTempo = computed(() => {  
-  return moment(form.tanggal, "DD-MM-YYYY").add(form.jatuh_tempo - 1, 'days').format("DD-MM-YYYY");
-})
-
-const vendor = props.vendor.map((data) => ({
-    label: data.name,
+const pendaftaranAsset = props.pendaftaranAsset.map((data) => ({
+    label: data.nomor,
     value: data.id
 }))
 
-const group_asset = props.groupAsset.map((data) => ({
+const customer = props.customer.map((data) => ({
     label: data.name,
     value: data.id
 }))
-
-console.log(group_asset);
-
-let asset = ref([]);
 
 const formatter = ref({
   date: "DD-MM-YYYY",
   month: "MMM",
 });
 
-const update = () => {
-  form.put(route("pembelian-asset.update", props.pembelianAsset?.id), {
+const data = reactive({
+   asset:'',   
+   group_asset:'',   
+});
+
+const create = () => {
+  form.post(route("penjualan-asset.store"), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset();
@@ -88,10 +80,6 @@ const update = () => {
   });
 };
 
-const jenisPpn = Object.values(props.jenisPpn).map((data) => ({
-    name: data,
-    value: data,
-}));
 
 const formatUang = (e) => {
   let angka = parseFloat(form.price.replace(/[^\d]/g, "")) || 0;
@@ -136,24 +124,17 @@ const formatUangDolar = (e) => {
   form.price_usd = cleanedValue;
 };
 
-const getAsset = () => {
-  let dataAsset = props.groupAsset.find(item => item.id == form.group_asset_id);
-        
-  asset.value = dataAsset.assets.map((data) => ({
-      label: data.name,
-      value: data.id
-  }))
-}
-
 watch(
-    () => _.cloneDeep(form.group_asset_id),
+    () => _.cloneDeep(form.pendaftaran_asset_id),
     debounce(() => {
       
-      form.asset_id = '';
-      asset.value = [];
+      // form.asset_id = '';
+      // asset.value = [];
 
-      if(form.group_asset_id){
-        getAsset();
+      if(form.pendaftaran_asset_id){
+        let selected = props.pendaftaranAsset.find(item => item.id == form.pendaftaran_asset_id);
+        data.asset = selected.asset.name;
+        data.group_asset = selected.group_asset.name;
       }
       
     }, 150)
@@ -162,11 +143,7 @@ watch(
 const tanggal = moment(new Date());
 
 onMounted(() => {
-  form.total = total;
-  form.tanggal = props.pembelianAsset.tanggal;
-  form.tanggal_jatuh_tempo = tglJatuhTempo;
-
-  getAsset();
+  form.tanggal = tanggal.format("DD-MM-YYYY");
 })
 
 </script>
@@ -186,7 +163,7 @@ onMounted(() => {
           <h3 class="mb-4 text-xl font-semibold dark:text-white">
             {{ props.title }}
           </h3>
-          <form @submit.prevent="update">
+          <form @submit.prevent="create">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-6">                
                   <FwbInput readonly v-model="form.nomor" :placeholder="lang().label.nomor" :label="lang().label.nomor" />
@@ -205,82 +182,50 @@ onMounted(() => {
                   as-single
                 />
                 <InputError class="mt-2" :message="form.errors.tanggal" />
-              </div>              
-              <div class="col-span-6">                
-                  <FwbInput v-model="form.jatuh_tempo" :placeholder="lang().label.jatuh_tempo" :label="lang().label.jatuh_tempo" />
-                  <InputError class="mt-2" :message="form.errors.jatuh_tempo" />                                
-              </div>
-              <div class="col-span-6">                
-                  <FwbInput v-model="form.tanggal_jatuh_tempo" readonly :placeholder="lang().label.tgl_jatuh_tempo" :label="lang().label.tgl_jatuh_tempo" />
-                  <InputError class="mt-2" :message="form.errors.tanggal_jatuh_tempo" />                                
-              </div>
+              </div>       
               <div class="col-span-6">
-                <InputLabel for="vendor" :value="lang().label.vendor" />
+                <InputLabel for="customer" :value="lang().label.customer" />
 
                 <Multiselect
-                  id="vendor"
-                  v-model="form.vendor_id"
-                  :options="vendor"
+                  id="customer"
+                  v-model="form.customer_id"
+                  :options="customer"
                   track-by="label"
                   label="label"
                   :searchable="true"
                   placeholder="Select"
                 />
 
-                <InputError class="mt-2" :message="form.errors.vendor_id" />
-              </div>
+                <InputError class="mt-2" :message="form.errors.customer_id" />
+              </div>       
               <div class="col-span-6">
-                <InputLabel for="group_asset" :value="lang().label.group_asset" />
+                <InputLabel for="pendaftaran_asset" :value="lang().label.pendaftaran_asset" />
 
                 <Multiselect
-                  id="group_asset"
-                  v-model="form.group_asset_id"
-                  :options="group_asset"
+                  id="pendaftaran_asset"
+                  v-model="form.pendaftaran_asset_id"
+                  :options="pendaftaranAsset"
                   track-by="label"
                   label="label"
                   :searchable="true"
                   placeholder="Select"
                 />
 
-                <InputError class="mt-2" :message="form.errors.group_asset_id" />
-              </div>
-              <div class="col-span-6">
-                <InputLabel for="asset" :value="lang().label.asset" />
-
-                <Multiselect
-                  id="asset"
-                  v-model="form.asset_id"
-                  :options="asset"
-                  track-by="label"
-                  label="label"
-                  :searchable="true"
-                  placeholder="Select"
-                />
-
-                <InputError class="mt-2" :message="form.errors.asset_id" />
+                <InputError class="mt-2" :message="form.errors.pendaftaran_asset_id" />
               </div>
               <div class="col-span-6">                
-                  <FwbInput v-model="form.qty" readonly :placeholder="lang().label.qty" :label="lang().label.qty" />
-                  <InputError class="mt-2" :message="form.errors.qty" />                                
+                  <FwbInput readonly v-model="data.group_asset" :placeholder="lang().label.group_asset" :label="lang().label.group_asset" />
+                  <InputError class="mt-2" :message="form.errors.group_asset_id" />                                
               </div>
               <div class="col-span-6">                
-                  <FwbInput v-model="form.price" :placeholder="lang().label.price" :label="lang().label.price" />
-                  <InputError class="mt-2" :message="form.errors.price" />                                
-              </div>
-              <div class="col-span-6">
-                <FwbSelect
-                  v-model="form.jenis_ppn"
-                  :options="jenisPpn"
-                  :label="lang().label.jenis_ppn"
-                  :disabled="form.price == ''"
-                />
-
-                <InputError class="mt-2" :message="form.errors.jenis_ppn" />
+                  <FwbInput readonly v-model="data.asset" :placeholder="lang().label.asset" :label="lang().label.asset" />
+                  <InputError class="mt-2" :message="form.errors.asset_id" />                                
               </div>
               <div class="col-span-6">                
-                  <FwbInput v-model="total" readonly :placeholder="lang().label.total" :label="lang().label.total" />
-                  <InputError class="mt-2" :message="form.errors.total" />                                
+                  <FwbInput v-model="form.nilai_jual" :placeholder="lang().label.nilai_jual" :label="lang().label.nilai_jual" />
+                  <InputError class="mt-2" :message="form.errors.nilai_jual" />                                
               </div>
+              
               <div class="col-span-6">
                 <FwbTextarea
                   rows="4"
@@ -290,6 +235,7 @@ onMounted(() => {
                 />
                 <InputError class="mt-2" :message="form.errors.keterangan" />
               </div>
+
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
                 <PrimaryButton
                   type="submit"
@@ -298,8 +244,8 @@ onMounted(() => {
                 >
                   {{
                     form.processing
-                      ? lang().button.save + "..."
-                      : lang().button.save
+                      ? lang().button.add + "..."
+                      : lang().button.add
                   }}
                 </PrimaryButton>
               </div>
