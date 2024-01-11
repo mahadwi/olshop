@@ -19,4 +19,9 @@ class Asset extends Model
     {
         return $this->belongsTo(GroupAsset::class);
     }
+
+    public function pembelianAsset()
+    {
+        return $this->hasOne(PembelianAsset::class);
+    }
 }

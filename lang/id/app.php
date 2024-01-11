@@ -213,6 +213,7 @@ return [
         'customer' => 'Customer',
         'nilai_jual' => 'Nilai Jual',
         'penjualan_asset' => 'Penjualan Asset',
+        'tanggal_penjualan' => 'Tanggal Penjualan',
     ],
     'button' => [
         'login' => 'Masuk',

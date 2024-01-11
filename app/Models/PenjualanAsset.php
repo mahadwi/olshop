@@ -30,7 +30,7 @@ class PenjualanAsset extends Model
 
     public function pendaftaranAsset()
     {
-        return $this->belongsTo(PendafaranAsset::class);
+        return $this->belongsTo(PendaftaranAsset::class);
     }
 
     public function customer()

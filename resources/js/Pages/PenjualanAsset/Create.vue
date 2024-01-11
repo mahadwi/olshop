@@ -35,6 +35,7 @@ const props = defineProps({
   title: String,
   nomor: String,
   pendaftaranAsset: Object,
+  customer: Object,
   breadcrumbs: Object,
  
 });
@@ -43,12 +44,18 @@ const form = useForm({
   nomor: props.nomor,
   tanggal: '',
   pendaftaran_asset_id: '',
-  metode_penyusutan:'',
+  customer_id: '',
   nilai_jual:'',
+  keterangan:'',
 });
 
 const pendaftaranAsset = props.pendaftaranAsset.map((data) => ({
     label: data.nomor,
+    value: data.id
+}))
+
+const customer = props.customer.map((data) => ({
+    label: data.name,
     value: data.id
 }))
 
@@ -63,7 +70,7 @@ const data = reactive({
 });
 
 const create = () => {
-  form.post(route("pendaftaran-asset.store"), {
+  form.post(route("penjualan-asset.store"), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset();
@@ -175,7 +182,22 @@ onMounted(() => {
                   as-single
                 />
                 <InputError class="mt-2" :message="form.errors.tanggal" />
-              </div>              
+              </div>       
+              <div class="col-span-6">
+                <InputLabel for="customer" :value="lang().label.customer" />
+
+                <Multiselect
+                  id="customer"
+                  v-model="form.customer_id"
+                  :options="customer"
+                  track-by="label"
+                  label="label"
+                  :searchable="true"
+                  placeholder="Select"
+                />
+
+                <InputError class="mt-2" :message="form.errors.customer_id" />
+              </div>       
               <div class="col-span-6">
                 <InputLabel for="pendaftaran_asset" :value="lang().label.pendaftaran_asset" />
 
@@ -204,6 +226,15 @@ onMounted(() => {
                   <InputError class="mt-2" :message="form.errors.nilai_jual" />                                
               </div>
               
+              <div class="col-span-6">
+                <FwbTextarea
+                  rows="4"
+                  :placeholder="lang().label.keterangan"
+                  v-model="form.keterangan"
+                  :label="lang().label.keterangan"
+                />
+                <InputError class="mt-2" :message="form.errors.keterangan" />
+              </div>
 
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
                 <PrimaryButton
