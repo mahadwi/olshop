@@ -17,6 +17,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\PembelianAssetController;
@@ -62,5 +63,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/pembelian-asset', PembelianAssetController::class);
     Route::resource('/pendaftaran-asset', PendaftaranAssetController::class);
     Route::resource('/penjualan-asset', PenjualanAssetController::class);
+    Route::resource('/customer', CustomerController::class);
 
 });
