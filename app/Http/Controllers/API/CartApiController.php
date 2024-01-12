@@ -65,17 +65,10 @@ class CartApiController extends Controller
             return $this->apiError([],[],'Cart not found');
         }
 
-        $delete->qty -= 1;
-        $delete->save();
+        $delete->delete();
+        
 
-        $cart = fractal($delete, new CartTransformer);
-
-        if($delete->qty == 0){
-            $delete->delete();
-            $cart = [];
-        }
-
-        return $this->apiSuccess($cart);
+        return $this->apiSuccess();
     }
 
 }
