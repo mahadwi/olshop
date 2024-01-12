@@ -14,7 +14,7 @@ class OngkirApiController extends Controller
     {
         
         $ongkir = \Rajaongkir::getOngkirCost(
-            $origin = 2096, $destination = $request->destination, $weight = $request->weight, $courier = $request->courier,
+            $origin = 6278, $destination = $request->destination, $weight = $request->weight, $courier = $request->courier,
             $originType = 'subdistrict', $destinationType = 'subdistrict'
         );
 
