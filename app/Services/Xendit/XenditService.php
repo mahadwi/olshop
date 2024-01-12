@@ -8,6 +8,8 @@ use Xendit\Xendit;
 use Xendit\Invoice;
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Models\BankCode;
+use Xendit\VirtualAccounts;
 use App\Constants\PaymentState;
 use App\Actions\UpdatePaymentAction;
 
@@ -44,6 +46,28 @@ class XenditService
         $webhook = dispatch_sync(new UpdatePaymentAction($payment, $params));
 
         return $webhook;
+    }
+
+    public static function getBankCode()
+    {
+        Xendit::setApiKey(config('app.default.xendit_secret_key'));
+
+        $banks = VirtualAccounts::getVABanks();
+
+        $filter = collect($banks)->filter(function($filter){
+            return $filter['country'] == 'ID' AND $filter['currency'] == 'IDR';
+        });
+
+        $filter->each(function($bank){
+            $insert = new BankCode();
+            $insert->code = $bank['code'];
+            $insert->name = $bank['name'];
+            $insert->save();                                
+        });
+
+        $data = BankCode::select('code', 'name')->get();
+
+        return $data;
     }
 
 }

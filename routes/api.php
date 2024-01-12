@@ -3,42 +3,43 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\FaqApiController;
 use App\Http\Controllers\API\CartApiController;
+use App\Http\Controllers\API\BankCodeController;
 use App\Http\Controllers\API\BrandApiController;
 use App\Http\Controllers\API\ColorApiController;
 use App\Http\Controllers\API\EventApiController;
+use App\Http\Controllers\API\OrderApiController;
 use App\Http\Controllers\API\BannerApiController;
+use App\Http\Controllers\API\OngkirApiController;
 use App\Http\Controllers\API\ReviewApiController;
 use App\Http\Controllers\API\VendorApiController;
+use App\Http\Controllers\WorkWithUsApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
 use App\Http\Controllers\API\BookingApiController;
 use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\CourierApiController;
 use App\Http\Controllers\API\GalleryApiController;
+use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\API\VoucherApiController;
+use App\Http\Controllers\ConsignmentApiController;
+use App\Http\Controllers\XenditCallbackController;
+use App\Http\Controllers\API\LocationApiController;
 use App\Http\Controllers\API\RegisterApiController;
 use App\Http\Controllers\API\WishlistApiController;
 use App\Http\Controllers\API\KecamatanApiController;
 use App\Http\Controllers\API\SubscribeApiController;
+use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
+use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
-use App\Http\Controllers\API\FaqApiController;
-use App\Http\Controllers\API\SuggestionApiController;
-use App\Http\Controllers\API\MessageApiController;
-use App\Http\Controllers\API\VoucherApiController;
-use App\Http\Controllers\API\AuthenticationApiController;
-use App\Http\Controllers\API\LocationApiController;
-use App\Http\Controllers\API\OngkirApiController;
-use App\Http\Controllers\API\OrderApiController;
-use App\Http\Controllers\ConsignmentApiController;
-use App\Http\Controllers\WorkWithUsApiController;
-use App\Http\Controllers\XenditCallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,6 +129,10 @@ Route::get('consignment', [ConsignmentApiController::class, 'index']);
 Route::get('work-with-us', [WorkWithUsApiController::class, 'index']);
 
 Route::get('location', LocationApiController::class);
+Route::get('bank-code', BankCodeController::class)->name('bank-code');
+
+
+
 
 
 

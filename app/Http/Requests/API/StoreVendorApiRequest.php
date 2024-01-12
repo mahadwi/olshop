@@ -28,7 +28,7 @@ class StoreVendorApiRequest extends FormRequest
             'phone' => 'required|string|min:9|max:16|unique:' . Vendor::class, 
             'email' => 'required|string|email|max:255|unique:' . Vendor::class,    
             'ktp'                   => 'required|integer',
-            'bank'                  => 'required|string',
+            'bank'                  => 'required|exists:bank_codes,code',  
             'bank_account_holder'   => 'required|string',
             'bank_account_number'   => 'required|integer',     
             'address'               => 'required|string',     
