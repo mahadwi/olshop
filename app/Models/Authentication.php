@@ -12,6 +12,7 @@ class Authentication extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
+        'id',
         'title',
         'title_en',
         'description',
@@ -23,5 +24,5 @@ class Authentication extends Model
     public function authenticationDetail() {
         return $this->hasMany(AuthenticationDetail::class);
     }
-    
+
 }
