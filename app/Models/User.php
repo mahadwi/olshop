@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class)->orderBy('is_primary', 'desc');
     }
+
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
+    }
 }

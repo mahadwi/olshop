@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.8",
+        "silverhand7/laravel-artisan-maker": "^3.0",
         "spatie/laravel-fractal": "^6.0",
         "spatie/laravel-permission": "^5.11",
         "tightenco/ziggy": "^1.8",

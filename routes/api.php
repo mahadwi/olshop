@@ -40,6 +40,7 @@ use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
+use App\Http\Controllers\API\VendorProductApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('booking', BookingApiController::class)->only('index', 'show', 'store', 'delete');
 
     Route::resource('order', OrderApiController::class)->only('index', 'show', 'store', 'delete');
+
+    Route::resource('vendor-product', VendorProductApiController::class)->except('index', 'show');
+
 
 });
 
@@ -130,6 +134,8 @@ Route::get('work-with-us', [WorkWithUsApiController::class, 'index']);
 
 Route::get('location', LocationApiController::class);
 Route::get('bank-code', BankCodeController::class)->name('bank-code');
+
+
 
 
 
