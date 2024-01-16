@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Transformers\API\CartTransformer;
 use App\Http\Requests\API\StoreCartApiRequest;
 use App\Http\Requests\API\UpdateCartApiRequest;
+use App\Http\Requests\API\MulitDeleteCartApiRequest;
 
 class CartApiController extends Controller
 {
@@ -67,6 +68,13 @@ class CartApiController extends Controller
 
         $delete->delete();
         
+
+        return $this->apiSuccess();
+    }
+
+    public function delete(MulitDeleteCartApiRequest $request)
+    {
+        Cart::destroy($request->cart_id);
 
         return $this->apiSuccess();
     }
