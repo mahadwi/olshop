@@ -59,6 +59,9 @@ class ProductTransformer extends TransformerAbstract
             'is_new_arrival'=> $product->isNewArrival,
             'entry_date'    => $product->entry_date->format('d-m-Y'),
             'weight'        => $product->fixWeight,
+            'width'         => $product->width,
+            'length'        => $product->length,
+            'height'        => $product->height,
             'images'        => $this->images($product),
             'wishlist'      => isset($this->params['user_id']) ? $this->getWishlist($product, $this->params['user_id']) : null,
         ];
