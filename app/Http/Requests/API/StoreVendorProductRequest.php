@@ -46,10 +46,8 @@ class StoreVendorProductRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        dd($this->user());
         if ($this->user()) {
-            dd($this->user()->vendor);
-            $this->merge(['user_id' => $this->user()->id]);
+            $this->merge(['vendor_id' => $this->user()->vendor->id]);
         }
     }
 }

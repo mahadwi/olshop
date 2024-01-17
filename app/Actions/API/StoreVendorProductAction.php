@@ -17,7 +17,7 @@ class StoreVendorProductAction
     public function handle()
     {
         return DB::transaction(function () {
-
+            
             $product = new VendorProduct($this->attributes);
         
             $product->save();
