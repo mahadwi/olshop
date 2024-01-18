@@ -16,10 +16,22 @@ class OngkirApiController extends Controller
         $ongkir = \Rajaongkir::getOngkirCost(
             $origin = 6278, $destination = $request->destination, $weight = $request->weight, $courier = $request->courier,
             $originType = 'subdistrict', $destinationType = 'subdistrict'
-        );
+        );        
 
+        $dolar = \Rajaongkir::getCurrency();        
+
+        $cost = collect($ongkir[0]['costs'])->map(function($cost) use ($dolar) {
+            $cost['cost'] = collect($cost['cost'])->map(function($biaya) use ($dolar) {
+                $biaya['value_usd'] = $biaya['value'] * $dolar['value'];
+                return $biaya;
+            })->all();
         
-        return $this->apiSuccess($ongkir);
+            return $cost;
+        })->all();
+
+        $cost[0]['idr_dolar'] = $dolar['value'];
+
+        return $this->apiSuccess($cost);
     }
 
 

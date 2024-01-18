@@ -76,6 +76,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('wishlist', WishlistApiController::class)->except('create', 'show', 'edit');
     Route::resource('cart', CartApiController::class)->except('create', 'show', 'edit');
+    Route::post('cart-delete', [CartApiController::class, 'delete']);
 
     Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit', 'index');
 

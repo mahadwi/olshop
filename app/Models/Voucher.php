@@ -24,6 +24,7 @@ class Voucher extends Model
         'end_date',
         'time_start',
         'time_end',
+        'disc_price_usd',
     ];
 
     protected $casts = [

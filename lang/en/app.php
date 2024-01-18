@@ -214,6 +214,7 @@ return [
         'penjualan_asset' => 'Penjualan Asset',
         'tanggal_penjualan' => 'Tanggal Penjualan',
         'confirm_date' => 'Confirm Date',
+        'disc_price_usd' => 'Disc Price (USD)',
     ],
     'button' => [
         'login' => 'Login',

@@ -40,6 +40,8 @@ class EventDetailTransformer extends TransformerAbstract
             'time_end'      => $detail->time_end,
             'contact'       => $detail->contact,
             'price'         => $detail->price,        
+            'capacity'      => $detail->capacity,        
+            'quota'         => $detail->quota,        
             'is_refundable'  => $detail->is_refundable,        
         ];
     }
