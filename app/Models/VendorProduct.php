@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VendorProduct extends Model
 {
@@ -30,6 +31,54 @@ class VendorProduct extends Model
         'width',
         'height',
         'description_en',
-        'history_en'
+        'history_en',
+        'status',
+        'confirm_date',
     ];
+
+    protected $appends = ['entry_date'];
+
+    protected $casts = [
+        'confirm_date' => 'date:d-m-Y',
+    ];
+
+    public function getEntryDateAttribute()
+    {
+        return Carbon::parse($this->created_at)->format(config('app.default.datetime_human'));
+    }
+
+    public function setConfirmDateAttribute($value)
+    {
+        $this->attributes['confirm_date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function imageable()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function imageName()
+    {
+        return $this->imageable()->pluck('name');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    public function productCategory()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }

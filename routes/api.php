@@ -83,7 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('order', OrderApiController::class)->only('index', 'show', 'store', 'delete');
 
-    Route::resource('vendor-product', VendorProductApiController::class)->except('index', 'show');
+    Route::resource('vendor-product', VendorProductApiController::class)->except('create', 'edit');
 
 
 });

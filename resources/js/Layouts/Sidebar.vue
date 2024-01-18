@@ -1,11 +1,11 @@
 <script setup>
   import { Link } from "@inertiajs/vue3";
 
-  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') || route().current('member.*') || route().current('group-asset.*') || route().current('asset.*') || route().current('event.*') || route().current('promo-subscribe.*') || route().current('review.*') || route().current('suggestion.*') || route().current('message.*') ? '' : 'hidden'
+  const activeMaster = route().current('users.*') || route().current('roles.*') || route().current('product-category.*') || route().current('vendor.*') || route().current('product.*')  || route().current('brand.*') || route().current('group-coa.*') || route().current('coa.*') || route().current('color.*') || route().current('banner.*') || route().current('gallery.*') || route().current('member.*') || route().current('group-asset.*') || route().current('asset.*') || route().current('event.*') || route().current('promo-subscribe.*') || route().current('review.*') || route().current('suggestion.*') || route().current('message.*') || route().current('subscribe.*')  ? '' : 'hidden'
 
   const activeSetting = route().current('about.*') || route().current('contact.*') || route().current('return-police.*') || route().current('privacy-police.*') || route().current('term-condition.*')  || route().current('delivery-shipping.*') || route().current('customer-care.*') || route().current('faq.*') || route().current('voucher.*') || route().current('authentication.*') || route().current('work-with-us.*') || route().current('consignment.*') ? '' : 'hidden'
 
-  const activeTransaction = route().current('pos.*') ? '' : 'hidden'
+  const activeTransaction = route().current('pos.*') || route().current('konsinyasi.*') ? '' : 'hidden'
 
   const activeAsset = route().current('pembelian-asset.*') || route().current('pendaftaran-asset.*') || route().current('penjualan-asset.*') || route().current('customer.*') ? '' : 'hidden'
 
@@ -382,6 +382,19 @@
 
                   >
                     {{ lang().label.point_of_sales }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('konsinyasi.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('konsinyasi.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ lang().label.consignment }}
                   </Link>
                 </li>
               </ul>

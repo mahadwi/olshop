@@ -34,7 +34,7 @@ class StoreVendorProductRequest extends FormRequest
             'sale_price' => 'required',
             'sale_usd' => 'required',
             'color_id' => 'required',
-            'condition' => 'required',
+            'condition' => 'required|string|in:New,Like New',            
             'weight' => 'required|numeric',
             'length' => 'required|numeric',
             'width' => 'required|numeric',

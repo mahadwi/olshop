@@ -3,7 +3,10 @@
 namespace App\Actions\API;
 
 use App\Models\VendorProduct;
+use App\Actions\StoreImageAction;
 use Illuminate\Support\Facades\DB;
+use App\Services\File\UploadService;
+use App\Constants\VendorProductStatus;
 
 class StoreVendorProductAction
 {
@@ -18,15 +21,24 @@ class StoreVendorProductAction
     {
         return DB::transaction(function () {
             
+
+            $this->attributes['status'] = VendorProductStatus::REVIEW;
+
             $product = new VendorProduct($this->attributes);
         
             $product->save();
 
-            dd($product);
-            // //save image
-            // foreach($this->attributes['image'] as $image){
-            //     dispatch_sync(new StoreProductImageAction($product, ['image' => $image]));
-            // }
+            if(count($this->attributes['image']) > 0){
+                //upload gambar
+                foreach($this->attributes['image'] as $image){
+                    $file = (new UploadService())->saveFile($image);
+                    
+                    $attributes = ['name' => $file['name']];
+
+                    dispatch_sync(new StoreImageAction($attributes, $product));
+
+                }
+            }
 
             return $product;
         });

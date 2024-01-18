@@ -36,7 +36,8 @@ return new class extends Migration
             $table->double('width')->default(0);
             $table->double('height')->default(0);            
             $table->string('status');
-            $table->date('confirm_date');
+            $table->date('confirm_date')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

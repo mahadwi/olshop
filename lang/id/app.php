@@ -188,7 +188,7 @@ return [
         'authentication' => 'Authentication',
         'link_yt' => 'Link Youtube',
         'work_with_us' => 'Work With Us',
-        'consignment' => 'Consignment',
+        'consignment' => 'Konsinyasi',
         'subtitle_en' => 'Subtitle Dalam Bahasa Inggris',
         'subtitle' => 'Subtitle',
         'pos' => 'POS',
@@ -214,6 +214,7 @@ return [
         'nilai_jual' => 'Nilai Jual',
         'penjualan_asset' => 'Penjualan Asset',
         'tanggal_penjualan' => 'Tanggal Penjualan',
+        'confirm_date' => 'Tanggal Konfirmasi',
     ],
     'button' => [
         'login' => 'Masuk',
