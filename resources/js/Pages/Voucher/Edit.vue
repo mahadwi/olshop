@@ -32,6 +32,7 @@ const form = useForm({
   type: "",
   disc_percent: 0,
   disc_price: 0,
+  disc_price_usd: 0,
   min_price: 0,
   date: "",
   time: "",
@@ -61,6 +62,7 @@ watchEffect(() => {
     form.type = props.voucher?.type;
     form.disc_percent = props.voucher?.disc_percent;
     form.disc_price = props.voucher?.disc_price;
+    form.disc_price_usd = props.voucher?.disc_price_usd;
     form.min_price = props.voucher?.min_price;
 
     form.errors = {};
@@ -168,6 +170,15 @@ watchEffect(() => {
               :label="lang().label.disc_price"
             />
             <InputError class="mt-2" :message="form.errors.disc_price" />
+          </div>
+          <div>
+            <FwbInput
+              :disabled="form.type != 'Price'"
+              v-model="form.disc_price_usd"
+              :placeholder="lang().label.disc_price_usd"
+              :label="lang().label.disc_price_usd"
+            />
+            <InputError class="mt-2" :message="form.errors.disc_price_usd" />
           </div>
           <div>
             <FwbInput

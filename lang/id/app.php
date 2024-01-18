@@ -214,6 +214,7 @@ return [
         'nilai_jual' => 'Nilai Jual',
         'penjualan_asset' => 'Penjualan Asset',
         'tanggal_penjualan' => 'Tanggal Penjualan',
+        'disc_price_usd' => 'Disc Harga (USD)',
     ],
     'button' => [
         'login' => 'Masuk',

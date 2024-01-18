@@ -33,6 +33,7 @@ class VoucherStoreRequest extends FormRequest
             'type' => 'required',
             'disc_percent' => 'required|integer|between:0,100',
             'disc_price' => 'required|integer',
+            'disc_price_usd' => 'required|integer',
             'min_price' => 'required|integer',
         ];
     }
