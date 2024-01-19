@@ -215,6 +215,8 @@ return [
         'tanggal_penjualan' => 'Tanggal Penjualan',
         'confirm_date' => 'Confirm Date',
         'disc_price_usd' => 'Disc Price (USD)',
+        'logo' => 'Logo',
+        'copyright' => 'Copyright',
     ],
     'button' => [
         'login' => 'Login',

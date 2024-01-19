@@ -12,8 +12,7 @@ use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
-
-
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,4 +71,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('store-consignment-section4', [ConsignmentController::class, 'storeSection4'])->name('consignment.storeSection4');
     Route::post('store-consignment-section5', [ConsignmentController::class, 'storeSection5'])->name('consignment.storeSection5');
     Route::post('store-consignment-section6', [ConsignmentController::class, 'storeSection6'])->name('consignment.storeSection6');
+
+    Route::resource('/profile', ProfileController::class)->except('show','update','edit');
+    
+    Route::post('profile/{profile}/update', [ProfileController::class, 'update'])->name('profile.update');
+    
+    Route::get('get-kecamatan', [ProfileController::class, 'getKecamatan']);
+
 });
