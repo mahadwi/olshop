@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 
 class VendorApiController extends Controller
 {
+
+    public function index()
+    {
+        $vendor = Vendor::where('user_id', auth()->user()->id)->get();
+
+        $vendor = fractal($vendor, new VendorTransformer())->toArray();
+
+        return $this->apiSuccess($vendor);
+    }
+
     public function store(StoreVendorApiRequest $request)
     {
         $store = new Vendor($request->all());

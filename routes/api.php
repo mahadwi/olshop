@@ -79,7 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('cart', CartApiController::class)->except('create', 'show', 'edit');
     Route::post('cart-delete', [CartApiController::class, 'delete']);
 
-    Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit', 'index');
+    Route::resource('vendor', VendorApiController::class)->except('create', 'show', 'edit');
 
     Route::resource('booking', BookingApiController::class)->only('index', 'show', 'store', 'delete');
 
