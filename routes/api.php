@@ -17,6 +17,7 @@ use App\Http\Controllers\API\VendorApiController;
 use App\Http\Controllers\WorkWithUsApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
+use App\Http\Controllers\API\AgreementApiController;
 use App\Http\Controllers\API\BookingApiController;
 use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\CourierApiController;
@@ -87,6 +88,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('vendor-product', VendorProductApiController::class)->except('create', 'edit');
 
+    Route::resource('agreement', AgreementApiController::class)->except('create', 'edit', 'update');
+    Route::post('agreement', [AgreementApiController::class, 'update']);
 
 });
 

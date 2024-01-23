@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\VendorProduct;
+use App\Models\VendorAgreement;
 use Illuminate\Support\Facades\DB;
 use App\Constants\VendorProductStatus;
 use App\Actions\UpdateVendorProductAction;
+use App\Actions\UpdateVendorAgreementAction;
 
 class KonsinyasiController extends Controller
 {
@@ -53,7 +55,7 @@ class KonsinyasiController extends Controller
 
         return Inertia::render($this->root.'/Show', [
             'title'                 => 'Show '.__('app.label.consignment'),
-            'product'               => $konsinyasi->load(['color', 'brand', 'productCategory', 'vendor', 'imageable']),
+            'product'               => $konsinyasi->load(['color', 'brand', 'productCategory', 'vendor', 'imageable', 'agreements.agreement']),
             'vendorProductStatus'   => $vendorProductStatus,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
@@ -71,6 +73,25 @@ class KonsinyasiController extends Controller
         } catch (\Throwable $th) {
             DB::rollback();
             return back()->with('error', __('app.label.updated_error', ['name' => $konsinyasi->name]) . $th->getMessage());
+        }
+    }
+
+    public function updateAgreement(Request $request)
+    {
+        try {
+            foreach($request->agreement as $agreement){
+                $model = VendorAgreement::find($agreement['id']);
+                $param = [
+                    'is_approved' => $agreement['is_approved'],
+                    'note' => $agreement['note'],
+                ];
+                dispatch_sync(new UpdateVendorAgreementAction($model, $param));           
+            }
+            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->with('error', __('app.label.updated_error') . $th->getMessage());
         }
     }
 }

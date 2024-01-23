@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\ReturnPoliceController;
 use App\Http\Controllers\PrivacyPoliceController;
 use App\Http\Controllers\TermConditionController;
@@ -77,5 +78,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('profile/{profile}/update', [ProfileController::class, 'update'])->name('profile.update');
     
     Route::get('get-kecamatan', [ProfileController::class, 'getKecamatan']);
+
+    Route::resource('/agreement', AgreementController::class)->except('show','update','edit');
+    Route::post('agreement/{agreement}/update', [AgreementController::class, 'update'])->name('agreement.update');
+
 
 });

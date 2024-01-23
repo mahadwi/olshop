@@ -217,6 +217,12 @@ return [
         'disc_price_usd' => 'Disc Price (USD)',
         'logo' => 'Logo',
         'copyright' => 'Copyright',
+        'agreement' => 'Agreement',
+        'file' => 'File',
+        'preview' => 'Preview',
+        'file_vendor' => 'File Vendor',
+        'draft' => 'Draft',
+        'completed' => 'Completed',
     ],
     'button' => [
         'login' => 'Login',

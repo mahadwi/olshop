@@ -11,7 +11,6 @@ class UpdateProfileAction
     private $profile;
     private $attributes;
 
-
     public function __construct(Profile $profile, array $attributes = [])
     {
         $this->attributes = $attributes;

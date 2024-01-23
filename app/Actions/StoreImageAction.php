@@ -9,7 +9,7 @@ class StoreImageAction
 {
     private $attributes;
     private $model;
-    public function __construct(array $attributes = [], $model)
+    public function __construct(array $attributes, $model)
     {
         $this->attributes = $attributes;
         $this->model = $model;

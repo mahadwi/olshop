@@ -40,7 +40,8 @@ class StoreVendorProductRequest extends FormRequest
             'width' => 'required|numeric',
             'height' => 'required|numeric',
             'image' => 'required|array',
-            'image.*' => 'required|image|mimes:jpg,png,jpeg|max:500',
+            'image.*'          => 'required|image|mimes:jpg,png,jpeg|max:500',
+            'product_deadline' => 'required',            
         ];
     }
 

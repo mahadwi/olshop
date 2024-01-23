@@ -34,6 +34,7 @@ class VendorProduct extends Model
         'history_en',
         'status',
         'confirm_date',
+        'product_deadline',
     ];
 
     protected $appends = ['entry_date'];
@@ -50,6 +51,11 @@ class VendorProduct extends Model
     public function setConfirmDateAttribute($value)
     {
         $this->attributes['confirm_date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function setProductDeadlineAttribute($value)
+    {
+        $this->attributes['product_deadline'] = Carbon::parse($value)->format('Y-m-d');
     }
 
     public function imageable()
@@ -80,5 +86,10 @@ class VendorProduct extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function agreements()
+    {
+        return $this->hasMany(VendorAgreement::class)->orderBy('id');
     }
 }

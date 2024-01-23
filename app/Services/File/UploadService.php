@@ -39,6 +39,31 @@ class UploadService
         ];
     }
 
+    public function uploadFile($file, $path = '')
+    {        
+        $this->rootPath = public_path('file');
+
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $path = '/'.$path.'/';
+
+        $originalPath = $path != '//' ? $this->rootPath.$path : $this->rootPath;
+
+        if (!file_exists($originalPath)) {
+            if (!mkdir($originalPath, 0777, true) && !is_dir($originalPath)) {
+                throw new Exception(sprintf('Directory "%s" was not created', $originalPath));
+            }
+        }
+
+        $file->move($originalPath, $filename);
+
+        return [
+            'name' => $filename,
+            'path' => $path,
+            'base_path' => $this->rootPath,
+            'full_path' => $originalPath.$filename,
+        ];
+    }
+
     public function deleteFile($images, $path = '')
     {        
         foreach($images as $image){

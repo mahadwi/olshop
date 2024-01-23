@@ -2,7 +2,10 @@
 
 namespace App\Actions;
 
+use App\Constants\VendorProductStatus;
 use App\Models\VendorProduct;
+use App\Services\VendorProduct\AgreementService;
+use Illuminate\Support\Facades\DB;
 
 class UpdateVendorProductAction
 {
@@ -17,6 +20,18 @@ class UpdateVendorProductAction
 
     public function handle()
     {
-        return $this->vendorProduct->fill($this->attributes)->save();
+        return DB::transaction(function () {
+
+            if($this->attributes['status'] == VendorProductStatus::APPROVED){
+
+                $this->attributes['approve_date'] = date('Y-m-d');                
+
+                (new AgreementService())->generate($this->vendorProduct->load('vendor'));     
+            }
+
+            $this->vendorProduct->fill($this->attributes)->save();
+
+            return $this->vendorProduct;
+        });
     }
 }
