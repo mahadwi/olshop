@@ -21,7 +21,6 @@ class StoreVendorProductAction
     {
         return DB::transaction(function () {
             
-
             $this->attributes['status'] = VendorProductStatus::REVIEW;
 
             $product = new VendorProduct($this->attributes);

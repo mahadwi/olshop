@@ -35,6 +35,7 @@ class VendorProduct extends Model
         'status',
         'confirm_date',
         'product_deadline',
+        'note',
     ];
 
     protected $appends = ['entry_date'];

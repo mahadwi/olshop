@@ -37,7 +37,8 @@ class Product extends Model
         'width',
         'height',
         'description_en',
-        'history_en'
+        'history_en',
+        'vendor_product_id',
     ];
 
     protected $appends = ['status', 'fixWeight', 'isNewArrival'];

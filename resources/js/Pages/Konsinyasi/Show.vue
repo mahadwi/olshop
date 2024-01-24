@@ -47,7 +47,14 @@ const props = defineProps({
 const form = useForm({
   confirm_date: "",
   status: "",
+  note:"",
   agreement:props.product.agreements
+});
+
+const status = ref('');
+
+const fromComplete = useForm({
+  id:props.product.id
 });
 
 const formatter = ref({
@@ -66,7 +73,6 @@ const update = () => {
   form.put(route("konsinyasi.update", props.product?.id), {
     preserveScroll: true,
     onSuccess: () => {
-      emit("close");
       form.reset();
     },
     onError: () => null,
@@ -78,7 +84,6 @@ const updateAgreement = () => {
   form.post(route("konsinyasi.update-agreement"), {
     preserveScroll: true,
     onSuccess: () => {
-      emit("close");
     },
     onError: () => null,
     onFinish: () => null,
@@ -86,10 +91,9 @@ const updateAgreement = () => {
 };
 
 const setComplete = () => {
-  form.post(route("konsinyasi.update-agreement"), {
+  fromComplete.post(route("konsinyasi.complete"), {
     preserveScroll: true,
     onSuccess: () => {
-      emit("close");
     },
     onError: () => null,
     onFinish: () => null,
@@ -99,14 +103,25 @@ const setComplete = () => {
 onMounted(() => {
   form.status = props.product?.status;
   form.confirm_date = props.product?.confirm_date;
+  form.note = props.product?.note;
+
+  status.value = props.product?.status;
+
   form.errors = {};
 });
 
-const activeTab = ref("agreement");
+const activeTab = ref("product");
 
 const data = reactive({
     editOpen: false,
     agreement:null
+});
+
+const isCompleted = computed(() => {
+  
+  let complete = props.product.agreements.every(item => item.is_approved == true);
+  
+  return complete;
 });
 
 </script>
@@ -345,13 +360,13 @@ const data = reactive({
                   <div class="col-span-6">
                     <InputLabel
                       for="confirm_date"
-                      :value="lang().label.confirm_date"
+                      :value="lang().label.pickup_date"
                     />
                     <vue-tailwind-datepicker
                       readonly
                       v-model="form.confirm_date"
                       :formatter="formatter"
-                      :placeholder="lang().label.confirm_date"
+                      :placeholder="lang().label.pickup_date"
                       as-single
                     />
                     <InputError
@@ -368,11 +383,22 @@ const data = reactive({
 
                     <InputError class="mt-2" :message="form.errors.status" />
                   </div>
+                  <div class="col-span-6">
+                    <FwbTextarea
+                      rows="4"
+                      readonly
+                      :placeholder="lang().label.note"
+                      v-model="form.note"
+                      :label="lang().label.note"
+                    />
+                  </div>
+                  <div class="col-span-6">
+                  </div>
                   <div
                    
                     class="flex justify-start gap-2 col-span-6 sm:col-full"
                   >
-                    <PrimaryButton
+                    <PrimaryButton v-if="status != 'Approved' && status != 'Completed' "
                       type="submit"
                       :class="{ 'opacity-25': form.processing }"
                       :disabled="form.processing"
@@ -428,7 +454,7 @@ const data = reactive({
                 </fwb-table-body>
               </fwb-table>
               <div>
-              <form @submit.prevent="updateAgreement">
+              <form v-if="!isCompleted" @submit.prevent="updateAgreement">
                 <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
                   <PrimaryButton
                     type="submit"
@@ -446,7 +472,7 @@ const data = reactive({
                 </div>
               </form>
 
-              <form @submit.prevent="setComplete">
+              <form v-if="isCompleted" @submit.prevent="setComplete">
                 <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
                   <PrimaryButton
                     type="submit"

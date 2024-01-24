@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Constants\VendorProductStatus;
 use App\Actions\UpdateVendorProductAction;
 use App\Actions\UpdateVendorAgreementAction;
+use App\Services\VendorProduct\SetCompleteService;
 
 class KonsinyasiController extends Controller
 {
@@ -51,7 +52,7 @@ class KonsinyasiController extends Controller
 
     public function show(VendorProduct $konsinyasi)
     {       
-        $vendorProductStatus = collect(VendorProductStatus::getValues());
+        $vendorProductStatus = collect(VendorProductStatus::getValues())->except('COMPLETED');
 
         return Inertia::render($this->root.'/Show', [
             'title'                 => 'Show '.__('app.label.consignment'),
@@ -87,6 +88,20 @@ class KonsinyasiController extends Controller
                 ];
                 dispatch_sync(new UpdateVendorAgreementAction($model, $param));           
             }
+            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->with('error', __('app.label.updated_error') . $th->getMessage());
+        }
+    }
+
+    public function complete(Request $request)
+    {
+        try {
+
+            $complete = (new SetCompleteService())->handle($request->id);  
+
             return redirect()->route('konsinyasi.index')->with('success', 'Success');
 
         } catch (\Throwable $th) {

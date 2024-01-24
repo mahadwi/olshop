@@ -223,6 +223,7 @@ return [
         'file_vendor' => 'File Vendor',
         'draft' => 'Draft',
         'completed' => 'Completed',
+        'pickup_date' => 'Pickup Date',
     ],
     'button' => [
         'login' => 'Login',
