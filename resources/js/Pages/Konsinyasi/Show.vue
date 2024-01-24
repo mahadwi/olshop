@@ -124,6 +124,13 @@ const isCompleted = computed(() => {
   return complete;
 });
 
+const isUpload = computed(() => {
+  
+  let complete = props.product.agreements.every(item => item.file != null);
+  
+  return complete;
+});
+
 </script>
 
 <template>
@@ -375,7 +382,14 @@ const isCompleted = computed(() => {
                     />
                   </div>
                   <div class="col-span-6">
-                    <FwbSelect
+                    <FwbInput v-if="props.product.status == 'Completed'"
+                      readonly
+                      v-model="props.product.status"
+                      :placeholder="lang().label.status"
+                      :label="lang().label.status"
+                    />
+
+                    <FwbSelect v-else
                       v-model="form.status"
                       :options="vendorProductStatus"
                       :label="lang().label.status"
@@ -447,14 +461,14 @@ const isCompleted = computed(() => {
                     <fwb-table-cell>{{ agreement.is_approved ? 'Approve' : 'Not Approve' }}</fwb-table-cell>
                     <fwb-table-cell>{{ agreement.note }}</fwb-table-cell>
                     <fwb-table-cell>
-                      <fwb-button v-if="agreement.file_url" type="button" size="xs" class="mr-2" @click="(data.editOpen = true),
+                      <fwb-button v-if="agreement.file_url && props.product.status != 'Completed' " type="button" size="xs" class="mr-2" @click="(data.editOpen = true),
                             (data.agreement = agreement)" color="default">Edit</fwb-button>
                     </fwb-table-cell>
                   </fwb-table-row>
                 </fwb-table-body>
               </fwb-table>
               <div>
-              <form v-if="!isCompleted" @submit.prevent="updateAgreement">
+              <form v-if="!isCompleted && isUpload" @submit.prevent="updateAgreement">
                 <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
                   <PrimaryButton
                     type="submit"
@@ -472,7 +486,7 @@ const isCompleted = computed(() => {
                 </div>
               </form>
 
-              <form v-if="isCompleted" @submit.prevent="setComplete">
+              <form v-if="isCompleted && props.product.status != 'Completed'" @submit.prevent="setComplete">
                 <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
                   <PrimaryButton
                     type="submit"

@@ -34,6 +34,8 @@ class KonsinyasiController extends Controller
         }
         if ($request->has(['field', 'order'])) {
             $products->orderBy($request->field, $request->order);
+        } else {
+            $products->orderBy('id');
         }
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
