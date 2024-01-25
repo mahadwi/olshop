@@ -52,6 +52,8 @@ class Courier extends AbstractAppConstant
    /** J&T Express */
    const JNT = 'jnt';
 
+   const PICKUP = 'pickup';
+
 //    /** Pahala Kencana Express */
 //    const PAHALA = 'pahala';
 
