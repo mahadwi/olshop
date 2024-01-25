@@ -21,6 +21,7 @@ class Order extends Model
         'total',        
         'status',        
         'note',        
+        'is_offline',        
     ];
 
     protected $casts = [

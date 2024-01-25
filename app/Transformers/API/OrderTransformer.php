@@ -34,14 +34,15 @@ class OrderTransformer extends TransformerAbstract
     public function transform(Order $order)
     {
         return [
-            'id'        => $order->id,
-            'courier'   => $order->courier,
-            'ongkir'    => $order->ongkir,
-            'voucher'   => $order->voucher,
-            'discount'  => $order->discount,
-            'total'     => $order->total,
-            'status'    => $order->status,
-            'note'      => $order->note,            
+            'id'            => $order->id,
+            'courier'       => $order->courier,
+            'ongkir'        => $order->ongkir,
+            'voucher'       => $order->voucher,
+            'discount'      => $order->discount,
+            'total'         => $order->total,
+            'status'        => $order->status,
+            'note'          => $order->note,            
+            'is_offline'    => $order->is_offline,            
         ];
     }
 

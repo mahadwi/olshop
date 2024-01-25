@@ -36,21 +36,26 @@ class StoreOrderApiAction
 
             }
 
-            $external_id = (string) Str::uuid();
-            //create invoice
-            $params = [
-                'external_id'   => $external_id,
-                'description'   => 'Product Payment',
-                'amount'        => $this->attributes['total'],
-            ];
-    
-            $invoice = (new XenditService)->createInvoice($params);                            
 
-            $paramPayment = [
-                'external_id' => $external_id,
-                'invoice_url' => $invoice['invoice_url'], 
-                'expired'     => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta')
-            ];
+            $paramPayment = [];
+
+            if(!$this->attributes['is_offline']){
+                $external_id = (string) Str::uuid();
+                //create invoice
+                $params = [
+                    'external_id'   => $external_id,
+                    'description'   => 'Product Payment',
+                    'amount'        => $this->attributes['total'],
+                ];
+        
+                $invoice = (new XenditService)->createInvoice($params);                            
+
+                $paramPayment = [
+                    'external_id' => $external_id,
+                    'invoice_url' => $invoice['invoice_url'], 
+                    'expired'     => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta')
+                ];
+            }             
 
             // //store payment
             dispatch_sync(new StorePaymentAction($paramPayment, $order));

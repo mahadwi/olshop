@@ -33,6 +33,7 @@ class StoreOrderApiRequest extends FormRequest
             'ongkir'                => 'required|integer',
             'discount'              => 'nullable|integer',
             'total'                 => 'required|integer',
+            'is_offline'            => 'required|boolean',
             'details'               => 'required|array',
             'details.*.product_id'  => 'required|exists:products,id',  
             'details.*.qty'         => 'required|min:1|integer',  
