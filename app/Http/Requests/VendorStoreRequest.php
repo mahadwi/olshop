@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Constants\VendorType;
+use App\Models\Vendor;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VendorStoreRequest extends FormRequest
@@ -23,14 +24,14 @@ class VendorStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                 => ['required', 'string'],
-            'email'                 => ['required', 'email'],
-            'phone'                 => ['required', 'string'],
-            'address'               => ['required', 'string'],
-            'ktp'                   => ['required', 'integer'],
-            'bank'                  => ['required', 'string'],
-            'bank_account_holder'   => ['required', 'string'],
-            'bank_account_number'   => ['required', 'integer'],     
+            'name'                  => 'required|string|unique:'.Vendor::class,
+            'email'                 => 'required|email|unique:'.Vendor::class,
+            'phone'                 => 'required|string|unique:'.Vendor::class,
+            'address'               => 'required|string',
+            'ktp'                   => 'required|integer',
+            'bank'                  => 'required|string',
+            'bank_account_holder'   => 'required|string',
+            'bank_account_number'   => 'required|integer',     
         ];
     }
 

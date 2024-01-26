@@ -17,6 +17,8 @@ class UpdateVendorAction
 
     public function handle()
     {
-        return $this->vendor->fill($this->attributes)->save();
+        $this->vendor->fill($this->attributes)->save();
+
+        return $this->vendor;
     }
 }

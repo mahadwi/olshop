@@ -24,7 +24,7 @@ class StoreVendorApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:' . Vendor::class, 
             'phone' => 'required|string|min:9|max:16|unique:' . Vendor::class, 
             'email' => 'required|string|email|max:255|unique:' . Vendor::class,    
             'ktp'                   => 'required|integer',
