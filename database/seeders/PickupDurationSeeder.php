@@ -17,7 +17,7 @@ class PickupDurationSeeder extends Seeder
         DB::table('pickup_durations')->truncate();
 
         $data = [
-            'duration' => 3,
+            'duration' => 5,
         ];
 
         PickupDuration::create($data);

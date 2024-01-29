@@ -16,7 +16,7 @@ class OperationalSeeder extends Seeder
     public function run(): void
     {
 
-        DB::table('pickup_durations')->truncate();
+        DB::table('operationals')->truncate();
 
         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
         $open = '08:00';
