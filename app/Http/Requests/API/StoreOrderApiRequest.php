@@ -28,12 +28,13 @@ class StoreOrderApiRequest extends FormRequest
 
         return [
             'voucher'               => 'nullable|exists:vouchers,code',            
-            'address_id'            => 'required|exists:addresses,id',
+            'address_id'            => 'nullable|exists:addresses,id',
             'courier'               => 'required|string|in:'.$courier,
             'ongkir'                => 'required|integer',
             'discount'              => 'nullable|integer',
             'total'                 => 'required|integer',
             'is_offline'            => 'required|boolean',
+            'pickup_deadline'       => 'required_if:courier,pickup|date_format:d-m-Y',
             'details'               => 'required|array',
             'details.*.product_id'  => 'required|exists:products,id',  
             'details.*.qty'         => 'required|min:1|integer',  

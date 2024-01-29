@@ -2,6 +2,7 @@
 
 namespace App\Transformers\API;
 
+use App\Models\Address;
 use App\Models\Order;
 use App\Models\Payment;
 use League\Fractal\TransformerAbstract;
@@ -34,15 +35,16 @@ class OrderTransformer extends TransformerAbstract
     public function transform(Order $order)
     {
         return [
-            'id'            => $order->id,
-            'courier'       => $order->courier,
-            'ongkir'        => $order->ongkir,
-            'voucher'       => $order->voucher,
-            'discount'      => $order->discount,
-            'total'         => $order->total,
-            'status'        => $order->status,
-            'note'          => $order->note,            
-            'is_offline'    => $order->is_offline,            
+            'id'                 => $order->id,
+            'courier'            => $order->courier,
+            'ongkir'             => $order->ongkir,
+            'voucher'            => $order->voucher,
+            'discount'           => $order->discount,
+            'total'              => $order->total,
+            'status'             => $order->status,
+            'note'               => $order->note,            
+            'is_offline'         => $order->is_offline,            
+            'pickup_deadline'    => $order->pickup_deadline ? $order->pickup_deadline->format('d-m-Y') : null,       
         ];
     }
 
@@ -63,6 +65,11 @@ class OrderTransformer extends TransformerAbstract
 
     public function includeAddress($order)
     {
-        return $this->item($order->address, new AddressTransformer());
+        $address = $order->address;
+        if ($address instanceof Address) {
+            return $this->item($address, new AddressTransformer());
+        } else {
+            return $this->null();
+        }
     }
 }

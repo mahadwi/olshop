@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Services\Order\OrderService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,10 +23,12 @@ class Order extends Model
         'status',        
         'note',        
         'is_offline',        
+        'pickup_deadline',        
     ];
 
     protected $casts = [
-        'created_at' => 'date:d-m-Y',
+        'created_at'      => 'date:d-m-Y',
+        'pickup_deadline' => 'date:d-m-Y',
     ];
 
     protected static function boot()
@@ -36,6 +39,11 @@ class Order extends Model
                 $order->code = (new OrderService)->generateCode();
             }
         });
+    }
+
+    public function setPickupDeadlineAttribute($value)
+    {
+        $this->attributes['pickup_deadline'] = Carbon::parse($value)->format('Y-m-d');
     }
 
     public function orderDetail()

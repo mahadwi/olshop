@@ -36,7 +36,6 @@ class StoreOrderApiAction
 
             }
 
-
             $paramPayment = [];
 
             if(!$this->attributes['is_offline']){
