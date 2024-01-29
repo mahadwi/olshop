@@ -13,6 +13,7 @@ use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
+use App\Http\Controllers\OperationalController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -82,5 +83,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/agreement', AgreementController::class)->except('show','update','edit');
     Route::post('agreement/{agreement}/update', [AgreementController::class, 'update'])->name('agreement.update');
 
+    Route::resource('/operational', OperationalController::class)->except('show','update','edit');
 
 });

@@ -41,6 +41,7 @@ use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
+use App\Http\Controllers\API\OperationalApiController;
 use App\Http\Controllers\API\ProfileApiController;
 use App\Http\Controllers\API\VendorProductApiController;
 
@@ -140,6 +141,7 @@ Route::get('work-with-us', [WorkWithUsApiController::class, 'index']);
 Route::get('location', LocationApiController::class);
 Route::get('bank-code', BankCodeController::class)->name('bank-code');
 Route::get('profile', ProfileApiController::class);
+Route::get('operational', OperationalApiController::class);
 
 
 

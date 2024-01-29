@@ -225,6 +225,9 @@ return [
         'draft' => 'Draft',
         'completed' => 'Completed',
         'pickup_date' => 'Pickup Date',
+        'operational' => 'Operasional',
+        'duration' => 'Durasi',
+        'day' => 'Hari',
     ],
     'button' => [
         'login' => 'Masuk',

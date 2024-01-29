@@ -20,6 +20,7 @@ class VoucherController extends Controller
         $this->useFor = VoucherUseFor::getValues();
         $this->capacity = VoucherCapacity::getValues();
     }
+    
     public function index(Request $request)
     {
         $vouchers = Voucher::query();

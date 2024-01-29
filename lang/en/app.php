@@ -224,6 +224,9 @@ return [
         'draft' => 'Draft',
         'completed' => 'Completed',
         'pickup_date' => 'Pickup Date',
+        'operational' => 'Operational',
+        'duration' => 'Duration',
+        'day' => 'Day',
     ],
     'button' => [
         'login' => 'Login',

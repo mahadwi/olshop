@@ -16,7 +16,7 @@ class OngkirApiController extends Controller
     {
         
         if($request->courier == Courier::PICKUP){
-            return $this->apiSuccess($this->getPickup());
+            return $this->apiSuccess([$this->getPickup()]);
         }
 
         $origin = $this->getOrigin();
