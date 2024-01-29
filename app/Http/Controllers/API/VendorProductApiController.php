@@ -47,6 +47,22 @@ class VendorProductApiController extends Controller
         return $this->apiSuccess($productF, $meta);
     }
 
+    public function show($product)
+    {
+        $product = VendorProduct::find($product);
+        
+        if($product){
+            
+            $product = fractal($product, new VendorProductTransformer());
+
+            return $this->apiSuccess($product);
+        } else {
+            
+            return $this->apiError([], [], 'Vendor Product Not Found');
+        }
+
+    }
+
     public function store(StoreVendorProductRequest $request)
     {
         $product = (new StoreVendorProductAction($request->all()))->handle();

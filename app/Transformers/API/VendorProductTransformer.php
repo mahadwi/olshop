@@ -50,6 +50,7 @@ class VendorProductTransformer extends TransformerAbstract
             'width'         => $product->width,
             'length'        => $product->length,
             'status'        => $product->status,
+            'offered_date'  => $product->created_at->format(config('app.default.datetime_human')),
 
             'images'        => $this->images($product),
         ];
