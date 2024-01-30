@@ -92,6 +92,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('agreement', AgreementApiController::class)->except('create', 'edit', 'update');
     Route::post('agreement', [AgreementApiController::class, 'update']);
 
+    Route::post('brand', [BrandApiController::class, 'store']);
+
+
 });
 
 Route::resource('product', ProductApiController::class)->only('index', 'show');
