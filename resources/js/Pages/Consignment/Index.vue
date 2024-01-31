@@ -15,8 +15,10 @@ const props = defineProps({
     title: String,
     consignment: Object,
     consignmentDetail: Object,
+    loadmoreType: Object,
     breadcrumbs:Object,
 });
+
 const data = reactive({
     createOpen: false,
     editOpen: false,
@@ -54,6 +56,7 @@ const truncate = (value, length) => {
             :title="props.title"
             :consignment="props.consignment"
             :consignmentDetail="props.consignmentDetail"
+            :loadmoreType="props.loadmoreType"
         />
         <Delete
             :show="data.deleteOpen"

@@ -20,6 +20,9 @@ class ConsignmentCard extends Model
         'description',
         'description_en',
         'icon',
+        'loadmore_type',
+        'loadmore_link',
+        'loadmore_text'
     ];
 
     protected $appends = ['icon_url'];

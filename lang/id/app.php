@@ -228,6 +228,9 @@ return [
         'operational' => 'Operasional',
         'duration' => 'Durasi',
         'day' => 'Hari',
+        'loadmore_type' => 'Loadmore Type',
+        'loadmore_link' => 'Loadmore Link',
+        'loadmore_text' => 'Loadmore Text',
     ],
     'button' => [
         'login' => 'Masuk',

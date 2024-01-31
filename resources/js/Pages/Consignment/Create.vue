@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import SelectInput from "@/Components/SelectInput.vue";
 import { FwbInput, FwbTextarea, FwbFileInput, FwbTab, FwbTabs, FwbButton} from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect, ref, onMounted } from "vue";
@@ -15,6 +16,7 @@ const props = defineProps({
     title: String,
     consignment: Array,
     consignmentDetail: Array,
+    loadmoreType: Object,
 });
 
 const activeTab = ref('section1');
@@ -37,7 +39,6 @@ const deleteForm = (index, section) => {
     const secCard = `cardsSection${section}`;
     form[secCard].splice(index, 1);
 };
-
 
 const form = useForm({
     consignment_id:"",
@@ -129,6 +130,8 @@ watchEffect(() => {
         const section4 = props.consignmentDetail.find((item) => item.section == 4);
         form.titleSection4 = section4?.title;
         form.titleEnSection4 = section4?.title_en;
+        form.titleEnSection4 = section4?.title_en;
+        form.imageUrlSection4 = section4?.image_url;
 
         if(section4?.consignment_card.length > 0) {
             form.cardsSection4 = section4?.consignment_card;
@@ -153,6 +156,26 @@ watchEffect(() => {
 
     }
 });
+
+const loadmoreType = [
+    {
+        label:'Select',
+        value:''
+    }
+]
+
+onMounted(() => {
+    Object.values(props.loadmoreType).forEach(element => {
+        let dataPush = {
+            label:element,
+            value:element
+        };
+
+        loadmoreType.push(dataPush);
+    });
+});
+
+console.log(loadmoreType);
 
 </script>
 <style scoped>
@@ -361,7 +384,9 @@ watchEffect(() => {
                                                 <FwbFileInput accept="image/*" v-model="form.imageSection4" :label="lang().label.image" />
                                                 <InputError class="mt-2" :message="form.errors.imageSection4" />
                                             </div>
-                                          
+                                            <div>
+                                                <img :src="form.imageUrlSection4" style="width:30%">
+                                            </div>
                                             <hr>
                                             <div v-for="(item, index) in form.cardsSection4" :key="index">
                                                 <input type="hidden" v-model="item.id" >
@@ -386,7 +411,7 @@ watchEffect(() => {
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.image`]" />
                                                 </div>
                                                 <div class="mb-5" v-if="item.icon">
-                                                    <img :src="`/image/consignment/`+item.icon" style="width:30%">
+                                                    <img :src="`/image/consignment/`+item.icon" style="width:10%">
                                                 </div>
                                                 <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
@@ -394,10 +419,34 @@ watchEffect(() => {
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.description`]" />
                                                 </div>
 
-                                                <div>
+                                                <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
                                                     <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="item.description_en" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.description_en`]" />
+                                                </div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <InputLabel :for="lang().label.loadmore_type" :value="lang().label.loadmore_type" />
+                                                        <SelectInput
+                                                            :id="lang().label.loadmore_type"
+                                                            class="mt-1 block w-full"
+                                                            v-model="item.loadmore_type"
+                                                            
+                                                            :dataSet="loadmoreType"
+                                                        >
+                                                        </SelectInput>
+                                                    </div>
+                                                    <div>
+                                                        <div v-if="item.loadmore_type == 'Link'">
+                                                            <FwbInput v-model="item.loadmore_link" :placeholder="lang().label.loadmore_link" :label="lang().label.loadmore_link" />
+                                                            <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.loadmore_link`]" />
+                                                        </div>
+
+                                                        <div v-if="item.loadmore_type == 'Modal'">
+                                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.loadmore_text}} </label>
+                                                            <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.loadmore_text" v-model:content="item.loadmore_text" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -479,7 +528,7 @@ watchEffect(() => {
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.image`]" />
                                                 </div>
                                                 <div class="mb-5" v-if="item.icon">
-                                                    <img :src="`/image/consignment/`+item.icon" style="width:30%">
+                                                    <img :src="`/image/consignment/`+item.icon" style="width:10%">
                                                 </div>
                                                 <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description}} </label>
@@ -487,10 +536,35 @@ watchEffect(() => {
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.description`]" />
                                                 </div>
 
-                                                <div>
+                                                <div class="mb-5">
                                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.description_en}} </label>
                                                     <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.description_en" v-model:content="item.description_en" />
                                                     <InputError class="mt-2" :message="form.errors[`cardsSection5.${index}.description_en`]" />
+                                                </div>
+
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <InputLabel :for="lang().label.loadmore_type" :value="lang().label.loadmore_type" />
+                                                        <SelectInput
+                                                            :id="lang().label.loadmore_type"
+                                                            class="mt-1 block w-full"
+                                                            v-model="item.loadmore_type"
+                                                            
+                                                            :dataSet="loadmoreType"
+                                                        >
+                                                        </SelectInput>
+                                                    </div>
+                                                    <div>
+                                                        <div v-if="item.loadmore_type == 'Link'">
+                                                            <FwbInput v-model="item.loadmore_link" :placeholder="lang().label.loadmore_link" :label="lang().label.loadmore_link" />
+                                                            <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.loadmore_link`]" />
+                                                        </div>
+
+                                                        <div v-if="item.loadmore_type == 'Modal'">
+                                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.loadmore_text}} </label>
+                                                            <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.loadmore_text" v-model:content="item.loadmore_text" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

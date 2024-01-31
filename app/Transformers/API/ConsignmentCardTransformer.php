@@ -38,6 +38,9 @@ class ConsignmentCardTransformer extends TransformerAbstract
             "title_en"          => $consignmentCard->title_en,
             "description"       => $consignmentCard->description,
             "description_en"    => $consignmentCard->description_en,                            
+            "loadmore_type"     => $consignmentCard->loadmore_type,                            
+            "loadmore_link"     => $consignmentCard->loadmore_link,                            
+            "loadmore_text"    => $consignmentCard->loadmore_text,                            
             "icon"              => $consignmentCard->icon ? $consignmentCard->icon_url : '',                            
         ];
     }

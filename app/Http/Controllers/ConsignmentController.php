@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Actions\StoreReturnPoliceAction;
 use App\Actions\UpdateReturnPoliceAction;
+use App\Constants\LoadMoreType;
 use App\Http\Requests\WorkWithUsStoreRequest;
 use App\Http\Requests\ConsignmentStoreRequest;
 use App\Http\Requests\WorkWithUsStoreSection1Request;
@@ -33,10 +34,12 @@ class ConsignmentController extends Controller
     {
         $consignment = Consignment::get();
         $consignmentDetail = ConsignmentDetail::with('consignmentCard')->get();
+        $loadmoreType = collect(LoadMoreType::getValues());
 
         return Inertia::render('Consignment/Index', [
             'title' => 'Data '.__('app.label.consignment'),
             'consignment' => $consignment,
+            'loadmoreType' => $loadmoreType,
             'consignmentDetail' => $consignmentDetail,
             'breadcrumbs'   => [
                 ['label' => 'Setting', 'href' => '#'],
@@ -169,6 +172,9 @@ class ConsignmentController extends Controller
                     'title_en' => $card['title_en'],
                     'description' => $card['description'],
                     'description_en' => $card['description_en'],
+                    'loadmore_type' => $card['loadmore_type'],
+                    'loadmore_link' => $card['loadmore_link'],
+                    'loadmore_text' => $card['loadmore_text'],
                 ]);
                 
                 if (isset($card['image']) ) {
@@ -240,10 +246,13 @@ class ConsignmentController extends Controller
 
                 $cardModel->fill([
                     'consignment_detail_id' => $consignmentDetail->id,
-                    'title' => $card['title'],
-                    'title_en' => $card['title_en'],
-                    'description' => $card['description'],
-                    'description_en' => $card['description_en'],
+                    'title'                 => $card['title'],
+                    'title_en'              => $card['title_en'],
+                    'description'           => $card['description'],
+                    'description_en'        => $card['description_en'],
+                    'loadmore_type'         => $card['loadmore_type'],
+                    'loadmore_link'         => $card['loadmore_link'],
+                    'loadmore_text'         => $card['loadmore_text'],
                 ]);
                 
                 if (isset($card['image']) ) {

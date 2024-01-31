@@ -33,6 +33,6 @@ class Brand extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('image/brand/'.$this->image);
+        return $this->image ? asset('image/brand/'.$this->image) : null;
     }
 }
