@@ -8,6 +8,7 @@ use App\Constants\VoucherType;
 use App\Constants\VoucherUseFor;
 use App\Http\Controllers\Controller;
 use App\Actions\API\StoreOrderApiAction;
+use App\Http\Requests\API\OrderApiRequest;
 use App\Transformers\API\OrderTransformer;
 use App\Http\Requests\API\StoreOrderApiRequest;
 use App\Models\Order;
@@ -15,9 +16,18 @@ use App\Models\Order;
 class OrderApiController extends Controller
 {
 
-    public function index()
+    public function index(OrderApiRequest $request)
     {
-        $data = Order::where('user_id', auth()->user()->id)->get();
+        $data = Order::where('user_id', auth()->user()->id)
+        ->when($request->has('status'), function ($query) use ($request) {
+            $query->where('status', $request->status);       
+        })
+        ->when($request->has('payment_status'), function ($query) use ($request) {
+            $query->whereHas('paymentable', function ($query) use ($request){
+                $query->where('status', $request->payment_status);
+            });            
+        })
+        ->get();
 
         $order = fractal($data, new OrderTransformer)->toArray();
 

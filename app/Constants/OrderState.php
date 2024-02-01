@@ -6,7 +6,7 @@ class OrderState extends AbstractAppConstant
 {
     public const ONPROCESS = 'On Process';
     public const ONGOING = 'On Going';
-    public const COMPLETED = 'Selesai';
+    public const COMPLETED = 'Completed';
     public const CANCEL = 'Cancel';
     public const RETURN = 'Return';
 }

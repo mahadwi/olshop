@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\API;
 
+use App\Constants\OrderState;
+use App\Constants\PaymentState;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderApiRequest extends FormRequest
@@ -11,7 +13,7 @@ class OrderApiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,15 @@ class OrderApiRequest extends FormRequest
      */
     public function rules(): array
     {
+        $status = OrderState::getValues();
+        $status = implode(',', $status);
+
+        $paymentStatus = PaymentState::getValues();
+        $paymentStatus = implode(',', $paymentStatus);        
+
         return [
-            //
+            'status'         => 'nullable|in:'.$status,          
+            'payment_status' => 'nullable|in:'.$paymentStatus,          
         ];
     }
 }
