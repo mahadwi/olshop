@@ -31,7 +31,8 @@ class OrderApiRequest extends FormRequest
 
         return [
             'status'         => 'nullable|in:'.$status,          
-            'payment_status' => 'nullable|in:'.$paymentStatus,          
+            'payment_status' => 'nullable|in:'.$paymentStatus,        
+            'is_offline'     => 'nullable|boolean',  
         ];
     }
 }

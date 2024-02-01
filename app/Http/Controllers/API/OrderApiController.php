@@ -27,6 +27,9 @@ class OrderApiController extends Controller
                 $query->where('status', $request->payment_status);
             });            
         })
+        ->when($request->has('is_offline'), function ($query) use ($request) {
+            $query->where('is_offline', $request->is_offline);       
+        })
         ->get();
 
         $order = fractal($data, new OrderTransformer)->toArray();
