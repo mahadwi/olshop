@@ -37,6 +37,22 @@ class OrderApiController extends Controller
         return $this->apiSuccess($order);
     }
 
+    public function show($order)
+    {
+        $order = Order::find($order);
+        
+        if($order){
+            
+            $order = fractal($order, new OrderTransformer());
+
+            return $this->apiSuccess($order);
+        } else {
+            
+            return $this->apiError([], [], 'Order Not Found');
+        }
+
+    }
+
     public function store(StoreOrderApiRequest $request)
     {
         $validate = $this->validateOrder($request);
