@@ -51,7 +51,7 @@ class VendorProduct extends Model
 
     public function setConfirmDateAttribute($value)
     {
-        $this->attributes['confirm_date'] = Carbon::parse($value)->format('Y-m-d');
+        $this->attributes['confirm_date'] = $value ? Carbon::parse($value)->format('Y-m-d') : null;
     }
 
     public function setProductDeadlineAttribute($value)

@@ -230,6 +230,7 @@ return [
         'loadmore_type' => 'Loadmore Type',
         'loadmore_link' => 'Loadmore Link',
         'loadmore_text' => 'Loadmore Text',
+        'approval' => 'Approval',
     ],
     'button' => [
         'login' => 'Login',

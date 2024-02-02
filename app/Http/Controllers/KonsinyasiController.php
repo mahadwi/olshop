@@ -54,7 +54,7 @@ class KonsinyasiController extends Controller
 
     public function show(VendorProduct $konsinyasi)
     {       
-        $vendorProductStatus = collect(VendorProductStatus::getValues())->except('COMPLETED');
+        $vendorProductStatus = $this->getStatus($konsinyasi);
 
         return Inertia::render($this->root.'/Show', [
             'title'                 => 'Show '.__('app.label.consignment'),
@@ -67,11 +67,29 @@ class KonsinyasiController extends Controller
         ]);
     }
 
+    public function getStatus($product)
+    {
+        $except = ['COMPLETED', 'REVIEW', 'CANCELED'];
+
+        if(!$product->approve_file){
+            array_push($except, 'APPROVED');
+        }
+
+        $status = collect(VendorProductStatus::getValues())->except($except);
+
+        if($product->status == VendorProductStatus::APPROVED || $product->status == VendorProductStatus::COMPLETED || $product->status == VendorProductStatus::CANCELED){
+            $status = collect([]);
+        }
+        
+
+        return $status;
+    }
+
     public function update(Request $request, VendorProduct $konsinyasi)
     {       
         try {
             dispatch_sync(new UpdateVendorProductAction($konsinyasi, $request->all()));           
-            return redirect()->route('konsinyasi.index')->with('success', __('app.label.updated_successfully', ['name' => $konsinyasi->name]));
+            return back()->with('success', __('app.label.updated_successfully', ['name' => $konsinyasi->name]));
 
         } catch (\Throwable $th) {
             DB::rollback();

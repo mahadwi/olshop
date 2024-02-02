@@ -22,13 +22,18 @@ class UpdateVendorProductAction
     {
         return DB::transaction(function () {
 
-            if($this->attributes['status'] == VendorProductStatus::APPROVED){
+            if($this->attributes['update_status']){
 
-                $this->attributes['approve_date'] = date('Y-m-d');                
+                $this->attributes['status'] = $this->attributes['update_status'];
 
-                (new AgreementService())->generate($this->vendorProduct->load('vendor'));     
+                if($this->attributes['status'] == VendorProductStatus::APPROVED){
+
+                    $this->attributes['approve_date'] = date('Y-m-d');                
+
+                    (new AgreementService())->generate($this->vendorProduct->load('vendor'));     
+                }
             }
-
+            
             $this->vendorProduct->fill($this->attributes)->save();
 
             return $this->vendorProduct;
