@@ -14,7 +14,7 @@ class CartApiController extends Controller
 {
     public function index()
     {
-        $data = Cart::where('user_id', auth()->user()->id)->get();
+        $data = Cart::where('user_id', auth()->user()->id)->orderBy('id')->get();
 
         $cart = fractal($data, new CartTransformer)->toArray();
 
