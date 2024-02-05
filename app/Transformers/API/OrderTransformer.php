@@ -36,6 +36,7 @@ class OrderTransformer extends TransformerAbstract
     {
         return [
             'id'                 => $order->id,
+            'invoice_id'         => $order->code,
             'courier'            => $order->courier,
             'ongkir'             => $order->ongkir,
             'voucher'            => $order->voucher,
