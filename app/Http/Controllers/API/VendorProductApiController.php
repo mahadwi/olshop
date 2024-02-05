@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Actions\API\StoreVendorProductAction;
-use App\Actions\API\UploadVendorProductAction;
-use App\Http\Requests\API\StoreVendorProductRequest;
-use App\Http\Requests\API\UploadVendorProductRequest;
 use App\Models\VendorProduct;
+use App\Http\Controllers\Controller;
+use App\Actions\UpdateVendorProductAction;
+use App\Actions\API\StoreVendorProductAction;
 use App\Repositories\VendorProductRepository;
+use App\Actions\API\UploadVendorProductAction;
 use App\Transformers\API\VendorProductTransformer;
+use App\Http\Requests\API\StoreVendorProductRequest;
+use App\Http\Requests\API\UpdateVendorProductRequest;
+use App\Http\Requests\API\UploadVendorProductRequest;
 
 class VendorProductApiController extends Controller
 {
@@ -72,6 +74,16 @@ class VendorProductApiController extends Controller
         $product = fractal($product, new VendorProductTransformer);           
             
         return $this->apiSuccess($product);
+    }
+
+    public function update(UpdateVendorProductRequest $request, VendorProduct $vendor_product)
+    {
+        $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->all()));
+
+        $product = fractal($data, new VendorProductTransformer())->toArray();
+
+        return $this->apiSuccess($product);
+        
     }
 
     public function uploadFile(UploadVendorProductRequest $request, UploadVendorProductAction $action)
