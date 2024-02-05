@@ -41,6 +41,8 @@ const props = defineProps({
   title: String,
   breadcrumbs: Object,
   product: Object,
+  approveFile: Object,
+  cancelFile: Object,
   vendorProductStatus: Object,
 });
 
@@ -126,6 +128,13 @@ const isCompleted = computed(() => {
 const isUpload = computed(() => {
   
   let complete = props.product.agreements.every(item => item.file != null);
+  
+  return complete;
+});
+
+const canotSave = computed(() => {
+  
+  let complete = props.product.status == 'Canceled' || props.product.status == 'Completed' || props.product.status == 'Approved';
   
   return complete;
 });
@@ -408,11 +417,57 @@ const isUpload = computed(() => {
                   </div>
                   <div class="col-span-6">
                   </div>
+
+                  <div class="col-span-12" v-if="props.approveFile && props.product.status == 'Review'">
+                    <h3 class="text-md font-semibold dark:text-white">
+                      Approval File
+                    </h3>
+                    <fwb-table class="mt-3">
+                      <fwb-table-head>
+                        <fwb-table-head-cell>{{ lang().label.file_vendor }}</fwb-table-head-cell>
+                        <fwb-table-head-cell></fwb-table-head-cell>
+                      </fwb-table-head>
+                      <fwb-table-body>
+                        <fwb-table-cell class="text-left">
+                          <fwb-a v-if="props.product.approve_file"  :href="props.product.approve_file_url" target="_blank">
+                            Show
+                          </fwb-a>
+                          <span v-else>{{ 'Belum diupload' }}</span>
+                        </fwb-table-cell>
+                        <fwb-table-cell></fwb-table-cell>
+                      </fwb-table-body>
+                    </fwb-table>
+                  </div>
+                  <!-- <div class="col-span-12" v-else>
+                    <h3 class="text-md font-semibold text-red-600 dark:text-white">
+                      File Approval belum diupload
+                    </h3>
+                  </div> -->
+                  <div class="col-span-12" v-if="(props.cancelFile && props.product.status == 'Not Approved') || props.product.status=='Canceled'">
+                    <h3 class="text-md font-semibold dark:text-white">
+                      Cancel File
+                    </h3>
+                    <fwb-table class="mt-3">
+                      <fwb-table-head>
+                        <fwb-table-head-cell>{{ lang().label.file_vendor }}</fwb-table-head-cell>
+                        <fwb-table-head-cell></fwb-table-head-cell>
+                      </fwb-table-head>
+                      <fwb-table-body>
+                        <fwb-table-cell class="text-left">
+                          <fwb-a v-if="props.product.cancel_file"  :href="props.product.cancel_file_url" target="_blank">
+                            Show
+                          </fwb-a>
+                          <span v-else>{{ 'Belum diupload' }}</span>
+                        </fwb-table-cell>
+                        <fwb-table-cell></fwb-table-cell>
+                      </fwb-table-body>
+                    </fwb-table>
+                  </div>
                   <div
                    
                     class="flex justify-start gap-2 col-span-6 sm:col-full"
                   >
-                    <PrimaryButton v-if="status != 'Approved' && status != 'Completed' "
+                    <PrimaryButton v-if="!canotSave"
                       type="submit"
                       :class="{ 'opacity-25': form.processing }"
                       :disabled="form.processing"
@@ -424,6 +479,7 @@ const isUpload = computed(() => {
                       }}
                     </PrimaryButton>
                   </div>
+                
                 </div>
               </form>
             </fwb-tab>

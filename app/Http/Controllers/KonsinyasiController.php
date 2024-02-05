@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Constants\VendorProductStatus;
 use App\Actions\UpdateVendorProductAction;
 use App\Actions\UpdateVendorAgreementAction;
+use App\Constants\AgreementFileType;
+use App\Models\Agreement;
 use App\Services\VendorProduct\SetCompleteService;
 
 class KonsinyasiController extends Controller
@@ -54,12 +56,17 @@ class KonsinyasiController extends Controller
 
     public function show(VendorProduct $konsinyasi)
     {       
+        $approveFile = Agreement::where('file_type', AgreementFileType::APPROVAL)->first();
+        $cancelFile = Agreement::where('file_type', AgreementFileType::CANCEL)->first();
+
         $vendorProductStatus = $this->getStatus($konsinyasi);
 
         return Inertia::render($this->root.'/Show', [
             'title'                 => 'Show '.__('app.label.consignment'),
             'product'               => $konsinyasi->load(['color', 'brand', 'productCategory', 'vendor', 'imageable', 'agreements.agreement']),
             'vendorProductStatus'   => $vendorProductStatus,
+            'approveFile'           => $approveFile,
+            'cancelFile'            => $cancelFile,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.consignment'), 'href' => route('konsinyasi.index')],
@@ -69,16 +76,29 @@ class KonsinyasiController extends Controller
 
     public function getStatus($product)
     {
-        $except = ['COMPLETED', 'REVIEW', 'CANCELED'];
-
-        if(!$product->approve_file){
-            array_push($except, 'APPROVED');
-        }
+        $except = ['COMPLETED', 'REVIEW'];        
 
         $status = collect(VendorProductStatus::getValues())->except($except);
+        
+        if($product->status == VendorProductStatus::NOT_APPROVED){
+            
+            $status = $status->only('CANCELED');
+            if(!$product->cancel_file){                
+                $status = collect([]);
+            } 
+        }        
 
         if($product->status == VendorProductStatus::APPROVED || $product->status == VendorProductStatus::COMPLETED || $product->status == VendorProductStatus::CANCELED){
             $status = collect([]);
+        }
+
+        if($product->status == VendorProductStatus::REVIEW){
+            
+            if($product->confirm_date && $product->approve_file){
+                $status = $status->only('APPROVED');
+            } else {
+                $status = collect([]);
+            }
         }
         
 

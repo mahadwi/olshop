@@ -23,8 +23,9 @@ class AgreementUpdateRequest extends FormRequest
     {
         $rules =  [
             'name'  => 'required',
-            'is_active'  => 'required',
+            'file_type' => 'required|string',
             'file' => 'nullable|max:500',
+            'is_active'  => 'required',
             // 'file' => 'nullable|mimes:docx|max:500',
         ];        
         

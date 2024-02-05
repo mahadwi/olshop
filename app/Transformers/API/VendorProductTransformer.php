@@ -2,7 +2,9 @@
 
 namespace App\Transformers\API;
 
+use App\Constants\VendorProductStatus;
 use App\Models\VendorProduct;
+use App\Services\VendorProduct\ApprovalService;
 use League\Fractal\TransformerAbstract;
 
 class VendorProductTransformer extends TransformerAbstract
@@ -54,9 +56,14 @@ class VendorProductTransformer extends TransformerAbstract
             'width'             => $product->width,
             'length'            => $product->length,
             'status'            => $product->status,
+            'note'            => $product->note,
             'offered_date'      => $product->created_at->format(config('app.default.datetime_human')),
-
-            'images'        => $this->images($product),
+            'confirm_date'      => $product->confirm_date ? $product->confirm_date->format('d-m-Y') : null,
+            'images'            => $this->images($product),
+            'approve_file_draft'=> $this->approveFile($product),
+            'approve_file'      => $product->approve_file_url,
+            'cancel_file_draft' => $this->cancelFile($product),
+            'cancel_file'       => $product->cancel_file_url,
         ];
     }
 
@@ -65,6 +72,24 @@ class VendorProductTransformer extends TransformerAbstract
         return is_null($product->imageable) ? [] : $product->imageable->map(function ($item) {
             return asset('image/'.$item->name);
         });
+    }
+
+    public function cancelFile($product)
+    {
+        if($product->status == VendorProductStatus::NOT_APPROVED || $product->status == VendorProductStatus::CANCELED){
+            return (new ApprovalService())->draftFile($product, 'cancel');   
+        } 
+
+        return null;
+    }
+
+    public function approveFile($product)
+    {
+        if(($product->confirm_date && $product->status == VendorProductStatus::REVIEW) || ($product->confirm_date && $product->status == VendorProductStatus::APPROVED) || ($product->confirm_date && $product->status == VendorProductStatus::COMPLETED)){
+            return (new ApprovalService())->draftFile($product, 'approve');   
+        } 
+
+        return null;
     }
 
 }

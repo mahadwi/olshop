@@ -33,9 +33,11 @@ class PaymentTransformer extends TransformerAbstract
     public function transform(Payment $payment)
     {
         return [
-            "status"        => $payment->status,
-            "invoice_url"   => $payment->invoice_url,
-            "expired"       => $payment->expired,
+            "status"                => $payment->status,
+            "invoice_url"           => $payment->invoice_url,
+            "expired"               => $payment->expired,
+            "payment_method"        => $payment->payment_method,
+            "payment_channel"        => $payment->payment_channel,
         ];
     }
 }

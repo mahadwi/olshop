@@ -5,7 +5,7 @@ import Modal from "@/Components/Modal.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue';
+import { FwbInput, FwbTextarea, FwbFileInput, FwbSelect } from 'flowbite-vue';
 import Multiselect from "@vueform/multiselect";
 
 import { useForm } from "@inertiajs/vue3";
@@ -17,6 +17,7 @@ const props = defineProps({
     show: Boolean,
     title: String,
     agreement: Object,
+    fileType: Object
 });
 
 const bahasa = usePage().props.language.original;
@@ -26,6 +27,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     name: "",
     file: "",
+    file_type: "",
     is_active: "",
 });
 
@@ -56,6 +58,7 @@ watchEffect(() => {
     if (props.show) {
         form.name = props.agreement?.name;
         form.is_active = props.agreement?.is_active;
+        form.file_type = props.agreement?.file_type;
         form.errors = {};
     }
 });
@@ -77,7 +80,16 @@ watchEffect(() => {
                     <fwb-input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
 
-                </div>                
+                </div>             
+                <div class="my-6 space-y-4">
+                    <FwbSelect
+                        v-model="form.file_type"
+                        :options="props.fileType"
+                        label="File Type"
+                        />
+
+                    <InputError class="mt-2" :message="form.errors.file_type" />
+                </div>   
                 <div class="my-6 space-y-4">
                     <FwbFileInput accept="image/*" v-model="form.file" :label="lang().label.file" />
 

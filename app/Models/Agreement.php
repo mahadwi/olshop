@@ -13,7 +13,8 @@ class Agreement extends Model
     protected $fillable = [
         'name',
         'file',        
-        'is_active'
+        'is_active',
+        'file_type'
     ];
 
     protected $appends = ['status'];
