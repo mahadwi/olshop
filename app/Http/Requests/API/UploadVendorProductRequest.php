@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AgreementStoreRequest extends FormRequest
+class UploadVendorProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class AgreementStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => 'required|string|max:255',
-            'file_type' => 'required|string',
-            'file'      => 'nullable|mimes:doc,docx|max:500',   
+            'vendor_product_id'  => 'required|integer|exists:vendor_products,id',
+            'type'               => 'required|in:approve,cancel',
+            'file'               => 'required|mimes:pdf|max:10240'
         ];
     }
 }

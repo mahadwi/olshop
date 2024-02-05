@@ -36,9 +36,11 @@ class VendorProduct extends Model
         'confirm_date',
         'product_deadline',
         'note',
+        'approve_file',
+        'cancel_file'
     ];
 
-    protected $appends = ['entry_date'];
+    protected $appends = ['entry_date', 'approve_file_url', 'cancel_file_url'];
 
     protected $casts = [
         'confirm_date' => 'date:d-m-Y',
@@ -51,7 +53,7 @@ class VendorProduct extends Model
 
     public function setConfirmDateAttribute($value)
     {
-        $this->attributes['confirm_date'] = Carbon::parse($value)->format('Y-m-d');
+        $this->attributes['confirm_date'] = $value ? Carbon::parse($value)->format('Y-m-d') : null;
     }
 
     public function setProductDeadlineAttribute($value)
@@ -92,5 +94,23 @@ class VendorProduct extends Model
     public function agreements()
     {
         return $this->hasMany(VendorAgreement::class)->orderBy('id');
+    }
+
+    public function getApproveFileUrlAttribute()
+    {
+        if(!$this->approve_file){
+            return null;
+        }
+
+        return asset('file/'.$this->approve_file);
+    }
+
+    public function getCancelFileUrlAttribute()
+    {
+        if(!$this->cancel_file){
+            return null;
+        }
+
+        return asset('file/'.$this->cancel_file);
     }
 }

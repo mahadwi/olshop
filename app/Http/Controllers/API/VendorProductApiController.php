@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Actions\API\StoreVendorProductAction;
+use App\Actions\API\UploadVendorProductAction;
 use App\Http\Requests\API\StoreVendorProductRequest;
+use App\Http\Requests\API\UploadVendorProductRequest;
 use App\Models\VendorProduct;
 use App\Repositories\VendorProductRepository;
 use App\Transformers\API\VendorProductTransformer;
@@ -70,5 +72,13 @@ class VendorProductApiController extends Controller
         $product = fractal($product, new VendorProductTransformer);           
             
         return $this->apiSuccess($product);
+    }
+
+    public function uploadFile(UploadVendorProductRequest $request, UploadVendorProductAction $action)
+    {
+        $product = VendorProduct::find($request->vendor_product_id);
+        $action->handle($product, $request->except('vendor_product_id'));
+
+        return $this->apiSuccess();
     }
 }

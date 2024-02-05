@@ -19,6 +19,7 @@ const props = defineProps({
     filters: Object,
     agreements: Object,
     breadcrumbs:Object,
+    fileType:Object,
     perPage: Number,
 });
 
@@ -35,6 +36,13 @@ const data = reactive({
     agreement: null,
     dataSet: usePage().props.app.perpage,
 });
+
+const fileType = Object.values(props.fileType).map(
+  (data) => ({
+    name: data,
+    value: data,
+  })
+);
 
 const order = (field) => {
     data.params.field = field;
@@ -65,6 +73,7 @@ watch(
             @close="data.createOpen = false"
             :title="props.title"
             :subdistricts="subdistricts"
+						:fileType="fileType"
         />
         
         <Edit
@@ -72,7 +81,9 @@ watch(
             @close="data.editOpen = false"
             :agreement="data.agreement"
             :title="props.title"
+						:fileType="fileType"
         />
+				
         <Delete
             :show="data.deleteOpen"
             @close="data.deleteOpen = false"
@@ -107,6 +118,9 @@ watch(
                                                     {{ lang().label.name }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    Filetype
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.status }}
                                                 </th>
                                                 <th scope="col" class="tbl-head text-center">
@@ -122,6 +136,7 @@ watch(
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ agreement.name }}</td>
+                                                <td class="tbl-column"> {{ agreement.file_type }}</td>
 																								<td class="tbl-column"> 
                                                     <span :class="agreement.is_active ? 'badge-success' : 'badge-danger' ">{{ agreement.status }}</span>
                                                 </td>

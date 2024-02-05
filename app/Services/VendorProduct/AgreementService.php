@@ -2,6 +2,7 @@
 
 namespace App\Services\VendorProduct;
 
+use App\Constants\AgreementFileType;
 use App\Models\Agreement;
 use App\Models\VendorAgreement;
 use Illuminate\Support\Facades\File;
@@ -19,7 +20,7 @@ class AgreementService
 
     public function generate($product)
     {
-        $files = Agreement::where('is_active', true)->get();
+        $files = Agreement::where('is_active', true)->where('file_type', AgreementFileType::AGREEMENT)->get();
 
         $param = [
             'vendor_id' => $product->vendor_id,  

@@ -4,13 +4,14 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { FwbInput, FwbTextarea, FwbFileInput } from 'flowbite-vue'
+import { FwbInput, FwbTextarea, FwbFileInput, FwbSelect } from 'flowbite-vue'
 import { useForm } from "@inertiajs/vue3";
 import { watchEffect } from "vue";
 
 const props = defineProps({
     show: Boolean,
     title: String,
+    fileType: Object
 });
 
 const emit = defineEmits(["close"]);
@@ -18,6 +19,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     name: "",
     file: "",
+    file_type: "",
 });
 
 const create = () => {
@@ -50,14 +52,25 @@ watchEffect(() => {
                     {{ lang().label.add }} {{ props.title }}
                 </h2>
                 <div class="my-6 space-y-4">
-                    <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
-                    <InputError class="mt-2" :message="form.errors.name" />
-                </div>               
-                <div class="my-6 space-y-4">
-                    <FwbFileInput v-model="form.file" :label="lang().label.file" />
+                    <div>
+                        <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div>
+                        <FwbSelect
+                            v-model="form.file_type"
+                            :options="props.fileType"
+                            label="File Type"
+                            />
 
-                    <InputError class="mt-2" :message="form.errors.file" />
-                </div>
+                        <InputError class="mt-2" :message="form.errors.file_type" />
+                    </div>
+                    <div>
+                        <FwbFileInput v-model="form.file" :label="lang().label.file" />
+    
+                        <InputError class="mt-2" :message="form.errors.file" />
+                    </div>
+                </div>               
                 <div class="flex justify-end">
                     <SecondaryButton
                         :disabled="form.processing"

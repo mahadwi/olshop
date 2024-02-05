@@ -7,14 +7,18 @@ use App\Models\Agreement;
 use Illuminate\Http\Request;
 use App\Actions\StoreAgreementAction;
 use App\Actions\UpdateAgreementAction;
+use App\Constants\AgreementFileType;
 use App\Http\Requests\AgreementStoreRequest;
 use App\Http\Requests\AgreementUpdateRequest;
 
 class AgreementController extends Controller
 {
+    
     public function index(Request $request)
     {
+        $fileType = AgreementFileType::getValues();
         $agreements = Agreement::query();
+
         if ($request->has('search')) {
             $agreements->where('name', 'ILIKE', "%" . $request->search . "%");
         }
@@ -30,7 +34,8 @@ class AgreementController extends Controller
             'title'         => 'Data '.__('app.label.agreement'),
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
-            'agreements'      => $agreements->paginate($perPage),
+            'fileType'      => $fileType,
+            'agreements'    => $agreements->paginate($perPage),
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
                 ['label' => __('app.label.agreement'), 'href' => route('agreement.index')],

@@ -41,19 +41,21 @@ const props = defineProps({
   title: String,
   breadcrumbs: Object,
   product: Object,
+  approveFile: Object,
+  cancelFile: Object,
   vendorProductStatus: Object,
 });
 
 const form = useForm({
   confirm_date: "",
-  status: "",
+  update_status: "",
   note:"",
   agreement:props.product.agreements
 });
 
 const status = ref('');
 
-const fromComplete = useForm({
+const formComplete = useForm({
   id:props.product.id
 });
 
@@ -73,7 +75,7 @@ const update = () => {
   form.put(route("konsinyasi.update", props.product?.id), {
     preserveScroll: true,
     onSuccess: () => {
-      form.reset();
+      // form.reset();
     },
     onError: () => null,
     onFinish: () => null,
@@ -91,7 +93,7 @@ const updateAgreement = () => {
 };
 
 const setComplete = () => {
-  fromComplete.post(route("konsinyasi.complete"), {
+  formComplete.post(route("konsinyasi.complete"), {
     preserveScroll: true,
     onSuccess: () => {
     },
@@ -101,8 +103,7 @@ const setComplete = () => {
 };
 
 onMounted(() => {
-  form.status = props.product?.status;
-  form.confirm_date = props.product?.confirm_date;
+  form.confirm_date = props.product?.confirm_date ? props.product?.confirm_date : '';
   form.note = props.product?.note;
 
   status.value = props.product?.status;
@@ -110,7 +111,7 @@ onMounted(() => {
   form.errors = {};
 });
 
-const activeTab = ref("product");
+const activeTab = ref("approval");
 
 const data = reactive({
     editOpen: false,
@@ -127,6 +128,13 @@ const isCompleted = computed(() => {
 const isUpload = computed(() => {
   
   let complete = props.product.agreements.every(item => item.file != null);
+  
+  return complete;
+});
+
+const canotSave = computed(() => {
+  
+  let complete = props.product.status == 'Canceled' || props.product.status == 'Completed' || props.product.status == 'Approved';
   
   return complete;
 });
@@ -199,7 +207,14 @@ const isUpload = computed(() => {
               />
             </div>
 
-            <div class="col-span-6"></div>
+            <div class="col-span-6">
+              <FwbInput
+                readonly
+                v-model="props.product.status"
+                :placeholder="lang().label.status"
+                :label="lang().label.status"
+              />
+            </div>
           </div>
 
           <fwb-tabs v-model="activeTab" variant="underline" class="mt-5">
@@ -360,8 +375,9 @@ const isUpload = computed(() => {
                     alt=""
                   />
                 </div>
-              </div>
-
+              </div>                               
+            </fwb-tab>
+            <fwb-tab name="approval" :title="lang().label.approval">
               <form @submit.prevent="update">
                 <div class="grid grid-cols-12 gap-6 mt-5">
                   <div class="col-span-6">
@@ -382,17 +398,10 @@ const isUpload = computed(() => {
                     />
                   </div>
                   <div class="col-span-6">
-                    <FwbInput v-if="props.product.status == 'Completed'"
-                      readonly
-                      v-model="props.product.status"
-                      :placeholder="lang().label.status"
-                      :label="lang().label.status"
-                    />
-
-                    <FwbSelect v-else
-                      v-model="form.status"
+                    <FwbSelect
+                      v-model="form.update_status"
                       :options="vendorProductStatus"
-                      :label="lang().label.status"
+                      label="Update Status"
                     />
 
                     <InputError class="mt-2" :message="form.errors.status" />
@@ -408,11 +417,57 @@ const isUpload = computed(() => {
                   </div>
                   <div class="col-span-6">
                   </div>
+
+                  <div class="col-span-12" v-if="props.approveFile && props.product.status == 'Review'">
+                    <h3 class="text-md font-semibold dark:text-white">
+                      Approval File
+                    </h3>
+                    <fwb-table class="mt-3">
+                      <fwb-table-head>
+                        <fwb-table-head-cell>{{ lang().label.file_vendor }}</fwb-table-head-cell>
+                        <fwb-table-head-cell></fwb-table-head-cell>
+                      </fwb-table-head>
+                      <fwb-table-body>
+                        <fwb-table-cell class="text-left">
+                          <fwb-a v-if="props.product.approve_file"  :href="props.product.approve_file_url" target="_blank">
+                            Show
+                          </fwb-a>
+                          <span v-else>{{ 'Belum diupload' }}</span>
+                        </fwb-table-cell>
+                        <fwb-table-cell></fwb-table-cell>
+                      </fwb-table-body>
+                    </fwb-table>
+                  </div>
+                  <!-- <div class="col-span-12" v-else>
+                    <h3 class="text-md font-semibold text-red-600 dark:text-white">
+                      File Approval belum diupload
+                    </h3>
+                  </div> -->
+                  <div class="col-span-12" v-if="(props.cancelFile && props.product.status == 'Not Approved') || props.product.status=='Canceled'">
+                    <h3 class="text-md font-semibold dark:text-white">
+                      Cancel File
+                    </h3>
+                    <fwb-table class="mt-3">
+                      <fwb-table-head>
+                        <fwb-table-head-cell>{{ lang().label.file_vendor }}</fwb-table-head-cell>
+                        <fwb-table-head-cell></fwb-table-head-cell>
+                      </fwb-table-head>
+                      <fwb-table-body>
+                        <fwb-table-cell class="text-left">
+                          <fwb-a v-if="props.product.cancel_file"  :href="props.product.cancel_file_url" target="_blank">
+                            Show
+                          </fwb-a>
+                          <span v-else>{{ 'Belum diupload' }}</span>
+                        </fwb-table-cell>
+                        <fwb-table-cell></fwb-table-cell>
+                      </fwb-table-body>
+                    </fwb-table>
+                  </div>
                   <div
                    
                     class="flex justify-start gap-2 col-span-6 sm:col-full"
                   >
-                    <PrimaryButton v-if="status != 'Approved' && status != 'Completed' "
+                    <PrimaryButton v-if="!canotSave"
                       type="submit"
                       :class="{ 'opacity-25': form.processing }"
                       :disabled="form.processing"
@@ -424,11 +479,11 @@ const isUpload = computed(() => {
                       }}
                     </PrimaryButton>
                   </div>
+                
                 </div>
               </form>
             </fwb-tab>
             <fwb-tab v-if="form.agreement.length > 0" name="agreement" :title="lang().label.agreement">
-
               <fwb-table>
                 <fwb-table-head>
                   <fwb-table-head-cell>No</fwb-table-head-cell>
@@ -468,41 +523,41 @@ const isUpload = computed(() => {
                 </fwb-table-body>
               </fwb-table>
               <div>
-              <form v-if="!isCompleted && isUpload" @submit.prevent="updateAgreement">
-                <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
-                  <PrimaryButton
-                    type="submit"
-                    :class="{
-                      'opacity-25': form.processing,
-                    }"
-                    :disabled="form.processing"
-                  >
-                    {{
-                      form.processing
-                        ? lang().button.save + "..."
-                        : lang().button.save
-                    }}
-                  </PrimaryButton>                  
-                </div>
-              </form>
+                <form v-if="!isCompleted && isUpload" @submit.prevent="updateAgreement">
+                  <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
+                    <PrimaryButton
+                      type="submit"
+                      :class="{
+                        'opacity-25': form.processing,
+                      }"
+                      :disabled="form.processing"
+                    >
+                      {{
+                        form.processing
+                          ? lang().button.save + "..."
+                          : lang().button.save
+                      }}
+                    </PrimaryButton>                  
+                  </div>
+                </form>
 
-              <form v-if="isCompleted && props.product.status != 'Completed'" @submit.prevent="setComplete">
-                <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
-                  <PrimaryButton
-                    type="submit"
-                    :class="{
-                      'opacity-25': form.processing,
-                    }"
-                    :disabled="form.processing"
-                  >
-                    {{
-                      form.processing
-                        ? lang().label.completed + "..."
-                        : lang().label.completed
-                    }}
-                  </PrimaryButton>                  
-                </div>
-              </form>
+                <form v-if="isCompleted && props.product.status != 'Completed'" @submit.prevent="setComplete">
+                  <div class="flex justify-end gap-2 col-span-6 mt-5 sm:col-full">
+                    <PrimaryButton
+                      type="submit"
+                      :class="{
+                        'opacity-25': form.processing,
+                      }"
+                      :disabled="form.processing"
+                    >
+                      {{
+                        form.processing
+                          ? lang().label.completed + "..."
+                          : lang().label.completed
+                      }}
+                    </PrimaryButton>                  
+                  </div>
+                </form>
               </div>
             </fwb-tab>
           </fwb-tabs>
