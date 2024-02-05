@@ -95,6 +95,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('brand', [BrandApiController::class, 'store']);
 
     Route::post('vendor-product-upload', [VendorProductApiController::class, 'uploadFile']);    
+    Route::post('vendor-product-delete-image', [VendorProductApiController::class, 'deleteImage']);    
+    Route::post('vendor-product-upload-image', [VendorProductApiController::class, 'uploadImage']);    
 
 
 });
