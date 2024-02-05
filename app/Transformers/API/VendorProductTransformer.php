@@ -48,6 +48,8 @@ class VendorProductTransformer extends TransformerAbstract
             'price_usd'         => $product->price,
             'sale_price'        => $product->sale_price,
             'sale_usd'          => $product->sale_usd,
+            'consignment_price' => $product->sale_price * 0.01,
+            'consignment_usd'   => $product->sale_usd * 0.01,
             'commission_type'   => $product->commission_type,
             'commission'        => $product->commission,
             'condition'         => $product->condition,
