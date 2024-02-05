@@ -2,10 +2,13 @@
 
 namespace App\Transformers\API;
 
-use App\Constants\VendorProductStatus;
+use stdClass;
+use App\Models\Agreement;
 use App\Models\VendorProduct;
-use App\Services\VendorProduct\ApprovalService;
+use App\Constants\AgreementFileType;
+use App\Constants\VendorProductStatus;
 use League\Fractal\TransformerAbstract;
+use App\Services\VendorProduct\ApprovalService;
 
 class VendorProductTransformer extends TransformerAbstract
 {
@@ -62,10 +65,8 @@ class VendorProductTransformer extends TransformerAbstract
             'offered_date'      => $product->created_at->format(config('app.default.datetime_human')),
             'confirm_date'      => $product->confirm_date ? $product->confirm_date->format('d-m-Y') : null,
             'images'            => $this->images($product),
-            'approve_file_draft'=> $this->approveFile($product),
-            'approve_file'      => $product->approve_file_url,
-            'cancel_file_draft' => $this->cancelFile($product),
-            'cancel_file'       => $product->cancel_file_url,
+            'approve_file'      => $this->approveFile($product),
+            'cancel_file'       => $this->cancelFile($product),
         ];
     }
 
@@ -78,20 +79,44 @@ class VendorProductTransformer extends TransformerAbstract
 
     public function cancelFile($product)
     {
-        if($product->status == VendorProductStatus::NOT_APPROVED || $product->status == VendorProductStatus::CANCELED){
-            return (new ApprovalService())->draftFile($product, 'cancel');   
-        } 
+        $file = new stdClass();
+        $name = Agreement::where('file_type', AgreementFileType::CANCEL)->first();
 
-        return null;
+        $file->name = null;
+            
+        if($product->status == VendorProductStatus::NOT_APPROVED || $product->status == VendorProductStatus::CANCELED){
+            $file->name = $name ? $name->name : null;
+            $file->draft = (new ApprovalService())->draftFile($product, 'cancel');   
+        }  else {
+            $file->draft = null;
+        }
+
+        $file->cancel_file = $product->cancel_file_url;
+
+
+        return $file;
+
     }
 
     public function approveFile($product)
     {
-        if(($product->confirm_date && $product->status == VendorProductStatus::REVIEW) || ($product->confirm_date && $product->status == VendorProductStatus::APPROVED) || ($product->confirm_date && $product->status == VendorProductStatus::COMPLETED)){
-            return (new ApprovalService())->draftFile($product, 'approve');   
-        } 
+        $file = new stdClass();
+        $name = Agreement::where('file_type', AgreementFileType::APPROVAL)->first();
 
-        return null;
+        $file->name = null;
+            
+        if(($product->confirm_date && $product->status == VendorProductStatus::REVIEW) || ($product->confirm_date && $product->status == VendorProductStatus::APPROVED) || ($product->confirm_date && $product->status == VendorProductStatus::COMPLETED)){
+            $file->name = $name ? $name->name : null;
+            $file->draft = (new ApprovalService())->draftFile($product, 'approve');   
+        }  else {
+            $file->draft = null;
+        }
+
+        $file->approve_file = $product->approve_file_url;
+
+        return $file;
+
+
     }
 
 }

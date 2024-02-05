@@ -111,7 +111,7 @@ onMounted(() => {
   form.errors = {};
 });
 
-const activeTab = ref("approval");
+const activeTab = ref("product");
 
 const data = reactive({
     editOpen: false,
