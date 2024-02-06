@@ -94,6 +94,15 @@ class VendorProductTransformer extends TransformerAbstract
 
         $file->cancel_file = $product->cancel_file_url;
 
+        $file->status = null;
+
+        if($product->status == VendorProductStatus::NOT_APPROVED && $product->cancel_file){
+            $file->status = 'Review';
+        }
+
+        if($product->status == VendorProductStatus::CANCELED){
+            $file->status = 'Approved';
+        }
 
         return $file;
 
@@ -114,6 +123,16 @@ class VendorProductTransformer extends TransformerAbstract
         }
 
         $file->approve_file = $product->approve_file_url;
+
+        $file->status = null;
+
+        if($product->status == VendorProductStatus::REVIEW && $product->approve_file){
+            $file->status = 'Review';
+        }
+
+        if($product->status == VendorProductStatus::APPROVED || $product->status == VendorProductStatus::COMPLETED){
+            $file->status = 'Approved';
+        }
 
         return $file;
 
