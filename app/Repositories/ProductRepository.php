@@ -46,7 +46,15 @@ class ProductRepository extends AbstractRepository
 
         $query = $this->getModel()        
             ->when(isset($params['search']), function ($query) use ($params) {
-                $query->where('name', 'ilike', "%{$params['search']}%");
+                $query->where(function ($query) use ($params) {
+                    $query->where('name', 'ilike', "%{$params['search']}%")
+                        ->orWhereHas('brand', function ($query) use ($params) {
+                            $query->where('name', 'ilike', "%{$params['search']}%");
+                        })
+                        ->orWhereHas('productCategory', function ($query) use ($params) {
+                            $query->where('name', 'ilike', "%{$params['search']}%");
+                        });
+                });
             })
             ->where('is_active', true)            
             ->when(isset($params['brand_id']), function ($query) use ($params) {
