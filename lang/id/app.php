@@ -232,6 +232,7 @@ return [
         'loadmore_link' => 'Loadmore Link',
         'loadmore_text' => 'Loadmore Text',
         'approval' => 'Approval',
+        'rekening' => 'Rekening',
     ],
     'button' => [
         'login' => 'Masuk',

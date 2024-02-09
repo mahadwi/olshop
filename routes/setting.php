@@ -2,19 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\AgreementController;
-use App\Http\Controllers\ReturnPoliceController;
-use App\Http\Controllers\PrivacyPoliceController;
-use App\Http\Controllers\TermConditionController;
-use App\Http\Controllers\DeliveryShippingController;
-use App\Http\Controllers\CustomerCareController;
-use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
 use App\Http\Controllers\OperationalController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerCareController;
+use App\Http\Controllers\ReturnPoliceController;
+use App\Http\Controllers\PrivacyPoliceController;
+use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DeliveryShippingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,5 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('agreement/{agreement}/update', [AgreementController::class, 'update'])->name('agreement.update');
 
     Route::resource('/operational', OperationalController::class)->except('show','update','edit');
+
+    Route::resource('/rekening', RekeningController::class)->except('show','edit','update');
+    Route::post('rekening/{rekening}/update', [RekeningController::class, 'update'])->name('rekening.update');
 
 });
