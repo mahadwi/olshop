@@ -68,6 +68,7 @@ class VendorProductTransformer extends TransformerAbstract
             'approve_file'      => $this->approveFile($product),
             'cancel_file'       => $this->cancelFile($product),
             'consignment_file'  => $this->consignmentFile($product),
+            'product_deadline'  => $product->product_deadline ? $product->product_deadline->format('d-m-Y') : null,
         ];
     }
 
