@@ -385,8 +385,8 @@ const formatUangDolarSale = (e) => {
                 <FwbInput
                     :disabled="form.commission_type == 'Selling'"
                     v-model="form.commission"
-                    :placeholder="lang().label.commission"
-                    :label="lang().label.commission"
+                    :placeholder="lang().label.commission_percent"
+                    :label="lang().label.commission_percent"
                 />
                 <InputError class="mt-2" :message="form.errors.commission" />
             </div>

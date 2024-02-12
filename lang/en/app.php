@@ -87,7 +87,7 @@ return [
         'display_on_homepage' => 'Display On Homepage',
         'yes' => 'Yes',
         'no' => 'No',
-        'commission' => 'Commission (%)',
+        'commission_percent' => 'Commission (%)',
         'color' => 'Color',
         'condition' => 'Condition',
         'banner' => 'Banner',
@@ -231,6 +231,8 @@ return [
         'loadmore_link' => 'Loadmore Link',
         'loadmore_text' => 'Loadmore Text',
         'approval' => 'Approval',
+        'rekening' => 'Rekening',
+        'commission' => 'Commission',
     ],
     'button' => [
         'login' => 'Login',

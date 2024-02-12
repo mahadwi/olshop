@@ -8,6 +8,8 @@ use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\ReturnPoliceController;
 use App\Http\Controllers\PrivacyPoliceController;
 use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\DeliveryShippingController;
 use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AuthenticationController;
@@ -85,4 +87,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/operational', OperationalController::class)->except('show','update','edit');
 
+<<<<<<< Updated upstream
+=======
+    Route::resource('/rekening', RekeningController::class)->except('show','edit','update');
+    Route::post('rekening/{rekening}/update', [RekeningController::class, 'update'])->name('rekening.update');
+
+    Route::resource('/commission', CommissionController::class)->except('show','edit','update');
+
+>>>>>>> Stashed changes
 });

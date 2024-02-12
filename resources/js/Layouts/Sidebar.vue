@@ -700,6 +700,32 @@
                     {{ lang().label.operational }}
                   </Link>
                 </li>
+                <li>
+                  <Link :href="route('rekening.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('rekening.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ lang().label.rekening }}
+                  </Link>
+                </li>
+                <li>
+                  <Link :href="route('commission.index')" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+
+                  :class="
+                    route().current('commission.*')
+                        ? 'bg-gray-100 dark:bg-gray-700'
+                        : ''
+                  "
+
+                  >
+                    {{ 'Commssion' }}
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>
