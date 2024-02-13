@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
 use App\Http\Controllers\OperationalController;
