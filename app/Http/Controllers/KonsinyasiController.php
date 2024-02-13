@@ -130,7 +130,8 @@ class KonsinyasiController extends Controller
                 ];
                 dispatch_sync(new UpdateVendorAgreementAction($model, $param));           
             }
-            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+
+            return back()->with('success', 'Success');
 
         } catch (\Throwable $th) {
             DB::rollback();
@@ -144,7 +145,7 @@ class KonsinyasiController extends Controller
 
             $complete = (new SetCompleteService())->handle($request->id);  
 
-            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+            return back()->with('success', 'Success');
 
         } catch (\Throwable $th) {
             DB::rollback();
