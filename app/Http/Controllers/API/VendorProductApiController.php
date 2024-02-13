@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Actions\API\StoreVendorProductAction;
-use App\Actions\API\UploadVendorProductAction;
-use App\Http\Requests\API\StoreVendorProductRequest;
-use App\Http\Requests\API\UploadVendorProductRequest;
 use App\Models\VendorProduct;
+use App\Actions\StoreImageAction;
+use App\Http\Controllers\Controller;
+use App\Services\File\UploadService;
+use App\Actions\UpdateVendorProductAction;
+use App\Actions\API\StoreVendorProductAction;
 use App\Repositories\VendorProductRepository;
+use App\Actions\API\UploadVendorProductAction;
 use App\Transformers\API\VendorProductTransformer;
+use App\Http\Requests\API\StoreVendorProductRequest;
+use App\Http\Requests\API\UpdateVendorProductRequest;
+use App\Http\Requests\API\UploadVendorProductRequest;
+use App\Http\Requests\API\VendorProductDeleteImageRequest;
+use App\Http\Requests\API\VendorProductUploadImageRequest;
 
 class VendorProductApiController extends Controller
 {
@@ -72,6 +78,43 @@ class VendorProductApiController extends Controller
         $product = fractal($product, new VendorProductTransformer);           
             
         return $this->apiSuccess($product);
+    }
+
+    public function update(UpdateVendorProductRequest $request, VendorProduct $vendor_product)
+    {
+        $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->all()));
+
+        $product = fractal($data, new VendorProductTransformer())->toArray();
+
+        return $this->apiSuccess($product);
+        
+    }
+
+    public function deleteImage(VendorProductDeleteImageRequest $request)
+    {
+        $product = VendorProduct::find($request->vendor_product_id);
+        //delete image
+        $product->imageable()->whereIn('name', $request->images)->delete();
+
+        return $this->apiSuccess();
+    }
+
+    public function uploadImage(VendorProductUploadImageRequest $request)
+    {
+        $product = VendorProduct::find($request->vendor_product_id);
+        
+        //upload gambar
+        foreach($request['images'] as $image){
+
+            $file = (new UploadService())->saveFile($image);
+            
+            $attributes = ['name' => $file['name']];
+
+            dispatch_sync(new StoreImageAction($attributes, $product));
+
+        }        
+
+        return $this->apiSuccess();
     }
 
     public function uploadFile(UploadVendorProductRequest $request, UploadVendorProductAction $action)

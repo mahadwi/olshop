@@ -44,6 +44,7 @@ class VendorProduct extends Model
 
     protected $casts = [
         'confirm_date' => 'date:d-m-Y',
+        'product_deadline' => 'date:d-m-Y',
     ];
 
     public function getEntryDateAttribute()

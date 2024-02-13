@@ -107,15 +107,18 @@ onMounted(() => {
   form.note = props.product?.note;
 
   status.value = props.product?.status;
-
+  data.price = priceFormat(props.product.price);
+  data.sale_price = priceFormat(props.product.sale_price);
   form.errors = {};
 });
 
-const activeTab = ref("approval");
+const activeTab = ref("product");
 
 const data = reactive({
     editOpen: false,
-    agreement:null
+    agreement:null,
+    price:0,
+    sale_price:0,
 });
 
 const isCompleted = computed(() => {
@@ -287,7 +290,7 @@ const canotSave = computed(() => {
                 <div class="col-span-6">
                   <FwbInput
                     readonly
-                    v-model="props.product.price"
+                    v-model="data.price"
                     :placeholder="lang().label.price"
                     :label="lang().label.price"
                   />
@@ -314,6 +317,22 @@ const canotSave = computed(() => {
                     v-model="props.product.commission"
                     :placeholder="lang().label.commission"
                     :label="lang().label.commission"
+                  />
+                </div>
+                <div class="col-span-6">
+                  <FwbInput
+                    readonly
+                    v-model="data.sale_price"
+                    :placeholder="lang().label.sale_price"
+                    :label="lang().label.sale_price"
+                  />
+                </div>
+                <div class="col-span-6">
+                  <FwbInput
+                    readonly
+                    v-model="props.product.sale_usd"
+                    :placeholder="lang().label.sale_usd"
+                    :label="lang().label.sale_usd"
                   />
                 </div>
                 <div class="col-span-6">

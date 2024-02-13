@@ -36,6 +36,7 @@ class OrderTransformer extends TransformerAbstract
     {
         return [
             'id'                 => $order->id,
+            'invoice_id'         => $order->code,
             'courier'            => $order->courier,
             'ongkir'             => $order->ongkir,
             'voucher'            => $order->voucher,
@@ -45,6 +46,7 @@ class OrderTransformer extends TransformerAbstract
             'note'               => $order->note,            
             'is_offline'         => $order->is_offline,            
             'pickup_deadline'    => $order->pickup_deadline ? $order->pickup_deadline->format('d-m-Y') : null,       
+            'date'               => $order->created_at->format(config('app.default.datetime_human')),
         ];
     }
 

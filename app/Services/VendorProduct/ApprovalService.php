@@ -61,11 +61,7 @@ class ApprovalService {
 
     public function isUploadDraft($type)
     {
-        if($type == 'cancel'){
-            return Agreement::where('file_type', AgreementFileType::CANCEL)->first();
-        }
-
-        return Agreement::where('file_type', AgreementFileType::APPROVAL)->first();
+        return Agreement::where('file_type', $type)->first();
     }
 
 }

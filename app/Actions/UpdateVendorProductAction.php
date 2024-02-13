@@ -22,7 +22,7 @@ class UpdateVendorProductAction
     {
         return DB::transaction(function () {
 
-            if($this->attributes['update_status']){
+            if(isset($this->attributes['update_status']) && $this->attributes['update_status']){
 
                 $this->attributes['status'] = $this->attributes['update_status'];
 

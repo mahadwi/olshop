@@ -22,7 +22,7 @@ class WishlistApiController extends Controller
         
         if ($request->has('page')) {
             if ($request->has('itemPerpage')) {
-                $query = $query->paginate($request->has('itemPerpage'));
+                $query = $query->paginate($request->itemPerpage);
             } else {
                 $query = $query->paginate(10);
             }
