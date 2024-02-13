@@ -13,6 +13,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
+import Multiselect from "@vueform/multiselect";
 
 import {
   FwbTextarea, FwbFileInput, FwbInput,
@@ -40,6 +41,7 @@ const props = defineProps({
 const form = useForm({
   brand_id: "",
   category_id:[],
+  details:[]
 });
 
 const formatter = ref({
@@ -57,8 +59,32 @@ const create = () => {
   });
 };
 
+const brands = props.brands.map((data) => ({
+    label: data.name,
+    value: data.id
+}))
+
+const categories = props.categories.map((data) => ({
+    label: data.name,
+    value: data.id
+}))
+
+const addDetail = () => {
+    form.details.push({
+       min:0,
+       max:0,
+       percent:0,
+    });
+};
+
+const deleteDetail = (index) => {
+    form.details.splice(index, 1);
+};
+
+  
+
 onMounted(() => {
-    
+    addDetail();
 });
 
 </script>
@@ -81,17 +107,62 @@ onMounted(() => {
           <form @submit.prevent="create">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-4">
-                <FwbInput
-                  v-model="form.duration"
-                  :placeholder="lang().label.duration"
-                  :label="lang().label.duration"
+                <InputLabel for="brand" :value="lang().label.brand" />
+
+                <Multiselect
+                  id="brand"
+                  v-model="form.brand_id"
+                  :options="brands"
+                  track-by="label"
+                  label="label"
+                  :searchable="true"
+                  placeholder="Select"
                 />
-                <InputError class="mt-2" :message="form.errors.duration" />
+
+                <InputError class="mt-2" :message="form.errors.brand_id" />
               </div>
               <div class="col-span-8">
+                <InputLabel for="category" :value="lang().label.category" />
 
+                <Multiselect
+                  mode="tags"
+                  id="category"
+                  v-model="form.category_id"
+                  :options="categories"
+                  track-by="label"
+                  label="label"
+                  :searchable="true"
+                  placeholder="Select"
+                />
+
+                <InputError class="mt-2" :message="form.errors.category_id" />
               </div>
-							<div class="col-span-8">
+              <div class="col-span-12">
+                <button @click="addDetail"
+                  class="btn-primary mb-2" type="button">
+                      {{ 'Add Detail Price' }}
+                </button>
+              </div>
+              <template v-for="(item, index) in form.details" :key="index">            
+                <div class="col-span-4">
+                  <FwbInput v-model="item.min" :placeholder="lang().label.min_price" :label="lang().label.min_price" />
+                  <InputError class="mt-2" :message="form.errors[`details.${index}.min`]" />
+                </div>
+                <div class="col-span-4">
+                  <FwbInput v-model="item.max" :placeholder="lang().label.max_price" :label="lang().label.max_price" />
+                  <InputError class="mt-2" :message="form.errors[`details.${index}.max`]" />          
+                </div>
+                <div class="col-span-3">
+                  <FwbInput v-model="item.percent" :placeholder="lang().label.percent" :label="lang().label.percent" />
+                  <InputError class="mt-2" :message="form.errors[`details.${index}.percent`]" />             
+                </div>
+                <div class="col-span-1">
+                  <fwb-button v-if="index != 0" color="red" class="mt-7" pill square @click="deleteDetail(index)"  type="button">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                  </fwb-button>            
+                </div>
+              </template>
+							<!-- <div class="col-span-8">
                 <h3 class="mb-4 text-xl font-semibold dark:text-white">
                   {{ lang().label.operational }}
                 </h3>
@@ -137,7 +208,7 @@ onMounted(() => {
 										placeholder="Select time"
 									></date-picker>
 								</div>
-							</template>
+							</template> -->
 							
               <div class="flex justify-start gap-2 col-span-6 sm:col-full">
                 <PrimaryButton
@@ -163,3 +234,4 @@ onMounted(() => {
   </AuthenticatedLayout>
 </template>
 
+<style src="@vueform/multiselect/themes/default.css"></style>

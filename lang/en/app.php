@@ -233,6 +233,8 @@ return [
         'approval' => 'Approval',
         'rekening' => 'Rekening',
         'commission' => 'Commission',
+        'max_price' => 'Max Price',
+        'percent' => 'Percent',
     ],
     'button' => [
         'login' => 'Login',
