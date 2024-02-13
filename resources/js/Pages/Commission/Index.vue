@@ -88,10 +88,9 @@ watch(
                             {{ props.title }}
                         </h3>
 
-                        <button @click="data.createOpen = true"
-                        class="btn-primary mb-2" type="button">
+                        <Link :href="route('commission.create')" class="btn-primary mb-2">
                             {{ lang().button.add }}
-                        </button>
+                        </Link>
 
                         <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
                             <SelectInput

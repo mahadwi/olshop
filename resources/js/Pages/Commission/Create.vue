@@ -33,13 +33,13 @@ import "vue-datepicker-next/index.css";
 const props = defineProps({
   title: String,
   breadcrumbs: Object,
-  duration: Object,
-  operationals: Object,
+  brands: Object,
+  categories: Object,
 });
 
 const form = useForm({
-  duration: "",
-  operationals:[],
+  brand_id: "",
+  category_id:[],
 });
 
 const formatter = ref({
@@ -48,7 +48,7 @@ const formatter = ref({
 });
 
 const create = () => {
-  form.post(route("operational.store"), {
+  form.post(route("commission.store"), {
     preserveScroll: true,
     onSuccess: () => {
     },
@@ -58,8 +58,7 @@ const create = () => {
 };
 
 onMounted(() => {
-    form.duration = props.duration.duration;
-		form.operationals = props.operationals
+    
 });
 
 </script>
