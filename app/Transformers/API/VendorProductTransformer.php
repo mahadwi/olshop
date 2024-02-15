@@ -61,7 +61,7 @@ class VendorProductTransformer extends TransformerAbstract
             'width'             => $product->width,
             'length'            => $product->length,
             'status'            => $product->status,
-            'note'            => $product->note,
+            'note'              => $product->note,
             'offered_date'      => $product->created_at->format(config('app.default.datetime_human')),
             'confirm_date'      => $product->confirm_date ? $product->confirm_date->format('d-m-Y') : null,
             'images'            => $this->images($product),

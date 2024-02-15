@@ -87,7 +87,7 @@ return [
         'display_on_homepage' => 'Tampilkan di Homepage',
         'yes' => 'Ya',
         'no' => 'Tidak',
-        'commission' => 'Komisi (%)',
+        'commission_percent' => 'Komisi (%)',
         'color' => 'Color',
         'condition' => 'Kondisi',
         'banner' => 'Banner',
@@ -233,6 +233,9 @@ return [
         'loadmore_text' => 'Loadmore Text',
         'approval' => 'Approval',
         'rekening' => 'Rekening',
+        'commission' => 'Komisi',
+        'max_price' => 'Max Price',
+        'percent' => 'Persen',
     ],
     'button' => [
         'login' => 'Masuk',

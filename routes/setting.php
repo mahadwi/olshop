@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\WorkWithUsController;
 use App\Http\Controllers\ConsignmentController;
 use App\Http\Controllers\OperationalController;
@@ -88,5 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/rekening', RekeningController::class)->except('show','edit','update');
     Route::post('rekening/{rekening}/update', [RekeningController::class, 'update'])->name('rekening.update');
+
+    Route::resource('/commission', CommissionController::class)->except('show');
 
 });
