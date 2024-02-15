@@ -22,15 +22,20 @@ class Commission extends Model
 
 
     function getCategoryAttribute() {
-        dd($this->category_id);
-        $categories = ProductCategory::whereIn($this->category_id)->get();
+        $categories = ProductCategory::whereIn('id', $this->category_id)
+        ->pluck('name')->implode(', ');
 
-        dd($categories);
+        return $categories;
     }
 
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(CommissionDetail::class);
     }
 
     

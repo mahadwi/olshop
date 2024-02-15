@@ -6,25 +6,19 @@ use App\Models\Commission;
 use App\Models\CommissionDetail;
 use Illuminate\Support\Facades\DB;
 
-class StoreCommissionAction
+class UpdateCommissionAction
 {
-    private $attributes;
-    
-    public function __construct(array $attributes = [])
+    public function handle(Commission $commission, array $attributes = [])
     {
-        $this->attributes = $attributes;
-    }
+        return DB::transaction(function () use ($commission, $attributes) {
 
-    public function handle()
-    {
-        return DB::transaction(function () {
-           
-            $commission = new Commission($this->attributes);
-        
-            $commission->save();   
+            $commission->fill($attributes);
+            $commission->save();
+
+            $commission->details()->delete();
 
             //detail
-            foreach($this->attributes['details'] as $detail){
+            foreach($attributes['details'] as $detail){
                 
                 $detail['commission_id'] = $commission->id;                
                 
@@ -35,6 +29,7 @@ class StoreCommissionAction
             }
 
             return $commission;
+            
         });
     }
 }

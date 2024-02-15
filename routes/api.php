@@ -38,6 +38,7 @@ use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
+use App\Http\Controllers\API\CommissionApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
@@ -151,6 +152,8 @@ Route::get('bank-code', BankCodeController::class)->name('bank-code');
 Route::get('profile', ProfileApiController::class);
 Route::get('operational', OperationalApiController::class);
 Route::get('rekening', [RekeningApiController::class, 'index']);
+Route::get('commission', [CommissionApiController::class, 'index']);
+
 
 
 

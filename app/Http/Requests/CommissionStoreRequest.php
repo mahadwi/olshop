@@ -25,9 +25,10 @@ class CommissionStoreRequest extends FormRequest
             'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|array',
             'details' => 'required|array',
-            'details.*.min' => 'required|integer',
-            'details.*.max' => 'required|integer',
+            'details.*.min' => 'required',
+            'details.*.max' => 'required',
             'details.*.percent' => 'required|integer|max:100',           
         ];
     }
+
 }

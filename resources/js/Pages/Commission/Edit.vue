@@ -34,14 +34,15 @@ import "vue-datepicker-next/index.css";
 const props = defineProps({
   title: String,
   breadcrumbs: Object,
+  commission: Object,
   brands: Object,
   categories: Object,
 });
 
 const form = useForm({
-  brand_id: "",
-  category_id:[],
-  details:[]
+  brand_id: props.commission.brand_id,
+  category_id:props.commission.category_id,
+  details:props.commission.details
 });
 
 const formatter = ref({
@@ -49,14 +50,16 @@ const formatter = ref({
   month: "MMM",
 });
 
-const create = () => {
-  form.post(route("commission.store"), {
-    preserveScroll: true,
-    onSuccess: () => {
-    },
-    onError: () => null,
-    onFinish: () => null,
-  });
+const update = () => {
+    form.put(route("commission.update", props.commission?.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            emit("close");
+            form.reset();
+        },
+        onError: () => null,
+        onFinish: () => null,
+    });
 };
 
 const brands = props.brands.map((data) => ({
@@ -103,7 +106,7 @@ const formatAngka = (event, type, index) => {
 
   
 onMounted(() => {
-    addDetail();
+    // addDetail();
 });
 
 </script>
@@ -123,7 +126,7 @@ onMounted(() => {
           <h3 class="mb-4 text-xl font-semibold dark:text-white">
             {{ props.title }}
           </h3>
-          <form @submit.prevent="create">
+          <form @submit.prevent="update">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-4">
                 <InputLabel for="brand" :value="lang().label.brand" />
@@ -168,7 +171,7 @@ onMounted(() => {
                   <InputError class="mt-2" :message="form.errors[`details.${index}.min`]" />
                 </div>
                 <div class="col-span-4">
-                  <FwbInput v-model="item.max" @input="formatAngka($event, 'max', index)"  :placeholder="lang().label.max_price" :label="lang().label.max_price" />
+                  <FwbInput v-model="item.max" @input="formatAngka($event, 'max', index)" :placeholder="lang().label.max_price" :label="lang().label.max_price" />
                   <InputError class="mt-2" :message="form.errors[`details.${index}.max`]" />          
                 </div>
                 <div class="col-span-3">
@@ -192,8 +195,8 @@ onMounted(() => {
                 >
                   {{
                     form.processing
-                      ? lang().button.save + "..."
-                      : lang().button.save
+                      ? lang().button.update + "..."
+                      : lang().button.update
                   }}
                 </PrimaryButton>
               </div>

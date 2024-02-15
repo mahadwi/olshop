@@ -90,6 +90,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/rekening', RekeningController::class)->except('show','edit','update');
     Route::post('rekening/{rekening}/update', [RekeningController::class, 'update'])->name('rekening.update');
 
-    Route::resource('/commission', CommissionController::class)->except('show','edit','update');
+    Route::resource('/commission', CommissionController::class)->except('show');
 
 });
