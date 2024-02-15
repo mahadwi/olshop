@@ -94,13 +94,13 @@ class KonsinyasiController extends Controller
 
         if($product->status == VendorProductStatus::REVIEW){
             
+            $status = $status->only('NOT_APPROVED');                
+            
             if($product->confirm_date && $product->approve_file){
                 $status = $status->only('APPROVED');
-            } else if($product->confirm_date && !$product->approve_file) {
-                $status = $status->only('NOT_APPROVED');                
-            } else {
-                $status = collect([]);
-            }
+            } 
+            
+          
         }
         
 
