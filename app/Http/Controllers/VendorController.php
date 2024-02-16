@@ -35,7 +35,7 @@ class VendorController extends Controller
         $perPage = $request->has('perPage') ? $request->perPage : 10;
         
         return Inertia::render('Vendor/Index', [
-            'title'         => 'Data Vendor',
+            'title'         => 'Data Consigner',
             'filters'       => $request->all(['search', 'field', 'order']),
             'perPage'       => (int) $perPage,
             'vendors'         => $vendors->paginate($perPage),

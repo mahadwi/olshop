@@ -93,14 +93,13 @@ class KonsinyasiController extends Controller
         }
 
         if($product->status == VendorProductStatus::REVIEW){
-            
+                        
             if($product->confirm_date && $product->approve_file){
-                $status = $status->only('APPROVED');
-            } else if($product->confirm_date && !$product->approve_file) {
-                $status = $status->only('NOT_APPROVED');                
+                $status = $status->only(['APPROVED', 'NOT_APPROVED']);
             } else {
-                $status = collect([]);
+                $status = $status->only('NOT_APPROVED');                
             }
+            
         }
         
 
@@ -130,7 +129,8 @@ class KonsinyasiController extends Controller
                 ];
                 dispatch_sync(new UpdateVendorAgreementAction($model, $param));           
             }
-            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+
+            return back()->with('success', 'Success');
 
         } catch (\Throwable $th) {
             DB::rollback();
@@ -144,7 +144,7 @@ class KonsinyasiController extends Controller
 
             $complete = (new SetCompleteService())->handle($request->id);  
 
-            return redirect()->route('konsinyasi.index')->with('success', 'Success');
+            return back()->with('success', 'Success');
 
         } catch (\Throwable $th) {
             DB::rollback();

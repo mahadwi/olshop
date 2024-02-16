@@ -48,7 +48,7 @@ class VendorProductTransformer extends TransformerAbstract
             'category'          => $product->productCategory->name,
             'brand'             => $product->brand->name,
             'price'             => $product->price,
-            'price_usd'         => $product->price,
+            'price_usd'         => $product->price_usd,
             'sale_price'        => $product->sale_price,
             'sale_usd'          => $product->sale_usd,
             'consignment_price' => $product->sale_price * 0.01,
