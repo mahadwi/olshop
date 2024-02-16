@@ -23,7 +23,7 @@ class StoreBrandAction
     public function handle()
     {
 
-        if($this->isImage($this->attributes['image'])){
+        if($this->attributes['image'] AND $this->isImage($this->attributes['image'])){
             $file = (new UploadService())->saveFile($this->attributes['image'], 'brand');  
 
             $this->attributes['image'] = $file['name'];

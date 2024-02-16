@@ -155,7 +155,8 @@ const truncate = (value, length) => {
                                                 <td class="tbl-column" v-html="truncate(brand.description_en, 25)">
                                                 </td>
                                                 <td class="w-32">
-                                                    <img :src="brand.image_url" :alt="brand.name">
+                                                    <img v-if="brand.image" :src="brand.image_url" :alt="brand.name">
+                                                    <span v-else>-</span>
                                                 </td>
                                                 <td class="tbl-column space-x-2 whitespace-nowrap text-center">
                                                     <button @click="
