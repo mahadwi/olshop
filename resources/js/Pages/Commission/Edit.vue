@@ -106,7 +106,12 @@ const formatAngka = (event, type, index) => {
 
   
 onMounted(() => {
-    // addDetail();
+    form.details.map((item) => {
+      item.min = priceFormat(item.min);
+      item.max = priceFormat(item.max);
+
+      return item;
+    })
 });
 
 </script>

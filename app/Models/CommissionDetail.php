@@ -26,15 +26,15 @@ class CommissionDetail extends Model
         $this->attributes['max'] = str_replace('.', '', $value);
     }
 
-    public function getMinAttribute($value)
-    {
-        return number_format($value, 0, ',', '.');
-    }
+    // public function getMinAttribute($value)
+    // {
+    //     return number_format($value, 0, ',', '.');
+    // }
 
-    public function getMaxAttribute($value)
-    {
-        return number_format($value, 0, ',', '.');
-    }
+    // public function getMaxAttribute($value)
+    // {
+    //     return number_format($value, 0, ',', '.');
+    // }
 
     protected $hidden = ['created_at', 'updated_at'];
 }

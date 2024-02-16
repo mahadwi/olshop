@@ -153,6 +153,7 @@ Route::get('profile', ProfileApiController::class);
 Route::get('operational', OperationalApiController::class);
 Route::get('rekening', [RekeningApiController::class, 'index']);
 Route::get('commission', [CommissionApiController::class, 'index']);
+Route::post('check-commission', [CommissionApiController::class, 'checkCommission']);
 
 
 
