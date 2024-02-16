@@ -37,9 +37,7 @@ class CommissionApiController extends Controller
             })->first();    
 
             if($otherBrand){
-                $percent = $this->getPercent($otherBrand->details, $request->price);
-
-                dd($percent);
+                $percent = $this->getPercent($otherBrand->details, $request->price);                
             }
         }
 
