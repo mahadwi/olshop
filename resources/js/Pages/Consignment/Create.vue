@@ -442,10 +442,10 @@ console.log(loadmoreType);
                                                             <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.loadmore_link`]" />
                                                         </div>
 
-                                                        <div v-if="item.loadmore_type == 'Modal'">
+                                                        <!-- <div v-if="item.loadmore_type == 'Modal'">
                                                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.loadmore_text}} </label>
                                                             <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.loadmore_text" v-model:content="item.loadmore_text" />
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -560,10 +560,10 @@ console.log(loadmoreType);
                                                             <InputError class="mt-2" :message="form.errors[`cardsSection4.${index}.loadmore_link`]" />
                                                         </div>
 
-                                                        <div v-if="item.loadmore_type == 'Modal'">
+                                                        <!-- <div v-if="item.loadmore_type == 'Modal'">
                                                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{lang().label.loadmore_text}} </label>
                                                             <QuillEditor theme="snow" toolbar="full" content-type="html" :placeholder="lang().label.loadmore_text" v-model:content="item.loadmore_text" />
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
