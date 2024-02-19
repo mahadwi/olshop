@@ -32,7 +32,12 @@ class UpdateVendorProductAction
 
                     (new AgreementService())->generate($this->vendorProduct->load('vendor'));     
                 }
-            }
+            } else {
+
+                if($this->vendorProduct->status == VendorProductStatus::NOT_APPROVED){
+                    $this->attributes['status'] = VendorProductStatus::REVIEW;
+                }
+            }        
             
             $this->vendorProduct->fill($this->attributes)->save();
 
