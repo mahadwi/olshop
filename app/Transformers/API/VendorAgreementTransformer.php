@@ -35,6 +35,7 @@ class VendorAgreementTransformer extends TransformerAbstract
         return [
             'id'            => $agreement->id,
             'name'          => $agreement->agreement->name,
+            'name_en'          => $agreement->agreement->name_en,
             'draft'         => $agreement->draft,
             'file'          => $agreement->file_url,
             'status'        => $agreement->is_approved ? 'Approved' : 'Not Approved',
