@@ -17,7 +17,7 @@ class Brand extends Model
         'image',
     ];
 
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url', 'is_valid'];
 
     protected static function booted(): void
     {
@@ -34,5 +34,10 @@ class Brand extends Model
     public function getImageUrlAttribute()
     {
         return $this->image ? asset('image/brand/'.$this->image) : null;
+    }
+
+    public function getIsValidAttribute()
+    {
+        return $this->image && $this->description && $this->description_en ? true : false;
     }
 }
