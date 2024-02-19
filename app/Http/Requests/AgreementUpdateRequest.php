@@ -23,6 +23,7 @@ class AgreementUpdateRequest extends FormRequest
     {
         $rules =  [
             'name'  => 'required',
+            'name_en'  => 'required',
             'file_type' => 'required|string',
             'file' => 'nullable|max:500',
             'is_active'  => 'required',

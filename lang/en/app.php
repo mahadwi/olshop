@@ -235,6 +235,7 @@ return [
         'commission' => 'Commission',
         'max_price' => 'Max Price',
         'percent' => 'Percent',
+        'name_en' => 'Name In English',
     ],
     'button' => [
         'login' => 'Login',

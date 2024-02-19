@@ -118,6 +118,9 @@ watch(
                                                     {{ lang().label.name }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
+                                                    {{ lang().label.name_en }}
+                                                </th>
+                                                <th scope="col" class="tbl-head">
                                                     Filetype
                                                 </th>
                                                 <th scope="col" class="tbl-head">
@@ -136,6 +139,7 @@ watch(
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ agreement.name }}</td>
+                                                <td class="tbl-column"> {{ agreement.name_en }}</td>
                                                 <td class="tbl-column"> {{ agreement.file_type }}</td>
 																								<td class="tbl-column"> 
                                                     <span :class="agreement.is_active ? 'badge-success' : 'badge-danger' ">{{ agreement.status }}</span>

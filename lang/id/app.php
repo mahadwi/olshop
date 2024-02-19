@@ -236,6 +236,7 @@ return [
         'commission' => 'Komisi',
         'max_price' => 'Max Price',
         'percent' => 'Persen',
+        'name_en' => 'Nama dalam Bahasa Inggris',
     ],
     'button' => [
         'login' => 'Masuk',

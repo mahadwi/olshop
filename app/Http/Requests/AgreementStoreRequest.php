@@ -23,6 +23,7 @@ class AgreementStoreRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
+            'name_en'      => 'required|string|max:255',
             'file_type' => 'required|string',
             'file'      => 'nullable|mimes:doc,docx|max:500',   
         ];

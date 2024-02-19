@@ -12,6 +12,7 @@ class Agreement extends Model
 
     protected $fillable = [
         'name',
+        'name_en',
         'file',        
         'is_active',
         'file_type'

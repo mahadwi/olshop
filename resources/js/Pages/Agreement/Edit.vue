@@ -26,6 +26,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
     name: "",
+    name_en: "",
     file: "",
     file_type: "",
     is_active: "",
@@ -57,6 +58,7 @@ const update = () => {
 watchEffect(() => {
     if (props.show) {
         form.name = props.agreement?.name;
+        form.name_en = props.agreement?.name_en;
         form.is_active = props.agreement?.is_active;
         form.file_type = props.agreement?.file_type;
         form.errors = {};
@@ -79,6 +81,12 @@ watchEffect(() => {
 
                     <fwb-input v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                     <InputError class="mt-2" :message="form.errors.name" />
+
+                </div>         
+                <div class="my-6 space-y-4">
+
+                    <fwb-input v-model="form.name_en" :placeholder="lang().label.name_en" :label="lang().label.name_en" />
+                    <InputError class="mt-2" :message="form.errors.name_en" />
 
                 </div>             
                 <div class="my-6 space-y-4">

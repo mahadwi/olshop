@@ -18,6 +18,7 @@ const emit = defineEmits(["close"]);
 
 const form = useForm({
     name: "",
+    name_en: "",
     file: "",
     file_type: "",
 });
@@ -55,6 +56,10 @@ watchEffect(() => {
                     <div>
                         <FwbInput v-model="form.name" :placeholder="lang().placeholder.name" :label="lang().placeholder.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div>
+                        <FwbInput v-model="form.name_en" :placeholder="lang().label.name_en" :label="lang().label.name_en" />
+                        <InputError class="mt-2" :message="form.errors.name_en" />
                     </div>
                     <div>
                         <FwbSelect
