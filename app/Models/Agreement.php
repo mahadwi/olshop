@@ -35,4 +35,9 @@ class Agreement extends Model
     function getStatusAttribute() {
         return $this->is_active ? __('app.label.active') : __('app.label.not_active');
     }
+
+    public function vendors()
+    {
+        return $this->hasMany(VendorAgreement::class);
+    }
 }

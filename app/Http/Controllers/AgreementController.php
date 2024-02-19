@@ -17,7 +17,7 @@ class AgreementController extends Controller
     public function index(Request $request)
     {
         $fileType = AgreementFileType::getValues();
-        $agreements = Agreement::query();
+        $agreements = Agreement::with('vendors');
 
         if ($request->has('search')) {
             $agreements->where('name', 'ILIKE', "%" . $request->search . "%");
