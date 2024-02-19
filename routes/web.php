@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\PosController;
@@ -19,8 +20,8 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupCoaController;
-use App\Http\Controllers\KonsinyasiController;
 use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\KonsinyasiController;
 use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
@@ -70,6 +71,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('konsinyasi/update-agreement', [KonsinyasiController::class, 'updateAgreement'])->name('konsinyasi.update-agreement');
     Route::post('konsinyasi/complete', [KonsinyasiController::class, 'complete'])->name('konsinyasi.complete');
 
-
-
 });
+

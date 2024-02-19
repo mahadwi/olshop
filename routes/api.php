@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\FaqApiController;
@@ -17,35 +18,35 @@ use App\Http\Controllers\API\VendorApiController;
 use App\Http\Controllers\WorkWithUsApiController;
 use App\Http\Controllers\API\AboutUsApiController;
 use App\Http\Controllers\API\AddressApiController;
-use App\Http\Controllers\API\AgreementApiController;
 use App\Http\Controllers\API\BookingApiController;
 use App\Http\Controllers\API\ContactApiController;
 use App\Http\Controllers\API\CourierApiController;
 use App\Http\Controllers\API\GalleryApiController;
 use App\Http\Controllers\API\MessageApiController;
 use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\API\ProfileApiController;
 use App\Http\Controllers\API\VoucherApiController;
 use App\Http\Controllers\ConsignmentApiController;
 use App\Http\Controllers\XenditCallbackController;
 use App\Http\Controllers\API\LocationApiController;
 use App\Http\Controllers\API\RegisterApiController;
+use App\Http\Controllers\API\RekeningApiController;
 use App\Http\Controllers\API\WishlistApiController;
+use App\Http\Controllers\API\AgreementApiController;
 use App\Http\Controllers\API\KecamatanApiController;
 use App\Http\Controllers\API\SubscribeApiController;
+use App\Http\Controllers\API\CommissionApiController;
 use App\Http\Controllers\API\SuggestionApiController;
+use App\Http\Controllers\API\OperationalApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
+use App\Http\Controllers\API\VendorProductApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
-use App\Http\Controllers\API\CommissionApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
-use App\Http\Controllers\API\OperationalApiController;
-use App\Http\Controllers\API\ProfileApiController;
-use App\Http\Controllers\API\RekeningApiController;
-use App\Http\Controllers\API\VendorProductApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -155,7 +156,21 @@ Route::get('rekening', [RekeningApiController::class, 'index']);
 Route::get('commission', [CommissionApiController::class, 'index']);
 Route::post('check-commission', [CommissionApiController::class, 'checkCommission']);
 
-
+Route::get('/download-file/{file}', function($file){
+    
+    $path = public_path('file/'.$file);
+    
+    if(File::exists($path)){        
+        return response()->download($path);
+    }
+    
+    return response()->json(
+        [
+            'data'    => '',
+            'message' => 'File not found'
+        ], 401
+    );
+});
 
 
 
