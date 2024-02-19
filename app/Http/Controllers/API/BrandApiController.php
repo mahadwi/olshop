@@ -9,9 +9,17 @@ use Illuminate\Http\Request;
 
 class BrandApiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $brand = Brand::select('id', 'name', 'image', 'description', 'description_en')->OrderBy('name', 'asc')->get();
+        $brand = Brand::select('id', 'name', 'image', 'description', 'description_en');
+
+        if($request->has('is_valid') && $request->is_valid == true){
+            $brand->whereNotNull('description')
+            ->whereNotNull('description_en')
+            ->whereNotNull('image');
+        }
+
+        $brand = $brand->orderBy('name', 'asc')->get();
 
         return $this->apiSuccess($brand);
     }
