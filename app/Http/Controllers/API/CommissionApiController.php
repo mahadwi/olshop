@@ -12,7 +12,7 @@ class CommissionApiController extends Controller
 {
     public function index()
     {
-        $data = fractal(Commission::all(), new CommissionTransformer()); 
+        $data = fractal(Commission::orderBy('id')->get(), new CommissionTransformer()); 
         
         return $this->apiSuccess($data);
     }
