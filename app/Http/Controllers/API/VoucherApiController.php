@@ -11,7 +11,12 @@ class VoucherApiController extends Controller
 {
     public function index(VoucherApiRequest $request)
     {    
-        $voucher = Voucher::where('use_for', $request->use_for)->get();
+        $today = date('Y-m-d');
+
+        $voucher = Voucher::where('use_for', $request->use_for)
+        ->whereDate('start_date', '<=', $today)
+        ->whereDate('end_date', '>=', $today)
+        ->get();
         
         return $this->apiSuccess($voucher);
     }

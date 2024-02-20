@@ -29,7 +29,7 @@ class StoreVendorProductRequest extends FormRequest
             'description_en' => 'required|string',
             'price' => 'required',
             'price_usd' => 'required',
-            'commission_type' => 'required',
+            'commission_type' => 'required|in:Percent,Selling',
             'commission' => 'required|integer',
             'sale_price' => 'required',
             'sale_usd' => 'required',
