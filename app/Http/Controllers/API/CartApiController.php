@@ -9,6 +9,7 @@ use App\Transformers\API\CartTransformer;
 use App\Http\Requests\API\StoreCartApiRequest;
 use App\Http\Requests\API\UpdateCartApiRequest;
 use App\Http\Requests\API\MulitDeleteCartApiRequest;
+use App\Models\Product;
 
 class CartApiController extends Controller
 {
@@ -27,10 +28,17 @@ class CartApiController extends Controller
             ['product_id', $request->product_id],
             ['user_id', $request->user_id]
         ])->first();
+               
+        $outStock = $this->cekStok($request->product_id, $request->qty);
+        if($outStock) return $this->apiError([], [], 'Out Of Stock');
 
         if(!$cart){
             $cart = new Cart($request->all());            
         } else {
+
+            $outStock = $this->cekStok($request->product_id, $cart->qty + 1);
+            if($outStock) return $this->apiError([], [], 'Out Of Stock');
+
             $cart->qty += 1;
         }
 
@@ -48,6 +56,9 @@ class CartApiController extends Controller
         if(!$dataCart){
             return $this->apiError([],[],'Cart not found');
         }        
+
+        $outStock = $this->cekStok($dataCart->product_id, $request->qty);
+        if($outStock) return $this->apiError([], [], 'Out Of Stock');
 
         $dataCart->qty = $request->qty;              
         $dataCart->save();
@@ -77,6 +88,13 @@ class CartApiController extends Controller
         Cart::destroy($request->cart_id);
 
         return $this->apiSuccess();
+    }
+
+    public function cekStok($productId, $qty)
+    {
+        $product = Product::find($productId);
+        
+        return $qty > $product->stock;
     }
 
 }
