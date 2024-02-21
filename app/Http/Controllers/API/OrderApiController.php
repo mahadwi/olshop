@@ -55,6 +55,7 @@ class OrderApiController extends Controller
 
     public function store(StoreOrderApiRequest $request)
     {
+        
         $validate = $this->validateOrder($request);
 
         if($validate) return $this->apiError([], [], $validate);

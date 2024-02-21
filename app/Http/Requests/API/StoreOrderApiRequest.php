@@ -35,6 +35,7 @@ class StoreOrderApiRequest extends FormRequest
             'total'                 => 'required|integer',
             'is_offline'            => 'required|boolean',
             'pickup_deadline'       => 'required_if:courier,pickup|date_format:d-m-Y',
+            'cart_id'               => 'nullable|array',
             'details'               => 'required|array',
             'details.*.product_id'  => 'required|exists:products,id',  
             'details.*.qty'         => 'required|min:1|integer',  

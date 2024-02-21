@@ -2,8 +2,8 @@
 
 namespace App\Actions\API;
 
-use App\Actions\API\StoreOrderDetailAction;
 use Carbon\Carbon;
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Support\Str;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Actions\StorePaymentAction;
 use App\Services\Xendit\XenditService;
 use App\Services\Booking\BookingService;
+use App\Actions\API\StoreOrderDetailAction;
 
 class StoreOrderApiAction
 {
@@ -28,6 +29,11 @@ class StoreOrderApiAction
             $order = new Order($this->attributes);
 
             $order->save();
+
+            //delete cart
+            if(isset($this->attributes['cart_id'])){
+                Cart::destroy($this->attributes['cart_id']);
+            }
 
             //order detail
             foreach($this->attributes['details'] as $detail){
