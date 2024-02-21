@@ -30,16 +30,19 @@ class StoreOrderApiAction
 
             $order->save();
 
-            //delete cart
-            if(isset($this->attributes['cart_id'])){
-                Cart::destroy($this->attributes['cart_id']);
-            }
-
+            
             //order detail
             foreach($this->attributes['details'] as $detail){
 
                 dispatch_sync(new StoreOrderDetailAction($detail, $order));
 
+                // delete cart
+                if(!$this->attributes['is_direct']){
+                    $cart = Cart::where('product_id', $detail['product_id'])
+                    ->where('user_id', auth()->user()->id)->first();
+                    
+                    if($cart) $cart->delete();
+                }
             }
 
             $paramPayment = [];
