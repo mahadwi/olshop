@@ -48,11 +48,12 @@ class StoreOrderApiAction
                 $external_id = (string) Str::uuid();
                 //create invoice
                 $params = [
-                    'external_id'   => $external_id,
-                    'description'   => 'Product Payment',
-                    'amount'        => $this->attributes['total'],
+                    'external_id'           => $external_id,
+                    'description'           => 'Product Payment',
+                    'amount'                => $this->attributes['total'],
+                    'success_redirect_url'  => config('app.default.xendit_success_url')
                 ];
-        
+
                 $invoice = (new XenditService)->createInvoice($params);                            
 
                 $paramPayment = [
