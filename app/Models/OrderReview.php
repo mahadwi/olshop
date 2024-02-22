@@ -31,4 +31,9 @@ class OrderReview extends Model
     {
         return $this->imageable()->pluck('name');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

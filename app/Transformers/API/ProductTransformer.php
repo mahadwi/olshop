@@ -22,7 +22,7 @@ class ProductTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        //
+        'review'
     ];
 
     /**
@@ -76,5 +76,10 @@ class ProductTransformer extends TransformerAbstract
 
     private function getWishlist($product, $user_id){
         return $product->wishlists->where('user_id', $user_id)->where('product_id', $product->id)->first();
+    }
+
+    public function includeReview($product)
+    {
+        return $this->collection($product->reviews, new OrderReviewTransformer);        
     }
 }
