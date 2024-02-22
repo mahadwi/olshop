@@ -25,7 +25,7 @@ class OrderReviewApiRequest extends FormRequest
             'order_id'                  => 'required|exists:orders,id',
             'reviews'                   => 'required|array',
             'reviews.*.order_detail_id' => 'required|exists:order_details,id',
-            'reviews.*.rating'          => 'required|min:1|max:5',
+            'reviews.*.rating'          => 'required|numeric|min:1|max:5',
             'reviews.*.review'          => 'required',
             'reviews.*.image'           => 'nullable|array',
             'reviews.*.image.*'         => 'nullable|image|mimes:jpg,png,jpeg|max:500',
