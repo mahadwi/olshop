@@ -47,6 +47,7 @@ use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
+use App\Http\Controllers\API\OrderReviewApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +101,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('vendor-product-upload', [VendorProductApiController::class, 'uploadFile']);    
     Route::post('vendor-product-delete-image', [VendorProductApiController::class, 'deleteImage']);    
     Route::post('vendor-product-upload-image', [VendorProductApiController::class, 'uploadImage']);    
-
+    
+    Route::post('order-review', [OrderReviewApiController::class, 'store']);
 
 });
 
