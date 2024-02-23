@@ -27,6 +27,7 @@ use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\PromosiSubscriberController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ReviewProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('promo-subscribe/loadDetailEmail', [PromosiSubscriberController::class, 'loadDetailEmail'])->name('promo-subscribe.loadDetailEmail');
     Route::resource('/review', ReviewController::class)->except('create', 'show', 'edit', 'update');
     Route::post('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
+
+    Route::resource('/review-product', ReviewProductController::class)->except('create', 'show', 'edit', 'update');
+
 
     Route::resource('/suggestion', SuggestionController::class)->only('index');
     Route::resource('/message', MessageController::class)->except('create', 'show', 'edit', 'store');

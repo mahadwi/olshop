@@ -17,6 +17,12 @@ class OrderReview extends Model
         'user_id'
     ];
 
+    protected $appends = ['date_review'];
+
+    function getDateReviewAttribute() {
+        return $this->created_at->format(config('app.default.datetime_human'));
+    }
+
     public function orderDetail()
     {
         return $this->belongsTo(OrderDetail::class);
@@ -36,4 +42,11 @@ class OrderReview extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+   
 }

@@ -236,6 +236,10 @@ return [
         'max_price' => 'Max Price',
         'percent' => 'Percent',
         'name_en' => 'Name In English',
+        'review_product' => 'Review Product',
+        'date_review' => 'Date Review',
+        'view' => 'View',
+        'image_review' => 'Image Review',
     ],
     'button' => [
         'login' => 'Login',
