@@ -28,7 +28,7 @@ class ReviewProductController extends Controller
             'perPage'       => (int) $perPage,
             'reviews'         => $reviews->paginate($perPage),
             'breadcrumbs'   => [
-                ['label' => 'Setting', 'href' => '#'],
+                ['label' => 'Master', 'href' => '#'],
                 ['label' => __('app.label.review_product'), 'href' => route('review-product.index')],
             ],
         ]);
