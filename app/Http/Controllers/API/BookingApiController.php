@@ -28,6 +28,23 @@ class BookingApiController extends Controller
         return $this->apiSuccess($booking);
     }
 
+    public function show($booking)
+    {
+        $booking = Booking::find($booking);
+        
+        if($booking){
+            
+            $booking = fractal($booking, new BookingTransformer());
+
+            return $this->apiSuccess($booking);
+            
+        } else {
+            
+            return $this->apiError([], [], 'Booking Not Found');
+        }
+
+    }
+
     public function store(BookingApiRequest $request)
     {
         $validate = $this->validateBooking($request);

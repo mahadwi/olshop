@@ -2,6 +2,7 @@
 
 namespace App\Transformers\API;
 
+use App\Models\Event;
 use App\Models\EventDetail;
 use League\Fractal\TransformerAbstract;
 
@@ -13,7 +14,7 @@ class EventDetailTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        //
+        'event'
     ];
     
     /**
@@ -22,7 +23,7 @@ class EventDetailTransformer extends TransformerAbstract
      * @var array
      */
     protected array $availableIncludes = [
-        //
+        
     ];
     
     /**
@@ -44,5 +45,15 @@ class EventDetailTransformer extends TransformerAbstract
             'quota'         => $detail->quota,        
             'is_refundable'  => $detail->is_refundable,        
         ];
+    }
+
+    public function includeEvent($detail)
+    {
+        $event = $detail->event;
+        if ($event instanceof Event) {
+            return $this->item($event, new EventTransformer());
+        } else {
+            return $this->null();
+        }
     }
 }

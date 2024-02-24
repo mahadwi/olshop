@@ -2,7 +2,9 @@
 
 namespace App\Transformers\API;
 
+use App\Models\User;
 use App\Models\Booking;
+use App\Models\EventDetail;
 use App\Models\Payment;
 use League\Fractal\TransformerAbstract;
 use App\Transformers\API\PaymentTransformer;
@@ -15,7 +17,7 @@ class BookingTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        'payment'
+        'payment','user','ticket'
     ];
     
     /**
@@ -55,13 +57,23 @@ class BookingTransformer extends TransformerAbstract
         }
     }
 
-    // public function includeUser($wishlist)
-    // {
-    //     $user = $wishlist->user;
-    //     if ($user instanceof User) {
-    //         return $this->item($user, new UserTransformer());
-    //     } else {
-    //         return $this->null();
-    //     }
-    // }
+    public function includeUser($booking)
+    {
+        $user = $booking->user;
+        if ($user instanceof User) {
+            return $this->item($user, new UserTransformer());
+        } else {
+            return $this->null();
+        }
+    }
+
+    public function includeTicket($booking)
+    {
+        $ticket = $booking->eventDetail;
+        if ($ticket instanceof EventDetail) {
+            return $this->item($ticket, new EventDetailTransformer());
+        } else {
+            return $this->null();
+        }
+    }
 }
