@@ -34,22 +34,24 @@ class StoreBookingApiAction
             $booking->save();
 
             $external_id = (string) Str::uuid();
+
+            $url = config('app.default.xendit_success_booking_url')."{$booking->eventDetail->event->id}/{$booking->eventDetail->id}?booking_id={$booking->id}";
+
             //create invoice
             $params = [
                 'external_id'   => $external_id,
                 'description'   => 'Ticket Payment',
                 'amount'        => $this->attributes['total'],
+                'success_redirect_url'  => $url
             ];
             
             $invoice = (new XenditService)->createInvoice($params);                            
 
-            $url = config('app.default.xendit_success_booking_url')."{$booking->eventDetail->event->id}/{$booking->eventDetail->id}?booking_id={$booking->id}";
 
             $paramPayment = [
                 'external_id' => $external_id,
                 'invoice_url' => $invoice['invoice_url'], 
                 'expired' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta'),
-                'success_redirect_url'  => $url
             ];            
 
 
