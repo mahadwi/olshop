@@ -56,7 +56,8 @@ class ProductRepository extends AbstractRepository
                         });
                 });
             })
-            ->where('is_active', true)            
+            ->where('is_active', true)      
+            ->where('stock', '!=', 0)      
             ->when(isset($params['brand_id']), function ($query) use ($params) {
                 $query->whereIn('brand_id', $params['brand_id']);
             })
