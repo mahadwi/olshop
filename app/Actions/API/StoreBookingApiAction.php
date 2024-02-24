@@ -35,7 +35,7 @@ class StoreBookingApiAction
 
             $external_id = (string) Str::uuid();
 
-            $url = config('app.default.xendit_success_booking_url')."{$booking->eventDetail->event->id}/{$booking->eventDetail->id}?booking_id={$booking->id}";
+            $url = config('app.default.xendit_success_booking_url')."/{$booking->eventDetail->event->id}/{$booking->eventDetail->id}?booking_id={$booking->id}";
 
             //create invoice
             $params = [
