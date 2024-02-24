@@ -201,6 +201,7 @@ return [
         'xendit_public_key' => env('XENDIT_PUBLIC_KEY', ''),
         'xendit_callback_token' => env('XENDIT_CALLBACK_TOKEN', ''),
         'xendit_success_url' => env('XENDIT_SUCCESS_URL', ''),
+        'xendit_success_booking_url' => env('XENDIT_SUCCESS_BOOKING_URL', ''),
         'otp_lifetime' => env('OTP_LIFETIME', 180), //in second
         'otp_next_try' => env('OTP_NEXT_TRY', 60), //in second
     ],

@@ -40,20 +40,18 @@ class StoreBookingApiAction
                 'description'   => 'Ticket Payment',
                 'amount'        => $this->attributes['total'],
             ];
-    
+            
             $invoice = (new XenditService)->createInvoice($params);                            
+
+            $url = config('app.default.xendit_success_booking_url')."{$booking->eventDetail->event->id}/{$booking->eventDetail->id}?booking_id={$booking->id}";
 
             $paramPayment = [
                 'external_id' => $external_id,
                 'invoice_url' => $invoice['invoice_url'], 
-                'expired' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta')
+                'expired' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta'),
+                'success_redirect_url'  => $url
             ];            
 
-            // $paramPayment = [
-            //     'external_id' => $external_id,
-            //     'invoice_url' => "https://checkout-staging.xendit.co/v2/658160a1abb3191997ed2f3d", 
-            //     'expired' => Carbon::parse("2023-12-20T09:21:37.615Z")
-            // ];
 
             //store payment
             dispatch_sync(new StorePaymentAction($paramPayment, $booking));
