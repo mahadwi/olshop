@@ -82,7 +82,7 @@ class VendorProductApiController extends Controller
 
     public function update(UpdateVendorProductRequest $request, VendorProduct $vendor_product)
     {
-        $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->all()));
+        $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->validated()));
 
         $product = fractal($data, new VendorProductTransformer())->toArray();
 
