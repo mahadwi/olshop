@@ -241,6 +241,7 @@ return [
         'date_review' => 'Tanggal Review',
         'view' => 'Lihat',
         'image_review' => 'Gambar Review',
+        'order' => 'Order',
     ],
     'button' => [
         'login' => 'Masuk',

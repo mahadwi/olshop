@@ -22,6 +22,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\KonsinyasiController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
@@ -70,6 +71,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/konsinyasi', KonsinyasiController::class);
     Route::post('konsinyasi/update-agreement', [KonsinyasiController::class, 'updateAgreement'])->name('konsinyasi.update-agreement');
     Route::post('konsinyasi/complete', [KonsinyasiController::class, 'complete'])->name('konsinyasi.complete');
+
+    Route::resource('/order', OrderController::class)->only('index', 'show');
+
 
 });
 

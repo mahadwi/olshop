@@ -240,6 +240,7 @@ return [
         'date_review' => 'Date Review',
         'view' => 'View',
         'image_review' => 'Image Review',
+        'order' => 'Order',
     ],
     'button' => [
         'login' => 'Login',
