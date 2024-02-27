@@ -43,7 +43,7 @@ const props = defineProps({
 });
 
 const orderState = [
-    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Return', 'Offline'
+    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Offline'
 ];
 
 const activeTab = ref("All");
