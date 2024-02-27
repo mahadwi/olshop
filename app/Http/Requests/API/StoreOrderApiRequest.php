@@ -49,7 +49,7 @@ class StoreOrderApiRequest extends FormRequest
         if ($this->user()) {
             $this->merge([
                 'user_id' => $this->user()->id,
-                'status'  => OrderState::ONPROCESS
+                'status'  => OrderState::UNPAID
             ]);
         }
     }

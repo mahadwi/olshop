@@ -103,7 +103,6 @@ class OrderApiController extends Controller
             $fixTotal -= $subtract;            
             
         }
-        
         if($fixTotal != $request->total){
             return 'Total Invalid';
         }

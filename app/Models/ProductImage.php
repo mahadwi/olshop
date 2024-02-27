@@ -13,4 +13,6 @@ class ProductImage extends Model
         'product_id',
         'name',
     ];
+
+    
 }

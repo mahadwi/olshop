@@ -31,6 +31,9 @@ class Order extends Model
         'pickup_deadline' => 'date:d-m-Y',
     ];
 
+    protected $appends = ['orderDate'];
+
+
     protected static function boot()
     {
         parent::boot();
@@ -39,6 +42,10 @@ class Order extends Model
                 $order->code = (new OrderService)->generateCode();
             }
         });
+    }
+
+    function getOrderDateAttribute() {
+        return $this->created_at->format(config('app.default.datetime_human')); 
     }
 
     public function setPickupDeadlineAttribute($value)

@@ -1,9 +1,10 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { reactive, watch, ref, computed, onMounted } from "vue";
+import { reactive, watch, ref, computed, onMounted, onBeforeMount } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import { priceFormat } from '../../helper.js'
+import pkg from "lodash";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 import InputError from "@/Components/InputError.vue";
@@ -13,6 +14,8 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
+import Order from "@/Pages/Order/Order.vue";
+import { store } from "@/Pages/Order/store.js";
 
 import {
   FwbTextarea, FwbFileInput, FwbInput,
@@ -31,12 +34,17 @@ import {
 import DatePicker from "vue-datepicker-next";
 import "vue-datepicker-next/index.css";
 
+const { _, debounce, pickBy } = pkg;
 
 const props = defineProps({
   title: String,
   breadcrumbs: Object,
   orders: Object,
 });
+
+const orderState = [
+    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Return', 'Offline'
+];
 
 const activeTab = ref("All");
 
@@ -45,24 +53,35 @@ const form = useForm({
   operationals:[],
 });
 
-const formatter = ref({
-  date: "DD-MM-YYYY",
-  month: "MMM",
+const updateStore = () => {
+	store.orders = props.orders;
+}
+
+onBeforeMount(() => {
+    updateStore();
 });
 
-const create = () => {
-  form.post(route("operational.store"), {
-    preserveScroll: true,
-    onSuccess: () => {
-    },
-    onError: () => null,
-    onFinish: () => null,
-  });
-};
+watch(activeTab, async (newActiveTab) => {
+    let params = {
+        state : newActiveTab
+    };
 
-onMounted(() => {
-    
+    // Wrap the router.get operation in a Promise
+    await new Promise((resolve, reject) => {
+        router.get(route("order.index"), params, {
+            replace: true,
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: resolve, // Resolve the Promise on success
+            onError: reject // Reject the Promise on error (optional)
+        });
+    });
+
+    // Setelah proses router.get selesai, memanggil updateStore
+    updateStore();
 });
+
+
 
 </script>
 
@@ -83,77 +102,12 @@ onMounted(() => {
           </h3>
           
           <fwb-tabs v-model="activeTab" variant="pills" class="mt-5">
-						<fwb-tab name="All" title="All">
-							<div class="bg-white border rounded-md shadow-lg mb-5">
-									<div class="flex bg-gray-300">
-										<div class="p-3">Order Status: Completed / INV123334 / Slamet / 22-09-2020 13:20</div>
-									</div>
-									
-									<div class="px-5 py-3 flex gap-2">
-											<img class="mb-2 rounded-lg w-28 h-28 sm:mb-0 xl:mb-2 2xl:mb-0" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Jese picture">
-											<div class="basis-1/4">
-												<p class="font-bold">Prada Re-Edition 2005 Re-Nylon  mini bag</p>
-												<p class="mt-3">1 x Rp. 15.000.000</p>
-											</div>
-											<div class="basis-1/4 text-center">
-												<p class="font-bold">Address</p>
-												<p class="mt-3">Jl. Lidah Bukit Mas, Lidah Wetan, Kec. Lakarsantri, Surabaya, Jawa Timur 60213</p>
-											</div>
-											<div class="text-center basis-1/4">
-												<p class="font-bold">Courier</p>
-												<p class="mt-3">Rp. 1.000.000</p>
-											</div>
-											<div>
-												<p class="font-bold basis-1/4">Payment Method</p>
-												<p class="text-center mt-3">BCA VA</p>
-											</div>
-									</div>
-<!-- 
-									<div class="px-5 py-3 flex gap-2">
-											<img class="mb-2 rounded-lg w-28 h-28 sm:mb-0 xl:mb-2 2xl:mb-0" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Jese picture">
-											<div class="basis-1/4">
-												<p class="font-bold">Prada Re-Edition 2005 Re-Nylon  mini bag</p>
-												<p class="mt-3">1 x Rp. 15.000.000</p>
-											</div>
-											
-									</div> -->
-
-									<div class="flex justify-end mb-3 mt-[-20px]">
-										<div class="text-center text-md font-bold basis-1/4">Total Payment : Rp. 16.000.000</div>
-									</div>
-
-									<hr class="w-[96%] mx-auto border-1">
-									<div class="flex p-3 gap-3">
-										<div>
-											<p>Email Buyer</p>
-										</div>
-										<div>
-											<p>Order Complain</p>
-										</div>
-										<div>
-											<p>Konfirmasi Pembayaran</p>
-										</div>
-									</div>
-							</div>
-						</fwb-tab>
-						<fwb-tab name="Unpaid" title="Unpaid">
-
-						</fwb-tab>
-						<fwb-tab name="On Process" title="On Process">
-
-						</fwb-tab>
-						<fwb-tab name="On Going" title="On Going">
-
-						</fwb-tab>
-						<fwb-tab name="Completed" title="Completed">
-
-						</fwb-tab>
-						<fwb-tab name="Return" title="Return">
-
-						</fwb-tab>
-						<fwb-tab name="Offline" title="Offline">
-						
-						</fwb-tab>
+						<fwb-tab v-for="(state, index) in orderState"
+               :key="index" :name="state" :title="state">
+							<Order
+								
+								/>
+						</fwb-tab>						
           </fwb-tabs>          
         </div>
       </div>
