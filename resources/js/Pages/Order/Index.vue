@@ -40,46 +40,42 @@ const props = defineProps({
   title: String,
   breadcrumbs: Object,
   orders: Object,
+	perPage: Number,
 });
 
 const orderState = [
     'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Offline'
 ];
 
-const activeTab = ref("All");
-
-const form = useForm({
-  duration: "",
-  operationals:[],
-});
+const dataSet =  usePage().props.app.perpage;
 
 const updateStore = () => {
-	store.orders = props.orders;
+	store.orders = props.orders.data;
 }
 
-onBeforeMount(() => {
-    updateStore();
+onMounted(() => {
+		updateStore();   
 });
 
-watch(activeTab, async (newActiveTab) => {
-    let params = {
-        state : newActiveTab
-    };
+watch(
+    () => _.cloneDeep(store.params),
+    debounce(async () => {
+        let params = pickBy(store.params);
 
-    // Wrap the router.get operation in a Promise
-    await new Promise((resolve, reject) => {
-        router.get(route("order.index"), params, {
-            replace: true,
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: resolve, // Resolve the Promise on success
-            onError: reject // Reject the Promise on error (optional)
-        });
-    });
+				await new Promise((resolve, reject) => {
+						router.get(route("order.index"), params, {
+								replace: true,
+								preserveState: true,
+								preserveScroll: true,
+								onSuccess: resolve, // Resolve the Promise on success
+								onError: reject // Reject the Promise on error (optional)
+						});
+				});
 
-    // Setelah proses router.get selesai, memanggil updateStore
-    updateStore();
-});
+				updateStore();
+        
+    }, 150)
+);
 
 
 
@@ -101,10 +97,10 @@ watch(activeTab, async (newActiveTab) => {
             {{ props.title }}
           </h3>
           
-          <fwb-tabs v-model="activeTab" variant="pills" class="mt-5">
+          <fwb-tabs v-model="store.params.state" variant="pills" class="mt-5">
 						<fwb-tab v-for="(state, index) in orderState"
                :key="index" :name="state" :title="state">
-							<Order
+							<Order :dataSet="dataSet"
 								
 								/>
 						</fwb-tab>						

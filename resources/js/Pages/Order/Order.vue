@@ -4,10 +4,13 @@ import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { usePage } from "@inertiajs/vue3";
+
+
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
-import { watchEffect } from "vue";
+import { onMounted } from "vue";
 import { store } from "@/Pages/Order/store.js";
 import { priceFormat } from "../../helper";
 import OrderDetail from "@/Pages/Order/OrderDetail.vue";
@@ -15,13 +18,52 @@ import OrderDetail from "@/Pages/Order/OrderDetail.vue";
 const props = defineProps({
     show: Boolean,
     title: String,
-    orders: Object,
     search: Object,
+		dataSet:Array,
 });
+
+const dataOrder = [
+	{
+		label:'Latest',
+		value:'desc'
+	},
+	{
+		label:'Oldest',
+		value:'asc'
+	},
+]
+
 
 </script>
 
 <template>
+
+		<div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
+				<SelectInput
+						v-model="store.params.order"
+						:dataSet="dataOrder"
+				/>
+				<div class="flex items-center mb-4 sm:mb-0">
+						<form class="sm:pr-3" action="#" method="GET">
+								<label for="products-search" class="sr-only">{{ lang().placeholder.search }}</label>
+								<div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+										<TextInput
+												type="text"
+												v-model="store.params.search"
+												:placeholder="lang().placeholder.search"
+										/>
+								</div>
+						</form>
+				</div>
+		</div>
+
+		<div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4">
+				<SelectInput
+						v-model="store.params.perPage"
+						:dataSet="props.dataSet"
+				/>
+		</div>
+
     <div v-if="store.orders.length > 0" v-for="(order, index) in store.orders" :key=index class="bg-white border rounded-md shadow-lg mb-5">
 				<div class="flex bg-gray-300">
 					<div class="p-3">Order Status: {{ order.status }} / {{ order.code }} / {{ order.user.name }} / {{ order.orderDate }}</div>

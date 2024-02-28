@@ -42,5 +42,6 @@ class OrderRequest extends FormRequest
             $this->merge([$merge => $data]);
 
         }
+        
     }
 }
