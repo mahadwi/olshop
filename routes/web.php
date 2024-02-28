@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('konsinyasi/update-agreement', [KonsinyasiController::class, 'updateAgreement'])->name('konsinyasi.update-agreement');
     Route::post('konsinyasi/complete', [KonsinyasiController::class, 'complete'])->name('konsinyasi.complete');
 
-    Route::resource('/order', OrderController::class)->only('index', 'show');
+    Route::resource('/order', OrderController::class)->only('index', 'show', 'update');
 
 
 });

@@ -5,15 +5,19 @@ import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { usePage } from "@inertiajs/vue3";
+import { FwbButton, FwbModal } from 'flowbite-vue'
 
 
 import SelectInput from "@/Components/SelectInput.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { useForm } from "@inertiajs/vue3";
-import { onMounted } from "vue";
+import { useForm, router } from "@inertiajs/vue3";
+import { onMounted, computed } from "vue";
 import { store } from "@/Pages/Order/store.js";
 import { priceFormat } from "../../helper";
 import OrderDetail from "@/Pages/Order/OrderDetail.vue";
+import { ref } from 'vue';
+import pkg from "lodash";
+const { _, debounce, pickBy } = pkg;
 
 const props = defineProps({
     show: Boolean,
@@ -33,6 +37,34 @@ const dataOrder = [
 	},
 ]
 
+const form = useForm({
+  status: "",  
+});
+
+const tmpOrder = ref('');
+const isShowModal = ref(false)
+
+function closeModal () {
+  isShowModal.value = false
+}
+function showModal () {
+  isShowModal.value = true
+}
+
+const cancelOrder = async () => {
+	closeModal();
+
+	form.status = 'Cancel';
+	
+	await new Promise((resolve, reject) => {
+		form.put(route("order.update", tmpOrder.value?.id), {
+			preserveScroll: true,
+			onSuccess: resolve, // Resolve the Promise on success
+			onError: reject // Reject the Promise on error (optional)
+		});
+	});
+		
+}
 
 </script>
 
@@ -75,19 +107,42 @@ const dataOrder = [
 					<div class="text-center text-md font-bold basis-1/4">Total Payment : {{ priceFormat(order.total) }}</div>
 				</div>
 
-				<hr class="w-[96%] mx-auto border-1">
-				<!-- <div class="flex p-3 gap-3">
-					<div>
+				<hr class="w-[98%] mx-auto border-1">
+				<div class="flex p-3 gap-3">
+					<!-- <div>
 						<p>Email Buyer</p>
 					</div>
 					<div>
 						<p>Order Complain</p>
-					</div>
+					</div> -->
 					<div>
-						<p>Konfirmasi Pembayaran</p>
+						<fwb-button v-if="order.status == 'Unpaid' || order.status == 'On Process'" @click="showModal();tmpOrder=order" size="sm" color="red">Cancel</fwb-button>
 					</div>
-				</div> -->
+				</div>
 		</div>
 
 		<p v-else>Empty Data</p>
+
+		<fwb-modal v-if="isShowModal" @close="closeModal">
+			<template #header>
+				<div class="flex items-center text-lg">
+					Cancel Order
+				</div>
+			</template>
+			<template #body>
+				<p class="text-base">
+					Yakin Cancel Order ? 
+				</p>
+			</template>
+			<template #footer>
+				<div class="flex gap-3 justify-end">
+					<fwb-button @click="closeModal" color="alternative">
+						Tutup
+					</fwb-button>
+					<fwb-button @click="cancelOrder" color="red">
+						Yakin
+					</fwb-button>
+				</div>
+			</template>
+		</fwb-modal>
 </template>

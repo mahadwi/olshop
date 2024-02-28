@@ -44,7 +44,7 @@ const props = defineProps({
 });
 
 const orderState = [
-    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Offline'
+    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Cancel', 'Offline'
 ];
 
 const dataSet =  usePage().props.app.perpage;
@@ -58,7 +58,9 @@ onMounted(() => {
 });
 
 watch(
-    () => _.cloneDeep(store.params),
+    () => ({
+        params: _.cloneDeep(store.params),
+    }),
     debounce(async () => {
         let params = pickBy(store.params);
 
@@ -77,6 +79,9 @@ watch(
     }, 150)
 );
 
+watch(() => props.orders, (newOrder) => {
+	store.orders = newOrder.data;
+});
 
 
 </script>

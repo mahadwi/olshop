@@ -41,4 +41,12 @@ class OrderController extends Controller
             ],
         ]);
     } 
+
+
+    public function update(Request $request, Order $order)
+    {
+        $order->fill($request->all())->save();  
+        
+        return back()->with('success', 'Success');
+    }
 }

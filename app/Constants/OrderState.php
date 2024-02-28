@@ -9,5 +9,4 @@ class OrderState extends AbstractAppConstant
     public const ONGOING = 'On Going';
     public const COMPLETED = 'Completed';
     public const CANCEL = 'Cancel';
-    public const RETURN = 'Return';
 }
