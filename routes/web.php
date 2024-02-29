@@ -27,6 +27,7 @@ use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\PendaftaranAssetController;
+use App\Services\Ongkir\OngkirService;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +74,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('konsinyasi/complete', [KonsinyasiController::class, 'complete'])->name('konsinyasi.complete');
 
     Route::resource('/order', OrderController::class)->only('index', 'show', 'update');
+    Route::post('/cek-resi', [OrderController::class, 'cekResi']);
 
+    // Route::get('cek-resi', function(){
 
+    //     $courier = 'jne';
+    //     $resi = 460240011178524;
+
+    //     $cekResi = (new OngkirService)->cekResi($courier, $resi);
+
+    //     dd($cekResi);
+    // });
 });
 

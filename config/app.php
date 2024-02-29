@@ -204,6 +204,7 @@ return [
         'xendit_success_booking_url' => env('XENDIT_SUCCESS_BOOKING_URL', ''),
         'otp_lifetime' => env('OTP_LIFETIME', 180), //in second
         'otp_next_try' => env('OTP_NEXT_TRY', 60), //in second
+        'ongkir_key' => env('ONGKIR_KEY', '')
     ],
 
 ];

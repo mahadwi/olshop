@@ -24,6 +24,7 @@ class Order extends Model
         'note',        
         'is_offline',        
         'pickup_deadline',        
+        'resi'
     ];
 
     protected $casts = [

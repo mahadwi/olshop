@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
 use Inertia\Inertia;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
+use App\Services\Ongkir\OngkirService;
 
 class OrderController extends Controller
 {
@@ -48,5 +49,12 @@ class OrderController extends Controller
         $order->fill($request->all())->save();  
         
         return back()->with('success', 'Success');
+    }
+
+    public function cekResi(Request $request)
+    {
+       $cekResi = (new OngkirService)->cekResi($request->courier, $request->resi);
+
+       return $cekResi;
     }
 }
