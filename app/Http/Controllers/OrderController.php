@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
+use App\Models\Contact;
 use App\Services\Ongkir\OngkirService;
 
 class OrderController extends Controller
@@ -56,5 +58,20 @@ class OrderController extends Controller
        $cekResi = (new OngkirService)->cekResi($request->courier, $request->resi);
 
        return $cekResi;
+    }
+
+    public function printLabel(Order $order)
+    {
+        $profile = Profile::first();
+        $contact = Contact::first();
+
+
+        // dd($order->orderDetail);
+        $profile->telp = $contact->telp;
+        return Inertia::render('Order/Label', [
+            'title'         => 'Label_' . $order->code,
+            'profile'       => $profile,
+            'order'         => $order->load(['orderDetail.product.images', 'paymentable', 'user', 'address.subdistrict']),
+        ]);
     }
 }

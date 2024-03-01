@@ -22,7 +22,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Olshop';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })

@@ -5,6 +5,8 @@ import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { usePage } from "@inertiajs/vue3";
+import moment from 'moment';
+
 import { 
 	FwbButton, FwbModal, FwbInput, FwbAlert, 
 	FwbTimeline,
@@ -52,6 +54,7 @@ const formCancel = useForm({
 const formResi = useForm({
 	resi:"",
   status: "",  
+	resi_date:moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 });
 
 const tmpOrder = ref('');
@@ -182,6 +185,9 @@ const cekResi = async() => {
 					<div v-if="order.status == 'On Going' ">
 						<fwb-button :class="{ 'opacity-25': tmpOrder != '' && tmpOrder.id == order.id }" :disabled="tmpOrder != '' && tmpOrder.id == order.id" size="sm" @click="tmpOrder=order;showModalWrapper('cekResi');" color="yellow">{{ tmpOrder != '' && tmpOrder.id == order.id ? 'Loading ....' : 'Track'}}</fwb-button>
 					</div>
+					<div class="mt-0.5" v-if="order.status == 'On Going' ">
+						<fwb-button class="align-middle" :href="`/order/${order.id}/print-label`" target="_blank" size="sm" color="green">Print Label</fwb-button>
+					</div>
 					<div v-if="order.status == 'On Process'">
 						<fwb-button  size="sm" @click="showModalWrapper('inputResi');tmpOrder=order" color="blue">Resi</fwb-button>
 					</div>					
@@ -275,30 +281,30 @@ const cekResi = async() => {
 					{{ dataResi.message }}
 				</fwb-alert>
 				<div v-else>
-					<table class="w-full p-3 mb-5">
+					<table class="w-full p-3 mb-5 text-sm">
 						<tr>
 							<td class="font-semibold">Courier</td>
-							<td>: {{ dataResi.data.summary.courier }}</td>
+							<td>{{ dataResi.data.summary.courier }}</td>
 							<td class="font-semibold">Resi</td>
-							<td>: {{ dataResi.data.summary.awb }}</td>
+							<td>{{ dataResi.data.summary.awb }}</td>
 						</tr>
 						<tr>
 							<td class="font-semibold">Shipper</td>
-							<td>: {{ dataResi.data.detail.shipper }}</td>
+							<td>{{ dataResi.data.detail.shipper }}</td>
 							<td class="font-semibold">Receiver</td>
-							<td>: {{ dataResi.data.detail.receiver  }}</td>
+							<td>{{ dataResi.data.detail.receiver  }}</td>
 						</tr>
 						<tr>						
-							<td class="font-semibold">Origin</td>
-							<td>: {{ dataResi.data.detail.origin }}</td>
-							<td class="font-semibold">Destination</td>
-							<td>: {{ dataResi.data.detail.destination }}</td>
+							<td class="font-semibold w-1/12">Origin</td>
+							<td class="w-1/4">{{ dataResi.data.detail.origin }}</td>
+							<td class="font-semibold w-1/12">Destination</td>
+							<td class="w-1/4">{{ dataResi.data.detail.destination }}</td>
 						</tr>
 						<tr>						
 							<td class="font-semibold">Weight</td>
-							<td>: {{ dataResi.data.summary.weight }}</td>
+							<td>{{ dataResi.data.summary.weight }}</td>
 							<td class="font-semibold">Status</td>
-							<td class="font-semibold">: {{ dataResi.data.summary.status }}</td>
+							<td class="font-semibold">{{ dataResi.data.summary.status }}</td>
 						</tr>
 					</table>
 					<fwb-timeline>

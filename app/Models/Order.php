@@ -24,7 +24,8 @@ class Order extends Model
         'note',        
         'is_offline',        
         'pickup_deadline',        
-        'resi'
+        'resi',
+        'resi_date'
     ];
 
     protected $casts = [
@@ -32,7 +33,7 @@ class Order extends Model
         'pickup_deadline' => 'date:d-m-Y',
     ];
 
-    protected $appends = ['orderDate'];
+    protected $appends = ['orderDate', 'resiDateFix'];
 
 
     protected static function boot()
@@ -47,6 +48,11 @@ class Order extends Model
 
     function getOrderDateAttribute() {
         return $this->created_at->format(config('app.default.datetime_human')); 
+    }
+
+    function getResiDateFixAttribute() {
+        $resiDate = $this->resi_date ? Carbon::parse($this->resi_date) : Carbon::now();
+        return $resiDate->format(config('app.default.datetime_human')); 
     }
 
     public function setPickupDeadlineAttribute($value)

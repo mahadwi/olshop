@@ -20,7 +20,7 @@ class Profile extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    protected $appends = ['logo_url'];
+    protected $appends = ['logo_url', 'full_address'];
 
     protected static function booted(): void
     {
@@ -37,6 +37,11 @@ class Profile extends Model
     public function subdistrict()
     {
         return $this->belongsTo(Subdistrict::class);
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return $this->subdistrict->city->province->name.', '.$this->subdistrict->city->name.', '.$this->subdistrict->name;
     }
 
     public function getLogoUrlAttribute()

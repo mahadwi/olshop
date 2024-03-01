@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/order', OrderController::class)->only('index', 'show', 'update');
     Route::post('/cek-resi', [OrderController::class, 'cekResi']);
+    Route::get('/order/{order}/print-label', [OrderController::class, 'printLabel'])->name('order.print-label');
 
     // Route::get('cek-resi', function(){
 
