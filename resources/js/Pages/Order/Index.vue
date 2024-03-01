@@ -50,11 +50,12 @@ const orderState = [
 const dataSet =  usePage().props.app.perpage;
 
 const updateStore = () => {
-	store.orders = props.orders.data;
+	store.orders = props.orders.data;  
 }
 
 onMounted(() => {
 		updateStore();   
+    store.params.state = 'All';
 });
 
 watch(
