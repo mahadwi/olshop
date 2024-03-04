@@ -1,8 +1,12 @@
 <?php
 
+use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Models\Order;
+use App\Constants\OrderState;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Services\Ongkir\OngkirService;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\PosController;
 use Illuminate\Support\Facades\Session;
@@ -13,6 +17,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ContactController;
@@ -22,12 +27,10 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupCoaController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\KonsinyasiController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\PendaftaranAssetController;
-use App\Services\Ongkir\OngkirService;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,14 +80,37 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cek-resi', [OrderController::class, 'cekResi']);
     Route::get('/order/{order}/print-label', [OrderController::class, 'printLabel'])->name('order.print-label');
 
-    // Route::get('cek-resi', function(){
+    Route::get('cek-resi', function(){
 
-    //     $courier = 'jne';
-    //     $resi = 460240011178524;
+        $orders = Order::where('status', OrderState::ONGOING)->get();
+        $dataOrder = [];
 
-    //     $cekResi = (new OngkirService)->cekResi($courier, $resi);
+        foreach($orders as $order){
 
-    //     dd($cekResi);
-    // });
+            $now         = Carbon::now();
+            $cekResi = (new OngkirService)->cekResi($order->courier, $order->resi);
+
+            if($cekResi['status'] == 200){
+                $statusOngkir = $cekResi['data']['summary']['status'];
+
+                if($statusOngkir == 'DELIVERED'){            
+                    // $dateDeliver = Carbon::parse($cekResi['data']['summary']['date']);        
+                    // $diffDay = $dateDeliver->diffInDays($now);
+
+                    // if($diffDay > 3){
+                    //     $order->status = OrderState::COMPLETED;
+                    //     $order->save();
+                    // }
+
+                    array_push($dataOrder, $order->code);
+
+                }
+            }
+        };
+
+        $stringOrder = implode(', ', $dataOrder);
+
+        
+    });
 });
 
