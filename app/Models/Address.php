@@ -35,4 +35,9 @@ class Address extends Model
     {
         return $this->subdistrict->city->province->name.', '.$this->subdistrict->city->name.', '.$this->subdistrict->name;
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

@@ -48,6 +48,14 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order)
     {
+        if($request->has('resi')){
+
+            $cekResi = (new OngkirService)->cekResi($order->courier, $request->resi);
+
+            if($cekResi['status'] != 200){
+                return back()->with('error', $cekResi['message']);
+            }
+        }
         $order->fill($request->all())->save();  
         
         return back()->with('success', 'Success');

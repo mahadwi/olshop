@@ -42,6 +42,7 @@ class AddressTransformer extends TransformerAbstract
             'full_address'      => $address->full_address,
             'subdistrict_id'    => $address->subdistrict_id,
             'subdistrict'       => $address->subdistrict->name,
+            'has_order'         => $address->orders->count() > 0 ? true : false,
         ];
     }
   

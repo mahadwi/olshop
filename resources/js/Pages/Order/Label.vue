@@ -80,8 +80,8 @@ onMounted(() => {
 			<div class="flex flex-col md:flex-row gap-4 ">
 					<div class="w-full md:w-1/2 ">
 						<h3 class="text-gray-700">Kepada</h3>
-						<h3 class="text-md font-bold ">{{ props.order.user.name }}</h3>
-						<h3 class="text-md">{{ props.order.user.no_hp }}</h3>
+						<h3 class="text-md font-bold ">{{ props.order.address.name }}</h3>
+						<h3 class="text-md">{{ props.order.address.handphone }}</h3>
 						<h3 class="text-md ">{{ props.order.address.full_address }}</h3>
 					</div>
 					<div class="w-full md:w-1/2">
@@ -94,26 +94,26 @@ onMounted(() => {
 			<table class="w-full text-sm text-left text-gray-700 mt-5">
         <thead class="text-xs border-dashed border-y-2 border-y-gray-300 text-gray-700 uppercase ">
             <tr>
-                <th scope="col" class="px-6 py-3 ">
+                <th scope="col" class="px-6 py-3">
                     No
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Product
                 </th>
-                <th scope="col" class="px-6 py-3 ">
+                <th scope="col" class="px-6 py-3">
                     Jumlah
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(detail, index) in props.order.order_detail" :key="index">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ index + 1 }}
                 </th>
-                <td class="px-6 py-4">
+                <td class="px-6 py-2">
 									{{ detail.product.name }}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-2">
                   {{ detail.qty }}
                 </td>
             </tr>
