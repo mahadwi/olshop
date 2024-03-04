@@ -43,7 +43,8 @@ class BookingTransformer extends TransformerAbstract
             'total'     => $booking->total,
             'voucher'   => $booking->voucher,
             'message'   => $booking->message,
-            'note'      => $booking->note,            
+            'note'      => $booking->note,         
+            'date'      => $booking->created_at->format(config('app.default.datetime_human')),  
         ];
     }
 

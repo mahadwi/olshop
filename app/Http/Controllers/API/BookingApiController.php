@@ -14,14 +14,22 @@ use App\Constants\VoucherUseFor;
 use App\Http\Controllers\Controller;
 use App\Actions\API\StoreBookingApiAction;
 use App\Http\Requests\API\BookingApiRequest;
+use App\Http\Requests\API\BookingIndexApiRequest;
 use App\Transformers\API\BookingTransformer;
 
 class BookingApiController extends Controller
 {
 
-    public function index()
-    {
-        $data = Booking::where('user_id', auth()->user()->id)->get();
+    public function index(BookingIndexApiRequest $request)
+    {        
+        $data = Booking::where('user_id', auth()->user()->id)
+        ->when($request->has('payment_status'), function ($query) use ($request) {
+            $query->whereHas('paymentable', function ($query) use ($request){
+                $query->where('status', $request->payment_status);
+            });            
+        })
+        ->orderByDesc('id')
+        ->get();
 
         $booking = fractal($data, new BookingTransformer)->toArray();
 
