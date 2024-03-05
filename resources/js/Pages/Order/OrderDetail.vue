@@ -44,7 +44,9 @@ const textView = computed(() => {
 					</div>
 					<div v-if="index == 0" class="text-center basis-1/4">
 						<p class="font-bold">Courier</p>
-						<p class="mt-3">{{ priceFormat(order.ongkir) }}</p>
+						<p class="mt-3">
+							{{ order.ongkir > 0 ? `${order.courier.toUpperCase()} ${order.courier_service ? '(' + order.courier_service + ')' : ''} - ${priceFormat(order.ongkir)}` : order.ongkir }}
+						</p>
 					</div>
 					<div v-if="index == 0" >
 						<p class="font-bold basis-1/4">Payment Method</p>

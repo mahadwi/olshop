@@ -30,6 +30,7 @@ class StoreOrderApiRequest extends FormRequest
             'voucher'               => 'nullable|exists:vouchers,code',            
             'address_id'            => 'nullable|exists:addresses,id',
             'courier'               => 'required|string|in:'.$courier,
+            'courier_service'       => 'required',
             'ongkir'                => 'required|integer',
             'discount'              => 'nullable|integer',
             'total'                 => 'required|integer',
