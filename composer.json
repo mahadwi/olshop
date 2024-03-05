@@ -14,6 +14,7 @@
         "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.8",
         "ncjoes/office-converter": "^1.0",
+        "opcodesio/log-viewer": "^3.5",
         "phpoffice/phpword": "^1.2",
         "silverhand7/laravel-artisan-maker": "^3.0",
         "spatie/laravel-fractal": "^6.0",
