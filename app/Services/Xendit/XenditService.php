@@ -20,6 +20,8 @@ class XenditService
     {
         Xendit::setApiKey(config('app.default.xendit_secret_key'));
         
+        $params['invoice_duration'] = 86400;
+
         $invoice = \Xendit\Invoice::create($params);
 
         return $invoice;

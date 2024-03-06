@@ -112,5 +112,39 @@ Route::group(['middleware' => 'auth'], function () {
 
         
     });
+
+    Route::get('cek-order', function(){
+
+        DB::transaction(function () {
+
+            $orders = Order::with(['paymentable', 'orderDetail.product'])->where('status', OrderState::UNPAID)
+            ->where('is_offline', false)
+            ->whereHas('paymentable', function ($query){
+                $query->where('expired', '<', Carbon::now());
+            });
+
+            $dataOrder = [];
+
+            if($orders->get()->isNotEmpty()){
+
+                $dataOrder = $orders->pluck('code')->toArray();       
+
+                foreach($orders->get() as $order){
+                    foreach($order->orderDetail as $detail){
+                        $detail->product->stock += $detail->qty;
+                        $detail->product->save();
+                    }
+                }
+
+                $orders->update(['status' => OrderState::CANCEL]);
+
+            }       
+
+            $stringOrder = implode(', ', $dataOrder);
+
+            \Log::info("Cek Order Berhasil di jalankan, set cancel order " . $stringOrder . ' ' . date('Y-m-d H:i:s'));
+        
+        });
+    });
 });
 

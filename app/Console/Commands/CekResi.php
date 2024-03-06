@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Constants\OrderState;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use App\Services\Ongkir\OngkirService;
 
 class CekResi extends Command
@@ -29,37 +30,38 @@ class CekResi extends Command
      */
     public function handle()
     {
-        $orders = Order::where('status', OrderState::ONGOING)->get();
-        $dataOrder = [];
-        
-        foreach($orders as $order){
+        DB::transaction(function () {
+            $orders = Order::where('status', OrderState::ONGOING)->get();
+            $dataOrder = [];
+            
+            foreach($orders as $order){
 
-            $now         = Carbon::now();
-            $cekResi = (new OngkirService)->cekResi($order->courier, $order->resi);
+                $now         = Carbon::now();
+                $cekResi = (new OngkirService)->cekResi($order->courier, $order->resi);
 
-            if($cekResi['status'] == 200){
-                $statusOngkir = $cekResi['data']['summary']['status'];
+                if($cekResi['status'] == 200){
+                    $statusOngkir = $cekResi['data']['summary']['status'];
 
-                if($statusOngkir == 'DELIVERED'){            
-                    $dateDeliver = Carbon::parse($cekResi['data']['summary']['date']);        
-                    $diffDay = $dateDeliver->diffInDays($now);
+                    if($statusOngkir == 'DELIVERED'){            
+                        $dateDeliver = Carbon::parse($cekResi['data']['summary']['date']);        
+                        $diffDay = $dateDeliver->diffInDays($now);
 
-                    if($diffDay > 3){
-                        $order->status = OrderState::COMPLETED;
-                        $order->save();
+                        if($diffDay > 3){
+                            $order->status = OrderState::COMPLETED;
+                            $order->save();
 
-                        array_push($dataOrder, $order->code);
+                            array_push($dataOrder, $order->code);
+
+                        }
+
 
                     }
-
-
                 }
-            }
-        };
+            };
 
-        $stringOrder = implode(', ', $dataOrder);
+            $stringOrder = implode(', ', $dataOrder);
 
-        \Log::info("Cek Resi Berhasil di jalankan " . $stringOrder . ' ' . date('Y-m-d H:i:s'));
-
+            \Log::info("Cek Resi Berhasil di jalankan " . $stringOrder . ' ' . date('Y-m-d H:i:s'));
+        });        
     }
 }

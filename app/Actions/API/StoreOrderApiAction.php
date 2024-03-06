@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Actions\StorePaymentAction;
@@ -34,6 +35,12 @@ class StoreOrderApiAction
             //order detail
             foreach($this->attributes['details'] as $detail){
 
+                $product = Product::find($detail['product_id']);
+
+                $product->stock = $product->stock - $detail['qty'];
+                $product->save();
+
+
                 dispatch_sync(new StoreOrderDetailAction($detail, $order));
 
                 // delete cart
@@ -54,7 +61,7 @@ class StoreOrderApiAction
                     'external_id'           => $external_id,
                     'description'           => 'Product Payment',
                     'amount'                => $this->attributes['total'],
-                    'success_redirect_url'  => config('app.default.xendit_success_url')
+                    'success_redirect_url'  => config('app.default.xendit_success_url'),                    
                 ];
 
                 $invoice = (new XenditService)->createInvoice($params);                            

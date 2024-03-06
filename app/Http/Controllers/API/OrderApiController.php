@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use App\Constants\VoucherType;
@@ -11,7 +13,6 @@ use App\Actions\API\StoreOrderApiAction;
 use App\Http\Requests\API\OrderApiRequest;
 use App\Transformers\API\OrderTransformer;
 use App\Http\Requests\API\StoreOrderApiRequest;
-use App\Models\Order;
 
 class OrderApiController extends Controller
 {
@@ -104,10 +105,18 @@ class OrderApiController extends Controller
             
         }
 
+        foreach($details as $detail){
+            $product = Product::find($detail['product_id']);
+
+            if($product->stock < $detail['qty']) return "Product {$product['name']} Out Of Stock";
+        }
+
+
         if($fixTotal != $request->total){
             return 'Total Invalid';
         }
 
+        
         return false;
             
     }
