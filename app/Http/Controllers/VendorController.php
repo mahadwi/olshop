@@ -42,7 +42,7 @@ class VendorController extends Controller
             'type'          => $type,
             'breadcrumbs'   => [
                 ['label' => 'Data Master', 'href' => '#'],
-                ['label' => __('app.label.vendor'), 'href' => route('vendor.index')]
+                ['label' => __('app.label.vendor'), 'href' => route('consignor.index')]
             ],
         ]);
     }
@@ -59,25 +59,25 @@ class VendorController extends Controller
         }
     }
 
-    public function update(VendorUpdateRequest $request, Vendor $vendor)
+    public function update(VendorUpdateRequest $request, Vendor $consignor)
     {
         try {
-            dispatch_sync(new UpdateVendorAction($vendor, $request->all()));           
-            return back()->with('success', __('app.label.updated_successfully', ['name' => $vendor->name]));
+            dispatch_sync(new UpdateVendorAction($consignor, $request->all()));           
+            return back()->with('success', __('app.label.updated_successfully', ['name' => $consignor->name]));
 
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->with('error', __('app.label.updated_error', ['name' => $vendor->name]) . $th->getMessage());
+            return back()->with('error', __('app.label.updated_error', ['name' => $consignor->name]) . $th->getMessage());
         }
     }
 
-    public function destroy(User $vendor)
+    public function destroy(Vendor $consignor)
     {
         try {
-            $vendor->delete();
-            return back()->with('success', __('app.label.deleted_successfully', ['name' => $vendor->name]));
+            $consignor->delete();
+            return back()->with('success', __('app.label.deleted_successfully', ['name' => $consignor->name]));
         } catch (\Throwable $th) {
-            return back()->with('error', __('app.label.deleted_error', ['name' => $vendor->name]) . $th->getMessage());
+            return back()->with('error', __('app.label.deleted_error', ['name' => $consignor->name]) . $th->getMessage());
         }
     }
 }

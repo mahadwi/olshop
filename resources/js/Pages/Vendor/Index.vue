@@ -46,7 +46,7 @@ watch(
     () => _.cloneDeep(data.params),
     debounce(() => {
         let params = pickBy(data.params);
-        router.get(route("vendor.index"), params, {
+        router.get(route("consignor.index"), params, {
             replace: true,
             preserveState: true,
             preserveScroll: true,

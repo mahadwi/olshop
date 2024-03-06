@@ -13,11 +13,11 @@
   }
 
   .tbl-column {
-    @apply p-2 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white
+    @apply p-1 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white
   }
 
   .tbl-head {
-    @apply p-3 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400
+    @apply p-2 text-sm font-medium text-left text-gray-500 uppercase dark:text-gray-400
   }
 
   .badge-success {

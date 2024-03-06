@@ -27,7 +27,7 @@ const form = useForm({
 });
 
 const create = () => {
-    form.post(route("vendor.store"), {
+    form.post(route("consignor.store"), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");

@@ -119,7 +119,7 @@ const truncate = (value, length) => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ authentication.title }}</td>
-                                                <td class="tbl-column" v-html="truncate(authentication.description, 25)">
+                                                <td class="tbl-column" v-html="truncate(authentication.description, 15)">
                                                 </td>
                                                 <td class="tbl-column"> {{ authentication.no_hp }}</td>
                                                 <td class="tbl-column"> {{ authentication.link }}</td>

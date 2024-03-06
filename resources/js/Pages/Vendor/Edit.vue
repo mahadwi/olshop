@@ -31,7 +31,7 @@ const form = useForm({
 });
 
 const update = () => {
-    form.put(route("vendor.update", props.vendor?.id), {
+    form.put(route("consignor.update", props.vendor?.id), {
         preserveScroll: true,
         onSuccess: () => {
             emit("close");

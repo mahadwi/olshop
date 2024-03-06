@@ -177,9 +177,9 @@ const getFaqSection = async () => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ faq.section }}</td>
-                                                <td class="tbl-column"> {{ faq.title }}</td>
+                                                <td class="tbl-column"> {{ truncate(faq.title, 15) }}</td>
                                                 <td class="tbl-column">
-                                                    <span v-html="truncate(faq.description, 50)"></span>
+                                                    <span v-html="truncate(faq.description, 15)"></span>
                                                 </td>
                                                 <td class="tbl-column space-x-2 whitespace-nowrap text-center">
                                                     <button @click="

@@ -143,10 +143,10 @@ watch(
                         <td class="tbl-column">{{ ++index }}</td>
                         <td class="tbl-column">{{ event.name }}</td>
                         <td class="tbl-column">
-                          {{ event.start_date }} s.d {{ event.end_date }}
+                          {{ event.start_date }}
                         </td>
                         <td class="tbl-column">
-                          {{ event.time_start }} s.d {{ event.time_end }}
+                          {{ event.time_start }}
                         </td>
                         <td class="tbl-column">{{ event.place }}</td>
                         <td class="w-32">
