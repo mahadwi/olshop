@@ -80,6 +80,7 @@ function closeModalWrapper(type) {
 		closeModal(modalCancel);
 	} else if (type === 'inputResi') {
 		closeModal(modalInputResi);
+		formResi.errors.resi = '';
 	} else if (type === 'cekResi') {
 		closeModal(modalCekResi);
 	}
