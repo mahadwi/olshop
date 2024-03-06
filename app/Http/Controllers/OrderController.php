@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Contact;
 use App\Services\Ongkir\OngkirService;
 
@@ -46,16 +47,8 @@ class OrderController extends Controller
     } 
 
 
-    public function update(Request $request, Order $order)
+    public function update(OrderUpdateRequest $request, Order $order)
     {
-        if($request->has('resi')){
-
-            $cekResi = (new OngkirService)->cekResi($order->courier, $request->resi);
-
-            if($cekResi['status'] != 200){
-                return back()->with('error', $cekResi['message']);
-            }
-        }
         $order->fill($request->all())->save();  
         
         return back()->with('success', 'Success');
@@ -74,7 +67,6 @@ class OrderController extends Controller
         $contact = Contact::first();
 
 
-        // dd($order->orderDetail);
         $profile->telp = $contact->telp;
         return Inertia::render('Order/Label', [
             'title'         => 'Label_' . $order->code,
