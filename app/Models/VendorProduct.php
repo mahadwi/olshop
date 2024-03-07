@@ -37,7 +37,8 @@ class VendorProduct extends Model
         'product_deadline',
         'note',
         'approve_file',
-        'cancel_file'
+        'cancel_file',
+        'is_meet',
     ];
 
     protected $appends = ['entry_date', 'approve_file_url', 'cancel_file_url'];

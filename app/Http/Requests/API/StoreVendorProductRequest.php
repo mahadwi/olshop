@@ -42,6 +42,7 @@ class StoreVendorProductRequest extends FormRequest
             'image' => 'required|array',
             'image.*'          => 'required|image|mimes:jpg,png,jpeg|max:500',
             'product_deadline' => 'required',            
+            'is_meet' => 'required|string|in:true,false',
         ];
     }
 

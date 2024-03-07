@@ -242,6 +242,7 @@ return [
         'view' => 'Lihat',
         'image_review' => 'Gambar Review',
         'order' => 'Order',
+        'product_authentication' => 'Product Authentication',        
     ],
     'button' => [
         'login' => 'Masuk',

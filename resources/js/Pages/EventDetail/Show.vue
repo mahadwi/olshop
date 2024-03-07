@@ -165,6 +165,7 @@ watch(
                     <fwb-table-head-cell>{{ lang().label.booking_time }}</fwb-table-head-cell>
                     <fwb-table-head-cell>{{ lang().label.qty }}</fwb-table-head-cell>
                     <fwb-table-head-cell>Total</fwb-table-head-cell>
+                    <fwb-table-head-cell>{{ lang().label.payment_status }}</fwb-table-head-cell>
                     <fwb-table-head-cell>
                       <span class="sr-only">Detail</span>
                     </fwb-table-head-cell>
@@ -176,6 +177,7 @@ watch(
                       <fwb-table-cell>{{ detail.booking_time }}</fwb-table-cell>
                       <fwb-table-cell>{{ detail.qty }}</fwb-table-cell>
                       <fwb-table-cell>{{ priceFormat(detail.total) }}</fwb-table-cell>
+                      <fwb-table-cell>{{ detail.paymentable.status }}</fwb-table-cell>
                       <fwb-table-cell>
                         <fwb-button type="button" size="xs" class="mr-2" @click="
                         (data.detailOpen = true),

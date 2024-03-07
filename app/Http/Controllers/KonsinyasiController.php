@@ -88,7 +88,7 @@ class KonsinyasiController extends Controller
             } 
         }        
 
-        if($product->status == VendorProductStatus::APPROVED || $product->status == VendorProductStatus::COMPLETED || $product->status == VendorProductStatus::CANCELED){
+        if($product->status == VendorProductStatus::APPROVED || $product->status == VendorProductStatus::COMPLETED || $product->status == VendorProductStatus::CANCELED || $product->status == VendorProductStatus::VALID){
             $status = collect([]);
         }
 
@@ -97,9 +97,21 @@ class KonsinyasiController extends Controller
             if($product->confirm_date && $product->approve_file){
                 $status = $status->only(['APPROVED', 'NOT_APPROVED']);
             } else {
-                $status = $status->only('NOT_APPROVED');                
+                if($product->is_meet){
+                    $status = $status->only('NOT_APPROVED', 'CANCELED');                
+                } else {
+                    $status = $status->only('NOT_APPROVED', 'CANCELED', 'VALID');                
+                }
             }
             
+        }
+
+        if($product->status == VendorProductStatus::SENT){            
+            $status = $status->only('DELIVERED');
+        }   
+
+        if($product->status == VendorProductStatus::DELIVERED){
+            $status = $status->only(['APPROVED', 'NOT_APPROVED']);            
         }
         
 

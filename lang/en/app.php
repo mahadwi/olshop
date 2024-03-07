@@ -241,6 +241,7 @@ return [
         'view' => 'View',
         'image_review' => 'Image Review',
         'order' => 'Order',
+        'product_authentication' => 'Product Authentication',
     ],
     'button' => [
         'login' => 'Login',

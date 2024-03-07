@@ -64,12 +64,7 @@ const formatter = ref({
   month: "MMM",
 });
 
-const vendorProductStatus = Object.values(props.vendorProductStatus).map(
-  (data) => ({
-    name: data,
-    value: data,
-  })
-);
+const vendorProductStatus = ref('');
 
 const update = () => {
   form.put(route("konsinyasi.update", props.product?.id), {
@@ -110,6 +105,13 @@ onMounted(() => {
   data.price = priceFormat(props.product.price);
   data.sale_price = priceFormat(props.product.sale_price);
   form.errors = {};
+
+  vendorProductStatus.value = Object.values(props.vendorProductStatus).map(
+    (data) => ({
+      name: data,
+      value: data,
+    })
+  );
 });
 
 const activeTab = ref("product");
@@ -140,6 +142,21 @@ const canotSave = computed(() => {
   let complete = props.product.status == 'Canceled' || props.product.status == 'Completed' || props.product.status == 'Approved';
   
   return complete;
+});
+
+const productAuth = computed(() => {
+  
+  return props.product.is_meet ? 'Meet up' : 'Sending Product Only';
+
+});
+
+watch(() => props.vendorProductStatus, (newOrder) => {
+	vendorProductStatus.value = Object.values(newOrder).map(
+    (data) => ({
+      name: data,
+      value: data,
+    })
+  );
 });
 
 </script>
@@ -379,6 +396,14 @@ const canotSave = computed(() => {
                     :label="lang().label.condition"
                   />
                 </div>
+                <div class="col-span-6">
+                  <FwbInput
+                    readonly
+                    v-model="productAuth"
+                    :placeholder="lang().label.product_authentication"
+                    :label="lang().label.product_authentication"
+                  />
+                </div>
               </div>
               <div
                 v-if="props.product.imageable.length > 0"
@@ -399,13 +424,14 @@ const canotSave = computed(() => {
             <fwb-tab name="approval" :title="lang().label.approval">
               <form @submit.prevent="update">
                 <div class="grid grid-cols-12 gap-6 mt-5">
-                  <div class="col-span-6">
+                  <div class="col-span-6" v-if="props.product.is_meet">
                     <InputLabel
                       for="confirm_date"
                       :value="lang().label.pickup_date"
                     />
                     <vue-tailwind-datepicker
                       readonly
+                      :disabled="props.product.status != 'Review'"
                       v-model="form.confirm_date"
                       :formatter="formatter"
                       :placeholder="lang().label.pickup_date"
@@ -434,10 +460,10 @@ const canotSave = computed(() => {
                       :label="lang().label.note"
                     />
                   </div>
-                  <div class="col-span-6">
+                  <div class="col-span-12">
                   </div>
 
-                  <div class="col-span-12" v-if="props.approveFile && props.product.status == 'Review'">
+                  <div class="col-span-12" v-if="props.approveFile && props.product.status == 'Review' && props.product.confirm_date">
                     <h3 class="text-md font-semibold dark:text-white">
                       Approval File
                     </h3>
@@ -502,7 +528,7 @@ const canotSave = computed(() => {
                 </div>
               </form>
             </fwb-tab>
-            <fwb-tab v-if="form.agreement.length > 0" name="agreement" :title="lang().label.agreement">
+            <fwb-tab v-if="props.product.agreements.length > 0" name="agreement" :title="lang().label.agreement">
               <fwb-table>
                 <fwb-table-head>
                   <fwb-table-head-cell>No</fwb-table-head-cell>
@@ -516,7 +542,7 @@ const canotSave = computed(() => {
                   </fwb-table-head-cell>
                 </fwb-table-head>
                 <fwb-table-body>
-                  <fwb-table-row  v-for="(agreement, index) in form.agreement"
+                  <fwb-table-row  v-for="(agreement, index) in props.product.agreements"
                         :key="index">
                     <fwb-table-cell>{{ ++index }}</fwb-table-cell>
                     <fwb-table-cell>{{ agreement.agreement.name }}</fwb-table-cell>
