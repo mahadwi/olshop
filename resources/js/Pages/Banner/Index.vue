@@ -135,11 +135,12 @@ const truncate = (value, length) => {
                                                     {{ lang().label.title }}
                                                 </th>
                                                 <th scope="col" class="tbl-head">
-                                                    {{ lang().label.description }}
-                                                </th>
-                                                <th scope="col" class="tbl-head">
                                                     {{ lang().label.title_en }}
                                                 </th>
+                                                <th scope="col" class="tbl-head">
+                                                    {{ lang().label.description }}
+                                                </th>
+                                               
                                                 <th scope="col" class="tbl-head">
                                                     {{ lang().label.description_en }}
                                                 </th>
@@ -156,11 +157,11 @@ const truncate = (value, length) => {
                                         >
                                                 <td class="tbl-column pl-4"> {{ ++index }}</td>
                                                 <td class="tbl-column"> {{ banner.section }}</td>
-                                                <td class="tbl-column"> {{ banner.title }}</td>
-                                                <td class="tbl-column" v-html="truncate(banner.description, 25)">
+                                                <td class="tbl-column"> {{ truncate(banner.title, 15) }}</td>
+                                                <td class="tbl-column"> {{ truncate(banner.title_en, 15) }}</td>
+                                                <td class="tbl-column" v-html="truncate(banner.description, 15)">
                                                 </td>
-                                                <td class="tbl-column"> {{ banner.title_en }}</td>
-                                                <td class="tbl-column" v-html="truncate(banner.description_en, 25)">
+                                                <td class="tbl-column" v-html="truncate(banner.description_en, 15)">
                                                 </td>
                                                 <td class="tbl-column space-x-2 whitespace-nowrap text-center">
                                                     <button @click="
