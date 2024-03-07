@@ -154,7 +154,7 @@ watch(
                                                 <td class="tbl-column"> {{ vendor.phone }}</td>
                                                 <td class="tbl-column"> {{ vendor.type }}</td>
                                                 
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button v-if="vendor.type == 'Aset'" @click="
                                                                 (data.editOpen = true),
                                                                 (data.vendor = vendor)

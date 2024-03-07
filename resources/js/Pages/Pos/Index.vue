@@ -134,7 +134,7 @@ watch(
                         <td class="tbl-column">{{ priceFormat(order.total) }}</td>
                         <td class="tbl-column">{{ order.status }}</td>
                         <td class="tbl-column">{{ order.paymentable.status }}</td>
-                        <td class="p-4 space-x-2 whitespace-nowrap">
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                           <Link
                             :href="route('pos.show', order.id)"
                             class="btn-primary"

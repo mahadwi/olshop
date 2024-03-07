@@ -144,7 +144,7 @@ watch(
                                                 <td class="tbl-column"> 
                                                     <span :class="productCategory.is_active ? 'badge-success' : 'badge-danger' ">{{ productCategory.status }}</span>
                                                 </td>
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
                                                                     (data.productCategory = productCategory)

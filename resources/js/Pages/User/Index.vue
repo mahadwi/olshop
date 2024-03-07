@@ -154,7 +154,7 @@ watch(
                                                 <td class="tbl-column"> {{ user.no_hp }}</td>
                                                 <td class="tbl-column"> {{ user.roles[0].name }}</td>
                                                 
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
                                                                     (data.user = user)

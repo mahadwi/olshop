@@ -183,7 +183,7 @@ watch(
                                                 <td class="tbl-column"> {{ coa.status }}</td>
                                                 <td class="tbl-column"> {{ coa.normal_balance }}</td>
                                                 <td class="tbl-column"> {{ coa.is_saldo_awal ? 'Ya' : 'Tidak' }}</td>
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
                                                                     (data.coa = coa)

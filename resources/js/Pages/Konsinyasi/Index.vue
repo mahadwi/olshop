@@ -130,7 +130,7 @@ watch(
                         <td class="tbl-column">{{ product.name }}</td>
                         <td class="tbl-column">{{ product.entry_date }}</td>
                         <td class="tbl-column">{{ product.status }}</td>
-                        <td class="p-4 space-x-2 whitespace-nowrap">
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                           <Link
                             :href="route('konsinyasi.show', product.id)"
                             class="btn-primary"

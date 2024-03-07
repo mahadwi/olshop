@@ -143,7 +143,7 @@ watch(
                         <td class="tbl-column">{{ member.email }}</td>
                         <td class="tbl-column">{{ member.no_hp }}</td>
 
-                        <td class="p-4 space-x-2 whitespace-nowrap">
+                        <td class="p-2 space-x-2 whitespace-nowrap">
                           <Link
                             :href="route('member.show', member.id)"
                             class="btn-primary"

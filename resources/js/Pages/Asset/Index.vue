@@ -155,7 +155,7 @@ watch(
                                                 <td class="tbl-column"> {{ asset.code }}</td>
                                                 <td class="tbl-column"> {{ asset.name }}</td>
                                                 <td class="tbl-column"> {{ asset.group_asset.name }}</td>
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
                                                                     (data.asset = asset)

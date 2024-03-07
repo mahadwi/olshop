@@ -150,7 +150,7 @@ watch(
                                                 <td class="tbl-column"> {{ customer.email }}</td>
                                                 <td class="tbl-column"> {{ customer.phone }}</td>
                                                 
-                                                <td class="p-4 space-x-2 whitespace-nowrap">
+                                                <td class="p-2 space-x-2 whitespace-nowrap">
                                                     <button @click="
                                                                 (data.editOpen = true),
                                                                 (data.customer = customer)
