@@ -57,6 +57,7 @@ class AgreementController extends Controller
 
     public function update(AgreementUpdateRequest $request, Agreement $agreement)
     {
+        
         try {
             $agreement = dispatch_sync(new UpdateAgreementAction($agreement, $request->all()));
 

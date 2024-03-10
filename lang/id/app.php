@@ -242,7 +242,9 @@ return [
         'view' => 'Lihat',
         'image_review' => 'Gambar Review',
         'order' => 'Order',
-        'product_authentication' => 'Product Authentication',        
+        'product_authentication' => 'Product Authentication',     
+        'file_en' => 'File in English',
+        'draft_en' => 'Draft In English',
     ],
     'button' => [
         'login' => 'Masuk',

@@ -534,6 +534,7 @@ watch(() => props.vendorProductStatus, (newOrder) => {
                   <fwb-table-head-cell>No</fwb-table-head-cell>
                   <fwb-table-head-cell>{{ lang().label.name }}</fwb-table-head-cell>
                   <fwb-table-head-cell>{{ lang().label.draft }}</fwb-table-head-cell>
+                  <fwb-table-head-cell>{{ lang().label.draft_en }}</fwb-table-head-cell>
                   <fwb-table-head-cell>{{ lang().label.file_vendor }}</fwb-table-head-cell>
                   <fwb-table-head-cell>{{ lang().label.status }}</fwb-table-head-cell>
                   <fwb-table-head-cell>{{ lang().label.note }}</fwb-table-head-cell>
@@ -548,6 +549,12 @@ watch(() => props.vendorProductStatus, (newOrder) => {
                     <fwb-table-cell>{{ agreement.agreement.name }}</fwb-table-cell>
                     <fwb-table-cell>
                       <fwb-a v-if="agreement.draft" :href="agreement.draft" target="_blank">
+                        Show
+                      </fwb-a>
+                      <span v-else>{{ '-' }}</span>
+                    </fwb-table-cell>
+                    <fwb-table-cell>
+                      <fwb-a v-if="agreement.draft_en" :href="agreement.draft_en" target="_blank">
                         Show
                       </fwb-a>
                       <span v-else>{{ '-' }}</span>

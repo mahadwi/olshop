@@ -67,7 +67,7 @@ class VendorProductTransformer extends TransformerAbstract
             'images'            => $this->images($product),
             'approve_file'      => $this->approveFile($product),
             'cancel_file'       => $this->cancelFile($product),
-            'consignment_file'  => $this->consignmentFile($product),
+            'consignment'       => $this->consignmentFile($product),
             'product_deadline'  => $product->product_deadline ? $product->product_deadline->format('d-m-Y') : null,
         ];
     }
@@ -88,9 +88,12 @@ class VendorProductTransformer extends TransformerAbstract
             
         if($product->status == VendorProductStatus::NOT_APPROVED || $product->status == VendorProductStatus::CANCELED){
             $file->name = $name ? $name->name : null;
-            $file->draft = (new ApprovalService())->draftFile($product, AgreementFileType::CANCEL);   
+            $file->name_en = $name ? $name->name_en : null;
+            $file->draft = (new ApprovalService())->draftFile($product, AgreementFileType::CANCEL, 'file');   
+            $file->draft_en = (new ApprovalService())->draftFile($product, AgreementFileType::CANCEL, 'file_en');   
         }  else {
             $file->draft = null;
+            $file->draft_en = null;
         }
 
         $file->cancel_file = $product->cancel_file_url;
@@ -118,9 +121,13 @@ class VendorProductTransformer extends TransformerAbstract
             
         if(($product->confirm_date && $product->status == VendorProductStatus::REVIEW) || ($product->confirm_date && $product->status == VendorProductStatus::APPROVED) || ($product->confirm_date && $product->status == VendorProductStatus::COMPLETED)){
             $file->name = $name ? $name->name : null;
-            $file->draft = (new ApprovalService())->draftFile($product, AgreementFileType::APPROVAL);   
+            $file->name_en = $name ? $name->name_en : null;
+
+            $file->draft = (new ApprovalService())->draftFile($product, AgreementFileType::APPROVAL, 'file');   
+            $file->draft_en = (new ApprovalService())->draftFile($product, AgreementFileType::APPROVAL, 'file_en');   
         }  else {
             $file->draft = null;
+            $file->draft_en = null;
         }
 
         $file->approve_file = $product->approve_file_url;
@@ -144,7 +151,12 @@ class VendorProductTransformer extends TransformerAbstract
     {
         
         if(($product->status == VendorProductStatus::COMPLETED)){
-            return (new ApprovalService())->draftFile($product, AgreementFileType::CONSIGNMENT);   
+            
+            $file = new stdClass();
+            $file->file = (new ApprovalService())->draftFile($product, AgreementFileType::CONSIGNMENT, 'file'); 
+            $file->file_en = (new ApprovalService())->draftFile($product, AgreementFileType::CONSIGNMENT, 'file_en'); 
+
+            return $file;
         }  
 
         return null;

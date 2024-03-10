@@ -19,15 +19,16 @@ class ApprovalService {
         $this->path = public_path('file');
     }
 
-    public function draftFile($product, $type)
+    public function draftFile($product, $type, $lang)
     {
 
         $uploadDraft = $this->isUploadDraft($type);
                 
-        if($uploadDraft){
-            $file = $this->getNameFile($uploadDraft->file, $product->id);
+        if($uploadDraft && $uploadDraft[$lang]){
+            
+            $file = $this->getNameFile($uploadDraft[$lang], $product->id);
             if(!File::exists($this->path.'/'.$file)){
-                $this->generatePdf($product, $uploadDraft->file); 
+                $this->generatePdf($product, $uploadDraft[$lang]); 
             } 
 
             return asset('file/'.$file);

@@ -242,6 +242,8 @@ return [
         'image_review' => 'Image Review',
         'order' => 'Order',
         'product_authentication' => 'Product Authentication',
+        'file_en' => 'File in English',
+        'draft_en' => 'Draft In English',
     ],
     'button' => [
         'login' => 'Login',

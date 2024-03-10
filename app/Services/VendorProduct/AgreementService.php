@@ -45,6 +45,10 @@ class AgreementService
                 if($file->file){
                     $this->generatePdf($product, $file->file);
                 }
+
+                if($file->file_en){
+                    $this->generatePdf($product, $file->file_en);
+                }
             }
         }
         

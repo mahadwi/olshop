@@ -28,6 +28,7 @@ const form = useForm({
     name: "",
     name_en: "",
     file: "",
+    file_en: "",
     file_type: "",
     is_active: "",
 });
@@ -102,6 +103,11 @@ watchEffect(() => {
                     <FwbFileInput accept="image/*" v-model="form.file" :label="lang().label.file" />
 
                     <InputError class="mt-2" :message="form.errors.file" />
+                </div>
+                <div class="my-6 space-y-4">
+                    <FwbFileInput accept="image/*" v-model="form.file_en" :label="lang().label.file_en" />
+
+                    <InputError class="mt-2" :message="form.errors.file_en" />
                 </div>
                 <div class="my-6 space-y-4">
                     <InputLabel for="status" value="Status" />

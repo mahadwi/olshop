@@ -19,7 +19,7 @@ class VendorAgreement extends Model
         'note',
     ];
 
-    protected $appends = ['draft', 'file_url'];
+    protected $appends = ['draft', 'draft_en', 'file_url'];
 
 
     public function agreement()
@@ -52,4 +52,16 @@ class VendorAgreement extends Model
 
         return asset('file/'.$this->file);
     }
+
+    public function getDraftEnAttribute()
+    {
+        if(!$this->agreement->file_en){
+            return null;
+        }
+
+        $filename = File::name($this->agreement->file_en);
+
+        return asset('file/'.$filename.'_'.$this->vendor_product_id.'_draft.pdf');
+    }
+
 }

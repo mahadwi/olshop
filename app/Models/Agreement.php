@@ -14,6 +14,7 @@ class Agreement extends Model
         'name',
         'name_en',
         'file',        
+        'file_en',        
         'is_active',
         'file_type'
     ];
