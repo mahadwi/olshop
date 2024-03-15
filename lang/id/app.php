@@ -245,6 +245,7 @@ return [
         'product_authentication' => 'Product Authentication',     
         'file_en' => 'File in English',
         'draft_en' => 'Draft In English',
+        'product_deadline' => 'Akhir Penitipan',
     ],
     'button' => [
         'login' => 'Masuk',

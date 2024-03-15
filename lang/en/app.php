@@ -244,6 +244,7 @@ return [
         'product_authentication' => 'Product Authentication',
         'file_en' => 'File in English',
         'draft_en' => 'Draft In English',
+        'product_deadline' => 'Product Deadline',
     ],
     'button' => [
         'login' => 'Login',

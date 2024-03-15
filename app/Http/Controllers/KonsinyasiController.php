@@ -136,7 +136,7 @@ class KonsinyasiController extends Controller
             foreach($request->agreement as $agreement){
                 $model = VendorAgreement::find($agreement['id']);
                 $param = [
-                    'is_approved' => $agreement['is_approved'],
+                    'is_approved' => $agreement['update_status'],
                     'note' => $agreement['note'],
                 ];
                 dispatch_sync(new UpdateVendorAgreementAction($model, $param));           

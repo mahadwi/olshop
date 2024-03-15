@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Helpers\AppHelper;
 use App\Constants\OrderState;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -145,6 +146,19 @@ Route::group(['middleware' => 'auth'], function () {
             \Log::info("Cek Order Berhasil di jalankan, set cancel order " . $stringOrder . ' ' . date('Y-m-d H:i:s'));
         
         });
+    });
+
+    Route::get('tes-helper', function(){
+        // $date = AppHelper::dateIndo(date('Y-m-d'));
+
+        $startDate = Carbon::parse('2023-04-20');
+        $endDate = Carbon::parse('2024-03-15');
+
+        // Hitung perbedaan bulan
+        $monthDiff = $startDate->diffInMonths($endDate);
+
+        dd($monthDiff);
+        
     });
 });
 

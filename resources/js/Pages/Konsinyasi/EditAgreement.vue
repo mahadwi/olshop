@@ -36,7 +36,7 @@ const status = [
 
 const update = () => {
   props.agreement.note = data.note;
-  props.agreement.is_approved = data.is_approved;
+  props.agreement.update_status = data.is_approved;
 
   emit("close");
 };
@@ -44,7 +44,7 @@ const update = () => {
 watchEffect(() => {
     if (props.show) {
 				data.note = props.agreement.note;
-        data.is_approved = props.agreement.is_approved;
+        data.is_approved = props.agreement.update_status;
     }
 });
 

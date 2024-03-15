@@ -20,6 +20,7 @@ const form = useForm({
     name: "",
     name_en: "",
     file: "",
+    file_en: "",
     file_type: "",
 });
 
@@ -75,6 +76,11 @@ watchEffect(() => {
     
                         <InputError class="mt-2" :message="form.errors.file" />
                     </div>
+										<div>
+											<FwbFileInput accept="image/*" v-model="form.file_en" :label="lang().label.file_en" />
+
+											<InputError class="mt-2" :message="form.errors.file_en" />
+										</div>
                 </div>               
                 <div class="flex justify-end">
                     <SecondaryButton

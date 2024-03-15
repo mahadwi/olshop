@@ -39,7 +39,6 @@ class UpdateAgreementAction
             $this->attributes[$fileKey] = (new UploadService())->uploadFile($filePath)['name'];
 
         }
-
         
         // Remove null values
         unset($this->attributes[array_search(null, $this->attributes, true)]);

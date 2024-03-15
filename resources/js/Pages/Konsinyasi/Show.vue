@@ -50,7 +50,7 @@ const form = useForm({
   confirm_date: "",
   update_status: "",
   note:"",
-  agreement:props.product.agreements
+  agreement:""
 });
 
 const status = ref('');
@@ -106,6 +106,9 @@ onMounted(() => {
   data.sale_price = priceFormat(props.product.sale_price);
   form.errors = {};
 
+  props.product.agreements.map(item => item.update_status = item.is_approved);
+  form.agreement = props.product.agreements;
+
   vendorProductStatus.value = Object.values(props.vendorProductStatus).map(
     (data) => ({
       name: data,
@@ -157,6 +160,11 @@ watch(() => props.vendorProductStatus, (newOrder) => {
       value: data,
     })
   );
+});
+
+watch(() => props.product.agreements, (newAgreements) => {
+	newAgreements.map(item => item.update_status = item.is_approved);
+  form.agreement = newAgreements;
 });
 
 </script>
@@ -404,6 +412,14 @@ watch(() => props.vendorProductStatus, (newOrder) => {
                     :label="lang().label.product_authentication"
                   />
                 </div>
+                <div class="col-span-6">
+                  <FwbInput
+                    readonly
+                    v-model="props.product.product_deadline"
+                    :placeholder="lang().label.product_deadline"
+                    :label="lang().label.product_deadline"
+                  />
+                </div>
               </div>
               <div
                 v-if="props.product.imageable.length > 0"
@@ -565,7 +581,7 @@ watch(() => props.vendorProductStatus, (newOrder) => {
                       </fwb-a>
                       <span v-else>{{ 'Belum diupload' }}</span>
                     </fwb-table-cell>
-                    <fwb-table-cell>{{ agreement.is_approved ? 'Approve' : 'Not Approve' }}</fwb-table-cell>
+                    <fwb-table-cell>{{ agreement.update_status ? 'Approve' : 'Not Approve' }}</fwb-table-cell>
                     <fwb-table-cell>{{ agreement.note }}</fwb-table-cell>
                     <fwb-table-cell>
                       <fwb-button v-if="agreement.file_url && props.product.status != 'Completed' " type="button" size="xs" class="mr-2" @click="(data.editOpen = true),

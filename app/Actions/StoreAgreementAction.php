@@ -23,11 +23,19 @@ class StoreAgreementAction
 
     public function handle()
     {   
-        if($this->attributes['file']){
-            $file = (new UploadService())->uploadFile($this->attributes['file']);  
+        $fileKeys = array_keys(array_filter([
+            'file' => $this->attributes['file'],
+            'file_en' => $this->attributes['file_en'],
+        ], 'is_file')); // Use a built-in function for existence and file type check
 
-            $this->attributes['file'] = $file['name'];
+        foreach ($fileKeys as $fileKey) {
+            $filePath = $this->attributes[$fileKey];
+
+            // Upload and update attribute directly within the loop
+            $this->attributes[$fileKey] = (new UploadService())->uploadFile($filePath)['name'];
+
         }
+        
 
         $model = new Agreement($this->attributes);
         

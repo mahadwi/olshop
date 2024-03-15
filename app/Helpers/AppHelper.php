@@ -2,6 +2,10 @@
 
 namespace App\Helpers;
 
+use App\Models\Contact;
+use DateTime;
+use App\Models\Profile;
+use App\Models\Rekening;
 use Illuminate\Support\Facades\DB;
 
 class AppHelper{
@@ -67,6 +71,135 @@ class AppHelper{
 
         return $nomor;
 
+    }
+
+    public static function profile(){
+        $profile = Profile::first();
+        $contact = Contact::first();
+        $rekening = Rekening::where('is_default', true)->first();
+        
+
+        $profile->address = $contact->address;        
+        $profile->phone = $contact->telp;        
+        $profile->bank = $rekening->bank;
+        $profile->bank_account_number = $rekening->bank_account_number;
+        $profile->bank_account_holder = $rekening->bank_account_holder;
+
+        return $profile;
+    }
+
+    public static function dateIndo($date)
+    {
+        $dateTime = new DateTime($date);
+
+        // Daftar nama hari dalam bahasa Indonesia
+        $namaHari = array(
+            'Minggu',
+            'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu'
+        );
+
+        // Daftar nama bulan dalam bahasa Indonesia
+        $namaBulan = array(
+            '',
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+
+        // Mendapatkan indeks hari dan bulan
+        $hari = $namaHari[$dateTime->format('w')];
+        $bulan = $namaBulan[intval($dateTime->format('n'))];
+        
+        $data = [
+            'day'   => $hari,
+            'date'  => $dateTime->format('d'),
+            'month' => $bulan,
+            'year'  => $dateTime->format('Y')
+        ];
+
+        return $data;
+    }
+
+    public static function dateEnglish($date)
+    {
+        $dateTime = new DateTime($date);
+
+        // Daftar nama hari dalam bahasa Inggris
+        $englishDayNames = array(
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+        );
+
+        // Daftar nama bulan dalam bahasa Inggris
+        $englishMonthNames = array(
+            '',
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        );
+
+        // Mendapatkan indeks hari dan bulan
+        $day = $englishDayNames[$dateTime->format('w')];
+        $month = $englishMonthNames[intval($dateTime->format('n'))];
+        
+        $data = [
+            'day'   => $day,
+            'date'  => $dateTime->format('d'),
+            'month' => $month,
+            'year'  => $dateTime->format('Y')
+        ];
+
+        return $data;
+    }
+
+    public static function priceFormat($amount, bool $useDecimal = false, $symbol = null): string
+    {
+        if (!$symbol) {
+            $symbol = '';
+        }
+
+        $isNegative = false;
+        if ($amount < 0) {
+            $isNegative = true;
+            $amount = abs($amount);
+        }
+
+        $parts = [];
+        $parts['symbol'] = $symbol;
+        $decimal = $useDecimal ? 2 : 0;
+        $parts['amount'] = number_format($amount, $decimal, ',', '.');
+
+        $price = implode('', $parts);
+
+        return $isNegative ? "($price)" : $price;
     }
 
 }

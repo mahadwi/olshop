@@ -25,7 +25,8 @@ class AgreementStoreRequest extends FormRequest
             'name'      => 'required|string|max:255',
             'name_en'      => 'required|string|max:255',
             'file_type' => 'required|string',
-            'file'      => 'nullable|mimes:doc,docx|max:500',   
+            'file'      => 'nullable|mimes:docx|max:500',   
+            'file_en'   => 'nullable|mimes:docx|max:500',
         ];
     }
 }

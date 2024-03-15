@@ -39,9 +39,10 @@ class VendorProduct extends Model
         'approve_file',
         'cancel_file',
         'is_meet',
+        'approve_date',
     ];
 
-    protected $appends = ['entry_date', 'approve_file_url', 'cancel_file_url'];
+    protected $appends = ['entry_date', 'approve_file_url', 'cancel_file_url', 'deadline'];
 
     protected $casts = [
         'confirm_date' => 'date:d-m-Y',
@@ -105,6 +106,17 @@ class VendorProduct extends Model
         }
 
         return asset('file/'.$this->approve_file);
+    }
+
+    public function getDeadlineAttribute()
+    {
+        $startDate = Carbon::parse($this->product_deadline);
+        $endDate = Carbon::parse($this->approve_date);
+
+        // Hitung perbedaan bulan
+        $monthDiff = $startDate->diffInMonths($endDate);
+
+        return $monthDiff;
     }
 
     public function getCancelFileUrlAttribute()
