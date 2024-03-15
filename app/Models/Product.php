@@ -41,7 +41,7 @@ class Product extends Model
         'vendor_product_id',
     ];
 
-    protected $appends = ['status', 'fixWeight', 'isNewArrival', 'conditionIndo'];
+    protected $appends = ['status', 'fixWeight', 'isNewArrival'];
 
     protected $casts = [
         'entry_date' => 'date:d-m-Y',
