@@ -10,6 +10,7 @@ use App\Http\Controllers\API\BankCodeController;
 use App\Http\Controllers\API\BrandApiController;
 use App\Http\Controllers\API\ColorApiController;
 use App\Http\Controllers\API\EventApiController;
+use App\Http\Controllers\API\LoginPosController;
 use App\Http\Controllers\API\OrderApiController;
 use App\Http\Controllers\API\BannerApiController;
 use App\Http\Controllers\API\OngkirApiController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\API\SubscribeApiController;
 use App\Http\Controllers\API\CommissionApiController;
 use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\OperationalApiController;
+use App\Http\Controllers\API\OrderReviewApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
 use App\Http\Controllers\API\PrivacyPoliceApiController;
@@ -47,7 +49,6 @@ use App\Http\Controllers\API\AuthenticationApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
-use App\Http\Controllers\API\OrderReviewApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
 Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check-otp');
 Route::post('request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
+
+Route::post('/login-pos', [LoginPosController::class, 'login']);
+
 
 Route::get('login/{provider}', [AuthController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback', [AuthController::class, 'handleProviderCallback']);
