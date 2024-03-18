@@ -13,6 +13,7 @@ use App\Repositories\VendorProductRepository;
 use App\Actions\API\UploadVendorProductAction;
 use App\Transformers\API\VendorProductTransformer;
 use App\Http\Requests\API\StoreVendorProductRequest;
+use App\Http\Requests\API\UpdateStatusVendorProductRequest;
 use App\Http\Requests\API\UpdateVendorProductRequest;
 use App\Http\Requests\API\UploadVendorProductRequest;
 use App\Http\Requests\API\VendorProductDeleteImageRequest;
@@ -81,6 +82,16 @@ class VendorProductApiController extends Controller
     }
 
     public function update(UpdateVendorProductRequest $request, VendorProduct $vendor_product)
+    {
+        $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->validated()));
+
+        $product = fractal($data, new VendorProductTransformer())->toArray();
+
+        return $this->apiSuccess($product);
+        
+    }
+
+    public function updateStatus(UpdateStatusVendorProductRequest $request, VendorProduct $vendor_product)
     {
         $data = dispatch_sync(new UpdateVendorProductAction($vendor_product, $request->validated()));
 
