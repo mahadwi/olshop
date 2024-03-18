@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\API\UpdateOrderPickupAction;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,9 +27,9 @@ class OrderPickupApiController extends Controller
         return $this->apiSuccess($order);
     }
 
-    public function update(UpdateOrderPickupRequest $request, Order $order_pickup, UpdateOrderPickupAction $action)
+    public function update(UpdateOrderPickupRequest $request, Order $order_pickup)
     {
-        $update = $action->handle($order_pickup, $request->validated());
+        $order_pickup->fill($request->all())->save();  
         
         return $this->apiSuccess();
     }

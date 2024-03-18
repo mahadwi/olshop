@@ -22,8 +22,7 @@ class UpdateOrderPickupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'payment_status' => 'nullable|in:Paid',
-            'is_taken' => 'nullable|in:true',
+            'is_taken' => 'required|in:true',
         ];
     }
 }
