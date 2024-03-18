@@ -26,7 +26,8 @@ class Order extends Model
         'pickup_deadline',        
         'resi',
         'resi_date',
-        'courier_service'
+        'courier_service',
+        'is_taken'
     ];
 
     protected $casts = [

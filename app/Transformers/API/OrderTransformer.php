@@ -48,6 +48,7 @@ class OrderTransformer extends TransformerAbstract
             'is_offline'         => $order->is_offline,            
             'pickup_deadline'    => $order->pickup_deadline ? $order->pickup_deadline->format('d-m-Y') : null,       
             'date'               => $order->created_at->format(config('app.default.datetime_human')),
+            'is_taken'           => $order->is_taken,            
         ];
     }
 

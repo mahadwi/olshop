@@ -37,7 +37,7 @@ class PaymentTransformer extends TransformerAbstract
             "invoice_url"           => $payment->invoice_url,
             "expired"               => $payment->expired,
             "payment_method"        => $payment->payment_method,
-            "payment_channel"        => $payment->payment_channel,
+            "payment_channel"       => $payment->payment_channel,
         ];
     }
 }

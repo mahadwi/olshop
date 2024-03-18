@@ -39,6 +39,7 @@ use App\Http\Controllers\API\SubscribeApiController;
 use App\Http\Controllers\API\CommissionApiController;
 use App\Http\Controllers\API\SuggestionApiController;
 use App\Http\Controllers\API\OperationalApiController;
+use App\Http\Controllers\API\OrderPickupApiController;
 use App\Http\Controllers\API\OrderReviewApiController;
 use App\Http\Controllers\API\CustomerCareApiController;
 use App\Http\Controllers\API\ReturnPoliceApiController;
@@ -108,6 +109,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('vendor-product-upload-image', [VendorProductApiController::class, 'uploadImage']);    
     
     Route::post('order-review', [OrderReviewApiController::class, 'store']);
+
+    //POS
+    Route::resource('order-pickup', OrderPickupApiController::class)->only('index', 'show', 'store', 'update');
+
 
 });
 
