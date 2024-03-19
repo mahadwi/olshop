@@ -10,7 +10,9 @@ use App\Constants\VoucherType;
 use App\Constants\VoucherUseFor;
 use App\Http\Controllers\Controller;
 use App\Actions\API\StoreOrderApiAction;
+use App\Actions\SetCompletedOrderAction;
 use App\Http\Requests\API\OrderApiRequest;
+use App\Http\Requests\API\SetCompletedOrderRequest;
 use App\Transformers\API\OrderTransformer;
 use App\Http\Requests\API\StoreOrderApiRequest;
 
@@ -68,6 +70,14 @@ class OrderApiController extends Controller
         $order = fractal($order, new OrderTransformer);           
             
         return $this->apiSuccess($order);
+    }
+
+    public function setCompleted(SetCompletedOrderRequest $request, Order $order)
+    {                
+        //store order
+        (new SetCompletedOrderAction($order))->handle();
+        
+        return $this->apiSuccess();
     }
 
     public function validateOrder($request)

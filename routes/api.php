@@ -95,6 +95,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('booking', BookingApiController::class)->only('index', 'show', 'store', 'delete');
 
     Route::resource('order', OrderApiController::class)->only('index', 'show', 'store', 'delete');
+    Route::post('order/{order}/completed', [OrderApiController::class, 'setCompleted']);
 
     Route::resource('vendor-product', VendorProductApiController::class)->except('create', 'edit');
     Route::post('vendor-product/{vendor_product}/update-status', [VendorProductApiController::class, 'updateStatus']);
