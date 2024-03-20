@@ -32,6 +32,7 @@ use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\PendaftaranAssetController;
+use PDF;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,6 +160,16 @@ Route::group(['middleware' => 'auth'], function () {
 
         dd($monthDiff);
         
+    });
+
+    Route::get('invoice', function(){   
+
+
+        $pdf = PDF::loadview('mail.invoice');         
+        
+        return $pdf->stream('invoice.pdf', array("Attachment" => 0));
+        // return view('mail.invoice');
+
     });
 });
 

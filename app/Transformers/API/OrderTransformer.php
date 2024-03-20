@@ -48,8 +48,18 @@ class OrderTransformer extends TransformerAbstract
             'is_offline'         => $order->is_offline,            
             'pickup_deadline'    => $order->pickup_deadline ? $order->pickup_deadline->format('d-m-Y') : null,       
             'date'               => $order->created_at->format(config('app.default.datetime_human')),
-            'is_taken'           => $order->is_taken,            
-        ];
+            'is_taken'           => $order->is_taken,     
+            'invoice'            => $this->getInvoice($order),  
+        ];      
+    }
+
+    public function getInvoice($order)
+    {
+        if($order->status == 'Completed'){
+            return "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+        } 
+
+        return null;
     }
 
     public function includePayment($order)
