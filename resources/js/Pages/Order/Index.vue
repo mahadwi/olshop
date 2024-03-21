@@ -44,7 +44,7 @@ const props = defineProps({
 });
 
 const orderState = [
-    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Cancel', 'Offline'
+    'All', 'Unpaid', 'On Process', 'On Going', 'Completed', 'Cancel', 'Pickup'
 ];
 
 const dataSet =  usePage().props.app.perpage;

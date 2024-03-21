@@ -85,4 +85,9 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasOneThrough(OrderReview::class, OrderDetail::class);
+    }
 }

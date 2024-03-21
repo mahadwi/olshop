@@ -51,6 +51,7 @@ class OrderTransformer extends TransformerAbstract
             'date'               => $order->created_at->format(config('app.default.datetime_human')),
             'is_taken'           => $order->is_taken,     
             'invoice'            => $this->getInvoice($order),  
+            'reviews'            => $order->reviews
         ];      
     }
 

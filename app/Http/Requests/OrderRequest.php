@@ -34,7 +34,7 @@ class OrderRequest extends FormRequest
             $merge = 'status';
             $data = $this->state;
 
-            if($this->state == 'Offline'){
+            if($this->state == 'Pickup'){
                 $merge = 'is_offline';
                 $data = true;
             }
