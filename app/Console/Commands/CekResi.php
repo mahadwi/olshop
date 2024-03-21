@@ -8,6 +8,7 @@ use App\Constants\OrderState;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Services\Ongkir\OngkirService;
+use App\Actions\SetCompletedOrderAction;
 
 class CekResi extends Command
 {
@@ -47,8 +48,10 @@ class CekResi extends Command
                         $diffDay = $dateDeliver->diffInDays($now);
 
                         if($diffDay > 3){
-                            $order->status = OrderState::COMPLETED;
-                            $order->save();
+                            // $order->status = OrderState::COMPLETED;
+                            // $order->save();
+
+                            (new SetCompletedOrderAction($order))->handle();
 
                             array_push($dataOrder, $order->code);
 
