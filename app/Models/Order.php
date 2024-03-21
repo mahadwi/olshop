@@ -88,6 +88,6 @@ class Order extends Model
 
     public function reviews()
     {
-        return $this->hasOneThrough(OrderReview::class, OrderDetail::class);
+        return $this->hasManyThrough(OrderReview::class, OrderDetail::class);
     }
 }
