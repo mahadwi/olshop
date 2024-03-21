@@ -49,13 +49,12 @@
         /* Logo */
 
         .invoice header .logo {
-            float: left;
-            margin-right: 20px;
+            margin-bottom: 5px;
         }
 
-        .invoice header .logo img {
+        /* .invoice header .logo img {
             max-width: 100px;
-        }
+        } */
 
         /* Meta */
 
@@ -171,13 +170,26 @@
             <div class="col-md-12">
                 <div class="invoice">
                     <p class="text-right">
-                        <strong>DATE:</strong> {{ date('d/m/Y H:i:s') }}
+                        <strong>DATE:</strong> {{ date('d/m/Y H:i') }}
                     </p>
                     <header>
-                        <h1>LUXURI</h1>
-                        <p>Mandarin Gallery, 333A Orchard Placed +03-08509510, Singapore 235597</p>
-                        <p>shopluxuryhub+65-6530-3008</p>
-                        <p>www.luxuryhub.id</p>
+                        <div class="logo">
+                            <img width="250px" height="60px" src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('asset/logo.png'))) }}">
+                        </div>
+                        <p>{{ $profile->address }}</p>
+                        <div>
+                            <span>
+                                <img class="sosmed-logo" src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('asset/ig-logo.png'))) }}"> shopluxuryhub</span>
+                            <span>
+                                <img class="sosmed-logo" src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('asset/call-logo.png'))) }}">
+                                {{ $profile->phone }}
+                            </span>  
+                            
+                        </div>
+                        <div>
+                            <img class="sosmed-logo" src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('asset/web-logo.png'))) }}">
+                            {{ $profile->link }}
+                        </div>
                     </header>
 
                     <div class="meta">                       
@@ -191,85 +203,65 @@
                             <thead>
                                 <tr>
                                     <th class="border-grey" width="50%">BILLING DETAILS</th>
-                                    <th>INVOICE : POS/1/2/2024</th>
+                                    <th>INVOICE : {{ $order->code }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>NAME: NONI</td>
-                                    <td>PAYMENT OPTION: TRANSFER NOW</td>                                    
+                                    <td>NAME: {{ $order->user->name }}</td>
+                                    <td>PAYMENT OPTION: {{ $order->paymentable->payment_channel ? 'TRANSFER' : 'CASH' }}</td>                                    
                                 </tr>
                                 <tr>
-                                    <td>NAME: NONI</td>
-                                    <td>PAYMENT OPTION: TRANSFER NOW</td>                                    
+                                    <td>CONTACT: {{ $order->user->no_hp }}</td>
+                                    <td>BANK DETAILS: {{ $order->paymentable->payment_channel ?? '-' }}</td>                                    
                                 </tr>
                                 <tr>
-                                    <td colspan="2">ADDRESS: JL. ABC ABC</td>
+                                    <td colspan="2">ADDRESS: {{ $order->address->address }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>                    
+                    
+                    @foreach ($order->orderDetail as $detail)                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="border-grey" width="50%">ITEM</th>
+                                        <th class="border-grey">PRICE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                NAME PRODUCT : {{ $detail->product->name }}
+                                            </p>
+                                            <p>
+                                                WEIGHT (KG) : {{ $detail->product->weight }}
+                                            </p>
+                                            <p>
+                                                WIDTH (CM) : {{ $detail->product->width }}
+                                            </p>
+                                            <p>
+                                                LENGTH (CM) : {{ $detail->product->length }}
+                                            </p>
+                                            <p>
+                                                HEIGTH (CM) : {{ $detail->product->height }}
+                                            </p>
+                                            <p>
+                                                COLOR : {{ $detail->product->color->name }}
+                                            </p>
+                                        </td>
+                                        <td class="text-left">Rp. {{ $detail->product->sale_price_formatted }} | $ {{ $detail->product->sale_usd_formatted }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    @endforeach
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="border-grey" width="50%">ITEM</th>
-                                    <th class="border-grey">PRICE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p>
-                                            NAME PRODUCT : HERMES KELLY
-                                        </p>
-                                        <p>
-                                            WEIGHT (KG) : 1
-                                        </p>
-                                        <p>
-                                            WIDTH (CM) : 7
-                                        </p>
-                                        <p>
-                                            LENGTH (CM) : 15
-                                        </p>
-                                        <p>
-                                            HEIGTH (CM) : 10
-                                        </p>
-                                        <p>
-                                            COLOR : ORANGE
-                                        </p>
-                                    </td>
-                                    <td class="text-left">Rp. 30.000.000 | $ 2.000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
 
-                    <div class="table-responsive table-note">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="border-grey">NOTE</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p>
-                                            Submit Product: 13/11/2023
-                                        </p>
-                                        <p>
-                                            Akhir Pemasangan: 13/11/2024
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="notes">
+                    <div class="notes" style="margin-top:10px;">
                         <p>
                             <strong>INFORMATION:</strong>
                         </p>

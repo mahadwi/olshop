@@ -35,7 +35,7 @@ class Order extends Model
         'pickup_deadline' => 'date:d-m-Y',
     ];
 
-    protected $appends = ['orderDate', 'resiDateFix'];
+    protected $appends = ['orderDate', 'resiDateFix', 'newCode'];
 
 
     protected static function boot()
@@ -55,6 +55,10 @@ class Order extends Model
     function getResiDateFixAttribute() {
         $resiDate = $this->resi_date ? Carbon::parse($this->resi_date) : Carbon::now();
         return $resiDate->format(config('app.default.datetime_human')); 
+    }
+
+    function getNewCodeAttribute() {
+        return 'INV-'.preg_replace('/\//', '-', $this->code).'.pdf';
     }
 
     public function setPickupDeadlineAttribute($value)

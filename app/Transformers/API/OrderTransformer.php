@@ -2,9 +2,10 @@
 
 namespace App\Transformers\API;
 
-use App\Models\Address;
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\Payment;
+use App\Services\Order\OrderService;
 use League\Fractal\TransformerAbstract;
 
 class OrderTransformer extends TransformerAbstract
@@ -56,7 +57,7 @@ class OrderTransformer extends TransformerAbstract
     public function getInvoice($order)
     {
         if($order->status == 'Completed'){
-            return "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+            return (new OrderService)->getInvoice($order);
         } 
 
         return null;

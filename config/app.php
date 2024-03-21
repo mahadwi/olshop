@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,        
         Dipantry\Rajaongkir\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -186,6 +187,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
          'Rajaongkir' => Dipantry\Rajaongkir\Facade::class,
+         'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
     //custom configuration

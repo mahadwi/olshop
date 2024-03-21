@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\AppHelper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -59,6 +60,14 @@ class Product extends Model
 
     function getFixWeightAttribute() {
         return ($this->weight * 1000) > $this->calculateVolume() ? $this->weight * 1000 : $this->calculateVolume();
+    }
+
+    function getSalePriceFormattedAttribute() {
+        return AppHelper::priceFormat($this->sale_price);
+    }
+
+    function getSaleUsdFormattedAttribute() {
+        return AppHelper::priceFormat($this->sale_usd);
     }
 
     function getIsNewArrivalAttribute(){

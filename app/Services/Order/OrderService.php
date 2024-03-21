@@ -6,11 +6,20 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Helpers\AppHelper;
 use Illuminate\Support\Facades\DB;
-use App\Actions\UpdateAllotmentAction;
-use App\Repositories\AllotmentRepository;
+use Illuminate\Support\Facades\File;
+use PDF;
+
 
 class OrderService
 {
+
+    protected $rootPath;
+
+    public function __construct()
+    {
+        $this->rootPath = public_path('file/invoice');
+    }
+
     public function generateCode()
     {
         
@@ -38,5 +47,35 @@ class OrderService
 
         return $code;
     }
+
+    public function getInvoice($order)
+    {
+        $newCode = 'INV-'.preg_replace('/\//', '-', $order->code).'.pdf';
+
+        $invoicePath = "{$this->rootPath}/$newCode";
+
+        if(!File::exists($invoicePath)){
+            
+           $this->generateInvoice($order);
+
+        }
+
+        return asset("file/invoice/{$newCode}");
+    }
+
+    public function generateInvoice($order)
+    {
+
+        $newCode = 'INV-'.preg_replace('/\//', '-', $order->code).'.pdf';
+
+        $invoicePath = "{$this->rootPath}/$newCode";
+
+        $profile = AppHelper::profile();
+
+        $pdf = PDF::loadview('mail.invoice', compact('order', 'profile'));    
+
+        $pdf->save($invoicePath);
+    }
+
     
 }

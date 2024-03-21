@@ -81,6 +81,7 @@ class AppHelper{
 
         $profile->address = $contact->address;        
         $profile->phone = $contact->telp;        
+        $profile->link = $contact->link;        
         $profile->bank = $rekening->bank;
         $profile->bank_account_number = $rekening->bank_account_number;
         $profile->bank_account_holder = $rekening->bank_account_holder;

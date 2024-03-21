@@ -32,7 +32,7 @@ use App\Http\Controllers\PembelianAssetController;
 use App\Http\Controllers\PenjualanAssetController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\PendaftaranAssetController;
-use PDF;
+use App\Services\Order\OrderService;
 
 /*
 |--------------------------------------------------------------------------
@@ -164,8 +164,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('invoice', function(){   
 
+        $order = Order::with('user', 'address', 'paymentable', 'orderDetail.product.color')->find(38);
 
-        $pdf = PDF::loadview('mail.invoice');         
+        $invoice = (new OrderService)->getInvoice($order);
+
+        $profile = AppHelper::profile();
+
+        $pdf = PDF::loadview('mail.invoice', compact('order', 'profile'));         
         
         return $pdf->stream('invoice.pdf', array("Attachment" => 0));
         // return view('mail.invoice');
