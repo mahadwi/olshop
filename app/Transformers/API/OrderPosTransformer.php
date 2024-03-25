@@ -3,6 +3,7 @@
 namespace App\Transformers\API;
 
 use App\Models\Order;
+use App\Models\Payment;
 use League\Fractal\TransformerAbstract;
 
 class OrderPosTransformer extends TransformerAbstract
@@ -13,7 +14,7 @@ class OrderPosTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        'detail'
+        'detail', 'payment'
     ];
     
     /**
@@ -50,5 +51,15 @@ class OrderPosTransformer extends TransformerAbstract
     public function includeDetail($order)
     {
         return $this->collection($order->orderDetail, new OrderDetailTransformer);        
+    }
+
+    public function includePayment($order)
+    {
+        $payment = $order->paymentable;
+        if ($payment instanceof Payment) {
+            return $this->item($payment, new PaymentTransformer());
+        } else {
+            return $this->null();
+        }
     }
 }
