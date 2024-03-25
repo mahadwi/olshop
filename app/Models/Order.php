@@ -27,7 +27,13 @@ class Order extends Model
         'resi',
         'resi_date',
         'courier_service',
-        'is_taken'
+        'is_taken',
+        'jumlah',
+        'pembulatan',
+        'pay',
+        'return',
+        'is_pos',
+        'kasir_id',
     ];
 
     protected $casts = [
@@ -89,5 +95,10 @@ class Order extends Model
     public function reviews()
     {
         return $this->hasManyThrough(OrderReview::class, OrderDetail::class);
+    }
+
+    public function kasir()
+    {
+        return $this->belongsTo(User::class, 'kasir_id');
     }
 }
