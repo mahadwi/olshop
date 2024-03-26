@@ -5,11 +5,14 @@ namespace App\Actions\API;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Product;
+use App\Mail\InvoiceMail;
 use Illuminate\Support\Str;
 use App\Constants\OrderState;
+use App\Constants\PaymentState;
 use Illuminate\Support\Facades\DB;
 use App\Actions\StorePaymentAction;
-use App\Constants\PaymentState;
+use App\Services\Order\OrderService;
+use Illuminate\Support\Facades\Mail;
 use App\Services\Xendit\XenditService;
 
 
@@ -67,10 +70,18 @@ class StoreOrderPosApiAction
                     'invoice_url' => $invoice['invoice_url'], 
                     'expired'     => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta')
                 ];
-            }             
+            }
 
-            // //store payment
+            //store payment
             dispatch_sync(new StorePaymentAction($paramPayment, $order));
+
+            // jika cash maka langsung kirim email
+            if($this->attributes['is_cash']){
+                //generate invoice
+                (new OrderService)->generateInvoice($order);
+    
+                Mail::to($order->user->email)->send(new InvoiceMail($order));
+            }            
 
             return $order;
         });

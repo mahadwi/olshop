@@ -216,7 +216,7 @@
                                     <td>BANK DETAILS: {{ $order->paymentable->payment_channel ?? '-' }}</td>                                    
                                 </tr>
                                 <tr>
-                                    <td colspan="2">ADDRESS: {{ $order->address->address }}</td>
+                                    <td colspan="2">ADDRESS: {{ $order?->address?->address }}</td>
                                 </tr>
                             </tbody>
                         </table>

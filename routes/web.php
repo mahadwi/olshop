@@ -162,18 +162,19 @@ Route::group(['middleware' => 'auth'], function () {
         
     });
 
-    Route::get('invoice', function(){   
+    Route::get('tes-invoice', function(){   
 
-        $order = Order::with('user', 'address', 'paymentable', 'orderDetail.product.color')->find(38);
+        // $order = Order::with('user', 'address', 'paymentable', 'orderDetail.product.color')->find(38);
 
-        $invoice = (new OrderService)->getInvoice($order);
+        // $invoice = (new OrderService)->getInvoice($order);
 
-        $profile = AppHelper::profile();
+        // $profile = AppHelper::profile();
 
-        $pdf = PDF::loadview('mail.invoice', compact('order', 'profile'));         
+        // $pdf = PDF::loadview('mail.invoice', compact('order', 'profile'));         
         
-        return $pdf->stream('invoice.pdf', array("Attachment" => 0));
-        // return view('mail.invoice');
+        // return $pdf->stream('invoice.pdf', array("Attachment" => 0));
+        
+        return view('mail.message-invoice');
 
     });
 });
