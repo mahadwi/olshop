@@ -25,10 +25,12 @@ class PosController extends Controller
         }
 
         $perPage = $request->has('perPage') ? $request->perPage : 10;
+        $tipe = $request->has('tipe') ? $request->tipe : 'online';
                 
         return Inertia::render('Pos/Index', [
             'title'         => 'Data '.__('app.label.point_of_sales'),
             'filters'       => $request->all(['search', 'field', 'order']),
+            'tipe'          => $tipe,
             'perPage'       => (int) $perPage,
             'orders'      => $orders->paginate($perPage),
             'breadcrumbs'   => [

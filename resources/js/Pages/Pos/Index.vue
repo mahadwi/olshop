@@ -19,6 +19,7 @@ const props = defineProps({
   orders: Object,
   breadcrumbs: Object,
   perPage: Number,
+  tipe:String,
 });
 
 const data = reactive({
@@ -27,6 +28,7 @@ const data = reactive({
     field: props.filters.field,
     order: props.filters.order,
     perPage: props.perPage,
+    tipe:props.tipe
   },
   createOpen: false,
   editOpen: false,
@@ -39,6 +41,19 @@ const order = (field) => {
   data.params.field = field;
   data.params.order = data.params.order === "asc" ? "desc" : "asc";
 };
+
+const tipe = reactive({
+  data:[
+    {
+      label:'Online',
+      value:'online'
+    },
+    {
+      label:'Offline',
+      value:'offline'
+    },
+  ]
+})
 
 watch(
   () => _.cloneDeep(data.params),
@@ -67,9 +82,15 @@ watch(
             <h3 class="mb-4 text-xl font-semibold dark:text-white">
               {{ props.title }}
             </h3>
-
+            <div class="flex">
+              <SelectInput
+                v-model="data.params.tipe"
+                :dataSet="tipe.data"
+              />
+              
+            </div>
             <div
-              class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4"
+              class="items-center mt-3 justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700 mb-4"
             >
               <SelectInput
                 v-model="data.params.perPage"

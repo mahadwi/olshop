@@ -6,12 +6,16 @@ use Exception;
 use Carbon\Carbon;
 use Xendit\Xendit;
 use Xendit\Invoice;
+use App\Models\Order;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\BankCode;
+use App\Mail\InvoiceMail;
 use Xendit\VirtualAccounts;
 use App\Constants\PaymentState;
 use App\Actions\UpdatePaymentAction;
+use App\Services\Order\OrderService;
+use Illuminate\Support\Facades\Mail;
 
 class XenditService
 {
@@ -30,6 +34,7 @@ class XenditService
     public static function callbackPaid($data)
     {
         $payment = Payment::where('external_id', $data['external_id'])->first();
+
         if (!$payment) {
             throw new Exception('Payment not found', 422);
         }
@@ -45,9 +50,25 @@ class XenditService
             'paid_at'         => Carbon::parse($data['paid_at'])->setTimezone('Asia/Jakarta')
         ];        
 
+        self::sendMail($payment);
+
         $webhook = dispatch_sync(new UpdatePaymentAction($payment, $params));
+        
 
         return $webhook;
+    }
+
+    public static function sendMail($payment)
+    {
+        if($payment->paymentable instanceof Order && $payment->paymentable->is_pos){
+
+            $order = $payment->paymentable;
+
+            (new OrderService)->generateInvoice($order);
+    
+            Mail::to($order->user->email)->send(new InvoiceMail($order));
+
+        }
     }
 
     public static function getBankCode()
@@ -71,5 +92,7 @@ class XenditService
 
         return $data;
     }
+
+    
 
 }
