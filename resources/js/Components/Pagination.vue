@@ -15,6 +15,7 @@ const data = reactive({
         field: props.filters?.field,
         order: props.filters?.order,
         perPage: props.filters?.perPage,
+        tipe: props.filters?.tipe,
     },
 });
 
@@ -32,6 +33,7 @@ watchEffect(() => {
     data.params.field = props.filters?.field;
     data.params.order = props.filters?.order;
     data.params.perPage = props.filters?.perPage;
+    data.params.tipe = props.filters?.tipe;
 });
 </script>
 <template>

@@ -10,22 +10,16 @@ class PosController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::with(['paymentable']);
-        
-        if ($request->has('search')) {
 
-            $orders->where('code', 'ILIKE', "%" . $request->search . "%");
-            // ->orWhereHas('brand', function($q) use ($request){
-            //     $q->where('name', 'ILIKE', "%" . $request->search . "%");
-            // });
-            // $orders->orWhere('no_hp', 'LIKE', "%" . $request->search . "%");
-        }
-        if ($request->has(['field', 'order'])) {
-            $orders->orderBy($request->field, $request->order);
-        }
-
-        $perPage = $request->has('perPage') ? $request->perPage : 10;
         $tipe = $request->has('tipe') ? $request->tipe : 'online';
+
+        $orders = Order::with(['paymentable'])
+        ->where('is_pos', $tipe == 'offline' ? true : false)
+        ->when($request->has('search'), function ($query) use ($request) {
+            $query->where('name', 'ILIKE', "%{$request->search}%");
+        });        
+        
+        $perPage = $request->has('perPage') ? $request->perPage : 10;
                 
         return Inertia::render('Pos/Index', [
             'title'         => 'Data '.__('app.label.point_of_sales'),
