@@ -14,6 +14,7 @@ use App\Mail\InvoiceMail;
 use Xendit\VirtualAccounts;
 use App\Constants\PaymentState;
 use App\Actions\UpdatePaymentAction;
+use App\Constants\OrderState;
 use App\Services\Order\OrderService;
 use Illuminate\Support\Facades\Mail;
 
@@ -51,10 +52,10 @@ class XenditService
         ];        
 
         self::sendMail($payment);
+        self::updateStatus($payment->paymentable);
 
         $webhook = dispatch_sync(new UpdatePaymentAction($payment, $params));
         
-
         return $webhook;
     }
 
@@ -68,6 +69,22 @@ class XenditService
     
             Mail::to($order->user->email)->send(new InvoiceMail($order));
 
+        }
+    }
+
+    public static function updateStatus($order)
+    {
+        if($order instanceof Order && !$order->is_pos && $order->ongkir != 'pickup'){
+
+            $order->status = OrderState::ONPROCESS;
+
+            $order->save();
+
+        } else if($order instanceof Order && ($order->ongkir == 'pickup' || $order->is_pos)){
+
+            $order->status = OrderState::COMPLETED;
+
+            $order->save();
         }
     }
 
