@@ -13,9 +13,10 @@ class OrderPickupApiController extends Controller
 {
     public function index(OrderPickupApiRequest $request)
     {
-        $data = Order::where('is_offline', true)             
+        $data = Order::where('courier', 'pickup')             
         ->when($request->has('search'), function ($query) use ($request) {
-            $query->whereHas('orderDetail.product', function ($query) use ($request){
+            $query->where('code', 'ilike', "%{$request->search}%")
+            ->orWhereHas('orderDetail.product', function ($query) use ($request){
                 $query->where('name', 'ilike', "%{$request->search}%");
             });            
         })               

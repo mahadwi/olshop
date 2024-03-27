@@ -44,7 +44,7 @@ class OrderPosTransformer extends TransformerAbstract
             'kasir'              => $order->kasir->name,
             'customer'           => $order->user->name,
             'is_pos'             => $order->is_pos,
-            'is_pickup'          => $order->is_offline,
+            'is_pickup'          => $order->courier == 'pickup' ? true : false,
         ];      
     }
 

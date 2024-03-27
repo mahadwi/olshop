@@ -28,7 +28,7 @@ class OrderController extends Controller
             });            
         })
         ->when($request->has('is_offline'), function ($query) use ($request) {
-            $query->where('is_offline', $request->is_offline);       
+            $query->where('courier', 'pickup');       
         })
         ->orderBy('id', $order);
 

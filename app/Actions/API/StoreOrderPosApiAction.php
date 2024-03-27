@@ -31,7 +31,7 @@ class StoreOrderPosApiAction
             //order
             $order = new Order($this->attributes);
 
-            $order->status = $this->attributes['is_cash'] ? OrderState::COMPLETED : OrderState::UNPAID;
+            $order->status = $this->attributes['is_offline'] ? OrderState::COMPLETED : OrderState::UNPAID;
 
             $order->save();
 
@@ -53,7 +53,7 @@ class StoreOrderPosApiAction
                 'paid_at'   => date('Y-m-d h:i:s')
             ];
 
-            if(!$this->attributes['is_cash']){
+            if(!$this->attributes['is_offline']){
                 $external_id = (string) Str::uuid();
                 //create invoice
                 $params = [
@@ -76,7 +76,7 @@ class StoreOrderPosApiAction
             dispatch_sync(new StorePaymentAction($paramPayment, $order));
 
             // jika cash maka langsung kirim email
-            if($this->attributes['is_cash']){
+            if($this->attributes['is_offline']){
                 //generate invoice
                 (new OrderService)->generateInvoice($order);
     

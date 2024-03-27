@@ -189,7 +189,7 @@ const cekResi = async() => {
 					<div class="mt-0.5" v-if="order.status == 'On Going' ">
 						<fwb-button class="align-middle" :href="`/order/${order.id}/print-label`" target="_blank" size="sm" color="green">Print Label</fwb-button>
 					</div>
-					<div v-if="order.status == 'On Process' && !order.is_offline">
+					<div v-if="order.status == 'On Process' && order.courier != 'pickup'">
 						<fwb-button  size="sm" @click="showModalWrapper('inputResi');tmpOrder=order" color="blue">Resi</fwb-button>
 					</div>					
 					<div v-if="order.status == 'Unpaid' || order.status == 'On Process'">

@@ -33,7 +33,7 @@ class StoreOrderPosApiRequest extends FormRequest
             'jumlah'                => 'required|integer',
             'pembulatan'            => 'required|integer',
             'total'                 => 'required|integer',
-            'is_cash'               => 'required|boolean',
+            'is_offline'            => 'required|boolean',
             'details'               => 'required|array',
             'details.*.product_id'  => 'required|exists:products,id',  
             'details.*.qty'         => 'required|min:1|integer',  
