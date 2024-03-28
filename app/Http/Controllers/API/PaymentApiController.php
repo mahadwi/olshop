@@ -30,6 +30,10 @@ class PaymentApiController extends Controller
 
     public function validateOrder($request)
     {        
+        if($request->order->courier != 'pickup' || !$request->order->is_offline){
+            return 'Invalid Order';
+        }
+
         $details = $request->order->orderDetail;
 
         $totalDetail = $details->sum('total');        
