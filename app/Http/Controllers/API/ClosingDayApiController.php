@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\API\StoreClosingDayAction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\OpenDayApiRequest;
+use App\Transformers\API\ClosingDayTransformer;
 
 class ClosingDayApiController extends Controller
 {
     public function open(OpenDayApiRequest $request)
     {
-        //store order
-        // $order = (new StoreOrderApiAction($request->all()))->handle();
+        //store closing day
+        $model = (new StoreClosingDayAction($request->all()))->handle();
         
-        // $order = fractal($order, new OrderTransformer);           
+        $model = fractal($model, new ClosingDayTransformer);           
             
-        return $this->apiSuccess();
+        return $this->apiSuccess($model);
     }
 }

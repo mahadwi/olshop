@@ -31,6 +31,7 @@ class OpenDayApiRequest extends FormRequest
 
         $this->merge([
             'kasir_open'  => $this->user()->id,
+            'open'        => date('Y-m-d H:i')
         ]);
     }
 }

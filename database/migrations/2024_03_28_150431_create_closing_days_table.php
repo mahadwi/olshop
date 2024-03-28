@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('closing_days', function (Blueprint $table) {
             $table->id();
             $table->datetime('open');
-            $table->datetime('close');
+            $table->datetime('close')->nullable();
             $table->double('starting_cash');
             $table->double('cash_in')->default(0);
             $table->double('cash_out')->default(0);
