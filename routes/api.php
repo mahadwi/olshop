@@ -51,6 +51,7 @@ use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
 use App\Http\Controllers\API\OrderPosApiController;
+use App\Http\Controllers\API\PaymentApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +117,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('order-pickup', OrderPickupApiController::class)->only('index', 'show', 'store', 'update');
 
     Route::resource('order-pos', OrderPosApiController::class)->only('index', 'show', 'store');
+
+    Route::post('payment', [PaymentApiController::class, 'store']);
 
 
 });
