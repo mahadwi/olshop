@@ -47,6 +47,7 @@ use App\Http\Controllers\API\PrivacyPoliceApiController;
 use App\Http\Controllers\API\TermConditionApiController;
 use App\Http\Controllers\API\VendorProductApiController;
 use App\Http\Controllers\API\AuthenticationApiController;
+use App\Http\Controllers\API\ClosingDayApiController;
 use App\Http\Controllers\API\EmailSubscribeApiController;
 use App\Http\Controllers\API\ProductCategoryApiController;
 use App\Http\Controllers\API\DeliveryShippingApiController;
@@ -119,6 +120,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('order-pos', OrderPosApiController::class)->only('index', 'show', 'store');
 
     Route::post('payment', [PaymentApiController::class, 'store']);
+
+    Route::post('open-day', [ClosingDayApiController::class, 'open']);
 
 
 });
