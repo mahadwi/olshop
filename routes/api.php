@@ -122,6 +122,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('payment', [PaymentApiController::class, 'store']);
 
     Route::post('open-day', [ClosingDayApiController::class, 'open']);
+    Route::post('close-day', [ClosingDayApiController::class, 'close']);
 
 
 });

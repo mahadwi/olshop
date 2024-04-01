@@ -17,7 +17,8 @@ class PosController extends Controller
         ->where('is_pos', $tipe == 'offline' ? true : false)
         ->when($request->has('search'), function ($query) use ($request) {
             $query->where('name', 'ILIKE', "%{$request->search}%");
-        });        
+        })
+        ->orderByDesc('id');        
         
         $perPage = $request->has('perPage') ? $request->perPage : 10;
                 

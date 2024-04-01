@@ -35,6 +35,7 @@ class ClosingDayTransformer extends TransformerAbstract
         return [
             'open'          => $closing->open,
             'starting_cash' => $closing->starting_cash,
+            'close'         => $closing->close,
         ];
     }
 }
