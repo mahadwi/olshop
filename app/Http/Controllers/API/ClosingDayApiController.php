@@ -15,7 +15,7 @@ class ClosingDayApiController extends Controller
 {
     public function index()
     {
-        $today = date('2024-04-01');
+        $today = date('Y-m-d');
 
         $closing = ClosingDay::whereDate('open', $today)->first();
 
