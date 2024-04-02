@@ -245,6 +245,12 @@ return [
         'file_en' => 'File in English',
         'draft_en' => 'Draft In English',
         'product_deadline' => 'Product Deadline',
+        'closing_day' => 'Closing Day',
+        'cashier' => 'Cashier',
+        'starting_cash' => 'Starting Cash',
+        'cash_in' => 'Cash In',
+        'cash_out' => 'Cash Out',
+        'invoice' => 'Invoice',
     ],
     'button' => [
         'login' => 'Login',

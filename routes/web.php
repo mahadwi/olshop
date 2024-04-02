@@ -20,6 +20,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ClosingDayController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
@@ -81,6 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/order', OrderController::class)->only('index', 'show', 'update');
     Route::post('/cek-resi', [OrderController::class, 'cekResi']);
     Route::get('/order/{order}/print-label', [OrderController::class, 'printLabel'])->name('order.print-label');
+
+    Route::resource('/closing-day', ClosingDayController::class)->only('index', 'show');
 
     Route::get('cek-resi', function(){
 

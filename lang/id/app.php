@@ -246,6 +246,13 @@ return [
         'file_en' => 'File in English',
         'draft_en' => 'Draft In English',
         'product_deadline' => 'Akhir Penitipan',
+        'closing_day' => 'Closing Day',
+        'cashier' => 'Kasir',
+        'starting_cash' => 'Saldo Awal',
+        'cash_in' => 'Uang Masuk',
+        'cash_out' => 'Uang Keluar',
+        'invoice' => 'Invoice',
+        
     ],
     'button' => [
         'login' => 'Masuk',
