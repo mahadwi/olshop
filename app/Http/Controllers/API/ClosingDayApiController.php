@@ -8,10 +8,23 @@ use App\Actions\API\StoreOpenDayAction;
 use App\Actions\API\StoreClosingDayAction;
 use App\Http\Requests\API\CloseDayRequest;
 use App\Http\Requests\API\OpenDayApiRequest;
+use App\Models\ClosingDay;
 use App\Transformers\API\ClosingDayTransformer;
 
 class ClosingDayApiController extends Controller
 {
+    public function index()
+    {
+        $today = date('2024-04-01');
+
+        $closing = ClosingDay::whereDate('open', $today)->first();
+
+        $closing = fractal($closing, new ClosingDayTransformer); 
+
+        return $this->apiSuccess($closing);
+
+    }
+
     public function open(OpenDayApiRequest $request)
     {
         //store closing day

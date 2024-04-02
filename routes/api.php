@@ -120,7 +120,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('order-pos', OrderPosApiController::class)->only('index', 'show', 'store');
 
     Route::post('payment', [PaymentApiController::class, 'store']);
-
+    
+    Route::get('closing-day', [ClosingDayApiController::class, 'index']);
     Route::post('open-day', [ClosingDayApiController::class, 'open']);
     Route::post('close-day', [ClosingDayApiController::class, 'close']);
 
