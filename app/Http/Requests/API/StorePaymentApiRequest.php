@@ -41,6 +41,7 @@ class StorePaymentApiRequest extends FormRequest
 
         $this->merge([
             'kasir_id'  => $this->user()->id,
+            'is_pos'    => true,
             'order'     => $order,
         ]);
     }

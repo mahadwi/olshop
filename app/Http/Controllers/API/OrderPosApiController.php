@@ -24,6 +24,9 @@ class OrderPosApiController extends Controller
         ->when($request->has('search'), function ($query) use ($request) {
             $query->where('code', 'ilike', "%{$request->search}%");
         })   
+        ->when($request->has('date'), function ($query) use ($request) {
+            $query->whereDate('created_at', $request->date);
+        })   
         ->whereHas('paymentable', function ($query){
             $query->where('status', PaymentState::PAID);
         })

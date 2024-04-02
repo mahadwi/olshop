@@ -23,6 +23,7 @@ class OrderPosApiRequest extends FormRequest
     {
         return [
             'search'     => 'nullable|string',  
+            'date'       => 'nullable|date_format:Y-m-d',  
         ];
     }
 }

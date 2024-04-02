@@ -17,7 +17,6 @@ class PaymentApiController extends Controller
     public function store(StorePaymentApiRequest $request)
     {
         $validate = $this->validateOrder($request);
-
         if($validate) return $this->apiError([], [], $validate);
 
         //store order
